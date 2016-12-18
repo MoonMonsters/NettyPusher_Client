@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <!--图片地址-->
+        <variable
+            name="imageUrl"
+            type="String" />
+        <!--默认图片，使用drawable中的-->
+        <variable
+            name="placehold"
+            type="int" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/activity_splash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="edu.csuft.chentao.activity.SplashActivity">
+
+        <ImageView
+            android:id="@+id/iv_splash_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            app:imageUrl="@{imageUrl}"
+            app:placehold="@{placehold}"
+            />
+
+    </RelativeLayout>
+</layout>
