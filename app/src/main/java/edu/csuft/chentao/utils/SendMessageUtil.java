@@ -1,7 +1,6 @@
 package edu.csuft.chentao.utils;
 
 import edu.csuft.chentao.netty.NettyClient;
-import edu.csuft.chentao.pojo.req.LoginReq;
 import io.netty.channel.Channel;
 
 /**
@@ -29,11 +28,6 @@ public class SendMessageUtil {
 
                     mChannel = client.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
 
-                    LoginReq req = new LoginReq();
-                    req.setType(0);
-                    req.setUsername("Chentao");
-                    req.setPassword("123456");
-                    sendMessage(req);
                 } catch (Exception e) {
                     e.printStackTrace();
                     LoggerUtil.logger("SendMessageUtil", "没有网络");
