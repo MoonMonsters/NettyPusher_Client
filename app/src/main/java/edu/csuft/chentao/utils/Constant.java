@@ -17,7 +17,7 @@ public interface Constant {
     /**
      * 服务端地址
      */
-    String CONNECTION_URL = "192.168.0.105";
+    String CONNECTION_URL = "192.168.0.102";
     /**
      * 服务端端口
      */
@@ -106,5 +106,14 @@ public interface Constant {
      * 接收消息
      */
     int TYPE_MSG_RECV = 1;
+
+    /**
+     * 登录广播
+     */
+    String ACTION_LOGIN = "edu.csuft.chentao.action.login";
+    /**
+     * 是否登录成功
+     */
+    String IS_LOGIN_SUCCESS = "is_login_success";
 
 }

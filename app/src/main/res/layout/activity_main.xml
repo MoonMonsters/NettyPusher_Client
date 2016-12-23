@@ -17,13 +17,12 @@
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom" />
 
-        <ImageView
+        <FrameLayout
+            android:id="@+id/fl_main_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/bnb_main_tab"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="top"
-            android:background="@drawable/splash" />
+            android:layout_alignParentTop="true" />
 
     </RelativeLayout>
 </layout>

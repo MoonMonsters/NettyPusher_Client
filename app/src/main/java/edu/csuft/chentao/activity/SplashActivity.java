@@ -11,7 +11,7 @@ import edu.csuft.chentao.utils.Constant;
 
 public class SplashActivity extends BaseActivity {
 
-    private ActivitySplashBinding mSplashBinding;
+    private ActivitySplashBinding mActivityBinding;
 
     @Override
     public int getLayoutResourceId() {
@@ -20,13 +20,13 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void setActivityBinding(ViewDataBinding viewDataBinding) {
-        this.mSplashBinding = (ActivitySplashBinding) viewDataBinding;
+        this.mActivityBinding = (ActivitySplashBinding) viewDataBinding;
     }
 
     @Override
     public void initData() {
-        this.mSplashBinding.setImageUrl(Constant.SPLASH_IMAGE_NAME);
-        this.mSplashBinding.setPlacehold(R.drawable.splash);
+        this.mActivityBinding.setImageUrl(Constant.SPLASH_IMAGE_NAME);
+        this.mActivityBinding.setPlacehold(R.drawable.splash);
 
         enterAnotherActivity();
     }

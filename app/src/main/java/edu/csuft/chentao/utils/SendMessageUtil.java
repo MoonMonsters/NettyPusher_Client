@@ -1,5 +1,8 @@
 package edu.csuft.chentao.utils;
 
+import android.widget.Toast;
+
+import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.netty.NettyClient;
 import io.netty.channel.Channel;
 
@@ -31,7 +34,6 @@ public class SendMessageUtil {
                 } catch (Exception e) {
                     e.printStackTrace();
                     LoggerUtil.logger("SendMessageUtil", "没有网络");
-//                    Toast.makeText(MyApplication.getInstance(), "没有网络", Toast.LENGTH_SHORT).show();
                 }
             }
         }).start();
@@ -46,8 +48,12 @@ public class SendMessageUtil {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mChannel.writeAndFlush(object);
-                mChannel.read();
+                if (mChannel.isActive()) {
+                    mChannel.writeAndFlush(object);
+                    mChannel.read();
+                } else {
+                    Toast.makeText(MyApplication.getInstance(), "网络没有连接", Toast.LENGTH_SHORT).show();
+                }
             }
         }).start();
     }

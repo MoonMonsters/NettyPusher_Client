@@ -1,5 +1,7 @@
 package edu.csuft.chentao.netty;
 
+import edu.csuft.chentao.controller.handler.AllMessageHandler;
+import edu.csuft.chentao.controller.handler.Handler;
 import edu.csuft.chentao.utils.LoggerUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -15,30 +17,33 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
 
     @Override
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
-        LoggerUtil.logger(TAG,"messageReceived");
+        LoggerUtil.logger(TAG, "messageReceived");
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
-        LoggerUtil.logger(TAG,"channelActive");
+        LoggerUtil.logger(TAG, "channelActive");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
-        LoggerUtil.logger(TAG,"channelInactive");
+        LoggerUtil.logger(TAG, "channelInactive");
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         super.channelRead(ctx, msg);
-        LoggerUtil.logger(TAG,"channelRead");
+        //获得对应对象
+        Handler handler = AllMessageHandler.handleMessage(msg);
+        //处理消息
+        handler.handle(msg);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         super.exceptionCaught(ctx, cause);
-        LoggerUtil.logger(TAG,"exceptionCaught");
+        LoggerUtil.logger(TAG, "exceptionCaught");
     }
 }

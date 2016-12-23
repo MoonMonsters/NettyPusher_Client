@@ -17,10 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding{
-        enabled=true
+    dataBinding {
+        enabled = true
     }
-    greendao{
+    greendao {
         schemaVersion 1
         daoPackage 'edu.csuft.chentao.dao'
         targetGenDir 'src/main/java'
@@ -32,14 +32,15 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'org.greenrobot:greendao:3.1.1'
-    compile 'org.greenrobot:greendao-generator:3.1.0'
-    testCompile 'junit:junit:4.12'
     compile files('libs/glide-3.7.0.jar')
     compile files('libs/netty-all-5.0.0.Alpha1.jar')
     compile files('libs/netty-all-5.0.0.Alpha1-sources.jar')
     compile files('libs/netty-all-5.0.0.Alpha2.jar')
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'org.greenrobot:greendao:3.1.1'
+    compile 'org.greenrobot:greendao-generator:3.1.0'
     compile 'com.android.support:design:24.2.0'
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.2.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    testCompile 'junit:junit:4.12'
 }
