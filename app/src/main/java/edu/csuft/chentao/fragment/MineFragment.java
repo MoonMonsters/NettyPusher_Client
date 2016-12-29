@@ -25,9 +25,4 @@ public class MineFragment extends BaseFragment {
     public void initData() {
         this.mFragmentBinding.ivMineShow.setImageResource(R.drawable.splash);
     }
-
-    @Override
-    public void initListener() {
-
-    }
 }

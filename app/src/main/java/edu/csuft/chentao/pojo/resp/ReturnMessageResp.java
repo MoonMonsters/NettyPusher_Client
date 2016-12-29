@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package edu.csuft.chentao.pojo.resp;
 
@@ -39,6 +39,12 @@ public class ReturnMessageResp {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public String toString() {
+		return "ReturnMessageResp [type=" + type + ", description="
+				+ description + "]";
 	}
 
 }

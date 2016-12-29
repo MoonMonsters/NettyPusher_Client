@@ -1,13 +1,11 @@
 package edu.csuft.chentao.controller.handler;
 
-import edu.csuft.chentao.pojo.req.HeadImage;
-import edu.csuft.chentao.pojo.req.Message;
-import edu.csuft.chentao.pojo.req.PicFile;
 import edu.csuft.chentao.pojo.resp.CreateGroupResp;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
 import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
 import edu.csuft.chentao.pojo.resp.UserInfoResp;
+import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
 
 /**
@@ -17,29 +15,33 @@ import edu.csuft.chentao.utils.LoggerUtil;
 
 public class AllMessageHandler {
 
-    public static Handler handleMessage(Object object) {
+    private static final String VALUE = "AllMessageHandler.handlerMessage->";
 
-        LoggerUtil.logger("Handler", object.toString());
+    public static Handler handleMessage(Object object) {
 
         Handler handler = null;
 
+        String printMsg = "null";
+
         if (object instanceof CreateGroupResp) {
+            printMsg = "CreateGroupResp";
             handler = new CreateGroupHandler();
         } else if (object instanceof GroupInfoResp) {
+            printMsg = "GroupInfoResp";
             handler = new GroupInfoHandler();
         } else if (object instanceof RegisterResp) {
+            printMsg = "RegisterResp";
             handler = new RegisterHandler();
         } else if (object instanceof ReturnMessageResp) {
+            printMsg = "ReturnMessageResp";
             handler = new ReturnMessageHandler();
         } else if (object instanceof UserInfoResp) {
+            printMsg = "UserInfoResp";
             handler = new UserInfoHandler();
-        } else if (object instanceof HeadImage) {
-            handler = new HeadImageHandler();
-        } else if (object instanceof PicFile) {
-            handler = new PicFileHandler();
-        } else if (object instanceof Message) {
-            handler = new MessageHandler();
         }
+
+        LoggerUtil.logger(Constant.TAG, VALUE + object.toString());
+        LoggerUtil.logger(Constant.TAG, VALUE + printMsg);
 
         return handler;
     }

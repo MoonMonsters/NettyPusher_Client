@@ -13,12 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    private ViewDataBinding mViewDataBinding = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActivityBinding(DataBindingUtil.setContentView(this, getLayoutResourceId()));
+        mViewDataBinding = DataBindingUtil.setContentView(this, getLayoutResourceId());
+        setActivityBinding(mViewDataBinding);
         initData();
-        initListener();
     }
 
     /**
@@ -32,12 +34,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     public abstract void setActivityBinding(ViewDataBinding viewDataBinding);
 
     /**
+     * 得到ViewDataBinding
+     *
+     * @return ViewDataBinding对象
+     */
+    public ViewDataBinding getActivityBinding() {
+
+        return mViewDataBinding;
+    }
+
+    /**
      * 初始化数据
      */
     public abstract void initData();
-
-    /**
-     * 添加监听器
-     */
-    public abstract void initListener();
 }

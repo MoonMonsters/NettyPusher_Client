@@ -1,14 +1,18 @@
 /**
- * 
+ *
  */
 package edu.csuft.chentao.pojo.resp;
+
+import java.io.Serializable;
 
 /**
  * @author csuft.chentao
  *
  *         2016年12月10日 上午10:46:01
  */
-public class RegisterResp {
+public class RegisterResp implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	/** 类型 */
 	private int type;

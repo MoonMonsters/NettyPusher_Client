@@ -2,6 +2,7 @@ package edu.csuft.chentao.netty;
 
 import edu.csuft.chentao.controller.handler.AllMessageHandler;
 import edu.csuft.chentao.controller.handler.Handler;
+import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -13,28 +14,30 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 public class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
 
-    private String TAG = "NettyClientHandler";
+
+    private String VALUE = "NettyClientHandler-->";
 
     @Override
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
-        LoggerUtil.logger(TAG, "messageReceived");
+        LoggerUtil.logger(Constant.TAG, VALUE + "messageReceived");
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
-        LoggerUtil.logger(TAG, "channelActive");
+        LoggerUtil.logger(Constant.TAG, VALUE + "channelActive");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
-        LoggerUtil.logger(TAG, "channelInactive");
+        LoggerUtil.logger(Constant.TAG, VALUE + "channelInactive");
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         super.channelRead(ctx, msg);
+        LoggerUtil.logger(Constant.TAG, VALUE + "channelRead");
         //获得对应对象
         Handler handler = AllMessageHandler.handleMessage(msg);
         //处理消息
@@ -44,6 +47,6 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         super.exceptionCaught(ctx, cause);
-        LoggerUtil.logger(TAG, "exceptionCaught");
+        LoggerUtil.logger(Constant.TAG, VALUE + "exceptionCaught");
     }
 }

@@ -27,7 +27,6 @@ public abstract class BaseFragment extends Fragment {
         ViewDataBinding viewDataBinding = DataBindingUtil.bind(view);
         setDataBinding(viewDataBinding);
         initData();
-        initListener();
 
         return view;
     }
@@ -43,9 +42,4 @@ public abstract class BaseFragment extends Fragment {
      * 初始化数据
      */
     public abstract void initData();
-
-    /**
-     * 初始化监听器
-     */
-    public abstract void initListener();
 }

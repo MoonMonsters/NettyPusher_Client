@@ -10,12 +10,25 @@ import edu.csuft.chentao.base.MyApplication;
  * email:qxinhai@yeah.net
  */
 
-public class SharedPrefUtil {
+public class SharedPrefUserInfoUtil {
 
     private static final String SHARED_PREF_NAME = "NettyPusher_shared_pref";
+    /**
+     * 登录方式
+     */
     private static final String TYPE_LOGIN = "type_login";
-
+    /**
+     * 用户id
+     */
     private static final String USER_ID = "user_id";
+    /**
+     * 用户名
+     */
+    private static final String USERNAME = "username";
+    /**
+     * 密码
+     */
+    private static final String PASSWORD = "password";
 
     private static SharedPreferences mSharedPreferences = MyApplication.getInstance().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
     private static SharedPreferences.Editor mEditor = mSharedPreferences.edit();
@@ -58,4 +71,42 @@ public class SharedPrefUtil {
         return mSharedPreferences.getInt(USER_ID, -1);
     }
 
+    /**
+     * 保存用户名和密码
+     *
+     * @param username 用户名
+     * @param password 密码
+     */
+    public static void setUsernameAndPassword(String username, String password) {
+        mEditor.putString(USERNAME, username);
+        mEditor.putString(PASSWORD, password);
+        mEditor.apply();
+    }
+
+    /**
+     * 获得用户名
+     *
+     * @return 用户名
+     */
+    public static String getUsername() {
+
+        return mSharedPreferences.getString(USERNAME, null);
+    }
+
+    /**
+     * 获得密码
+     *
+     * @return 密码
+     */
+    public static String getPassword() {
+
+        return mSharedPreferences.getString(PASSWORD, null);
+    }
+
+    /**
+     * 清空保存的用户信息
+     */
+    public static void clearUserInfo() {
+        mEditor.clear();
+    }
 }

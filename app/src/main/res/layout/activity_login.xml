@@ -3,11 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.csuft.chentao.activity.LoginActivity">
 
+    <data>
+
+        <variable
+            name="presenter"
+            type="edu.csuft.chentao.controller.presenter.ActivityLoginPresenter" />
+    </data>
+
     <LinearLayout
         android:id="@+id/activity_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -36,8 +44,18 @@
         <Button
             android:id="@+id/btn_login_login"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->presenter.onClickToLogin()}"
             android:text="@string/string_login" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:onClick="@{()->presenter.onClickToRegisterActivity()}"
+            android:text="@string/string_new_user_register"
+            android:textColor="@android:color/holo_blue_light" />
 
     </LinearLayout>
 </layout>

@@ -6,4 +6,14 @@
     <string name="string_input_username">输入用户名</string>
     <string name="string_input_password">输入密码</string>
     <string name="string_login">登录</string>
+    <string name="string_register">注册</string>
+    <string name="string_cancel">取消</string>
+    <string name="string_username">用户名</string>
+    <string name="string_password">密码</string>
+    <string name="string_repeat_password">重复密码</string>
+    <string name="string_nickname">用户昵称</string>
+    <string name="string_signature">个性签名</string>
+    <string name="string_new_user_register">新用户注册</string>
+    <string name="string_send">发送</string>
+    <string name="string_inpt_message_content">输入聊天内容</string>
 </resources>

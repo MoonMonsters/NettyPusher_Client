@@ -15,9 +15,13 @@ import java.io.File;
 public interface Constant {
 
     /**
-     * 服务端地址
+     * 虚拟机连接
      */
-    String CONNECTION_URL = "192.168.0.102";
+//    String CONNECTION_URL = "192.168.0.102";
+    /**
+     * Wifi连接
+     */
+    String CONNECTION_URL = "192.168.191.1";
     /**
      * 服务端端口
      */
@@ -43,20 +47,20 @@ public interface Constant {
     /**
      * 注册失败，用户名重复
      */
-    int REGISTER_TYPE_REPEAT_USERNAME = 0;
+    int TYPE_REGISTER_REPEAT_USERNAME = 0;
     /**
      * 注册成功
      */
-    int REGISTER_TYPE_SUCCESS = 1;
+    int TYPE_REGISTER_SUCCESS = 1;
 
     /**
      * 创建群成功
      */
-    int CREATE_GROUP_SUCCESS = 0;
+    int TYPE_CREATE_GROUP_SUCCESS = 0;
     /**
      * 创建群失败
      */
-    int CREATE_GROUP_FAIL = 1;
+    int TYPE_CREATE_GROUP_FAIL = 1;
 
     /**
      * 加入群
@@ -97,6 +101,10 @@ public interface Constant {
      * 新的登录
      */
     int TYPE_LOGIN_NEW = 1;
+    /**
+     * 用户信息类型
+     */
+    int TYPE_LOGIN_USER_INFO = 2;
 
     /**
      * 发送消息
@@ -112,8 +120,25 @@ public interface Constant {
      */
     String ACTION_LOGIN = "edu.csuft.chentao.action.login";
     /**
+     * 注册广播
+     */
+    String ACTION_REGISTER = "edu.csuft.chentao.action.register";
+    /**
      * 是否登录成功
      */
     String IS_LOGIN_SUCCESS = "is_login_success";
+    /**
+     * 登录用户的id
+     */
+    String LOGIN_USER_ID = "login_user_id";
+    /**
+     * 传递注册后的返回对象
+     */
+    String EXTRA_REGISTERRESP = "extra_registerresp";
+
+    /**
+     * 调试输出值
+     */
+    String TAG = "logger_tag";
 
 }

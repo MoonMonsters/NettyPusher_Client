@@ -17,6 +17,7 @@ import io.netty.channel.Channel;
 public class SendMessageUtil {
 
     private static Channel mChannel;
+    private static NettyClient mClient = null;
 
     /**
      * 初始化Netty
@@ -26,18 +27,19 @@ public class SendMessageUtil {
             @Override
             public void run() {
                 try {
-                    NettyClient client = new NettyClient();
-                    client.init();
+                    mClient = new NettyClient();
+                    mClient.init();
 
-                    mChannel = client.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
+                    mChannel = mClient.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    LoggerUtil.logger("SendMessageUtil", "没有网络");
                 }
             }
         }).start();
     }
+
+    private static int count = 0;
 
     /**
      * 发送数据
@@ -51,8 +53,15 @@ public class SendMessageUtil {
                 if (mChannel.isActive()) {
                     mChannel.writeAndFlush(object);
                     mChannel.read();
+                    count = 0;
                 } else {
-                    Toast.makeText(MyApplication.getInstance(), "网络没有连接", Toast.LENGTH_SHORT).show();
+                    if (count <= 7) {
+                        initNettyClient();
+                        count++;
+                        sendMessage(object);
+                    } else {
+                        Toast.makeText(MyApplication.getInstance(), "网络没有连接", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }).start();

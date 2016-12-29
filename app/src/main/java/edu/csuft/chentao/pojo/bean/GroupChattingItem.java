@@ -17,6 +17,9 @@ import edu.csuft.chentao.BR;
  * email:qxinhai@yeah.net
  */
 
+/**
+ * 聊天框界面
+ */
 @Entity
 public class GroupChattingItem extends BaseObservable {
 

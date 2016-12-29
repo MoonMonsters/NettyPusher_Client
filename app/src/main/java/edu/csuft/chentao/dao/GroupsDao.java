@@ -28,6 +28,8 @@ public class GroupsDao extends AbstractDao<Groups, Long> {
         public final static Property Groupname = new Property(1, String.class, "groupname", false, "GROUPNAME");
         public final static Property Image = new Property(2, byte[].class, "image", false, "IMAGE");
         public final static Property Groupid = new Property(3, int.class, "groupid", false, "GROUPID");
+        public final static Property Number = new Property(4, int.class, "number", false, "NUMBER");
+        public final static Property Tag = new Property(5, String.class, "tag", false, "TAG");
     }
 
 
@@ -46,7 +48,9 @@ public class GroupsDao extends AbstractDao<Groups, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: _id
                 "\"GROUPNAME\" TEXT," + // 1: groupname
                 "\"IMAGE\" BLOB," + // 2: image
-                "\"GROUPID\" INTEGER NOT NULL );"); // 3: groupid
+                "\"GROUPID\" INTEGER NOT NULL ," + // 3: groupid
+                "\"NUMBER\" INTEGER NOT NULL ," + // 4: number
+                "\"TAG\" TEXT);"); // 5: tag
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_GROUPS__id ON GROUPS" +
                 " (\"_id\" ASC);");
@@ -77,6 +81,12 @@ public class GroupsDao extends AbstractDao<Groups, Long> {
             stmt.bindBlob(3, image);
         }
         stmt.bindLong(4, entity.getGroupid());
+        stmt.bindLong(5, entity.getNumber());
+ 
+        String tag = entity.getTag();
+        if (tag != null) {
+            stmt.bindString(6, tag);
+        }
     }
 
     @Override
@@ -98,6 +108,12 @@ public class GroupsDao extends AbstractDao<Groups, Long> {
             stmt.bindBlob(3, image);
         }
         stmt.bindLong(4, entity.getGroupid());
+        stmt.bindLong(5, entity.getNumber());
+ 
+        String tag = entity.getTag();
+        if (tag != null) {
+            stmt.bindString(6, tag);
+        }
     }
 
     @Override
@@ -111,7 +127,9 @@ public class GroupsDao extends AbstractDao<Groups, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // _id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // groupname
             cursor.isNull(offset + 2) ? null : cursor.getBlob(offset + 2), // image
-            cursor.getInt(offset + 3) // groupid
+            cursor.getInt(offset + 3), // groupid
+            cursor.getInt(offset + 4), // number
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // tag
         );
         return entity;
     }
@@ -122,6 +140,8 @@ public class GroupsDao extends AbstractDao<Groups, Long> {
         entity.setGroupname(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setImage(cursor.isNull(offset + 2) ? null : cursor.getBlob(offset + 2));
         entity.setGroupid(cursor.getInt(offset + 3));
+        entity.setNumber(cursor.getInt(offset + 4));
+        entity.setTag(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
      }
     
     @Override
