@@ -1,10 +1,12 @@
 package edu.csuft.chentao.controller.presenter;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -25,12 +27,36 @@ public class FragmentGroupListPresenter implements GroupListAdapter.OnItemClick 
     private FragmentGroupListBinding mFragmentBinding = null;
     private Context mContext;
 
-    private static List<Groups> mGroupsList = null;
-    private static GroupListAdapter mAdapter = null;
+    private List<Groups> mGroupsList = null;
+    private GroupListAdapter mAdapter = null;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Groups groups = (Groups) msg.obj;
+
+            int index = -1;
+            for (int i = 0; i < mGroupsList.size(); i++) {
+                if (groups.getGroupid() == mGroupsList.get(i).getGroupid()) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index == -1) {
+                mGroupsList.add(groups);
+            } else {
+                mGroupsList.remove(index);
+                mGroupsList.add(groups);
+            }
+
+            mAdapter.notifyDataSetChanged();
+        }
+    };
 
     public FragmentGroupListPresenter(FragmentGroupListBinding fragmentBinding) {
         this.mFragmentBinding = fragmentBinding;
         mContext = mFragmentBinding.getRoot().getContext();
+        EventBus.getDefault().post(mHandler);
     }
 
     public void init() {
@@ -50,43 +76,5 @@ public class FragmentGroupListPresenter implements GroupListAdapter.OnItemClick 
         Intent intent = new Intent(mContext, MessageActivity.class);
         intent.putExtra(Constant.EXTRA_GROUPID, mGroupsList.get(position).getGroupid());
         mContext.startActivity(intent);
-    }
-
-    public static class GroupListReceiver extends BroadcastReceiver {
-
-        private Activity mActivity = null;
-
-        public GroupListReceiver(Activity activity) {
-            this.mActivity = activity;
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(Constant.ACTION_GROUPS)) {
-                Groups groups = (Groups) intent.getSerializableExtra(Constant.EXTRA_GROUPS);
-                int index = -1;
-                for (int i = 0; i < mGroupsList.size(); i++) {
-                    if (groups.getGroupid() == mGroupsList.get(i).getGroupid()) {
-                        index = i;
-                        break;
-                    }
-                }
-                if (index == -1) {
-                    mGroupsList.add(groups);
-                } else {
-                    mGroupsList.remove(index);
-                    mGroupsList.add(groups);
-                }
-
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });
-
-            }
-        }
     }
 }

@@ -1,18 +1,19 @@
 package edu.csuft.chentao.controller.presenter;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.ByteArrayOutputStream;
 
-import edu.csuft.chentao.activity.MainActivity;
 import edu.csuft.chentao.activity.RegisterActivity;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityRegisterBinding;
@@ -21,8 +22,7 @@ import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.RegisterReq;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.GreenDaoUtil;
-import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.DaoSessionUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 
@@ -33,34 +33,68 @@ import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 
 public class ActivityRegisterPresenter {
 
-    final String IMAGE_TYPE = "image/*";
-    public static final int IMAGE_CODE = 0;   //这里的IMAGE_CODE是自己任意定义的
+    private final String IMAGE_TYPE = "image/*";
+    public final int IMAGE_CODE = 0;   //这里的IMAGE_CODE是自己任意定义的
 
     /**
      * DataBinding类型
      */
-    private static ActivityRegisterBinding mActivityBinding = null;
+    private ActivityRegisterBinding mActivityBinding = null;
     /**
      * RegisterReq数据对象
      */
-    private static RegisterReq req = null;
+    private RegisterReq req = null;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == Constant.HANDLER_REGISTER) {
+                RegisterResp resp = (RegisterResp) msg.obj;
+
+                SharedPrefUserInfoUtil.setUserId(resp.getUserid());
+                SharedPrefUserInfoUtil.setLoginType();
+
+                //保存用户信息
+                UserInfo userInfo = new UserInfo();
+                userInfo.setUserid(resp.getUserid());
+                userInfo.setSignature(req.getSignature());
+                userInfo.setNickname(req.getNickname());
+                DaoSessionUtil.getUserInfoDao().insert(userInfo);
+
+                //保存用户头像
+                UserHead userHead = new UserHead();
+                userHead.setUserid(resp.getUserid());
+                userHead.setImage(req.getHeadImage());
+                DaoSessionUtil.getUserHeadDao().insert(userHead);
+            }
+        }
+    };
 
     public ActivityRegisterPresenter(ActivityRegisterBinding activityBinding) {
         this.mActivityBinding = activityBinding;
+        //发送Handler对象到RegisterActivity中
+        EventBus.getDefault().post(mHandler);
     }
 
     public void onClickForRegister() {
+        //用户名
         String username = mActivityBinding.etRegisterUsername.getText().toString();
+        //密码
         String password = mActivityBinding.etRegisterPassword.getText().toString();
         String password2 = mActivityBinding.etRegisterPassword2.getText().toString();
+        //昵称
         String nickname = mActivityBinding.etRegisterNickname.getText().toString();
+        //签名
         String signature = mActivityBinding.etRegisterSignature.getText().toString();
+        //头像
         Drawable drawable = mActivityBinding.ivRegisterHead.getDrawable();
         if (drawable == null) { //如果没有设置类型，那么则使用默认的图片
             drawable = mActivityBinding.ivRegisterHead.getBackground();
         }
+        //转成byte[]类型
         byte[] buf = bitmapToBytes(drawableToBitmap(drawable));
 
+        //判断密码是否一样或者不为空
         if (password.equals(password2) && !TextUtils.isEmpty(password)
                 && !TextUtils.isEmpty(password2)) {
             req = new RegisterReq();
@@ -70,7 +104,6 @@ public class ActivityRegisterPresenter {
             req.setHeadImage(buf);
             req.setSignature(signature);
 
-            LoggerUtil.logger("USER", req.toString());
             SendMessageUtil.sendMessage(req);
         } else {
             Toast.makeText(MyApplication.getInstance(), "密码不匹配或者为空，请重新输入", Toast.LENGTH_SHORT).show();
@@ -115,47 +148,5 @@ public class ActivityRegisterPresenter {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();
-    }
-
-    /**
-     * 注册广播
-     */
-    public static class RegisterReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
-            if (action.equals(Constant.ACTION_REGISTER)) {
-                RegisterResp resp = (RegisterResp) intent.getSerializableExtra(Constant.EXTRA_REGISTERRESP);
-
-                //弹出提示
-                Toast.makeText(MyApplication.getInstance(), resp.getDescription(), Toast.LENGTH_SHORT).show();
-
-                SharedPrefUserInfoUtil.setUserId(resp.getUserid());
-                SharedPrefUserInfoUtil.setLoginType();
-
-                //保存用户信息
-                UserInfo userInfo = new UserInfo();
-                userInfo.setUserid(resp.getUserid());
-                userInfo.setSignature(req.getSignature());
-                userInfo.setNickname(req.getNickname());
-                GreenDaoUtil.getInstance().getDaoSession().getUserInfoDao()
-                        .insert(userInfo);
-
-                //保存用户头像
-                UserHead userHead = new UserHead();
-                userHead.setUserid(resp.getUserid());
-                userHead.setImage(req.getHeadImage());
-                GreenDaoUtil.getInstance().getDaoSession().getUserHeadDao()
-                        .insert(userHead);
-
-                //进入主界面
-                mActivityBinding.getRoot().getContext().startActivity(new Intent((RegisterActivity) mActivityBinding.getRoot().getContext(),
-                        MainActivity.class));
-                //关闭注册界面
-                ((RegisterActivity) mActivityBinding.getRoot().getContext())
-                        .finish();
-            }
-        }
     }
 }

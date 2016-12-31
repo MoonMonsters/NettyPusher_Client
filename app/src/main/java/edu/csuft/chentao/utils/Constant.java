@@ -182,4 +182,13 @@ public interface Constant {
      */
     int HANDLER_LOGIN_SUCCESS = 1;
 
+    /**
+     * 在RegisterActivity和Presenter之间传递数据
+     */
+    int HANDLER_REGISTER = 2;
+    /**
+     * 在GroupListFragment和Presenter之间传递数据
+     */
+    int HANDLER_GROUPLIST = 3;
+
 }
