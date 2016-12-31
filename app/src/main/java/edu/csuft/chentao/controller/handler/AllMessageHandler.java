@@ -1,5 +1,6 @@
 package edu.csuft.chentao.controller.handler;
 
+import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.pojo.resp.CreateGroupResp;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
@@ -38,6 +39,9 @@ public class AllMessageHandler {
         } else if (object instanceof UserInfoResp) {
             printMsg = "UserInfoResp";
             handler = new UserInfoHandler();
+        } else if (object instanceof Message) {
+            printMsg = "Message";
+            handler = new MessageHandler();
         }
 
         LoggerUtil.logger(Constant.TAG, VALUE + object.toString());

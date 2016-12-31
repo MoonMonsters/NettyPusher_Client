@@ -124,6 +124,14 @@ public interface Constant {
      */
     String ACTION_REGISTER = "edu.csuft.chentao.action.register";
     /**
+     * 接收到群数据广播
+     */
+    String ACTION_GROUPS = "edu.csuft.chentao.action_groups";
+    /**
+     * 接收到Message数据广播
+     */
+    String ACTION_CHATTING_MESSAGE = "edu.csuft.chentao.action.chatting_message";
+    /**
      * 是否登录成功
      */
     String IS_LOGIN_SUCCESS = "is_login_success";
@@ -141,4 +149,26 @@ public interface Constant {
      */
     String TAG = "logger_tag";
 
+    /**
+     * 消息类型为文字
+     */
+    int TYPE_MSG_TEXT = 0;
+    /**
+     * 消息类型为图片
+     */
+    int TYPE_MSG_IMAGE = 1;
+
+    /**
+     * 传递群id
+     */
+    String EXTRA_GROUPID = "extra_groupid";
+
+    /**
+     * 传递Groups数据
+     */
+    String EXTRA_GROUPS = "extra_groups";
+    /**
+     * 传递ChattingMessage数据
+     */
+    String EXTRA_CHATTING_MESSAGE = "extra_chatting_message";
 }

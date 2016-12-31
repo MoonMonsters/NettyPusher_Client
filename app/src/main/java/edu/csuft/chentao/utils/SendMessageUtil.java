@@ -1,8 +1,5 @@
 package edu.csuft.chentao.utils;
 
-import android.widget.Toast;
-
-import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.netty.NettyClient;
 import io.netty.channel.Channel;
 
@@ -22,7 +19,10 @@ public class SendMessageUtil {
     /**
      * 初始化Netty
      */
-    public static void initNettyClient() {
+    public static synchronized void initNettyClient() {
+
+        LoggerUtil.logger(Constant.TAG, "SendMessageUtil.initNettyClient");
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -39,28 +39,33 @@ public class SendMessageUtil {
         }).start();
     }
 
-    private static int count = 0;
-
     /**
      * 发送数据
      *
      * @param object 待发送数据对象
      */
-    public static void sendMessage(final Object object) {
+    public static synchronized void sendMessage(final Object object) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if (mChannel.isActive()) {
-                    mChannel.writeAndFlush(object);
-                    mChannel.read();
-                    count = 0;
-                } else {
-                    if (count <= 7) {
-                        initNettyClient();
-                        count++;
+                try {
+                    if (mChannel.isActive()) {
+                        mChannel.writeAndFlush(object);
+                        mChannel.read();
+                    }
+                } catch (Exception e) {
+
+                    synchronized (this) {
+                        if (mChannel == null || !mChannel.isActive()) {
+                            mChannel = mClient.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
+                        }
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace();
+                        }
+
                         sendMessage(object);
-                    } else {
-                        Toast.makeText(MyApplication.getInstance(), "网络没有连接", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

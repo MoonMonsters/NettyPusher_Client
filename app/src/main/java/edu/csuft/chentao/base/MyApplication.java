@@ -1,9 +1,9 @@
 package edu.csuft.chentao.base;
 
 import android.app.Application;
-import android.content.Intent;
 
-import edu.csuft.chentao.service.NettyClientService;
+import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 
 /**
  * Created by Chalmers on 2016-12-16 15:39.
@@ -18,10 +18,9 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        application = this;
+        LoggerUtil.logger(Constant.TAG, "MyApplication.onCreate");
 
-        //启动服务
-        startService(new Intent(this, NettyClientService.class));
+        application = this;
     }
 
     public static Application getInstance() {

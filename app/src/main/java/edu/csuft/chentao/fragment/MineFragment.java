@@ -5,6 +5,7 @@ import android.databinding.ViewDataBinding;
 
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseFragment;
+import edu.csuft.chentao.controller.presenter.FragmentMinePresenter;
 import edu.csuft.chentao.databinding.FragmentMineBinding;
 
 public class MineFragment extends BaseFragment {
@@ -23,6 +24,7 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        this.mFragmentBinding.ivMineShow.setImageResource(R.drawable.splash);
+        FragmentMinePresenter presenter = new FragmentMinePresenter(mFragmentBinding);
+        mFragmentBinding.setPresenter(presenter);
     }
 }

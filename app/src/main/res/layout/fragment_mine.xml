@@ -2,14 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.csuft.chentao.fragment.MineFragment">
 
+    <data>
+        <variable
+            name="presenter"
+            type="edu.csuft.chentao.controller.presenter.FragmentMinePresenter" />
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iv_mine_show"
+        <Button
+            android:id="@+id/btn_mine_exit"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:onClick="@{()->presenter.onClickToExitLogining()}"
+            android:text="@string/string_exit_login" />
 
     </RelativeLayout>
 </layout>

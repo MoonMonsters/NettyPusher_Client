@@ -108,5 +108,6 @@ public class SharedPrefUserInfoUtil {
      */
     public static void clearUserInfo() {
         mEditor.clear();
+        mEditor.apply();
     }
 }

@@ -30,8 +30,8 @@ public class UserInfoHandler implements Handler {
                 如果是自动登录类型，表示用户的信息都已经保存过，不需要重新获取
                  */
 
-                //发送广播表示登录成功
-                sendBroadcast(true, resp.getUserid());
+                //发送广播到MainActivity
+                sendBroadcast(true, 0);
             } else if (resp.getType() == Constant.TYPE_LOGIN_NEW
                     || resp.getType() == Constant.TYPE_LOGIN_USER_INFO) { //如果是重新登录类型
 

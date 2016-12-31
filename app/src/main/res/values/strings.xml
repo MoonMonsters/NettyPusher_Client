@@ -16,4 +16,5 @@
     <string name="string_new_user_register">新用户注册</string>
     <string name="string_send">发送</string>
     <string name="string_inpt_message_content">输入聊天内容</string>
+    <string name="string_exit_login">退出登录</string>
 </resources>

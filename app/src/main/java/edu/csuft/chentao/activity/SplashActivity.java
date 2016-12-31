@@ -7,7 +7,7 @@ import android.os.Handler;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.databinding.ActivitySplashBinding;
-import edu.csuft.chentao.pojo.req.LoginReq;
+import edu.csuft.chentao.service.LoginReqIntentService;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
@@ -34,17 +34,15 @@ public class SplashActivity extends BaseActivity {
         enterAnotherActivity();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    private void finishThisActivity() {
         SplashActivity.this.finish();
     }
 
     /**
      * 进入其他的Activity
      */
-    private void startAnotherActivity(Class c){
-        SplashActivity.this.startActivity(new Intent(this,c));
+    private void startAnotherActivity(Class c) {
+        SplashActivity.this.startActivity(new Intent(this, c));
     }
 
     /**
@@ -52,27 +50,25 @@ public class SplashActivity extends BaseActivity {
      */
     private void enterAnotherActivity() {
 
+        //启动服务
+//        startService(new Intent(this, NettyClientService.class));
+
+        SendMessageUtil.initNettyClient();
+
         int type = SharedPrefUserInfoUtil.getLoginType();
         if (type == Constant.TYPE_LOGIN_AUTO) {   //如果是自动登录类型
-
-            String username = SharedPrefUserInfoUtil.getUsername();
-            String password = SharedPrefUserInfoUtil.getPassword();
-
-            LoginReq req = new LoginReq();
-            req.setUsername(username);
-            req.setPassword(password);
-            req.setType(Constant.TYPE_LOGIN_AUTO);
-
-            SendMessageUtil.sendMessage(req);
+            startService(new Intent(this, LoginReqIntentService.class));
 
             startAnotherActivity(MainActivity.class);
+            finishThisActivity();
         } else {  //否则在2秒后进入登录界面
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startAnotherActivity(LoginActivity.class);
-            }
-        }, 2000);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startAnotherActivity(LoginActivity.class);
+                    finishThisActivity();
+                }
+            }, 2000);
         }
     }
 }

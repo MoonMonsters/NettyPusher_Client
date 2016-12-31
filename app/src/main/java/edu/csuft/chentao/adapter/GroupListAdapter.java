@@ -20,8 +20,11 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
 
     private List<Groups> mGroupsList;
 
-    public GroupListAdapter(List<Groups> groupsList) {
+    private OnItemClick mOnItemClick;
+
+    public GroupListAdapter(List<Groups> groupsList, OnItemClick onItemClick) {
         this.mGroupsList = groupsList;
+        this.mOnItemClick = onItemClick;
     }
 
     @Override
@@ -46,15 +49,28 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
     class GroupListViewHolder extends RecyclerView.ViewHolder {
 
         private ItemGroupsBinding mItemBinding = null;
+        private View mView = null;
 
         GroupListViewHolder(View itemView) {
             super(itemView);
             mItemBinding = DataBindingUtil.bind(itemView);
+            this.mView = itemView;
         }
 
-        void bindData(Groups groups) {
+        void bindData(final Groups groups) {
             mItemBinding.setItem(groups);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClick.onItemClickListener(mGroupsList.indexOf(groups));
+                }
+            });
         }
     }
+
+    public interface OnItemClick {
+        void onItemClickListener(int position);
+    }
+
 
 }

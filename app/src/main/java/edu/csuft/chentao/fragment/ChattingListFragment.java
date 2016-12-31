@@ -43,6 +43,4 @@ public class ChattingListFragment extends BaseFragment {
         mFragmentBinding.rvChattingListContent.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mFragmentBinding.rvChattingListContent.setAdapter(mAdapter);
     }
-
-
 }

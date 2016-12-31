@@ -1,6 +1,10 @@
 package edu.csuft.chentao.controller.presenter;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -9,6 +13,7 @@ import edu.csuft.chentao.R;
 import edu.csuft.chentao.activity.MainActivity;
 import edu.csuft.chentao.databinding.ActivityMainBinding;
 import edu.csuft.chentao.fragment.FragmentFactory;
+import edu.csuft.chentao.utils.Constant;
 
 /**
  * Created by Chalmers on 2016-12-28 17:26.
@@ -18,7 +23,7 @@ import edu.csuft.chentao.fragment.FragmentFactory;
 public class ActivityMainPresenter {
 
     private ActivityMainBinding mActivityBinding = null;
-    private MainActivity mActivity = null;
+    private static MainActivity mActivity = null;
     private Fragment mChattingListFragment = null;
     private Fragment mGroupListFragment = null;
     private Fragment mMineFragment = null;
@@ -139,5 +144,18 @@ public class ActivityMainPresenter {
                 .hide(mChattingListFragment)
                 .hide(mGroupListFragment)
                 .commit();
+    }
+
+    public static class MainReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(Constant.ACTION_LOGIN)) {
+                boolean isSuccess = intent.getBooleanExtra(Constant.IS_LOGIN_SUCCESS, false);
+                if (isSuccess) {
+                    Toast.makeText(mActivity, "登录成功", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 }
