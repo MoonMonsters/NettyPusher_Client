@@ -23,7 +23,6 @@ public class MessageActivity extends BaseActivity {
     private ActivityMessageBinding mActivityBinding = null;
     private BroadcastReceiver mReceiver = null;
     private Handler mHandler = null;
-    private static final int MSG_CHATTING_MESSAGE = 0;
     //该聊天群的id
     private static int groupId = -1;
 
@@ -87,7 +86,7 @@ public class MessageActivity extends BaseActivity {
                 if (chattingMessage.getGroupid() == groupId) {
                     //发送到Handler中去操作
                     android.os.Message msg = mHandler.obtainMessage();
-                    msg.what = MSG_CHATTING_MESSAGE;
+                    msg.what = Constant.HANDLER_MESSAGE_CHATTING_MESSAGE;
                     msg.obj = chattingMessage;
                     mHandler.sendMessage(msg);
                 }

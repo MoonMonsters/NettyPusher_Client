@@ -125,8 +125,6 @@ public class ActivityRegisterPresenter {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            LoggerUtil.logger(Constant.TAG, "RegisterReceiver->" + action);
-
             if (action.equals(Constant.ACTION_REGISTER)) {
                 RegisterResp resp = (RegisterResp) intent.getSerializableExtra(Constant.EXTRA_REGISTERRESP);
 

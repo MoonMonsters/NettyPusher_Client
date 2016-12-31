@@ -34,14 +34,13 @@ public class ActivityMessagePresenter {
     private static MessageAdapter mAdapter = null;
     private static List<ChattingMessage> mChattingMessageList = null;
     private Context mContext = null;
-    private static final int MSG_CHATTING_MESSAGE = 0;
 
     private int mGroupId;
 
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
-            if (msg.what == MSG_CHATTING_MESSAGE) {
+            if (msg.what == Constant.HANDLER_MESSAGE_CHATTING_MESSAGE) {
                 //获得数据
                 ChattingMessage chattingMessage = (ChattingMessage) msg.obj;
                 //添加进集合
@@ -83,7 +82,7 @@ public class ActivityMessagePresenter {
         mActivityBinding.rvMessageContent.setLayoutManager(new LinearLayoutManager(mContext));
         mActivityBinding.rvMessageContent.setAdapter(mAdapter);
         mActivityBinding.rvMessageContent.getLayoutManager()
-                .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, mAdapter.getItemCount() - 1);
+                .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, (mAdapter.getItemCount() == 0 ? 0 : mAdapter.getItemCount() - 1));
     }
 
     private void initListener() {

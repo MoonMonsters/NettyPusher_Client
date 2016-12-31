@@ -171,4 +171,15 @@ public interface Constant {
      * 传递ChattingMessage数据
      */
     String EXTRA_CHATTING_MESSAGE = "extra_chatting_message";
+
+    /**
+     * 在MessageActivity和Presenter通过Handler传递数据
+     */
+    int HANDLER_MESSAGE_CHATTING_MESSAGE = 0;
+
+    /**
+     * 在LoginActivity和Presenter之间传递数据，登录成功
+     */
+    int HANDLER_LOGIN_SUCCESS = 1;
+
 }

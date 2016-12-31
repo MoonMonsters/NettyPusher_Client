@@ -47,8 +47,8 @@ public class GroupListFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
         this.getActivity().unregisterReceiver(mReceiver);
     }
 }
