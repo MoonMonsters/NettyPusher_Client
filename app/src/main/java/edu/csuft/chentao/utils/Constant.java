@@ -17,11 +17,11 @@ public interface Constant {
     /**
      * 虚拟机连接
      */
-//    String CONNECTION_URL = "192.168.0.102";
+    String CONNECTION_URL = "192.168.0.102";
     /**
      * Wifi连接
      */
-    String CONNECTION_URL = "192.168.191.1";
+//    String CONNECTION_URL = "192.168.191.1";
     /**
      * 服务端端口
      */
@@ -177,11 +177,14 @@ public interface Constant {
      * 传递ChattingMessage数据
      */
     String EXTRA_CHATTING_MESSAGE = "extra_chatting_message";
-
     /**
-     * 传递LastMessage数据
+     * 传递位置
      */
-    String EXTRA_LAST_MESSAGE = "extra_last_message";
+    String EXTRA_GROUPSITEM = "extra_groupsitem";
+    /**
+     * 广播传递的数据类型
+     */
+    String EXTRA_MESSAGE_TYPE = "extra_message_type";
 
     /**
      * 在MessageActivity和Presenter通过Handler传递数据
@@ -202,8 +205,16 @@ public interface Constant {
      */
     int HANDLER_GROUPLIST = 3;
     /**
-     * 在ChattingListFragment和Presenter之间传递数据
+     * 在ChattingListFragment和Presenter之间增加数据
      */
-    int HANDLER_CHATTING_LIST = 4;
+    int HANDLER_CHATTING_LIST_ADD = 4;
+    /**
+     * 重新加载数据
+     */
+    int HANDLER_CHATTING_LIST_DELETE = 5;
+    /**
+     * 刷新
+     */
+    int HANDLER_CHATTING_LIST_REFRESH = 6;
 
 }

@@ -10,6 +10,7 @@ import org.greenrobot.eventbus.EventBus;
 import edu.csuft.chentao.activity.LoginActivity;
 import edu.csuft.chentao.activity.RegisterActivity;
 import edu.csuft.chentao.databinding.ActivityLoginBinding;
+import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.req.LoginReq;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.SendMessageUtil;
@@ -50,7 +51,7 @@ public class ActivityLoginPresenter {
         mContext = mBinding.getRoot().getContext();
 
         //发送Handler对象到Activity
-        EventBus.getDefault().post(mHandler);
+        EventBus.getDefault().post(new HandlerMessage(mHandler, "LoginActivity"));
 
     }
 

@@ -21,6 +21,7 @@ import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityRegisterPresenter;
 import edu.csuft.chentao.databinding.ActivityRegisterBinding;
+import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
 import edu.csuft.chentao.utils.Constant;
 
@@ -86,8 +87,10 @@ public class RegisterActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getPresenterHandler(Handler handler) {
-        this.mHandler = handler;
+    public void getPresenterHandler(HandlerMessage handlerMessage) {
+        if (handlerMessage.getTag().equals("RegisterActivity")) {
+            this.mHandler = handlerMessage.getHandler();
+        }
     }
 
     /**

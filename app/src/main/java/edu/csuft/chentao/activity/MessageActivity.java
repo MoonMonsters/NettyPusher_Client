@@ -16,6 +16,7 @@ import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityMessagePresenter;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
+import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
 
 public class MessageActivity extends BaseActivity {
@@ -69,8 +70,10 @@ public class MessageActivity extends BaseActivity {
      * 接收来自Presenter的Handler对象
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getPresenterHandler(Handler handler) {
-        this.mHandler = handler;
+    public void getPresenterHandler(HandlerMessage handlerMessage) {
+        if (handlerMessage.getTag().equals("MessageActivity")) {
+            this.mHandler = handlerMessage.getHandler();
+        }
     }
 
     public class MessageReceiver extends BroadcastReceiver {

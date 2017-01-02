@@ -69,29 +69,41 @@ public class CopyUtil {
     }
 
     private static void saveChattingListItemData(int groupId, String lastMessage) {
-        GroupChattingItem chattingItem = DaoSessionUtil.getGroupChattingItemDao().queryBuilder()
+        List<GroupChattingItem> chattingItemList = DaoSessionUtil.getGroupChattingItemDao().queryBuilder()
                 .where(GroupChattingItemDao.Properties.Groupid.eq(groupId))
-                .list().get(0);
-        if (chattingItem == null) {
+                .list();
+        if (chattingItemList.size() == 0) {
             Groups groups = DaoSessionUtil.getGroupsDao().queryBuilder()
                     .where(GroupsDao.Properties.Groupid.eq(groupId))
                     .build().list().get(0);
-            chattingItem = new GroupChattingItem();
+            GroupChattingItem chattingItem = new GroupChattingItem();
             chattingItem.setGroupid(groupId);
             chattingItem.setLastmessage(lastMessage);
             chattingItem.setImage(groups.getImage());
             chattingItem.setGroupname(groups.getGroupname());
+            chattingItem.setNumber(1);
             DaoSessionUtil.getGroupChattingItemDao().insert(chattingItem);
+
+            LoggerUtil.logger(Constant.TAG, "发送广播数据");
+
+            //发送广播，通知数据发生改变
+            Intent intent = new Intent();
+            intent.setAction(Constant.ACTION_CHATTING_LIST);
+            intent.putExtra(Constant.EXTRA_GROUPSITEM, chattingItem);
+            intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 1);
+            MyApplication.getInstance().sendBroadcast(intent);
         } else {
+            LoggerUtil.logger(Constant.TAG, "更新群列表数据");
+            GroupChattingItem chattingItem = chattingItemList.get(0);
             chattingItem.setLastmessage(lastMessage);
+            chattingItem.setNumber(chattingItem.getNumber() + 1);
             DaoSessionUtil.getGroupChattingItemDao().update(chattingItem);
+
+            Intent intent = new Intent();
+            intent.setAction(Constant.ACTION_CHATTING_LIST);
+            intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 2);
+            intent.putExtra(Constant.EXTRA_GROUPSITEM, chattingItem);
+            MyApplication.getInstance().sendBroadcast(intent);
         }
-
-        Intent intent = new Intent();
-        intent.setAction(Constant.ACTION_CHATTING_LIST);
-        intent.putExtra(Constant.EXTRA_GROUPID, groupId);
-        intent.putExtra(Constant.EXTRA_LAST_MESSAGE, lastMessage);
-        MyApplication.getInstance().sendBroadcast(intent);
     }
-
 }

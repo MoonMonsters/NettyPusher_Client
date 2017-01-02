@@ -17,6 +17,7 @@ import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityLoginPresenter;
 import edu.csuft.chentao.databinding.ActivityLoginBinding;
+import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
 
 public class LoginActivity extends BaseActivity {
@@ -66,8 +67,10 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getPresenterHandler(Handler handler) {
-        this.mHandler = handler;
+    public void getPresenterHandler(HandlerMessage handlerMessage) {
+        if (handlerMessage.getTag().equals("LoginActivity")) {
+            this.mHandler = handlerMessage.getHandler();
+        }
     }
 
     /**

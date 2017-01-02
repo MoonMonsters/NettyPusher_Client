@@ -14,6 +14,7 @@ import java.util.List;
 import edu.csuft.chentao.adapter.MessageAdapter;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
+import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.CopyUtil;
@@ -62,7 +63,7 @@ public class ActivityMessagePresenter {
     public void init(int groupId) {
 
         //将Handler发送到MessageActivity中
-        EventBus.getDefault().post(mHandler);
+        EventBus.getDefault().post(new HandlerMessage(mHandler, "MessageActivity"));
 
         initData(groupId);
         initListener();

@@ -8,6 +8,7 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import edu.csuft.chentao.BR;
@@ -21,7 +22,7 @@ import edu.csuft.chentao.BR;
  * 聊天框界面
  */
 @Entity
-public class GroupChattingItem extends BaseObservable {
+public class GroupChattingItem extends BaseObservable implements Serializable {
 
     @Index
     @Id(autoincrement = true)

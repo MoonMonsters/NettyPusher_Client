@@ -87,11 +87,12 @@ public class RedDot extends View {
         if (attrs != null) {
             TypedArray typedArray =
                     context.obtainStyledAttributes(attrs, R.styleable.RedDot);
-            mRadius = (int) typedArray.getDimension(R.styleable.RedDot_radius, DEFAULT_RADIUS);
-            mTextColor = typedArray.getColor(R.styleable.RedDot_textColor, DEFAULT_TEXT_COLOR);
-            mCircleColor = typedArray.getColor(R.styleable.RedDot_circleColor, DEFAULT_CIRCLE_COLOR);
-            text = typedArray.getString(R.styleable.RedDot_text);
-            mTextSize = (int) typedArray.getDimension(R.styleable.RedDot_textSize, DEFAULT_TEXT_SIZE);
+            mRadius = (int) typedArray.getDimension(R.styleable.RedDot_rdRadius, DEFAULT_RADIUS);
+            mTextColor = typedArray.getColor(R.styleable.RedDot_rdTextColor, DEFAULT_TEXT_COLOR);
+            mCircleColor = typedArray.getColor(R.styleable.RedDot_rdCircleColor, DEFAULT_CIRCLE_COLOR);
+            text = String.valueOf(typedArray.getInteger(R.styleable.RedDot_rdTextNumber, 0));
+            mTextSize = (int) typedArray.getDimension(R.styleable.RedDot_rdTextSize, DEFAULT_TEXT_SIZE);
+            typedArray.recycle();
         }
 
         init();
@@ -112,7 +113,7 @@ public class RedDot extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawCircle(mX, mY, mRadius, mPaintCircle);
-        canvas.drawText(text, mX - mPaintText.getTextSize()/3 , mY + mPaintText.getTextSize() / 2, mPaintText);
+        canvas.drawText(text, mX - mPaintText.getTextSize() / 3, mY + mPaintText.getTextSize() / 2, mPaintText);
     }
 
     @Override
@@ -131,5 +132,10 @@ public class RedDot extends View {
         mY = mHeight / 2;
 
         setMeasuredDimension(mWidth, mHeight);
+    }
+
+    public void setRdTextNumber(int rdTextNum) {
+        text = String.valueOf(rdTextNum);
+        invalidate();
     }
 }

@@ -18,6 +18,7 @@ import edu.csuft.chentao.base.BaseFragment;
 import edu.csuft.chentao.controller.presenter.FragmentGroupListPresenter;
 import edu.csuft.chentao.databinding.FragmentGroupListBinding;
 import edu.csuft.chentao.pojo.bean.Groups;
+import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
 
 /**
@@ -69,8 +70,10 @@ public class GroupListFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getPresenterHandler(Handler handler) {
-        this.mHandler = handler;
+    public void getPresenterHandler(HandlerMessage handlerMessage) {
+        if (handlerMessage.getTag().equals("GroupListFragment")) {
+            this.mHandler = handlerMessage.getHandler();
+        }
     }
 
     public class GroupListReceiver extends BroadcastReceiver {

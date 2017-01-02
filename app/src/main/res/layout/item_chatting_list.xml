@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -57,11 +58,11 @@
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="15dp"
                 android:visibility="@{item.number==0?View.GONE:View.VISIBLE}"
-                app:circleColor="@android:color/holo_red_dark"
-                app:radius="10dp"
-                app:text="@{String.valueOf(item.number)}"
-                app:textColor="@android:color/white"
-                app:textSize="12sp" />
+                app:rdCircleColor="@android:color/holo_red_dark"
+                app:rdRadius="10dp"
+                app:rdTextColor="@android:color/white"
+                app:rdTextNumber="@{item.number}"
+                app:rdTextSize="12sp" />
         </FrameLayout>
     </LinearLayout>
 </layout>

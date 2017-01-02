@@ -17,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import edu.csuft.chentao.activity.RegisterActivity;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityRegisterBinding;
+import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.RegisterReq;
@@ -73,7 +74,7 @@ public class ActivityRegisterPresenter {
     public ActivityRegisterPresenter(ActivityRegisterBinding activityBinding) {
         this.mActivityBinding = activityBinding;
         //发送Handler对象到RegisterActivity中
-        EventBus.getDefault().post(mHandler);
+        EventBus.getDefault().post(new HandlerMessage(mHandler,"RegisterActivity"));
     }
 
     public void onClickForRegister() {

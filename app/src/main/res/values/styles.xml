@@ -9,11 +9,11 @@
     </style>
 
     <declare-styleable name="RedDot">
-        <attr name="radius" format="dimension" />
-        <attr name="textColor" format="color" />
-        <attr name="circleColor" format="color" />
-        <attr name="text" format="string" />
-        <attr name="textSize" format="dimension" />
+        <attr name="rdRadius" format="dimension" />
+        <attr name="rdTextColor" format="color" />
+        <attr name="rdCircleColor" format="color" />
+        <attr name="rdTextNumber" format="integer" />
+        <attr name="rdTextSize" format="dimension" />
     </declare-styleable>
 
 </resources>
