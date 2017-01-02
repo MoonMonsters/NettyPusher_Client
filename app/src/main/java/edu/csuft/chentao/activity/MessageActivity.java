@@ -14,10 +14,14 @@ import org.greenrobot.eventbus.ThreadMode;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityMessagePresenter;
+import edu.csuft.chentao.dao.GroupChattingItemDao;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
+import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.DaoSessionUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 
 public class MessageActivity extends BaseActivity {
 
@@ -64,6 +68,14 @@ public class MessageActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         unregisterReceiver(mReceiver);
+
+        GroupChattingItem chattingItem = DaoSessionUtil.getGroupChattingItemDao().queryBuilder()
+                .where(GroupChattingItemDao.Properties.Groupid.eq(groupId))
+                .build().list().get(0);
+        chattingItem.setNumber(0);
+        DaoSessionUtil.getGroupChattingItemDao().update(chattingItem);
+
+        OperationUtil.sendBroadcastToUpdateGroupChattingItem(chattingItem);
     }
 
     /**

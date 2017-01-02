@@ -20,9 +20,12 @@ import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 public class GroupChattingAdapter extends RecyclerView.Adapter<GroupChattingAdapter.GroupChattingViewHandler> {
 
     private ArrayList<GroupChattingItem> mGroupChattingItemList;
+    private OnItemClick mOnItemClick = null;
 
-    public GroupChattingAdapter(ArrayList<GroupChattingItem> groupChattingItemList) {
+    public GroupChattingAdapter(ArrayList<GroupChattingItem> groupChattingItemList,
+                                OnItemClick onClick) {
         this.mGroupChattingItemList = groupChattingItemList;
+        this.mOnItemClick = onClick;
     }
 
     @Override
@@ -47,14 +50,26 @@ public class GroupChattingAdapter extends RecyclerView.Adapter<GroupChattingAdap
     class GroupChattingViewHandler extends RecyclerView.ViewHolder {
 
         private ItemChattingListBinding mItemBinding;
+        private View mView = null;
 
         GroupChattingViewHandler(View itemView) {
             super(itemView);
             mItemBinding = DataBindingUtil.bind(itemView);
+            this.mView = itemView;
         }
 
-        void bindData(GroupChattingItem item) {
+        void bindData(final GroupChattingItem item) {
             mItemBinding.setItem(item);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClick.onItemClick(mGroupChattingItemList.indexOf(item));
+                }
+            });
         }
+    }
+
+    public interface OnItemClick {
+        void onItemClick(int position);
     }
 }

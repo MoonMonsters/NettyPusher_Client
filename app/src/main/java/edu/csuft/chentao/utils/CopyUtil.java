@@ -1,10 +1,7 @@
 package edu.csuft.chentao.utils;
 
-import android.content.Intent;
-
 import java.util.List;
 
-import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.dao.GroupChattingItemDao;
 import edu.csuft.chentao.dao.GroupsDao;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
@@ -45,6 +42,9 @@ public class CopyUtil {
         return chattingMessage;
     }
 
+    /**
+     * 将GroupInfo数据转成Groups数据保存在本地
+     */
     public static Groups saveGroupInfoToGroups(GroupInfoResp resp) {
         Groups groups = new Groups();
         groups.setGroupid(resp.getGroupid());
@@ -57,6 +57,9 @@ public class CopyUtil {
         return groups;
     }
 
+    /**
+     * 保存Groups数据
+     */
     public static Groups updateGroupInfoToGroups(GroupInfoResp resp, List<Groups> groupsList) {
         Groups groups = groupsList.get(0);
         groups.setGroupname(resp.getGroupname());
@@ -68,6 +71,9 @@ public class CopyUtil {
         return groups;
     }
 
+    /**
+     * 保存ChattingGroupItem数据
+     */
     private static void saveChattingListItemData(int groupId, String lastMessage) {
         List<GroupChattingItem> chattingItemList = DaoSessionUtil.getGroupChattingItemDao().queryBuilder()
                 .where(GroupChattingItemDao.Properties.Groupid.eq(groupId))
@@ -84,26 +90,16 @@ public class CopyUtil {
             chattingItem.setNumber(1);
             DaoSessionUtil.getGroupChattingItemDao().insert(chattingItem);
 
-            LoggerUtil.logger(Constant.TAG, "发送广播数据");
-
-            //发送广播，通知数据发生改变
-            Intent intent = new Intent();
-            intent.setAction(Constant.ACTION_CHATTING_LIST);
-            intent.putExtra(Constant.EXTRA_GROUPSITEM, chattingItem);
-            intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 1);
-            MyApplication.getInstance().sendBroadcast(intent);
+            //发送添加广播
+            OperationUtil.sendBroadcastToAddGroupChattingItem(chattingItem);
         } else {
-            LoggerUtil.logger(Constant.TAG, "更新群列表数据");
             GroupChattingItem chattingItem = chattingItemList.get(0);
             chattingItem.setLastmessage(lastMessage);
             chattingItem.setNumber(chattingItem.getNumber() + 1);
             DaoSessionUtil.getGroupChattingItemDao().update(chattingItem);
 
-            Intent intent = new Intent();
-            intent.setAction(Constant.ACTION_CHATTING_LIST);
-            intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 2);
-            intent.putExtra(Constant.EXTRA_GROUPSITEM, chattingItem);
-            MyApplication.getInstance().sendBroadcast(intent);
+            //发送更新广播
+            OperationUtil.sendBroadcastToUpdateGroupChattingItem(chattingItem);
         }
     }
 }

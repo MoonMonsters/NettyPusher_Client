@@ -1,5 +1,6 @@
 package edu.csuft.chentao.controller.presenter;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
+import edu.csuft.chentao.activity.MessageActivity;
 import edu.csuft.chentao.adapter.GroupChattingAdapter;
 import edu.csuft.chentao.dao.GroupChattingItemDao;
 import edu.csuft.chentao.databinding.FragmentChattingListBinding;
@@ -22,7 +24,7 @@ import edu.csuft.chentao.utils.LoggerUtil;
  * email:qxinhai@yeah.net
  */
 
-public class FragmentChattingListPresenter {
+public class FragmentChattingListPresenter implements GroupChattingAdapter.OnItemClick {
 
     private FragmentChattingListBinding mFragmentBinding = null;
 
@@ -88,7 +90,7 @@ public class FragmentChattingListPresenter {
         mGroupChattingItemList = (ArrayList<GroupChattingItem>) DaoSessionUtil.getGroupChattingItemDao()
                 .queryBuilder().list();
         //设置adapter
-        mAdapter = new GroupChattingAdapter(mGroupChattingItemList);
+        mAdapter = new GroupChattingAdapter(mGroupChattingItemList, this);
         //设置RecyclerView的属性
         mFragmentBinding.rvChattingListContent.setLayoutManager(new LinearLayoutManager(mFragmentBinding.getRoot().getContext()));
         mFragmentBinding.rvChattingListContent.setAdapter(mAdapter);
@@ -96,5 +98,12 @@ public class FragmentChattingListPresenter {
 
     private void initListener() {
 
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(mFragmentBinding.getRoot().getContext(), MessageActivity.class);
+        intent.putExtra(Constant.EXTRA_GROUPID, mGroupChattingItemList.get(position).getGroupid());
+        mFragmentBinding.getRoot().getContext().startActivity(intent);
     }
 }
