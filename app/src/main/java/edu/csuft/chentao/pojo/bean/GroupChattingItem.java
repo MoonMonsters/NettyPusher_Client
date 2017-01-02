@@ -4,9 +4,9 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.Generated;
 
 import java.util.Arrays;
 
@@ -42,6 +42,21 @@ public class GroupChattingItem extends BaseObservable {
      * 图片byte数组
      */
     private byte[] image;
+
+    /**
+     * 未读消息数量
+     */
+    private int number;
+
+    @Bindable
+    public int getNumber() {
+        return this.number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+        notifyPropertyChanged(BR.number);
+    }
 
     @Bindable
     public byte[] getImage() {
@@ -93,14 +108,15 @@ public class GroupChattingItem extends BaseObservable {
         notifyPropertyChanged(BR._id);
     }
 
-    @Generated(hash = 116598526)
+    @Generated(hash = 897090240)
     public GroupChattingItem(Long _id, String groupname, int groupid,
-                             String lastmessage, byte[] image) {
+                             String lastmessage, byte[] image, int number) {
         this._id = _id;
         this.groupname = groupname;
         this.groupid = groupid;
         this.lastmessage = lastmessage;
         this.image = image;
+        this.number = number;
     }
 
     @Generated(hash = 1037461491)
@@ -115,6 +131,7 @@ public class GroupChattingItem extends BaseObservable {
                 ", groupid=" + groupid +
                 ", lastmessage='" + lastmessage + '\'' +
                 ", image=" + Arrays.toString(image) +
+                ", number=" + number +
                 '}';
     }
 }

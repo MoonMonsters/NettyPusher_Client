@@ -34,7 +34,7 @@ import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 public class ActivityRegisterPresenter {
 
     private final String IMAGE_TYPE = "image/*";
-    public final int IMAGE_CODE = 0;   //这里的IMAGE_CODE是自己任意定义的
+    public static final int IMAGE_CODE = 0;   //这里的IMAGE_CODE是自己任意定义的
 
     /**
      * DataBinding类型

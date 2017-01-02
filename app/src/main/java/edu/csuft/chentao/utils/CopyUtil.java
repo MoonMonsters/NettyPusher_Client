@@ -1,8 +1,14 @@
 package edu.csuft.chentao.utils;
 
+import android.content.Intent;
+
 import java.util.List;
 
+import edu.csuft.chentao.base.MyApplication;
+import edu.csuft.chentao.dao.GroupChattingItemDao;
+import edu.csuft.chentao.dao.GroupsDao;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
+import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
@@ -30,6 +36,11 @@ public class CopyUtil {
 
         DaoSessionUtil.saveChattingMessage(chattingMessage);
 
+        int groupId = chattingMessage.getGroupid();
+        String lastMessage = chattingMessage.getTypemsg() == Constant.TYPE_MSG_TEXT ? chattingMessage.getMessage()
+                : "[图片]";
+        saveChattingListItemData(groupId, lastMessage);
+
 
         return chattingMessage;
     }
@@ -55,6 +66,32 @@ public class CopyUtil {
         DaoSessionUtil.getGroupsDao().update(groups);
 
         return groups;
+    }
+
+    private static void saveChattingListItemData(int groupId, String lastMessage) {
+        GroupChattingItem chattingItem = DaoSessionUtil.getGroupChattingItemDao().queryBuilder()
+                .where(GroupChattingItemDao.Properties.Groupid.eq(groupId))
+                .list().get(0);
+        if (chattingItem == null) {
+            Groups groups = DaoSessionUtil.getGroupsDao().queryBuilder()
+                    .where(GroupsDao.Properties.Groupid.eq(groupId))
+                    .build().list().get(0);
+            chattingItem = new GroupChattingItem();
+            chattingItem.setGroupid(groupId);
+            chattingItem.setLastmessage(lastMessage);
+            chattingItem.setImage(groups.getImage());
+            chattingItem.setGroupname(groups.getGroupname());
+            DaoSessionUtil.getGroupChattingItemDao().insert(chattingItem);
+        } else {
+            chattingItem.setLastmessage(lastMessage);
+            DaoSessionUtil.getGroupChattingItemDao().update(chattingItem);
+        }
+
+        Intent intent = new Intent();
+        intent.setAction(Constant.ACTION_CHATTING_LIST);
+        intent.putExtra(Constant.EXTRA_GROUPID, groupId);
+        intent.putExtra(Constant.EXTRA_LAST_MESSAGE, lastMessage);
+        MyApplication.getInstance().sendBroadcast(intent);
     }
 
 }

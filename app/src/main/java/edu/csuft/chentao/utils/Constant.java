@@ -131,6 +131,12 @@ public interface Constant {
      * 接收到Message数据广播
      */
     String ACTION_CHATTING_MESSAGE = "edu.csuft.chentao.action.chatting_message";
+
+    /**
+     * 在ChattingListFragment中的广播
+     */
+    String ACTION_CHATTING_LIST = "edu.csuft.chentao.action.chatting.list";
+
     /**
      * 是否登录成功
      */
@@ -173,6 +179,11 @@ public interface Constant {
     String EXTRA_CHATTING_MESSAGE = "extra_chatting_message";
 
     /**
+     * 传递LastMessage数据
+     */
+    String EXTRA_LAST_MESSAGE = "extra_last_message";
+
+    /**
      * 在MessageActivity和Presenter通过Handler传递数据
      */
     int HANDLER_MESSAGE_CHATTING_MESSAGE = 0;
@@ -190,5 +201,9 @@ public interface Constant {
      * 在GroupListFragment和Presenter之间传递数据
      */
     int HANDLER_GROUPLIST = 3;
+    /**
+     * 在ChattingListFragment和Presenter之间传递数据
+     */
+    int HANDLER_CHATTING_LIST = 4;
 
 }

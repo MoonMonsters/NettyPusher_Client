@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.os.Message;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseFragment;
@@ -64,6 +66,11 @@ public class GroupListFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getPresenterHandler(Handler handler) {
+        this.mHandler = handler;
     }
 
     public class GroupListReceiver extends BroadcastReceiver {

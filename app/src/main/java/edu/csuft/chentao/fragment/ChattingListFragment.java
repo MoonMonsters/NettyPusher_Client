@@ -1,24 +1,29 @@
 package edu.csuft.chentao.fragment;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.ViewDataBinding;
-import android.support.v7.widget.LinearLayoutManager;
+import android.os.Handler;
+import android.os.Message;
 
-import java.util.ArrayList;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.adapter.GroupChattingAdapter;
 import edu.csuft.chentao.base.BaseFragment;
-import edu.csuft.chentao.dao.GroupChattingItemDao;
+import edu.csuft.chentao.controller.presenter.FragmentChattingListPresenter;
 import edu.csuft.chentao.databinding.FragmentChattingListBinding;
-import edu.csuft.chentao.pojo.bean.GroupChattingItem;
-import edu.csuft.chentao.utils.GreenDaoUtil;
+import edu.csuft.chentao.utils.Constant;
 
 public class ChattingListFragment extends BaseFragment {
 
     private FragmentChattingListBinding mFragmentBinding = null;
-    private ArrayList<GroupChattingItem> mGroupChattingItemList = null;
-    private GroupChattingItemDao mItemDao = GreenDaoUtil.getInstance().getDaoSession().getGroupChattingItemDao();
+    private BroadcastReceiver mReceiver = null;
+    private Handler mHandler = null;
 
     @Override
     public int getLayoutResourceId() {
@@ -30,17 +35,49 @@ public class ChattingListFragment extends BaseFragment {
         this.mFragmentBinding = (FragmentChattingListBinding) viewDataBinding;
     }
 
-    GroupChattingAdapter mAdapter;
-
     @Override
     public void initData() {
-        //读取所有的记录
-        mGroupChattingItemList = (ArrayList<GroupChattingItem>) mItemDao.queryBuilder().list();
+        EventBus.getDefault().register(this);
+        FragmentChattingListPresenter presenter =
+                new FragmentChattingListPresenter(mFragmentBinding);
+        presenter.init();
+    }
 
-        //设置adapter
-        mAdapter = new GroupChattingAdapter(mGroupChattingItemList);
-        //设置RecyclerView的属性
-        mFragmentBinding.rvChattingListContent.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        mFragmentBinding.rvChattingListContent.setAdapter(mAdapter);
+    @Override
+    public void onStart() {
+        super.onStart();
+        mReceiver = new ChattingListReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.ACTION_CHATTING_LIST);
+        this.getActivity().registerReceiver(mReceiver, filter);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getPresenterHandler(Handler handler) {
+        this.mHandler = handler;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        this.getActivity().unregisterReceiver(mReceiver);
+        EventBus.getDefault().unregister(this);
+    }
+
+    private class ChattingListReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(Constant.ACTION_CHATTING_LIST)) {
+                int groupId = intent.getIntExtra(Constant.EXTRA_GROUPID, -1);
+                String lastMessage = intent.getStringExtra(Constant.EXTRA_LAST_MESSAGE);
+
+                Message msg = mHandler.obtainMessage();
+                msg.what = Constant.HANDLER_CHATTING_LIST;
+                msg.obj = lastMessage;
+                msg.arg1 = groupId;
+                mHandler.sendMessage(msg);
+            }
+        }
     }
 }
