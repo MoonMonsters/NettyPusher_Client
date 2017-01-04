@@ -7,7 +7,7 @@ android {
     aaptOptions.useNewCruncher = false
     defaultConfig {
         applicationId "edu.csuft.chentao"
-        minSdkVersion 18
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"

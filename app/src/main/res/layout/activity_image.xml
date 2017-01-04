@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="edu.csuft.chentao.activity.ImageActivity">
+
+    <data>
+
+        <variable
+            name="message"
+            type="edu.csuft.chentao.pojo.bean.ChattingMessage" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/activity_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_image_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundGravity="center"
+            app:imageBytes="@{message.image}" />
+
+    </RelativeLayout>
+</layout>

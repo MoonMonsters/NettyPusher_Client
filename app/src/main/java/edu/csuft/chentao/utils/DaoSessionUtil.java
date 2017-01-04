@@ -90,4 +90,12 @@ public class DaoSessionUtil {
         getChattingMessageDao().insert(message);
     }
 
+    public static List<ChattingMessage> getChattingMessageList(int groupId) {
+
+        return DaoSessionUtil.getChattingMessageDao()
+                .queryBuilder()
+                .where(ChattingMessageDao.Properties.Groupid.eq(groupId))
+                .list();
+    }
+
 }

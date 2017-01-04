@@ -39,7 +39,7 @@
                 android:id="@+id/iv_message_right_head"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 app:imageBytes="@{userHead.image}" />
 
             <TextView
@@ -54,18 +54,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_message_right_name"
-                android:layout_toStartOf="@id/iv_message_right_head"
-                android:padding="3dp"
+                android:layout_toLeftOf="@id/iv_message_right_head"
+                android:autoLink="all"
+                android:background="@drawable/ic_image_right"
+                android:gravity="right|center_vertical"
+                android:lineSpacingMultiplier="1.2"
+                android:maxWidth="250dp"
+                android:paddingTop="3dp"
                 android:text="@{msg.message}"
+                android:textScaleX="1.2"
                 android:visibility="@{msg.typemsg==0?View.VISIBLE:View.GONE}" />
 
             <ImageView
                 android:id="@+id/iv_message_right_content_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_below="@id/tv_message_right_name"
-                android:layout_toStartOf="@id/iv_message_right_head"
-                android:padding="3dp"
+                android:layout_toLeftOf="@id/iv_message_right_head"
+                android:background="@drawable/ic_image_right"
+                android:paddingLeft="13dp"
+                android:paddingTop="5dp"
                 android:visibility="@{msg.typemsg==1?View.VISIBLE:View.GONE}"
                 app:imageBytes="@{msg.image}" />
         </RelativeLayout>

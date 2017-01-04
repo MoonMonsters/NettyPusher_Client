@@ -31,8 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingEnd="5dp"
-                android:paddingStart="10dp">
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp">
 
                 <TextView
                     android:id="@+id/tv_chatting_list_groupname"
@@ -49,6 +49,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="2"
                     android:gravity="start|center_vertical"
+                    android:maxLines="1"
                     android:text="@{item.lastmessage}" />
             </LinearLayout>
 
@@ -56,7 +57,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="15dp"
+                android:layout_marginRight="15dp"
                 android:visibility="@{item.number==0?View.GONE:View.VISIBLE}"
                 app:rdCircleColor="@android:color/holo_red_dark"
                 app:rdRadius="10dp"

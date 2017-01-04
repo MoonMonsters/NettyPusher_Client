@@ -35,7 +35,9 @@
 
         <service
             android:name=".service.LoginReqIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".activity.ImageActivity"></activity>
     </application>
 
 </manifest>

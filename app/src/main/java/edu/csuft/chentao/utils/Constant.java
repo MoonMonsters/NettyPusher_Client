@@ -17,11 +17,11 @@ public interface Constant {
     /**
      * 虚拟机连接
      */
-    String CONNECTION_URL = "192.168.0.102";
+//    String CONNECTION_URL = "192.168.0.102";
     /**
      * Wifi连接
      */
-//    String CONNECTION_URL = "192.168.191.1";
+    String CONNECTION_URL = "192.168.191.1";
     /**
      * 服务端端口
      */
@@ -145,10 +145,6 @@ public interface Constant {
      * 登录用户的id
      */
     String LOGIN_USER_ID = "login_user_id";
-    /**
-     * 传递注册后的返回对象
-     */
-    String EXTRA_REGISTERRESP = "extra_registerresp";
 
     /**
      * 调试输出值
@@ -164,6 +160,10 @@ public interface Constant {
      */
     int TYPE_MSG_IMAGE = 1;
 
+    /**
+     * 传递注册后的返回对象
+     */
+    String EXTRA_REGISTERRESP = "extra_registerresp";
     /**
      * 传递群id
      */
@@ -216,5 +216,10 @@ public interface Constant {
      * 刷新
      */
     int HANDLER_CHATTING_LIST_REFRESH = 6;
+
+    /**
+     * 刷新
+     */
+    int HANDLER_CHATTING_MESSAGE_REFRESH = 7;
 
 }
