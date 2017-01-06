@@ -1,6 +1,7 @@
 package edu.csuft.chentao.controller.presenter;
 
 import android.content.Intent;
+import android.widget.Toast;
 
 import edu.csuft.chentao.activity.LoginActivity;
 import edu.csuft.chentao.activity.MainActivity;
@@ -32,4 +33,10 @@ public class FragmentMinePresenter {
         ((MainActivity) mFragmentBinding.getRoot().getContext()).finish();
     }
 
+    /**
+     * 编辑用户信息
+     */
+    public void onClickToEditorInfo() {
+        Toast.makeText(mFragmentBinding.getRoot().getContext(), "修改资料", Toast.LENGTH_SHORT).show();
+    }
 }

@@ -5,6 +5,7 @@ import android.databinding.ViewDataBinding;
 
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
+import edu.csuft.chentao.controller.presenter.ActivityImagePresenter;
 import edu.csuft.chentao.databinding.ActivityImageBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
 import edu.csuft.chentao.utils.Constant;
@@ -28,5 +29,7 @@ public class ImageActivity extends BaseActivity {
         Intent intent = getIntent();
         ChattingMessage msg = (ChattingMessage) intent.getSerializableExtra(Constant.EXTRA_CHATTING_MESSAGE);
         mActivityBinding.setMessage(msg);
+        ActivityImagePresenter presenter = new ActivityImagePresenter(mActivityBinding);
+        mActivityBinding.setPresenter(presenter);
     }
 }

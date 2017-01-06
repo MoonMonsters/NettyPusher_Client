@@ -16,6 +16,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:contentDescription="@string/app_name"
             android:id="@+id/iv_group_list_head"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -26,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:textSize="18sp"
             android:gravity="start|center_vertical"
             android:text="@{item.groupname}" />

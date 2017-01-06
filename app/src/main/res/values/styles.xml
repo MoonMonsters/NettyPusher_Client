@@ -16,4 +16,8 @@
         <attr name="rdTextSize" format="dimension" />
     </declare-styleable>
 
+    <style name="FullScreen" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 </resources>

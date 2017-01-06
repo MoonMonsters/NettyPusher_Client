@@ -22,6 +22,7 @@
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_add_head"
+            android:contentDescription="@string/app_name"
             android:onClick="@{()->presenter.onClickForSelectPicture()}" />
 
         <android.support.design.widget.TextInputLayout

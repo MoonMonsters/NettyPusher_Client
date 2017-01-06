@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="edu.csuft.chentao.activity.EditorInfoActivity">
+
+    <data>
+
+        <variable
+            name="userInfo"
+            type="edu.csuft.chentao.pojo.bean.UserInfo" />
+
+        <variable
+            name="userHead"
+            type="edu.csuft.chentao.pojo.bean.UserHead" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/activity_editor_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/layout_editor_update_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/string_head_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/iv_editor_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                app:imageBytes="@{userHead.image}" />
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+</layout>

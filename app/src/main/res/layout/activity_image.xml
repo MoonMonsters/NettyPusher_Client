@@ -9,9 +9,13 @@
         <variable
             name="message"
             type="edu.csuft.chentao.pojo.bean.ChattingMessage" />
+
+        <variable
+            name="presenter"
+            type="edu.csuft.chentao.controller.presenter.ActivityImagePresenter" />
     </data>
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/activity_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,8 +24,21 @@
             android:id="@+id/iv_image_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
             android:foregroundGravity="center"
             app:imageBytes="@{message.image}" />
 
-    </RelativeLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_image_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:onClick="@{()->presenter.onClickToSaveImage()}"
+            android:src="@drawable/ic_save_image"
+            app:fabSize="mini" />
+
+    </FrameLayout>
 </layout>

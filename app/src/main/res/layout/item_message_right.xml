@@ -39,6 +39,7 @@
                 android:id="@+id/iv_message_right_head"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 app:imageBytes="@{userHead.image}" />
 
@@ -47,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/iv_message_right_head"
+                android:layout_toStartOf="@id/iv_message_right_head"
                 android:text="@{userInfo.nickname}" />
 
             <TextView
@@ -55,9 +57,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_message_right_name"
                 android:layout_toLeftOf="@id/iv_message_right_head"
+                android:layout_toStartOf="@id/iv_message_right_head"
                 android:autoLink="all"
                 android:background="@drawable/ic_image_right"
-                android:gravity="right|center_vertical"
+                android:gravity="end|center_vertical"
                 android:lineSpacingMultiplier="1.2"
                 android:maxWidth="250dp"
                 android:paddingTop="3dp"
@@ -71,8 +74,13 @@
                 android:layout_height="150dp"
                 android:layout_below="@id/tv_message_right_name"
                 android:layout_toLeftOf="@id/iv_message_right_head"
+                android:layout_toStartOf="@id/iv_message_right_head"
                 android:background="@drawable/ic_image_right"
+                android:contentDescription="@string/app_name"
+                android:paddingEnd="0dp"
                 android:paddingLeft="13dp"
+                android:paddingRight="0dp"
+                android:paddingStart="13dp"
                 android:paddingTop="5dp"
                 android:visibility="@{msg.typemsg==1?View.VISIBLE:View.GONE}"
                 app:imageBytes="@{msg.image}" />

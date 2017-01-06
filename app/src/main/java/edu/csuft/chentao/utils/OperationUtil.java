@@ -88,4 +88,18 @@ public class OperationUtil {
         return message;
     }
 
+    /**
+     * 把偶才能的图片的文件名称
+     */
+    public static String getImageName() {
+        String str = "abcdefghijklmnopqrstuvwxyz1234567890";
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 16; i++) {
+            sb.append(str.charAt((int) (Math.random() * str.length())));
+        }
+
+        return sb.toString() + ".jpg";
+    }
+
 }

@@ -17,11 +17,11 @@ public interface Constant {
     /**
      * 虚拟机连接
      */
-//    String CONNECTION_URL = "192.168.0.102";
+    String CONNECTION_URL = "192.168.0.102";
     /**
      * Wifi连接
      */
-    String CONNECTION_URL = "192.168.191.1";
+//    String CONNECTION_URL = "192.168.191.1";
     /**
      * 服务端端口
      */
@@ -221,5 +221,10 @@ public interface Constant {
      * 刷新
      */
     int HANDLER_CHATTING_MESSAGE_REFRESH = 7;
+
+    /**
+     * 用户名字符串
+     */
+    String STRING_USER_NAME = "用户名: ";
 
 }

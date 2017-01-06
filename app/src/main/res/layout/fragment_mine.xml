@@ -1,21 +1,79 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.csuft.chentao.fragment.MineFragment">
 
     <data>
+
+        <import type="edu.csuft.chentao.utils.SharedPrefUserInfoUtil" />
+
+        <import type="edu.csuft.chentao.utils.Constant" />
+
         <variable
             name="presenter"
             type="edu.csuft.chentao.controller.presenter.FragmentMinePresenter" />
+
+        <variable
+            name="userHead"
+            type="edu.csuft.chentao.pojo.bean.UserHead" />
+
+        <variable
+            name="userInfo"
+            type="edu.csuft.chentao.pojo.bean.UserInfo" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->presenter.onClickToEditorInfo()}"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_mine_head"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ic_add_head"
+                android:contentDescription="@string/app_name"
+                app:imageBytes="@{userHead.image}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_mine_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start|bottom"
+                    android:text="@{userInfo.nickname}" />
+
+                <TextView
+                    android:id="@+id/tv_mine_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start|center_vertical"
+                    android:text="@{Constant.STRING_USER_NAME+SharedPrefUserInfoUtil.getUsername()}" />
+            </LinearLayout>
+        </LinearLayout>
+
         <Button
             android:id="@+id/btn_mine_exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
             android:onClick="@{()->presenter.onClickToExitLogining()}"
             android:text="@string/string_exit_login" />
 

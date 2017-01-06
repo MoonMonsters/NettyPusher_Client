@@ -38,6 +38,7 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:id="@+id/iv_message_left_head"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -48,6 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/iv_message_left_head"
+                android:layout_toEndOf="@id/iv_message_left_head"
                 android:text="@{userInfo.nickname}" />
 
             <TextView
@@ -56,9 +58,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_message_left_name"
                 android:layout_toRightOf="@id/iv_message_left_head"
+                android:layout_toEndOf="@id/iv_message_left_head"
                 android:autoLink="all"
                 android:background="@drawable/ic_image_left"
-                android:gravity="left|center_vertical"
+                android:gravity="start|center_vertical"
                 android:lineSpacingMultiplier="1.2"
                 android:maxWidth="250dp"
                 android:paddingTop="3dp"
@@ -72,8 +75,12 @@
                 android:layout_height="150dp"
                 android:layout_below="@id/tv_message_left_name"
                 android:layout_toRightOf="@id/iv_message_left_head"
+                android:layout_toEndOf="@id/iv_message_left_head"
                 android:background="@drawable/ic_image_left"
                 android:paddingLeft="13dp"
+                android:paddingRight="0dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="13dp"
                 android:paddingTop="5dp"
                 android:visibility="@{msg.typemsg==1?View.VISIBLE:View.GONE}"
                 app:imageBytes="@{msg.image}" />
