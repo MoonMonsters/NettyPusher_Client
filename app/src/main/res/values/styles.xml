@@ -20,4 +20,33 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="view_line_bottom">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@drawable/ic_view_bottom</item>
+    </style>
+
+    <style name="view_editor_tv_beizhu">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:gravity">start|center_vertical</item>
+    </style>
+
+    <style name="view_editor_tv_neirong">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:gravity">end|center_vertical</item>
+    </style>
+
+    <style name="layout_editor_hw">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
+
 </resources>

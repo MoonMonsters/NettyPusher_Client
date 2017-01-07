@@ -9,6 +9,7 @@ import java.util.Locale;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.req.Message;
+import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
 
 /**
  * Created by Chalmers on 2016-12-29 17:43.
@@ -53,6 +54,16 @@ public class OperationUtil {
         intent.setAction(Constant.ACTION_CHATTING_LIST);
         intent.putExtra(Constant.EXTRA_GROUPSITEM, chattingItem);
         intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 1);
+        MyApplication.getInstance().sendBroadcast(intent);
+    }
+
+    /**
+     * 更新用户信息
+     */
+    public static void sendBroadcastToUpdateUserInfo(ReturnMessageResp resp) {
+        Intent intent = new Intent();
+        intent.setAction(Constant.ACTION_RETURN_MESSAGE);
+        intent.putExtra(Constant.EXTRA_RETURN_MESSAGE, resp);
         MyApplication.getInstance().sendBroadcast(intent);
     }
 

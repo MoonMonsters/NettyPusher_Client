@@ -16,6 +16,7 @@ import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ItemMessageLeftBinding;
 import edu.csuft.chentao.databinding.ItemMessageRightBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
+import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.utils.Constant;
@@ -104,12 +105,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             onClickForImageDetail(iv, msg);
         }
 
+        /**
+         * 点击放大聊天对话中的图片
+         */
         private void onClickForImageDetail(ImageView iv, final ChattingMessage msg) {
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MyApplication.getInstance(), ImageActivity.class);
-                    intent.putExtra(Constant.EXTRA_CHATTING_MESSAGE, msg);
+                    ImageDetail detail = new ImageDetail(msg.getImage());
+                    //传递数据
+                    intent.putExtra(Constant.EXTRA_IMAGE_DETAIL, detail);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     MyApplication.getInstance().startActivity(intent);
                 }

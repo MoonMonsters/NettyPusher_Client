@@ -17,11 +17,11 @@ public interface Constant {
     /**
      * 虚拟机连接
      */
-    String CONNECTION_URL = "192.168.0.102";
+//    String CONNECTION_URL = "192.168.0.102";
     /**
      * Wifi连接
      */
-//    String CONNECTION_URL = "192.168.191.1";
+    String CONNECTION_URL = "192.168.191.1";
     /**
      * 服务端端口
      */
@@ -136,6 +136,10 @@ public interface Constant {
      * 在ChattingListFragment中的广播
      */
     String ACTION_CHATTING_LIST = "edu.csuft.chentao.action.chatting.list";
+    /**
+     * 返回消息的广播ReturnMessage
+     */
+    String ACTION_RETURN_MESSAGE = "edu.csuft.chentao.action.return.message";
 
     /**
      * 是否登录成功
@@ -187,6 +191,16 @@ public interface Constant {
     String EXTRA_MESSAGE_TYPE = "extra_message_type";
 
     /**
+     * 图片详细信息
+     */
+    String EXTRA_IMAGE_DETAIL = "extra_image_detail";
+
+    /**
+     * 传递ReturnMessage对象
+     */
+    String EXTRA_RETURN_MESSAGE = "extra_return_message";
+
+    /**
      * 在MessageActivity和Presenter通过Handler传递数据
      */
     int HANDLER_MESSAGE_CHATTING_MESSAGE = 0;
@@ -216,7 +230,10 @@ public interface Constant {
      * 刷新
      */
     int HANDLER_CHATTING_LIST_REFRESH = 6;
-
+    /**
+     * 传递ReturnMessage数据
+     */
+    int HANDLER_RETURN_MESSAGE = 7;
     /**
      * 刷新
      */

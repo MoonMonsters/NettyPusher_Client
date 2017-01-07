@@ -23,8 +23,11 @@ public class ActivityImagePresenter {
         this.mActivityBinding = activityBinding;
     }
 
+    /**
+     * 保存图片到本地
+     */
     public void onClickToSaveImage() {
-        byte[] buf = mActivityBinding.getMessage().getImage();
+        byte[] buf = mActivityBinding.getDetail().getImage();
         try {
             File file = new File(Constant.PATH, OperationUtil.getImageName());
             boolean isCreateNewFile = false;
@@ -44,6 +47,12 @@ public class ActivityImagePresenter {
         }
     }
 
+    /**
+     * 显示底部提示栏
+     *
+     * @param action  显示内容
+     * @param command 点击内容
+     */
     private void showSnakeBar(String action, String command) {
         final Snackbar snackbar = Snackbar.make(mActivityBinding.getRoot(), action, Snackbar.LENGTH_SHORT);
         snackbar.show();

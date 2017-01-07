@@ -27,7 +27,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:hint="@string/string_inpt_message_content"
+                android:hint="@string/string_input_message_content"
                 android:onTextChanged="@{presenter.onTextChanged}" />
 
             <FrameLayout

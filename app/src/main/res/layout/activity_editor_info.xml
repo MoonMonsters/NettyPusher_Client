@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="edu.csuft.chentao.utils.SharedPrefUserInfoUtil" />
+
         <variable
             name="userInfo"
             type="edu.csuft.chentao.pojo.bean.UserInfo" />
@@ -13,34 +15,104 @@
         <variable
             name="userHead"
             type="edu.csuft.chentao.pojo.bean.UserHead" />
+
+        <variable
+            name="presenter"
+            type="edu.csuft.chentao.controller.presenter.ActivityEditorInfoPresenter" />
+
     </data>
 
-    <RelativeLayout
-        android:id="@+id/activity_editor_info"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/layout_editor_update_head"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="80dp"
+            android:onClick="@{()->presenter.onClickToUpdateHeadImage()}">
 
             <TextView
-                android:text="@string/string_head_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/view_editor_tv_beizhu"
+                android:text="@string/string_head_image" />
 
             <ImageView
                 android:id="@+id/iv_editor_head"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ic_add_head"
                 android:contentDescription="@string/app_name"
+                android:onClick="@{()->presenter.onClickToBigImage()}"
                 app:imageBytes="@{userHead.image}" />
-        </LinearLayout>
+        </RelativeLayout>
 
+        <View style="@style/view_line_bottom" />
 
+        <RelativeLayout
+            android:id="@+id/layout_editor_update_nickname"
+            style="@style/layout_editor_hw"
+            android:onClick="@{()->presenter.onClickToUpdateNickname()}">
 
+            <TextView
+                style="@style/view_editor_tv_beizhu"
+                android:text="@string/string_nickname" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_editor_nickname"
+                style="@style/view_editor_tv_neirong"
+                android:text="@{userInfo.nickname}" />
+        </RelativeLayout>
+
+        <View style="@style/view_line_bottom" />
+
+        <RelativeLayout style="@style/layout_editor_hw">
+
+            <TextView
+                style="@style/view_editor_tv_beizhu"
+                android:text="@string/string_username" />
+
+            <TextView
+                style="@style/view_editor_tv_neirong"
+                android:text="@{SharedPrefUserInfoUtil.getUsername()}" />
+        </RelativeLayout>
+
+        <View style="@style/view_line_bottom" />
+
+        <RelativeLayout style="@style/layout_editor_hw">
+
+            <TextView
+                style="@style/view_editor_tv_beizhu"
+                android:text="@string/string_user_id" />
+
+            <TextView
+                style="@style/view_editor_tv_neirong"
+                android:text="@{String.valueOf(SharedPrefUserInfoUtil.getUserId())}" />
+        </RelativeLayout>
+
+        <View style="@style/view_line_bottom" />
+
+        <RelativeLayout
+            style="@style/layout_editor_hw"
+            android:onClick="@{()->presenter.onClickToUpdateSignature()}">
+
+            <TextView
+                style="@style/view_editor_tv_beizhu"
+                android:text="@string/string_signature" />
+
+            <TextView
+                android:id="@+id/tv_editor_signature"
+                style="@style/view_editor_tv_neirong"
+                android:text="@{userInfo.signature}" />
+        </RelativeLayout>
+
+        <View style="@style/view_line_bottom" />
+
+    </LinearLayout>
 </layout>

@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="message"
-            type="edu.csuft.chentao.pojo.bean.ChattingMessage" />
+            name="detail"
+            type="edu.csuft.chentao.pojo.bean.ImageDetail" />
 
         <variable
             name="presenter"
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
             android:foregroundGravity="center"
-            app:imageBytes="@{message.image}" />
+            app:imageBytes="@{detail.image}" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_image_more"

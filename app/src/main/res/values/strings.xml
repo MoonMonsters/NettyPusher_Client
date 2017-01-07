@@ -15,8 +15,10 @@
     <string name="string_signature">个性签名</string>
     <string name="string_new_user_register">新用户注册</string>
     <string name="string_send">发送</string>
-    <string name="string_inpt_message_content">输入聊天内容</string>
+    <string name="string_input_message_content">输入聊天内容</string>
     <string name="string_exit_login">退出登录</string>
     <string name="string_delete">删除</string>
     <string name="string_head_image">头像</string>
+    <string name="string_user_id">用户id</string>
+    <string name="string_update">更新</string>
 </resources>
