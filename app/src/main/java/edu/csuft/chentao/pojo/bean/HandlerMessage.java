@@ -5,10 +5,13 @@ import android.os.Handler;
 import java.io.Serializable;
 
 /**
- * Created by Chalmers on 2017-01-02 12:47.
+ * Created by csuft.chentao on 2017-01-02 12:47.
  * email:qxinhai@yeah.net
  */
 
+/**
+ * 在Activity or Fragment与Presenter之间传递Handler，避免数据混乱
+ */
 public class HandlerMessage implements Serializable {
 
     private String tag;

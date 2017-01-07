@@ -10,7 +10,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import java.io.Serializable;
 
 /**
- * Created by Chalmers on 2016-12-23 15:20.
+ * Created by csuft.chentao on 2016-12-23 15:20.
  * email:qxinhai@yeah.net
  */
 

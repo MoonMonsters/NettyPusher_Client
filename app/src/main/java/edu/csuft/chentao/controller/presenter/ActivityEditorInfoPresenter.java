@@ -19,7 +19,6 @@ import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.UpdateUserInfoReq;
 import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.daoutil.DaoSessionUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
@@ -108,7 +107,7 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
      * 放大头像
      */
     public void onClickToBigImage() {
-        ImageDetail detail = new ImageDetail(DaoSessionUtil.getUserHead(SharedPrefUserInfoUtil.getUserId()).getImage());
+        ImageDetail detail = new ImageDetail(UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId()).getImage());
         Intent intent = new Intent(mActivityBinding.getRoot().getContext(),
                 ImageActivity.class);
         intent.putExtra(Constant.EXTRA_IMAGE_DETAIL, detail);

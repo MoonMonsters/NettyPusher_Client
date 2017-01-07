@@ -11,7 +11,7 @@ import org.greenrobot.greendao.annotation.Index;
 import edu.csuft.chentao.BR;
 
 /**
- * Created by Chalmers on 2016-12-24 20:45.
+ * Created by csuft.chentao on 2016-12-24 20:45.
  * email:qxinhai@yeah.net
  */
 

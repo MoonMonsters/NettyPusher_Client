@@ -14,12 +14,12 @@ import java.util.Arrays;
 import edu.csuft.chentao.BR;
 
 /**
- * Created by Chalmers on 2016-12-22 17:50.
+ * Created by csuft.chentao on 2016-12-22 17:50.
  * email:qxinhai@yeah.net
  */
 
 /**
- * 聊天框界面
+ * 聊天框界面的item
  */
 @Entity
 public class GroupChattingItem extends BaseObservable implements Serializable {

@@ -1,7 +1,7 @@
 package edu.csuft.chentao.pojo.bean;
 
 /**
- * Created by Chalmers on 2016-12-29 12:51.
+ * Created by csuft.chentao on 2016-12-29 12:51.
  * email:qxinhai@yeah.net
  */
 
