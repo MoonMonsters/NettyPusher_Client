@@ -28,7 +28,7 @@ import edu.csuft.chentao.utils.Constant;
 public class RegisterActivity extends BaseActivity {
 
     private ActivityRegisterBinding mActivityBinding = null;
-    private RegisterReceiver mReceiver = null;
+    private BroadcastReceiver mReceiver = null;
     private Handler mHandler = null;
 
     @Override

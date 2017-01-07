@@ -24,8 +24,8 @@ import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.CopyUtil;
-import edu.csuft.chentao.utils.DaoSessionUtil;
 import edu.csuft.chentao.utils.OperationUtil;
+import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-29 13:51.
@@ -94,7 +94,7 @@ public class ActivityMessagePresenter {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<ChattingMessage> list = DaoSessionUtil.getChattingMessageList(groupId);
+                List<ChattingMessage> list = ChattingMessageDaoUtil.getChattingMessageList(groupId);
                 int allCount = list.size();
                 index = allCount >= 20 ? allCount - 20 : 0;
                 mChattingMessageList.addAll(list.subList(index, allCount));
@@ -167,12 +167,12 @@ public class ActivityMessagePresenter {
             @Override
             public void onRefresh() {
                 int index2 = index >= 20 ? index - 20 : 0;
-                List<ChattingMessage> list2 = DaoSessionUtil.getChattingMessageList(mGroupId).subList(index2, index);
+                List<ChattingMessage> list2 = ChattingMessageDaoUtil.getChattingMessageList(mGroupId).subList(index2, index);
                 mChattingMessageList.addAll(0, list2);
                 mAdapter.notifyDataSetChanged();
                 index = index2;
                 mActivityBinding.rvMessageContent.getLayoutManager()
-                        .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, list2.size() <= 20 ? list2.size() : 20 - 4);
+                        .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, list2.size() <= 20 ? list2.size() : 20);
                 mActivityBinding.srlMessageRefresh.setRefreshing(false);
             }
         });

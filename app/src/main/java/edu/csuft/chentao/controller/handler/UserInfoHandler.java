@@ -12,7 +12,7 @@ import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.resp.UserInfoResp;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.GreenDaoUtil;
+import edu.csuft.chentao.utils.daoutil.GreenDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-22 12:14.

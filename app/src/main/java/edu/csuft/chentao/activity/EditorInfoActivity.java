@@ -29,9 +29,10 @@ import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.DaoSessionUtil;
 import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
+import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
+import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 public class EditorInfoActivity extends BaseActivity {
 
@@ -54,9 +55,9 @@ public class EditorInfoActivity extends BaseActivity {
 
         //注册
         EventBus.getDefault().register(this);
-
-        UserInfo userInfo = DaoSessionUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
-        UserHead userHead = DaoSessionUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
+        UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
+        UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
+        //设置属性
         mActivityBinding.setUserHead(userHead);
         mActivityBinding.setUserInfo(userInfo);
 

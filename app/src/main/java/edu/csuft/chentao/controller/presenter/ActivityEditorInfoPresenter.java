@@ -19,9 +19,11 @@ import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.UpdateUserInfoReq;
 import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.DaoSessionUtil;
+import edu.csuft.chentao.utils.daoutil.DaoSessionUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
+import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
+import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 import edu.csuft.chentao.view.UpdateInfoDialog;
 
 /**
@@ -63,19 +65,19 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
                 if (resp.getType() == Constant.TYPE_RETURN_MESSAGE_SUCCESS) {
                     switch (UPDATE_INDEX) {
                         case UPDATE_SIGNATURE:  //更新签名
-                            UserInfo userInfo = DaoSessionUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
+                            UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
                             userInfo.setSignature(mUpdateInfo);
-                            DaoSessionUtil.getUserInfoDao().update(userInfo);
+                            UserInfoDaoUtil.updateUserInfo(userInfo);
                             break;
                         case UPDATE_NICKNAME:   //更新昵称
-                            UserInfo userInfo2 = DaoSessionUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
+                            UserInfo userInfo2 = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
                             userInfo2.setNickname(mUpdateInfo);
-                            DaoSessionUtil.getUserInfoDao().update(userInfo2);
+                            UserInfoDaoUtil.updateUserInfo(userInfo2);
                             break;
                         case UPDATE_HEADIMAGE:  //更新头像
-                            UserHead userHead = DaoSessionUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
+                            UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
                             userHead.setImage(mImage);
-                            DaoSessionUtil.getUserHeadDao().update(userHead);
+                            UserHeadDaoUtil.updateUserHead(userHead);
                             break;
                     }
                 }

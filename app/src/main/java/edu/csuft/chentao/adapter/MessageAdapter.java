@@ -20,7 +20,8 @@ import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.DaoSessionUtil;
+import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
+import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-29 15:17.
@@ -78,8 +79,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         void bindData(final ChattingMessage msg) {
 
             //根据用户id获得用户信息
-            UserInfo userInfo = DaoSessionUtil.getUserInfo(msg.getUserid());
-            UserHead userHead = DaoSessionUtil.getUserHead(msg.getUserid());
+            UserInfo userInfo = UserInfoDaoUtil.getUserInfo(msg.getUserid());
+            UserHead userHead = UserHeadDaoUtil.getUserHead(msg.getUserid());
 
             ImageView iv = null;
             if (msg.getType() == Constant.TYPE_MSG_RECV) {  //如果是接收消息

@@ -10,7 +10,7 @@ import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.CopyUtil;
-import edu.csuft.chentao.utils.GreenDaoUtil;
+import edu.csuft.chentao.utils.daoutil.GreenDaoUtil;
 import edu.csuft.chentao.utils.LoggerUtil;
 
 /**

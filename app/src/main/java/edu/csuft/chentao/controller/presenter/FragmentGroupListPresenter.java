@@ -16,7 +16,7 @@ import edu.csuft.chentao.databinding.FragmentGroupListBinding;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.DaoSessionUtil;
+import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-28 17:46.
@@ -57,7 +57,7 @@ public class FragmentGroupListPresenter implements GroupListAdapter.OnItemClick 
     public FragmentGroupListPresenter(FragmentGroupListBinding fragmentBinding) {
         this.mFragmentBinding = fragmentBinding;
         mContext = mFragmentBinding.getRoot().getContext();
-        EventBus.getDefault().post(new HandlerMessage(mHandler,"GroupListFragment"));
+        EventBus.getDefault().post(new HandlerMessage(mHandler, "GroupListFragment"));
     }
 
     public void init() {
@@ -65,7 +65,7 @@ public class FragmentGroupListPresenter implements GroupListAdapter.OnItemClick 
     }
 
     private void initData() {
-        mGroupsList = DaoSessionUtil.getGroupsList();
+        mGroupsList = GroupsDaoUtil.loadAll();
         mAdapter = new GroupListAdapter(mGroupsList, this);
 
         mFragmentBinding.rvGroupListContent.setLayoutManager(new LinearLayoutManager(mContext));

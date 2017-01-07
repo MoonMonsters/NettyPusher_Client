@@ -1,4 +1,4 @@
-package edu.csuft.chentao.utils;
+package edu.csuft.chentao.utils.daoutil;
 
 import java.util.List;
 

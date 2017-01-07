@@ -11,13 +11,12 @@ import java.util.ArrayList;
 
 import edu.csuft.chentao.activity.MessageActivity;
 import edu.csuft.chentao.adapter.GroupChattingAdapter;
-import edu.csuft.chentao.dao.GroupChattingItemDao;
 import edu.csuft.chentao.databinding.FragmentChattingListBinding;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.DaoSessionUtil;
 import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 
 /**
  * Created by Chalmers on 2017-01-01 13:58.
@@ -47,11 +46,9 @@ public class FragmentChattingListPresenter implements GroupChattingAdapter.OnIte
                     //得到要删除的群的id
                     int groupId = mGroupChattingItemList.get(position).getGroupid();
                     //得到对象
-                    GroupChattingItem item = DaoSessionUtil.getGroupChattingItemDao()
-                            .queryBuilder().where(GroupChattingItemDao.Properties.Groupid.eq(groupId))
-                            .list().get(0);
+                    GroupChattingItem item = GroupChattingItemDaoUtil.getGroupChattingItem(groupId);
                     //从数据表中移除
-                    DaoSessionUtil.getGroupChattingItemDao().delete(item);
+                    GroupChattingItemDaoUtil.removeGroupChattingItem(item);
                     //从集合中移除
                     mGroupChattingItemList.remove(item);
                     //刷新
@@ -87,8 +84,7 @@ public class FragmentChattingListPresenter implements GroupChattingAdapter.OnIte
 
     private void initData() {
         //读取所有的记录
-        mGroupChattingItemList = (ArrayList<GroupChattingItem>) DaoSessionUtil.getGroupChattingItemDao()
-                .queryBuilder().list();
+        mGroupChattingItemList = (ArrayList<GroupChattingItem>) GroupChattingItemDaoUtil.loadAll();
         //设置adapter
         mAdapter = new GroupChattingAdapter(mGroupChattingItemList, this);
         //设置RecyclerView的属性

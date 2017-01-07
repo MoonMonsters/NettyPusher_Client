@@ -21,14 +21,13 @@ import java.io.ByteArrayOutputStream;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityMessagePresenter;
-import edu.csuft.chentao.dao.GroupChattingItemDao;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.DaoSessionUtil;
 import edu.csuft.chentao.utils.OperationUtil;
+import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 
 public class MessageActivity extends BaseActivity {
 
@@ -75,14 +74,15 @@ public class MessageActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        //注销广播
         unregisterReceiver(mReceiver);
-
-        GroupChattingItem chattingItem = DaoSessionUtil.getGroupChattingItemDao().queryBuilder()
-                .where(GroupChattingItemDao.Properties.Groupid.eq(groupId))
-                .build().list().get(0);
+        //根据群id得到GroupChattingItem对象
+        GroupChattingItem chattingItem = GroupChattingItemDaoUtil.getGroupChattingItem(groupId);
+        //将数据清0
         chattingItem.setNumber(0);
-        DaoSessionUtil.getGroupChattingItemDao().update(chattingItem);
-
+        //更新
+        GroupChattingItemDaoUtil.updateGroupChattingItem(chattingItem);
+        //发送广播
         OperationUtil.sendBroadcastToUpdateGroupChattingItem(chattingItem);
     }
 

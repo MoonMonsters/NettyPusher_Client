@@ -23,9 +23,10 @@ import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.RegisterReq;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.DaoSessionUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
+import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
+import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-24 15:41.
@@ -52,7 +53,9 @@ public class ActivityRegisterPresenter {
             if (msg.what == Constant.HANDLER_REGISTER) {
                 RegisterResp resp = (RegisterResp) msg.obj;
 
+                //保存用户id
                 SharedPrefUserInfoUtil.setUserId(resp.getUserid());
+                //设置登录方式为自动登录
                 SharedPrefUserInfoUtil.setLoginType();
 
                 //保存用户信息
@@ -60,13 +63,13 @@ public class ActivityRegisterPresenter {
                 userInfo.setUserid(resp.getUserid());
                 userInfo.setSignature(req.getSignature());
                 userInfo.setNickname(req.getNickname());
-                DaoSessionUtil.getUserInfoDao().insert(userInfo);
+                UserInfoDaoUtil.saveUserInfo(userInfo);
 
                 //保存用户头像
                 UserHead userHead = new UserHead();
                 userHead.setUserid(resp.getUserid());
                 userHead.setImage(req.getHeadImage());
-                DaoSessionUtil.getUserHeadDao().insert(userHead);
+                UserHeadDaoUtil.saveUserHead(userHead);
             }
         }
     };
@@ -74,7 +77,7 @@ public class ActivityRegisterPresenter {
     public ActivityRegisterPresenter(ActivityRegisterBinding activityBinding) {
         this.mActivityBinding = activityBinding;
         //发送Handler对象到RegisterActivity中
-        EventBus.getDefault().post(new HandlerMessage(mHandler,"RegisterActivity"));
+        EventBus.getDefault().post(new HandlerMessage(mHandler, "RegisterActivity"));
     }
 
     public void onClickForRegister() {

@@ -6,8 +6,10 @@ import edu.csuft.chentao.activity.EditorInfoActivity;
 import edu.csuft.chentao.activity.LoginActivity;
 import edu.csuft.chentao.activity.MainActivity;
 import edu.csuft.chentao.databinding.FragmentMineBinding;
-import edu.csuft.chentao.utils.DaoSessionUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
+import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
+import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
+import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-29 19:05.
@@ -22,14 +24,22 @@ public class FragmentMinePresenter {
         this.mFragmentBinding = fragmentBinding;
     }
 
+    /**
+     * 退出登录，注销
+     */
     public void onClickToExitLogining() {
+        //清空保存的用户信息
         SharedPrefUserInfoUtil.clearUserInfo();
-        DaoSessionUtil.getChattingMessageDao().deleteAll();
-        DaoSessionUtil.getGroupChattingItemDao().deleteAll();
-        DaoSessionUtil.getGroupsDao().deleteAll();
+        //删除所有的ChattingMessage数据
+        ChattingMessageDaoUtil.deleteAll();
+        //删除所有的GroupChattingItem数据
+        GroupChattingItemDaoUtil.deleteAll();
+        //删除所有的Groups数据
+        GroupsDaoUtil.deleteAll();
         (mFragmentBinding.getRoot().getContext()).startActivity(new Intent(
                 (mFragmentBinding.getRoot().getContext()),
                 LoginActivity.class));
+        //关闭界面
         ((MainActivity) mFragmentBinding.getRoot().getContext()).finish();
     }
 

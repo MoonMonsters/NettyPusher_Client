@@ -2,14 +2,15 @@ package edu.csuft.chentao.utils;
 
 import java.util.List;
 
-import edu.csuft.chentao.dao.GroupChattingItemDao;
-import edu.csuft.chentao.dao.GroupsDao;
-import edu.csuft.chentao.dao.UserInfoDao;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
+import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
+import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
+import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
+import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-29 14:20.
@@ -32,11 +33,10 @@ public class CopyUtil {
         chattingMessage.setType(message.getType());
         chattingMessage.setTypemsg(message.getTypeMsg());
 
-        String nickname = DaoSessionUtil.getUserInfoDao()
-                .queryBuilder().where(UserInfoDao.Properties.Userid.eq(message.getUserid()))
-                .build().list().get(0).getNickname();
+        String nickname = UserInfoDaoUtil.getUserInfo(message.getUserid()).getNickname();
 
-        DaoSessionUtil.saveChattingMessage(chattingMessage);
+        //保存到本地
+        ChattingMessageDaoUtil.saveChattingMessage(chattingMessage);
 
         int groupId = chattingMessage.getGroupid();
         String lastMessage = chattingMessage.getTypemsg() == Constant.TYPE_MSG_TEXT ? chattingMessage.getMessage()
@@ -57,7 +57,9 @@ public class CopyUtil {
         groups.setImage(resp.getHeadImage());
         groups.setNumber(resp.getNumber());
         groups.setTag(resp.getTag());
-        DaoSessionUtil.getGroupsDao().insert(groups);
+
+        //保存到本地
+        GroupsDaoUtil.saveGroups(groups);
 
         return groups;
     }
@@ -71,7 +73,8 @@ public class CopyUtil {
         groups.setImage(resp.getHeadImage());
         groups.setNumber(resp.getNumber());
         groups.setTag(resp.getTag());
-        DaoSessionUtil.getGroupsDao().update(groups);
+
+        GroupsDaoUtil.updateGroups(groups);
 
         return groups;
     }
@@ -80,20 +83,16 @@ public class CopyUtil {
      * 保存ChattingGroupItem数据
      */
     private static synchronized void saveChattingListItemData(int groupId, String lastMessage) {
-        List<GroupChattingItem> chattingItemList = DaoSessionUtil.getGroupChattingItemDao().queryBuilder()
-                .where(GroupChattingItemDao.Properties.Groupid.eq(groupId))
-                .list();
+        List<GroupChattingItem> chattingItemList = GroupChattingItemDaoUtil.loadAllWithGroupId(groupId);
         if (chattingItemList.size() == 0) {
-            Groups groups = DaoSessionUtil.getGroupsDao().queryBuilder()
-                    .where(GroupsDao.Properties.Groupid.eq(groupId))
-                    .build().list().get(0);
+            Groups groups = GroupsDaoUtil.getGroups(groupId);
             GroupChattingItem chattingItem = new GroupChattingItem();
             chattingItem.setGroupid(groupId);
             chattingItem.setLastmessage(lastMessage);
             chattingItem.setImage(groups.getImage());
             chattingItem.setGroupname(groups.getGroupname());
             chattingItem.setNumber(1);
-            DaoSessionUtil.getGroupChattingItemDao().insert(chattingItem);
+            GroupChattingItemDaoUtil.saveGroupChattingItem(chattingItem);
 
             //发送添加广播
             OperationUtil.sendBroadcastToAddGroupChattingItem(chattingItem);
@@ -101,7 +100,7 @@ public class CopyUtil {
             GroupChattingItem chattingItem = chattingItemList.get(0);
             chattingItem.setLastmessage(lastMessage);
             chattingItem.setNumber(chattingItem.getNumber() + 1);
-            DaoSessionUtil.getGroupChattingItemDao().update(chattingItem);
+            GroupChattingItemDaoUtil.updateGroupChattingItem(chattingItem);
 
             //发送更新广播
             OperationUtil.sendBroadcastToUpdateGroupChattingItem(chattingItem);
