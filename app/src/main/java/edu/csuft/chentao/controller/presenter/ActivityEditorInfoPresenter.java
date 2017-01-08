@@ -6,8 +6,6 @@ import android.os.Message;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import edu.csuft.chentao.activity.EditorInfoActivity;
 import edu.csuft.chentao.activity.ImageActivity;
@@ -82,6 +80,15 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
                 }
                 Toast.makeText(mActivityBinding.getRoot().getContext(),
                         resp.getDescription(), Toast.LENGTH_SHORT).show();
+            } else if (msg.what == Constant.HANDLER_RETURN_MESSAGE_IMAGE) {
+                byte[] buf = (byte[]) msg.obj;
+                mImage = buf;
+                UpdateUserInfoReq req = new UpdateUserInfoReq();
+                req.setContent(null);
+                req.setUserid(SharedPrefUserInfoUtil.getUserId());
+                req.setHeadImage(buf);
+                req.setType(Constant.TYPE_UPDATE_HEADIMAGE);
+                SendMessageUtil.sendMessage(req);
             }
         }
     };
@@ -96,11 +103,9 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
      */
     public void onClickToUpdateHeadImage() {
         UPDATE_INDEX = UPDATE_HEADIMAGE;
-        EventBus.getDefault().register(this);
-//        Toast.makeText(mActivityBinding.getRoot().getContext(), "onClickToUpdateHeadImage", Toast.LENGTH_SHORT).show();
         Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-        getAlbum.setType("image/*");
-        ((EditorInfoActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, 0);
+        getAlbum.setType(Constant.IMAGE_TYPE);
+        ((EditorInfoActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
     }
 
     /**
@@ -153,19 +158,6 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
         req.setContent(updateInfo);
         req.setHeadImage(null);
         //发送更新信息
-        SendMessageUtil.sendMessage(req);
-
-        Toast.makeText(mActivityBinding.getRoot().getContext(), updateInfo, Toast.LENGTH_SHORT).show();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getImageBytes(byte[] buf) {
-        mImage = buf;
-        UpdateUserInfoReq req = new UpdateUserInfoReq();
-        req.setContent(null);
-        req.setUserid(SharedPrefUserInfoUtil.getUserId());
-        req.setHeadImage(buf);
-        req.setType(Constant.TYPE_UPDATE_HEADIMAGE);
         SendMessageUtil.sendMessage(req);
     }
 }

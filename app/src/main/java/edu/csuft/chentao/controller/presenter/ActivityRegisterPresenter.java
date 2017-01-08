@@ -35,9 +35,6 @@ import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 public class ActivityRegisterPresenter {
 
-    private final String IMAGE_TYPE = "image/*";
-    public static final int IMAGE_CODE = 0;   //这里的IMAGE_CODE是自己任意定义的
-
     /**
      * DataBinding类型
      */
@@ -92,7 +89,8 @@ public class ActivityRegisterPresenter {
         String signature = mActivityBinding.etRegisterSignature.getText().toString();
         //头像
         Drawable drawable = mActivityBinding.ivRegisterHead.getDrawable();
-        if (drawable == null) { //如果没有设置类型，那么则使用默认的图片
+        //如果没有设置类型，那么则使用默认的图片
+        if (drawable == null) {
             drawable = mActivityBinding.ivRegisterHead.getBackground();
         }
         //转成byte[]类型
@@ -120,8 +118,8 @@ public class ActivityRegisterPresenter {
 
     public void onClickForSelectPicture() {
         Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-        getAlbum.setType(IMAGE_TYPE);
-        ((RegisterActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, IMAGE_CODE);
+        getAlbum.setType(Constant.IMAGE_TYPE);
+        ((RegisterActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
     }
 
     /**

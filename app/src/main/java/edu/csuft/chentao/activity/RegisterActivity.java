@@ -25,6 +25,10 @@ import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
 import edu.csuft.chentao.utils.Constant;
 
+/**
+ * @author csuft.chentao
+ *         注册界面
+ */
 public class RegisterActivity extends BaseActivity {
 
     private ActivityRegisterBinding mActivityBinding = null;
@@ -56,7 +60,7 @@ public class RegisterActivity extends BaseActivity {
         //外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
         ContentResolver resolver = getContentResolver();
         //此处的用于判断接收的Activity是不是你想要的那个
-        if (requestCode == ActivityRegisterPresenter.IMAGE_CODE) {
+        if (requestCode == Constant.IMAGE_CODE) {
             try {
                 Uri originalUri = data.getData();        //获得图片的uri
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(resolver, originalUri);//显得到bitmap图片
@@ -120,7 +124,6 @@ public class RegisterActivity extends BaseActivity {
                     //关闭注册界面
                     RegisterActivity.this.finish();
                 }
-
             }
         }
     }

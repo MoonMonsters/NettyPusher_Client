@@ -9,6 +9,7 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
@@ -29,6 +30,10 @@ import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 
+/**
+ * @author csuft.chentao
+ *         聊天界面
+ */
 public class MessageActivity extends BaseActivity {
 
     private ActivityMessageBinding mActivityBinding = null;
@@ -49,7 +54,6 @@ public class MessageActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
         //注册EventBus
         EventBus.getDefault().register(this);
 
@@ -76,6 +80,9 @@ public class MessageActivity extends BaseActivity {
         super.onStop();
         //注销广播
         unregisterReceiver(mReceiver);
+        /*
+        从该界面退出后，需要把聊天栏的该项的数量置为0，表示该项已经被阅读完成
+         */
         //根据群id得到GroupChattingItem对象
         GroupChattingItem chattingItem = GroupChattingItemDaoUtil.getGroupChattingItem(groupId);
         //将数据清0
@@ -104,7 +111,7 @@ public class MessageActivity extends BaseActivity {
         //外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
         ContentResolver resolver = getContentResolver();
         //此处的用于判断接收的Activity是不是你想要的那个
-        if (requestCode == ActivityMessagePresenter.IMAGE_CODE) {
+        if (requestCode == Constant.IMAGE_CODE) {
             try {
                 Uri originalUri = data.getData();        //获得图片的uri
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(resolver, originalUri);//显得到bitmap图片
@@ -113,7 +120,13 @@ public class MessageActivity extends BaseActivity {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 byte[] buf = baos.toByteArray();
 
-                EventBus.getDefault().post(buf);
+                /*
+                通过Handler把image的byte数据发送到Presenter
+                 */
+                Message msg = mHandler.obtainMessage();
+                msg.what = Constant.HANDLER_MESSAGE_CHATTING_MESSAGE_IMAGE;
+                msg.obj = buf;
+                mHandler.sendMessage(msg);
 
             } catch (Exception e) {
                 Toast.makeText(this, "图片选取错误", Toast.LENGTH_SHORT).show();

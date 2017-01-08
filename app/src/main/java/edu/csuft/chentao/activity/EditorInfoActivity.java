@@ -22,7 +22,6 @@ import java.io.ByteArrayOutputStream;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityEditorInfoPresenter;
-import edu.csuft.chentao.controller.presenter.ActivityMessagePresenter;
 import edu.csuft.chentao.databinding.ActivityEditorInfoBinding;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.bean.UserHead;
@@ -98,7 +97,7 @@ public class EditorInfoActivity extends BaseActivity {
         //外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
         ContentResolver resolver = getContentResolver();
         //此处的用于判断接收的Activity是不是你想要的那个
-        if (requestCode == ActivityMessagePresenter.IMAGE_CODE) {
+        if (requestCode == Constant.IMAGE_CODE) {
             try {
                 Uri originalUri = data.getData();        //获得图片的uri
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(resolver, originalUri);//显得到bitmap图片
@@ -108,7 +107,10 @@ public class EditorInfoActivity extends BaseActivity {
                 byte[] buf = baos.toByteArray();
 
                 //发送数据到Presenter
-                EventBus.getDefault().post(buf);
+                Message msg = mHandler.obtainMessage();
+                msg.what = Constant.HANDLER_RETURN_MESSAGE_IMAGE;
+                msg.obj = buf;
+                mHandler.sendMessage(msg);
 
             } catch (Exception e) {
                 Toast.makeText(this, "图片选取错误", Toast.LENGTH_SHORT).show();

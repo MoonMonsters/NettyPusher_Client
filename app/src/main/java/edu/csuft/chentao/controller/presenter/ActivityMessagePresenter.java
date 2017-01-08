@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +30,10 @@ import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
  * email:qxinhai@yeah.net
  */
 
+/**
+ * MessageActivity的Presenter类
+ */
 public class ActivityMessagePresenter {
-
-    public static final int IMAGE_CODE = 0;
 
     private ActivityMessageBinding mActivityBinding = null;
     private static MessageAdapter mAdapter = null;
@@ -59,6 +58,15 @@ public class ActivityMessagePresenter {
                         .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, mAdapter.getItemCount() - 1);
             } else if (msg.what == Constant.HANDLER_CHATTING_MESSAGE_REFRESH) {
                 mAdapter.notifyDataSetChanged();
+                //接收来自Activity的图片数据
+            } else if (msg.what == Constant.HANDLER_MESSAGE_CHATTING_MESSAGE_IMAGE) {
+                byte[] buf = (byte[]) msg.obj;
+                //发送图片消息
+                Message message = OperationUtil.sendChattingMessage(mGroupId, Constant.TYPE_MSG_IMAGE, null, buf);
+                //发送完成后，自动添加到集合中
+                mChattingMessageList.add(CopyUtil.saveMessageReqToChattingMessage(message));
+                //刷新界面
+                mAdapter.notifyDataSetChanged();
             }
         }
     };
@@ -71,7 +79,6 @@ public class ActivityMessagePresenter {
     public void init(int groupId) {
         //将Handler发送到MessageActivity中
         EventBus.getDefault().post(new HandlerMessage(mHandler, "MessageActivity"));
-        EventBus.getDefault().register(this);
         initData(groupId);
         initListener();
     }
@@ -125,20 +132,8 @@ public class ActivityMessagePresenter {
      */
     public void onClickToSendImageMessage() {
         Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-        getAlbum.setType("image/*");
-        ((MessageActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, IMAGE_CODE);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getBitmapBytes(byte[] buf) {
-
-        //发送图片消息
-        Message message = OperationUtil.sendChattingMessage(mGroupId, Constant.TYPE_MSG_IMAGE, null, buf);
-        //发送完成后，自动添加到集合中
-        mChattingMessageList.add(CopyUtil.saveMessageReqToChattingMessage(message));
-        //刷新界面
-        mAdapter.notifyDataSetChanged();
-
+        getAlbum.setType(Constant.IMAGE_TYPE);
+        ((MessageActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
     }
 
     /**
@@ -157,6 +152,7 @@ public class ActivityMessagePresenter {
             mChattingMessageList.add(CopyUtil.saveMessageReqToChattingMessage(message));
             //刷新界面
             mAdapter.notifyDataSetChanged();
+            //清空输入框
             mActivityBinding.etMessageInput.setText(null);
         }
     }

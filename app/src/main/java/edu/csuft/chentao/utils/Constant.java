@@ -237,11 +237,31 @@ public interface Constant {
     /**
      * 刷新
      */
-    int HANDLER_CHATTING_MESSAGE_REFRESH = 7;
+    int HANDLER_CHATTING_MESSAGE_REFRESH = 8;
 
+    /**
+     * 传递图片数据，在MessageActivity和Presenter之间
+     */
+    int HANDLER_MESSAGE_CHATTING_MESSAGE_IMAGE = 9;
+    /**
+     * 传递图片数据，在EditorInfoActivity和Presenter之间
+     */
+    int HANDLER_RETURN_MESSAGE_IMAGE = 10;
     /**
      * 用户名字符串
      */
     String STRING_USER_NAME = "用户名: ";
+
+    /*
+    选取图片后返回
+     */
+    /**
+     * 图片
+     */
+    String IMAGE_TYPE = "image/*";
+    /**
+     * 资源代码，这里的IMAGE_CODE是自己任意定义的
+     */
+    int IMAGE_CODE = 0;
 
 }
