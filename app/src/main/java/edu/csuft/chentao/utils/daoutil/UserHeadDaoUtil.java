@@ -23,7 +23,7 @@ public class UserHeadDaoUtil {
 
         return DaoSessionUtil.getUserHeadDao().queryBuilder()
                 .where(UserHeadDao.Properties.Userid.eq(userId))
-                .build().list().get(0);
+                .unique();
     }
 
     /**

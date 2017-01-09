@@ -41,7 +41,8 @@
             android:name=".activity.ImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen" />
-        <activity android:name=".activity.EditorInfoActivity"></activity>
+        <activity android:name=".activity.EditorInfoActivity" />
+        <activity android:name=".activity.UserInfoActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="edu.csuft.chentao.activity.UserInfoActivity">
+
+    <data>
+
+        <variable
+            name="presenter"
+            type="edu.csuft.chentao.controller.presenter.ActivityUserInfoPresenter" />
+
+        <variable
+            name="userInfo"
+            type="edu.csuft.chentao.pojo.bean.UserInfo" />
+
+        <variable
+            name="userHead"
+            type="edu.csuft.chentao.pojo.bean.UserHead" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/activity_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_userinfo_head"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/app_name"
+            android:onClick="@{()->presenter.onClickToBigImage()}"
+            app:imageBytes="@{userHead.image}" />
+
+        <TextView
+            android:id="@+id/tv_userinfo_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center"
+            android:text="@{userInfo.nickname}" />
+
+        <View style="@style/view_line_bottom" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/string_signature2" />
+
+            <edu.csuft.chentao.view.MarqueeText
+                android:id="@+id/tv_userinfo_signature"
+                style="@style/marquee_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{userInfo.signature}" />
+
+        </LinearLayout>
+
+        <View style="@style/view_line_bottom" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/string_recent_msg" />
+
+        <View style="@style/view_line_bottom" />
+
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
+            android:id="@+id/ptrlv_userinfo_recent_msg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</layout>

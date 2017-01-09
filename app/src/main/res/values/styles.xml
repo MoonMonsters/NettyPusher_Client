@@ -49,4 +49,11 @@
         <item name="android:layout_height">50dp</item>
     </style>
 
+    <style name="marquee_text">
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
 </resources>

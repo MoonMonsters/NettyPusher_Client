@@ -99,7 +99,7 @@ public class FragmentChattingListPresenter implements GroupChattingAdapter.OnIte
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(mFragmentBinding.getRoot().getContext(), MessageActivity.class);
-        intent.putExtra(Constant.EXTRA_GROUPID, mGroupChattingItemList.get(position).getGroupid());
+        intent.putExtra(Constant.EXTRA_GROUP_ID, mGroupChattingItemList.get(position).getGroupid());
         mFragmentBinding.getRoot().getContext().startActivity(intent);
     }
 }

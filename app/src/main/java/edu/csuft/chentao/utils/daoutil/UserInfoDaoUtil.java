@@ -21,9 +21,10 @@ public class UserInfoDaoUtil {
      */
     public static UserInfo getUserInfo(int userId) {
 
+
         return DaoSessionUtil.getUserInfoDao()
                 .queryBuilder().where(UserInfoDao.Properties.Userid.eq(userId))
-                .build().list().get(0);
+                .unique();
     }
 
     /**

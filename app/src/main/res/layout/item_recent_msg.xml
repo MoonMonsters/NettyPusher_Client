@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="edu.csuft.chentao.utils.Constant" />
+
+        <variable
+            name="chattingMessage"
+            type="edu.csuft.chentao.pojo.bean.ChattingMessage" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_recent_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:gravity="center"
+            android:text="@{chattingMessage.time}" />
+
+        <TextView
+            android:id="@+id/tv_recent_msg_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@{chattingMessage.message}"
+            android:visibility="@{chattingMessage.typemsg==Constant.TYPE_MSG_TEXT?View.VISIBLE:View.GONE}" />
+
+        <ImageView
+            android:id="@+id/iv_recent_msg_image"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/app_name"
+            android:visibility="@{chattingMessage.typemsg==Constant.TYPE_MSG_IMAGE?View.VISIBLE:View.GONE}"
+            app:imageBytes="@{chattingMessage.image}" />
+
+    </LinearLayout>
+</layout>

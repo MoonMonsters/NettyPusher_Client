@@ -41,4 +41,36 @@ public class ChattingMessageDaoUtil {
     public static void saveChattingMessage(ChattingMessage chattingMessage) {
         DaoSessionUtil.getChattingMessageDao().insert(chattingMessage);
     }
+
+    /**
+     * 根据用户id和群id获得聊天数据
+     *
+     * @param groupId 群id
+     * @param userId  用户id
+     * @return ChattingMessage集合
+     */
+    public static List<ChattingMessage> getChattingMessageListWithGroupIdAndUserId(int groupId, int userId, int offset) {
+
+        return DaoSessionUtil.getChattingMessageDao().queryBuilder()
+                .where(ChattingMessageDao.Properties.Groupid.eq(groupId),
+                        ChattingMessageDao.Properties.Userid.eq(userId))
+                .orderDesc(ChattingMessageDao.Properties.Time)
+                //offset表示从第几条数据开始
+                //limit表示读取多少条数据
+                .offset(20 * offset).limit(20).list();
+    }
+
+    /**
+     * 根据群id得到第offset页的20条数据
+     *
+     * @param groupId 群id
+     * @param offset  分页数
+     * @return ChattingMessage集合
+     */
+    public static List<ChattingMessage> getChattingMessageListWithOffset(int groupId, int offset) {
+
+        return DaoSessionUtil.getChattingMessageDao().queryBuilder()
+                .where(ChattingMessageDao.Properties.Groupid.eq(groupId))
+                .offset(offset * 20).limit(20).list();
+    }
 }

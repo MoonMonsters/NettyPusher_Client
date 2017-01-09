@@ -21,4 +21,6 @@
     <string name="string_head_image">头像</string>
     <string name="string_user_id">用户id</string>
     <string name="string_update">更新</string>
+    <string name="string_signature2">个性签名:</string>
+    <string name="string_recent_msg">最近聊天</string>
 </resources>

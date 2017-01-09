@@ -58,7 +58,7 @@ public class MessageActivity extends BaseActivity {
         EventBus.getDefault().register(this);
 
         //获得传递进来的群id
-        groupId = this.getIntent().getIntExtra(Constant.EXTRA_GROUPID, -1);
+        groupId = this.getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1);
 
         ActivityMessagePresenter presenter = new ActivityMessagePresenter(mActivityBinding);
         //初始化并且传递群id

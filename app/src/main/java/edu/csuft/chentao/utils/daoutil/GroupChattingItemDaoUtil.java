@@ -25,7 +25,7 @@ public class GroupChattingItemDaoUtil {
 
         return DaoSessionUtil.getGroupChattingItemDao().queryBuilder()
                 .where(GroupChattingItemDao.Properties.Groupid.eq(groupId))
-                .build().list().get(0);
+                .unique();
     }
 
     /**

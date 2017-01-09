@@ -75,7 +75,7 @@ public class FragmentGroupListPresenter implements GroupListAdapter.OnItemClick 
     @Override
     public void onItemClickListener(int position) {
         Intent intent = new Intent(mContext, MessageActivity.class);
-        intent.putExtra(Constant.EXTRA_GROUPID, mGroupsList.get(position).getGroupid());
+        intent.putExtra(Constant.EXTRA_GROUP_ID, mGroupsList.get(position).getGroupid());
         mContext.startActivity(intent);
     }
 }

@@ -171,7 +171,11 @@ public interface Constant {
     /**
      * 传递群id
      */
-    String EXTRA_GROUPID = "extra_groupid";
+    String EXTRA_GROUP_ID = "extra_group_id";
+    /**
+     * 传递用户id
+     */
+    String EXTRA_USER_ID = "extra_user_id";
 
     /**
      * 传递Groups数据

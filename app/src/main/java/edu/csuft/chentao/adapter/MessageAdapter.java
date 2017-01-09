@@ -12,6 +12,7 @@ import java.util.List;
 
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.activity.ImageActivity;
+import edu.csuft.chentao.activity.UserInfoActivity;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ItemMessageLeftBinding;
 import edu.csuft.chentao.databinding.ItemMessageRightBinding;
@@ -82,7 +83,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             UserInfo userInfo = UserInfoDaoUtil.getUserInfo(msg.getUserid());
             UserHead userHead = UserHeadDaoUtil.getUserHead(msg.getUserid());
 
-            ImageView iv = null;
+            //聊天图片
+            ImageView chattingImage = null;
+            //头像图片
+            ImageView headImage = null;
+
             if (msg.getType() == Constant.TYPE_MSG_RECV) {  //如果是接收消息
                 ItemMessageLeftBinding leftBinding =
                         DataBindingUtil.bind(mView);
@@ -91,7 +96,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 leftBinding.setUserHead(userHead);
                 leftBinding.setUserInfo(userInfo);
 
-                iv = leftBinding.ivMessageLeftContentImage;
+                chattingImage = leftBinding.ivMessageLeftContentImage;
+                headImage = leftBinding.ivMessageLeftHead;
             } else if (msg.getType() == Constant.TYPE_MSG_SEND) {   //发送消息
                 ItemMessageRightBinding rightBinding =
                         DataBindingUtil.bind(mView);
@@ -100,10 +106,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 rightBinding.setUserHead(userHead);
                 rightBinding.setUserInfo(userInfo);
 
-                iv = rightBinding.ivMessageRightContentImage;
+                chattingImage = rightBinding.ivMessageRightContentImage;
+                headImage = rightBinding.ivMessageRightHead;
             }
 
-            onClickForImageDetail(iv, msg);
+            //查看大图
+            onClickForImageDetail(chattingImage, msg);
+            //查看用户详细信息
+            onClickForUserDetailInfo(headImage, msg);
         }
 
         /**
@@ -119,6 +129,24 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                     intent.putExtra(Constant.EXTRA_IMAGE_DETAIL, detail);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     MyApplication.getInstance().startActivity(intent);
+                }
+            });
+        }
+
+        /**
+         * 点击头像，查看用户详细信息，及最近聊天记录
+         *
+         * @param iv  头像
+         * @param msg 该条消息
+         */
+        private void onClickForUserDetailInfo(ImageView iv, final ChattingMessage msg) {
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mView.getContext(), UserInfoActivity.class);
+                    intent.putExtra(Constant.EXTRA_GROUP_ID, msg.getGroupid());
+                    intent.putExtra(Constant.EXTRA_USER_ID, msg.getUserid());
+                    mView.getContext().startActivity(intent);
                 }
             });
         }
