@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.csuft.chentao.activity.MessageActivity">
 
@@ -8,6 +9,10 @@
         <variable
             name="presenter"
             type="edu.csuft.chentao.controller.presenter.ActivityMessagePresenter" />
+
+        <variable
+            name="adapter"
+            type="edu.csuft.chentao.adapter.MessageAdapter" />
     </data>
 
     <RelativeLayout
@@ -63,7 +68,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_message_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                app:adapter="@{adapter}" />
         </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
 </layout>

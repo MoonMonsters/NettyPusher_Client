@@ -19,16 +19,20 @@
         <variable
             name="userHead"
             type="edu.csuft.chentao.pojo.bean.UserHead" />
+
+        <variable
+            name="itemPresenter"
+            type="edu.csuft.chentao.adapter.MessageAdapter.ItemMessagePresenter" />
     </data>
 
     <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -43,18 +47,19 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:contentDescription="@string/app_name"
                 android:id="@+id/iv_message_left_head"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->itemPresenter.onClickForUserDetailInfo()}"
                 app:imageBytes="@{userHead.image}" />
 
             <TextView
                 android:id="@+id/tv_message_left_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/iv_message_left_head"
                 android:layout_toEndOf="@id/iv_message_left_head"
+                android:layout_toRightOf="@id/iv_message_left_head"
                 android:text="@{userInfo.nickname}" />
 
             <TextView
@@ -62,8 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_message_left_name"
-                android:layout_toRightOf="@id/iv_message_left_head"
                 android:layout_toEndOf="@id/iv_message_left_head"
+                android:layout_toRightOf="@id/iv_message_left_head"
                 android:autoLink="all"
                 android:background="@drawable/ic_image_left"
                 android:gravity="start|center_vertical"
@@ -79,12 +84,14 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_below="@id/tv_message_left_name"
-                android:layout_toRightOf="@id/iv_message_left_head"
                 android:layout_toEndOf="@id/iv_message_left_head"
+                android:layout_toRightOf="@id/iv_message_left_head"
                 android:background="@drawable/ic_image_left"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->itemPresenter.onClickForImageDetail()}"
+                android:paddingEnd="0dp"
                 android:paddingLeft="13dp"
                 android:paddingRight="0dp"
-                android:paddingEnd="0dp"
                 android:paddingStart="13dp"
                 android:paddingTop="5dp"
                 android:visibility="@{msg.typemsg==1?View.VISIBLE:View.GONE}"

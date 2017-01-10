@@ -17,6 +17,10 @@
         <variable
             name="userHead"
             type="edu.csuft.chentao.pojo.bean.UserHead" />
+
+        <variable
+            name="itemPresenter"
+            type="edu.csuft.chentao.adapter.MessageAdapter.ItemMessagePresenter" />
     </data>
 
     <LinearLayout
@@ -46,6 +50,8 @@
                 android:layout_height="60dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->itemPresenter.onClickForUserDetailInfo()}"
                 app:imageBytes="@{userHead.image}" />
 
             <TextView
@@ -82,6 +88,7 @@
                 android:layout_toStartOf="@id/iv_message_right_head"
                 android:background="@drawable/ic_image_right"
                 android:contentDescription="@string/app_name"
+                android:onClick="@{()->itemPresenter.onClickForImageDetail()}"
                 android:paddingEnd="0dp"
                 android:paddingLeft="13dp"
                 android:paddingRight="0dp"

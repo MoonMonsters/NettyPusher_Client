@@ -90,14 +90,15 @@ public class ActivityMessagePresenter {
         //获得该群的聊天记录
         mChattingMessageList = reverse(ChattingMessageDaoUtil.getChattingMessageListWithOffset(mGroupId, mOffset));
         //适配器
-        mAdapter = new MessageAdapter(mChattingMessageList);
+        mAdapter = new MessageAdapter(mActivityBinding.getRoot().getContext(), mChattingMessageList);
 
         //设置布局方式
         mActivityBinding.rvMessageContent.setLayoutManager(new LinearLayoutManager(mContext));
-        mActivityBinding.rvMessageContent.setAdapter(mAdapter);
+//        mActivityBinding.rvMessageContent.setAdapter(mAdapter);
         mActivityBinding.rvMessageContent.getLayoutManager()
                 .smoothScrollToPosition(mActivityBinding.rvMessageContent,
                         null, (mChattingMessageList.size() == 0 ? 0 : mChattingMessageList.size()));
+        mActivityBinding.setAdapter(mAdapter);
     }
 
     /**
