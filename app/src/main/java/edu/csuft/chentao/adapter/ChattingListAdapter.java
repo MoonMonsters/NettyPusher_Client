@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ import edu.csuft.chentao.activity.MessageActivity;
 import edu.csuft.chentao.databinding.ItemChattingListBinding;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-22 17:57.
@@ -83,6 +85,15 @@ public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapte
             Intent intent = new Intent(mContext, MessageActivity.class);
             intent.putExtra(Constant.EXTRA_GROUP_ID, mChattingItem.getGroupid());
             mContext.startActivity(intent);
+        }
+
+        /**
+         * 点击移除红点，表名该群消息不需要读取
+         */
+        public void onClickToRemoveRedDot() {
+            Toast.makeText(mContext, "移除", Toast.LENGTH_SHORT).show();
+            mChattingItem.setNumber(0);
+            GroupChattingItemDaoUtil.updateGroupChattingItem(mChattingItem);
         }
     }
 }

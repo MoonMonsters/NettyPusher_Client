@@ -62,11 +62,13 @@
             </LinearLayout>
 
             <edu.csuft.chentao.view.RedDot
+                android:id="@+id/redDot"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="15dp"
                 android:layout_marginRight="15dp"
+                android:onClick="@{()->itemPresenter.onClickToRemoveRedDot()}"
                 android:visibility="@{item.number==0?View.GONE:View.VISIBLE}"
                 app:rdCircleColor="@android:color/holo_red_dark"
                 app:rdRadius="10dp"
