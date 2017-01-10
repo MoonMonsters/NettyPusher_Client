@@ -1,7 +1,6 @@
 package edu.csuft.chentao.controller.presenter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,12 +9,10 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-import edu.csuft.chentao.activity.MessageActivity;
 import edu.csuft.chentao.adapter.GroupListAdapter;
 import edu.csuft.chentao.databinding.FragmentGroupListBinding;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
-import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 
 /**
@@ -23,7 +20,7 @@ import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
  * email:qxinhai@yeah.net
  */
 
-public class FragmentGroupListPresenter implements GroupListAdapter.OnItemClick {
+public class FragmentGroupListPresenter {
 
     private FragmentGroupListBinding mFragmentBinding = null;
     private Context mContext;
@@ -66,16 +63,9 @@ public class FragmentGroupListPresenter implements GroupListAdapter.OnItemClick 
 
     private void initData() {
         mGroupsList = GroupsDaoUtil.loadAll();
-        mAdapter = new GroupListAdapter(mGroupsList, this);
+        mAdapter = new GroupListAdapter(mFragmentBinding.getRoot().getContext(), mGroupsList);
 
         mFragmentBinding.rvGroupListContent.setLayoutManager(new LinearLayoutManager(mContext));
-        mFragmentBinding.rvGroupListContent.setAdapter(mAdapter);
-    }
-
-    @Override
-    public void onItemClickListener(int position) {
-        Intent intent = new Intent(mContext, MessageActivity.class);
-        intent.putExtra(Constant.EXTRA_GROUP_ID, mGroupsList.get(position).getGroupid());
-        mContext.startActivity(intent);
+        mFragmentBinding.setAdapter(mAdapter);
     }
 }

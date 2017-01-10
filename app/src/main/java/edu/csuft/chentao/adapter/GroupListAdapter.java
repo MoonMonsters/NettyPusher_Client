@@ -1,5 +1,7 @@
 package edu.csuft.chentao.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,22 +11,27 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import edu.csuft.chentao.R;
+import edu.csuft.chentao.activity.MessageActivity;
 import edu.csuft.chentao.databinding.ItemGroupsBinding;
 import edu.csuft.chentao.pojo.bean.Groups;
+import edu.csuft.chentao.utils.Constant;
 
 /**
  * Created by Chalmers on 2016-12-23 15:32.
  * email:qxinhai@yeah.net
  */
+
+/**
+ * 所有群列表
+ */
 public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.GroupListViewHolder> {
 
     private List<Groups> mGroupsList;
+    private Context mContext;
 
-    private OnItemClick mOnItemClick;
-
-    public GroupListAdapter(List<Groups> groupsList, OnItemClick onItemClick) {
+    public GroupListAdapter(Context context, List<Groups> groupsList) {
         this.mGroupsList = groupsList;
-        this.mOnItemClick = onItemClick;
+        this.mContext = context;
     }
 
     @Override
@@ -49,28 +56,36 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
     class GroupListViewHolder extends RecyclerView.ViewHolder {
 
         private ItemGroupsBinding mItemBinding = null;
-        private View mView = null;
 
         GroupListViewHolder(View itemView) {
             super(itemView);
             mItemBinding = DataBindingUtil.bind(itemView);
-            this.mView = itemView;
         }
 
         void bindData(final Groups groups) {
             mItemBinding.setItem(groups);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mOnItemClick.onItemClickListener(mGroupsList.indexOf(groups));
-                }
-            });
+            //设置Presenter
+            mItemBinding.setItemPresenter(new ItemGroupListPresenter(groups));
         }
     }
 
-    public interface OnItemClick {
-        void onItemClickListener(int position);
+    /**
+     * ItemGroupList的Presenter
+     */
+    public class ItemGroupListPresenter {
+        private Groups mGroups;
+
+        ItemGroupListPresenter(Groups groups) {
+            this.mGroups = groups;
+        }
+
+        /**
+         * 点击进入MessageActivity
+         */
+        public void onClickToEnterMessageActivity() {
+            Intent intent = new Intent(mContext, MessageActivity.class);
+            intent.putExtra(Constant.EXTRA_GROUP_ID, mGroups.getGroupid());
+            mContext.startActivity(intent);
+        }
     }
-
-
 }
