@@ -11,6 +11,10 @@
         <variable
             name="chattingMessage"
             type="edu.csuft.chentao.pojo.bean.ChattingMessage" />
+
+        <variable
+            name="itemPresenter"
+            type="edu.csuft.chentao.adapter.RecentMessageAdapter.ItemRecentMessagePresenter" />
     </data>
 
     <LinearLayout
@@ -40,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:contentDescription="@string/app_name"
+            android:onClick="@{()->itemPresenter.onClickToBigImage()}"
             android:visibility="@{chattingMessage.typemsg==Constant.TYPE_MSG_IMAGE?View.VISIBLE:View.GONE}"
             app:imageBytes="@{chattingMessage.image}" />
 

@@ -10,6 +10,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 
 import java.util.List;
 
+import edu.csuft.chentao.BR;
+import edu.csuft.chentao.R;
 import edu.csuft.chentao.activity.ImageActivity;
 import edu.csuft.chentao.adapter.RecentMessageAdapter;
 import edu.csuft.chentao.databinding.ActivityUserInfoBinding;
@@ -105,11 +107,14 @@ public class ActivityUserInfoPresenter {
         mChattingMessageList =
                 ChattingMessageDaoUtil.getChattingMessageListWithGroupIdAndUserId(groupId, userId, mOffset);
 
-        mAdapter = new RecentMessageAdapter(mActivityBinding.getRoot().getContext(), mChattingMessageList);
+        mAdapter = new RecentMessageAdapter(mActivityBinding.getRoot().getContext(),
+                mChattingMessageList, R.layout.item_recent_msg, BR.chattingMessage);
         //设置刷新模式为上拉刷新
         mActivityBinding.ptrlvUserinfoRecentMsg.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
-        mActivityBinding.ptrlvUserinfoRecentMsg.setAdapter(mAdapter);
+//        mActivityBinding.ptrlvUserinfoRecentMsg.setAdapter(mAdapter);
+        mActivityBinding.setAdapter(mAdapter);
     }
+
 
     /**
      * 初始化监听器

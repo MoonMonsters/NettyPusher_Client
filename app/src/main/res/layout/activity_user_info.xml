@@ -17,6 +17,10 @@
         <variable
             name="userHead"
             type="edu.csuft.chentao.pojo.bean.UserHead" />
+
+        <variable
+            name="adapter"
+            type="edu.csuft.chentao.adapter.RecentMessageAdapter" />
     </data>
 
     <LinearLayout
@@ -79,6 +83,7 @@
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/ptrlv_userinfo_recent_msg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:adapter="@{adapter}" />
     </LinearLayout>
 </layout>

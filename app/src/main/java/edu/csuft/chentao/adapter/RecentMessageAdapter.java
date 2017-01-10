@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 
 import java.util.List;
 
-import edu.csuft.chentao.R;
 import edu.csuft.chentao.activity.ImageActivity;
 import edu.csuft.chentao.databinding.ItemRecentMsgBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
@@ -23,14 +21,24 @@ import edu.csuft.chentao.utils.Constant;
  * email:qxinhai@yeah.net
  */
 
+/**
+ * DataBinding式Adapter
+ */
 public class RecentMessageAdapter extends BaseAdapter {
 
     private List<ChattingMessage> mChattingMessageList = null;
     private Context mContext;
+    private int mLayoutId;
+    private int mVariableId;
 
-    public RecentMessageAdapter(Context context, List<ChattingMessage> chattingMessageList) {
+    public RecentMessageAdapter(Context context,
+                                List<ChattingMessage> chattingMessageList,
+                                int layoutId,
+                                int variableId) {
         this.mContext = context;
         this.mChattingMessageList = chattingMessageList;
+        this.mLayoutId = layoutId;
+        this.mVariableId = variableId;
     }
 
     @Override
@@ -45,54 +53,50 @@ public class RecentMessageAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        RecentMessageViewHolder viewHolder = null;
-
+        ItemRecentMsgBinding viewDataBinding = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_recent_msg, parent, false);
-            viewHolder = new RecentMessageViewHolder(convertView);
-            convertView.setTag(viewHolder);
+            viewDataBinding =
+                    DataBindingUtil.inflate(LayoutInflater.from(mContext),
+                            mLayoutId, parent, false);
         } else {
-            viewHolder = (RecentMessageViewHolder) convertView.getTag();
+            viewDataBinding = DataBindingUtil.getBinding(convertView);
         }
 
-        viewHolder.bindData(mChattingMessageList.get(position));
+        //设置Bean类
+        viewDataBinding.setVariable(mVariableId, mChattingMessageList.get(position));
 
-        return convertView;
+        //设置Presenter
+        ItemRecentMessagePresenter itemPresenter = new
+                ItemRecentMessagePresenter(mChattingMessageList.get(position));
+        viewDataBinding.setItemPresenter(itemPresenter);
+
+        return viewDataBinding.getRoot();
     }
 
-    private class RecentMessageViewHolder {
-        private ItemRecentMsgBinding mItemBinding = null;
+    /**
+     * ItemRecentMsg的Presenter类
+     */
+    public class ItemRecentMessagePresenter {
 
-        RecentMessageViewHolder(View view) {
-            mItemBinding = DataBindingUtil.bind(view);
-        }
+        private ChattingMessage mChattingMessage = null;
 
-        void bindData(ChattingMessage message) {
-            mItemBinding.setChattingMessage(message);
-
-            onClickToBigImage(mItemBinding.ivRecentMsgImage, message.getImage());
+        ItemRecentMessagePresenter(ChattingMessage chattingMessage) {
+            this.mChattingMessage = chattingMessage;
         }
 
         /**
          * 点击查看大图
          */
-        private void onClickToBigImage(ImageView iv, final byte[] buf) {
-            iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, ImageActivity.class);
-                    ImageDetail detail = new ImageDetail(buf);
-                    intent.putExtra(Constant.EXTRA_IMAGE_DETAIL, detail);
-                    mContext.startActivity(intent);
-                }
-            });
+        public void onClickToBigImage() {
+            Intent intent = new Intent(mContext, ImageActivity.class);
+            ImageDetail detail = new ImageDetail(mChattingMessage.getImage());
+            intent.putExtra(Constant.EXTRA_IMAGE_DETAIL, detail);
+            mContext.startActivity(intent);
         }
     }
 }
