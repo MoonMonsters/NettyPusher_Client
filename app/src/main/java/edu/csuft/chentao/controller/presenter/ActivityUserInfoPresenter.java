@@ -34,12 +34,12 @@ public class ActivityUserInfoPresenter {
 
     private ActivityUserInfoBinding mActivityBinding = null;
     private UserHead mUserHead = null;
-    private RecentMessageAdapter mAdapter = null;
+    RecentMessageAdapter mAdapter = null;
 
     /**
      * ChattingMessage集合
      */
-    private List<ChattingMessage> mChattingMessageList = null;
+    List<ChattingMessage> mChattingMessageList = null;
     /**
      * 分页
      */
@@ -69,21 +69,16 @@ public class ActivityUserInfoPresenter {
             switch (msg.what) {
                 case HANDLER_ONREFRESH_ADD_DATA:
                     List<ChattingMessage> list = (List<ChattingMessage>) msg.obj;
-                    //记录之前的位置，移动到此位置
                     int count = mChattingMessageList.size();
-                    //添加数据
                     mChattingMessageList.addAll(list);
-                    //移动位置
                     mActivityBinding.ptrlvUserinfoRecentMsg.getRefreshableView()
                             .setSelection(count);
-                    //刷新
                     mAdapter.notifyDataSetChanged();
                     break;
                 case HANDLER_ONREFRESH_NO_DATA:
                     Toast.makeText(mActivityBinding.getRoot().getContext(), "没有更多数据", Toast.LENGTH_SHORT).show();
                     break;
             }
-            //关闭刷新
             mActivityBinding.ptrlvUserinfoRecentMsg.onRefreshComplete();
         }
     };

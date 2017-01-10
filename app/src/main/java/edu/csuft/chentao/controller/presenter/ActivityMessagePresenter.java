@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.csuft.chentao.activity.MessageActivity;
@@ -36,10 +36,10 @@ import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 public class ActivityMessagePresenter {
 
     private ActivityMessageBinding mActivityBinding = null;
-    private static MessageAdapter mAdapter = null;
-    private static List<ChattingMessage> mChattingMessageList = null;
+    private MessageAdapter mAdapter = null;
+    private List<ChattingMessage> mChattingMessageList = null;
     private Context mContext = null;
-    private int index = 0;
+    private int mOffset = 0;
 
     private int mGroupId;
 
@@ -88,7 +88,7 @@ public class ActivityMessagePresenter {
         this.mGroupId = groupId;
 
         //获得该群的聊天记录
-        mChattingMessageList = new ArrayList<>();
+        mChattingMessageList = reverse(ChattingMessageDaoUtil.getChattingMessageListWithOffset(mGroupId, mOffset));
         //适配器
         mAdapter = new MessageAdapter(mChattingMessageList);
 
@@ -96,22 +96,8 @@ public class ActivityMessagePresenter {
         mActivityBinding.rvMessageContent.setLayoutManager(new LinearLayoutManager(mContext));
         mActivityBinding.rvMessageContent.setAdapter(mAdapter);
         mActivityBinding.rvMessageContent.getLayoutManager()
-                .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, (mAdapter.getItemCount() == 0 ? 0 : mAdapter.getItemCount() - 1));
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<ChattingMessage> list = ChattingMessageDaoUtil.getChattingMessageList(groupId);
-                int allCount = list.size();
-                index = allCount >= 20 ? allCount - 20 : 0;
-                mChattingMessageList.addAll(list.subList(index, allCount));
-                list.clear();
-
-                android.os.Message msg = mHandler.obtainMessage();
-                msg.what = Constant.HANDLER_CHATTING_MESSAGE_REFRESH;
-                mHandler.sendMessage(msg);
-            }
-        }).start();
+                .smoothScrollToPosition(mActivityBinding.rvMessageContent,
+                        null, (mChattingMessageList.size() == 0 ? 0 : mChattingMessageList.size()));
     }
 
     /**
@@ -162,15 +148,24 @@ public class ActivityMessagePresenter {
         mActivityBinding.srlMessageRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                int index2 = index >= 20 ? index - 20 : 0;
-                List<ChattingMessage> list2 = ChattingMessageDaoUtil.getChattingMessageList(mGroupId).subList(index2, index);
-                mChattingMessageList.addAll(0, list2);
+                mOffset++;
+                List<ChattingMessage> list = ChattingMessageDaoUtil.getChattingMessageListWithOffset(mGroupId, mOffset);
+                mChattingMessageList.addAll(0, reverse(list));
                 mAdapter.notifyDataSetChanged();
-                index = index2;
                 mActivityBinding.rvMessageContent.getLayoutManager()
-                        .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, list2.size() <= 20 ? list2.size() : 20);
+                        .smoothScrollToPosition(mActivityBinding.rvMessageContent,
+                                null, list.size());
                 mActivityBinding.srlMessageRefresh.setRefreshing(false);
             }
         });
+    }
+
+    /**
+     * 翻转
+     */
+    private List<ChattingMessage> reverse(List<ChattingMessage> list) {
+
+        Collections.reverse(list);
+        return list;
     }
 }

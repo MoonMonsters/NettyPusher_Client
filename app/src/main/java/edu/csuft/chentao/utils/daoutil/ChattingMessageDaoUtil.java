@@ -71,6 +71,7 @@ public class ChattingMessageDaoUtil {
 
         return DaoSessionUtil.getChattingMessageDao().queryBuilder()
                 .where(ChattingMessageDao.Properties.Groupid.eq(groupId))
+                .orderDesc(ChattingMessageDao.Properties.Time)
                 .offset(offset * 20).limit(20).list();
     }
 }
