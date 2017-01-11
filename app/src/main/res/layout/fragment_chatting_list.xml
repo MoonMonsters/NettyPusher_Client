@@ -1,26 +1,25 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.csuft.chentao.fragment.ChattingListFragment">
-
-    <data>
-
-        <variable
-            name="adapter"
-            type="edu.csuft.chentao.adapter.ChattingListAdapter" />
-    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_chatting_list_content"
+        <com.fortysevendeg.swipelistview.SwipeListView
+            android:id="@+id/slv_chatting_list_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
-            app:adapter="@{adapter}" />
+            swipe:swipeActionLeft="reveal"
+            swipe:swipeBackView="@+id/id_back"
+            swipe:swipeCloseAllItemsWhenMoveList="true"
+            swipe:swipeFrontView="@+id/id_front"
+            swipe:swipeMode="left"
+            swipe:swipeOffsetLeft="200dp"
+            swipe:swipeOpenOnLongPress="false" />
 
+        <requestFocus />
     </LinearLayout>
 </layout>

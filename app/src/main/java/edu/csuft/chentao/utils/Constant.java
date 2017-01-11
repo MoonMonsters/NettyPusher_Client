@@ -205,6 +205,11 @@ public interface Constant {
     String EXTRA_RETURN_MESSAGE = "extra_return_message";
 
     /**
+     * 位置
+     */
+    String EXTRA_POSITION = "extra_position";
+
+    /**
      * 在MessageActivity和Presenter通过Handler传递数据
      */
     int HANDLER_MESSAGE_CHATTING_MESSAGE = 0;

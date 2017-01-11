@@ -3,13 +3,13 @@ package edu.csuft.chentao.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.activity.MessageActivity;
@@ -19,52 +19,50 @@ import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 
 /**
- * Created by Chalmers on 2016-12-22 17:57.
+ * Created by Chalmers on 2017-01-10 20:42.
  * email:qxinhai@yeah.net
  */
 
-public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapter.GroupChattingViewHandler> {
+public class ChattingListAdapter2 extends BaseAdapter {
 
-    private ArrayList<GroupChattingItem> mGroupChattingItemList;
+    private List<GroupChattingItem> mGroupChattingItemList;
     private Context mContext;
 
-    public ChattingListAdapter(Context context, ArrayList<GroupChattingItem> groupChattingItemList) {
-        this.mGroupChattingItemList = groupChattingItemList;
+    public ChattingListAdapter2(Context context, List<GroupChattingItem> groupChattingItemList) {
         this.mContext = context;
+        this.mGroupChattingItemList = groupChattingItemList;
     }
 
     @Override
-    public GroupChattingViewHandler onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_chatting_list, parent, false);
-
-        return new GroupChattingViewHandler(view);
-    }
-
-    @Override
-    public void onBindViewHolder(GroupChattingViewHandler holder, int position) {
-        holder.bindData(mGroupChattingItemList.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
+    public int getCount() {
         return mGroupChattingItemList.size();
     }
 
-    class GroupChattingViewHandler extends RecyclerView.ViewHolder {
+    @Override
+    public Object getItem(int position) {
+        return mGroupChattingItemList.get(position);
+    }
 
-        private ItemChattingListBinding mItemBinding;
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
-        GroupChattingViewHandler(View itemView) {
-            super(itemView);
-            mItemBinding = DataBindingUtil.bind(itemView);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        ItemChattingListBinding binding = null;
+
+        if (convertView == null) {
+            binding = DataBindingUtil.inflate(LayoutInflater.from(mContext),
+                    R.layout.item_chatting_list, parent, false);
+        } else {
+            binding = DataBindingUtil.getBinding(convertView);
         }
+        binding.setItem(mGroupChattingItemList.get(position));
+        binding.setItemPresenter(new ItemChattingListPresenter(mGroupChattingItemList.get(position)));
 
-        void bindData(final GroupChattingItem item) {
-            mItemBinding.setItem(item);
-            mItemBinding.setItemPresenter(new ItemChattingListPresenter(item));
-        }
+        return binding.getRoot();
     }
 
     /**
@@ -94,6 +92,19 @@ public class ChattingListAdapter extends RecyclerView.Adapter<ChattingListAdapte
             Toast.makeText(mContext, "移除", Toast.LENGTH_SHORT).show();
             mChattingItem.setNumber(0);
             GroupChattingItemDaoUtil.updateGroupChattingItem(mChattingItem);
+        }
+
+        /**
+         * 删除选中项
+         */
+        public void onClickToDeleteItem() {
+            //需要删除的位置
+            int position = mGroupChattingItemList.indexOf(mChattingItem);
+            Intent intent = new Intent();
+            intent.setAction(Constant.ACTION_CHATTING_LIST);
+            intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 3);
+            intent.putExtra(Constant.EXTRA_POSITION, position);
+            mContext.sendBroadcast(intent);
         }
     }
 }

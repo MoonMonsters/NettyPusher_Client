@@ -12,69 +12,98 @@
 
         <variable
             name="itemPresenter"
-            type="edu.csuft.chentao.adapter.ChattingListAdapter.ItemChattingListPresenter" />
+            type="edu.csuft.chentao.adapter.ChattingListAdapter2.ItemChattingListPresenter" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:onClick="@{()->itemPresenter.onClickToEnterMessageActivity()}"
-        android:orientation="horizontal">
+        android:layout_height="80dp">
 
-        <ImageView
-            android:id="@+id/iv_item_chatting_list_headimage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:contentDescription="@string/app_name"
-            app:imageBytes="@{item.image}" />
-
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/id_back"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#ffffffff"
+            android:gravity="center|end">
 
-            <LinearLayout
+            <Button
+                android:id="@+id/id_remove"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@android:color/holo_red_dark"
+                android:onClick="@{()->itemPresenter.onClickToDeleteItem()}"
+                android:text="@string/string_delete"
+                android:textColor="#fff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/id_front"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffffff"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_item_chatting_list_headimage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->itemPresenter.onClickToEnterMessageActivity()}"
+                app:imageBytes="@{item.image}" />
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingEnd="5dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="5dp"
-                android:paddingStart="5dp">
+                android:onClick="@{()->itemPresenter.onClickToEnterMessageActivity()}">
 
-                <TextView
-                    android:id="@+id/tv_chatting_list_groupname"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:gravity="start|center_vertical"
-                    android:text="@{item.groupname}"
-                    android:textSize="20sp" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingEnd="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp">
 
-                <TextView
-                    android:id="@+id/tv_chatting_list_lastmessage"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:gravity="start|center_vertical"
-                    android:maxLines="1"
-                    android:text="@{item.lastmessage}" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_chatting_list_groupname"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:gravity="start|center_vertical"
+                        android:text="@{item.groupname}"
+                        android:textSize="20sp" />
 
-            <edu.csuft.chentao.view.RedDot
-                android:id="@+id/redDot"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
-                android:onClick="@{()->itemPresenter.onClickToRemoveRedDot()}"
-                android:visibility="@{item.number==0?View.GONE:View.VISIBLE}"
-                app:rdCircleColor="@android:color/holo_red_dark"
-                app:rdRadius="10dp"
-                app:rdTextColor="@android:color/white"
-                app:rdTextNumber="@{item.number}"
-                app:rdTextSize="12sp" />
-        </FrameLayout>
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_chatting_list_lastmessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:gravity="start|center_vertical"
+                        android:maxLines="1"
+                        android:text="@{item.lastmessage}" />
+                </LinearLayout>
+
+                <edu.csuft.chentao.view.RedDot
+                    android:id="@+id/redDot"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:onClick="@{()->itemPresenter.onClickToRemoveRedDot()}"
+                    android:visibility="@{item.number==0?View.GONE:View.VISIBLE}"
+                    app:rdCircleColor="@android:color/holo_red_dark"
+                    app:rdRadius="10dp"
+                    app:rdTextColor="@android:color/white"
+                    app:rdTextNumber="@{item.number}"
+                    app:rdTextSize="12sp" />
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
 </layout>

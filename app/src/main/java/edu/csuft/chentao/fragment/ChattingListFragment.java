@@ -8,11 +8,6 @@ import android.content.IntentFilter;
 import android.databinding.ViewDataBinding;
 import android.os.Handler;
 import android.os.Message;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -50,7 +45,6 @@ public class ChattingListFragment extends BaseFragment {
         filter.addAction(Constant.ACTION_CHATTING_LIST);
         this.getActivity().registerReceiver(mReceiver, filter);
 
-        this.getActivity().registerForContextMenu(mFragmentBinding.rvChattingListContent);
         EventBus.getDefault().register(this);
         FragmentChattingListPresenter presenter =
                 new FragmentChattingListPresenter(mFragmentBinding);
@@ -73,37 +67,13 @@ public class ChattingListFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        MenuInflater inflater = this.getActivity().getMenuInflater();
-        inflater.inflate(R.menu.menu_chatting_list, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.action_chatting_list_delete) {
-            AdapterView.AdapterContextMenuInfo menuInfo =
-                    (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            //选中项的位置
-            int position = menuInfo.position;
-            //将位置发送过去，然后删除
-            Message msg = mHandler.obtainMessage();
-            msg.what = Constant.HANDLER_CHATTING_LIST_DELETE;
-            msg.arg1 = position;
-            mHandler.sendMessage(msg);
-        }
-
-        return true;
-    }
-
     private class ChattingListReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction(); //广播
             if (action.equals(Constant.ACTION_CHATTING_LIST)) {
                 LoggerUtil.logger(Constant.TAG, "接收到广播->" + action);
-                int type = intent.getIntExtra(Constant.EXTRA_MESSAGE_TYPE, 1);
+                int type = intent.getIntExtra(Constant.EXTRA_MESSAGE_TYPE, -1);
                 //1表示是添加数据
                 if (type == 1) {
                     Message msg = mHandler.obtainMessage();
@@ -115,8 +85,12 @@ public class ChattingListFragment extends BaseFragment {
                     msg.what = Constant.HANDLER_CHATTING_LIST_REFRESH;
                     msg.obj = intent.getSerializableExtra(Constant.EXTRA_GROUPSITEM);
                     mHandler.sendMessage(msg);
+                } else if (type == 3) { //3表示是删除数据
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = Constant.HANDLER_CHATTING_LIST_DELETE;
+                    msg.arg1 = intent.getIntExtra(Constant.EXTRA_POSITION, -1);
+                    mHandler.sendMessage(msg);
                 }
-
             }
         }
     }
