@@ -23,4 +23,9 @@
     <string name="string_update">更新</string>
     <string name="string_signature2">个性签名:</string>
     <string name="string_recent_msg">最近聊天</string>
+    <string name="string_group_list">群列表</string>
+    <string name="string_add_group">添加</string>
+    <string name="string_search_group">搜索</string>
+    <string name="string_operation">操作</string>
+    <string name="string_create">创建</string>
 </resources>

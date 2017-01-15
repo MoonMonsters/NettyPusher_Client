@@ -15,9 +15,14 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/fragment_group_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar_group_list"
+            layout="@layout/item_toolbar" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_group_list_content"

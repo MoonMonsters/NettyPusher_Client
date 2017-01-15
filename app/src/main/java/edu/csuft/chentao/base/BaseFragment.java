@@ -19,6 +19,12 @@ public abstract class BaseFragment extends Fragment {
     public BaseFragment() {
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -26,6 +32,7 @@ public abstract class BaseFragment extends Fragment {
         View view = inflater.inflate(getLayoutResourceId(), container, false);
         ViewDataBinding viewDataBinding = DataBindingUtil.bind(view);
         setDataBinding(viewDataBinding);
+        setHasOptionsMenu(true);
         initData();
 
         return view;

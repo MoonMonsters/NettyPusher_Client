@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="itemPresenter"
+            type="edu.csuft.chentao.controller.presenter.FragmentGroupListPresenter.ItemGroupOperationPresenter" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/item_group_operation"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="end|center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_item_operation_add"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray"
+            android:drawableLeft="@drawable/ic_group_add"
+            android:drawableStart="@drawable/ic_group_add"
+            android:gravity="center"
+            android:onClick="@{()->itemPresenter.onClickToAddGroup()}"
+            android:padding="10dp"
+            android:text="@string/string_add_group"
+            android:textSize="20sp" />
+
+        <View
+            style="@style/view_line_bottom"
+            android:layout_width="150dp" />
+
+        <TextView
+            android:id="@+id/tv_item_operation_search"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray"
+            android:drawableLeft="@drawable/ic_group_search"
+            android:drawableStart="@drawable/ic_group_search"
+            android:gravity="center"
+            android:onClick="@{()->itemPresenter.onClickToSearchGroup()}"
+            android:padding="10dp"
+            android:text="@string/string_search_group"
+            android:textSize="20sp" />
+
+        <View
+            style="@style/view_line_bottom"
+            android:layout_width="150dp" />
+
+        <TextView
+            android:id="@+id/tv_item_operation_create"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray"
+            android:drawableLeft="@drawable/ic_group_create"
+            android:drawableStart="@drawable/ic_group_create"
+            android:gravity="center"
+            android:onClick="@{()->itemPresenter.onClickToCreateGroup()}"
+            android:padding="10dp"
+            android:text="@string/string_create"
+            android:textSize="20sp" />
+    </LinearLayout>
+</layout>
