@@ -46,8 +46,10 @@ public class GroupUserDao extends AbstractDao<GroupUser, Long> {
                 "\"GROUPID\" INTEGER NOT NULL ," + // 1: groupid
                 "\"USERID\" INTEGER NOT NULL );"); // 2: userid
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_GROUP_USER__id ON GROUP_USER" +
-                " (\"_id\" ASC);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_GROUP_USER_GROUPID ON GROUP_USER" +
+                " (\"GROUPID\" ASC);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_GROUP_USER_USERID ON GROUP_USER" +
+                " (\"USERID\" ASC);");
     }
 
     /** Drops the underlying database table. */

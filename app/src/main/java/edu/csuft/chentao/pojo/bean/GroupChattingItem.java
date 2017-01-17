@@ -4,9 +4,9 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
-import org.greenrobot.greendao.annotation.Generated;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -24,7 +24,6 @@ import edu.csuft.chentao.BR;
 @Entity
 public class GroupChattingItem extends BaseObservable implements Serializable {
 
-    @Index
     @Id(autoincrement = true)
     private Long _id;
     /**
@@ -34,6 +33,7 @@ public class GroupChattingItem extends BaseObservable implements Serializable {
     /**
      * 群id
      */
+    @Index
     private int groupid;
     /**
      * 最后一条消息

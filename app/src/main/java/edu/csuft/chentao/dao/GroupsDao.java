@@ -52,8 +52,8 @@ public class GroupsDao extends AbstractDao<Groups, Long> {
                 "\"NUMBER\" INTEGER NOT NULL ," + // 4: number
                 "\"TAG\" TEXT);"); // 5: tag
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_GROUPS__id ON GROUPS" +
-                " (\"_id\" ASC);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_GROUPS_GROUPID ON GROUPS" +
+                " (\"GROUPID\" ASC);");
     }
 
     /** Drops the underlying database table. */

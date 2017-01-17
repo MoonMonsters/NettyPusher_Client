@@ -3,9 +3,9 @@ package edu.csuft.chentao.pojo.bean;
 import android.databinding.BaseObservable;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
-import org.greenrobot.greendao.annotation.Generated;
 
 import java.io.Serializable;
 
@@ -20,7 +20,6 @@ import java.io.Serializable;
 @Entity
 public class Groups extends BaseObservable implements Serializable {
 
-    @Index
     @Id(autoincrement = true)
     private Long _id;
     /**
@@ -34,6 +33,7 @@ public class Groups extends BaseObservable implements Serializable {
     /**
      * 群id
      */
+    @Index
     private int groupid;
     /**
      * 群人数

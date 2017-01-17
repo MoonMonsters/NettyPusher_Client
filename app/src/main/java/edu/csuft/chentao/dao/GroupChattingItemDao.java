@@ -52,8 +52,8 @@ public class GroupChattingItemDao extends AbstractDao<GroupChattingItem, Long> {
                 "\"IMAGE\" BLOB," + // 4: image
                 "\"NUMBER\" INTEGER NOT NULL );"); // 5: number
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_GROUP_CHATTING_ITEM__id ON GROUP_CHATTING_ITEM" +
-                " (\"_id\" ASC);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_GROUP_CHATTING_ITEM_GROUPID ON GROUP_CHATTING_ITEM" +
+                " (\"GROUPID\" ASC);");
     }
 
     /** Drops the underlying database table. */

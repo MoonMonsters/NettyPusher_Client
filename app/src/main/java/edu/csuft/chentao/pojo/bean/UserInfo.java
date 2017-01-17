@@ -21,12 +21,12 @@ import edu.csuft.chentao.BR;
 @Entity
 public class UserInfo extends BaseObservable {
 
-    @Index
     @Id(autoincrement = true)
     private Long _id;
     /**
      * 用户id
      */
+    @Index
     private int userid;
     /**
      * 用户昵称

@@ -48,8 +48,8 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
                 "\"NICKNAME\" TEXT," + // 2: nickname
                 "\"SIGNATURE\" TEXT);"); // 3: signature
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_USER_INFO__id ON USER_INFO" +
-                " (\"_id\" ASC);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_USER_INFO_USERID ON USER_INFO" +
+                " (\"USERID\" ASC);");
     }
 
     /** Drops the underlying database table. */

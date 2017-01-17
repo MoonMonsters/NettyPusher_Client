@@ -43,7 +43,7 @@
             android:theme="@style/FullScreen" />
         <activity android:name=".activity.EditorInfoActivity" />
         <activity android:name=".activity.UserInfoActivity" />
-        <activity android:name=".activity.SearchGroupActivity"></activity>
+        <activity android:name=".activity.SearchGroupActivity" />
     </application>
 
 </manifest>

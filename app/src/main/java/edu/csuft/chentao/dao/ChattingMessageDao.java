@@ -56,8 +56,10 @@ public class ChattingMessageDao extends AbstractDao<ChattingMessage, Long> {
                 "\"MESSAGE\" TEXT," + // 6: message
                 "\"IMAGE\" BLOB);"); // 7: image
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_CHATTING_MESSAGE__id ON CHATTING_MESSAGE" +
-                " (\"_id\" ASC);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_CHATTING_MESSAGE_USERID ON CHATTING_MESSAGE" +
+                " (\"USERID\" ASC);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_CHATTING_MESSAGE_GROUPID ON CHATTING_MESSAGE" +
+                " (\"GROUPID\" ASC);");
     }
 
     /** Drops the underlying database table. */

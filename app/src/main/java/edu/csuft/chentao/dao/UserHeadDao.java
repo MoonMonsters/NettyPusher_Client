@@ -46,8 +46,8 @@ public class UserHeadDao extends AbstractDao<UserHead, Long> {
                 "\"USERID\" INTEGER NOT NULL ," + // 1: userid
                 "\"IMAGE\" BLOB);"); // 2: image
         // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_USER_HEAD__id ON USER_HEAD" +
-                " (\"_id\" ASC);");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_USER_HEAD_USERID ON USER_HEAD" +
+                " (\"USERID\" ASC);");
     }
 
     /** Drops the underlying database table. */

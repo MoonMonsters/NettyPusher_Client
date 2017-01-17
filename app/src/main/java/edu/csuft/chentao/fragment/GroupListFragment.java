@@ -55,7 +55,7 @@ public class GroupListFragment extends BaseFragment {
     @Override
     public void initData() {
 
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mFragmentBinding.toolbarGroupList.tbViewBar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mFragmentBinding.tlFragmentBar);
 
         EventBus.getDefault().register(this);
         FragmentGroupListPresenter presenter = new FragmentGroupListPresenter(mFragmentBinding);
@@ -109,7 +109,7 @@ public class GroupListFragment extends BaseFragment {
             PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
             popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             popupWindow.setOutsideTouchable(true);
-            popupWindow.showAsDropDown(mFragmentBinding.toolbarGroupList.tbViewBar);
+            popupWindow.showAsDropDown(mFragmentBinding.tlFragmentBar);
 
             //绑定ItemPresenter
             ItemGroupOperationBinding binding =
