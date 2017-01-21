@@ -1,5 +1,10 @@
 package edu.csuft.chentao.utils.daoutil;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import edu.csuft.chentao.dao.UserInfoDao;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 
@@ -44,5 +49,15 @@ public class UserInfoDaoUtil {
      */
     public static void updateUserInfo(UserInfo userInfo) {
         DaoSessionUtil.getUserInfoDao().update(userInfo);
+    }
+
+    public static List<UserInfo> getAllUserInfosWithGroupIdMap(Map<Integer, Integer> map) {
+        List<UserInfo> userInfoList = new ArrayList<>();
+        Iterator it = map.keySet().iterator();
+        while (it.hasNext()) {
+            userInfoList.add(getUserInfo((int) it.next()));
+        }
+
+        return userInfoList;
     }
 }

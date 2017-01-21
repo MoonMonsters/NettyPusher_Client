@@ -28,4 +28,5 @@
     <string name="string_search_group">搜索</string>
     <string name="string_operation">操作</string>
     <string name="string_create">创建</string>
+    <string name="string_enter_group_detail_activity">进入GroupDetailActivity</string>
 </resources>

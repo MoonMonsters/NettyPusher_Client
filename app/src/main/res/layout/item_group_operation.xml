@@ -5,7 +5,7 @@
 
         <variable
             name="itemPresenter"
-            type="edu.csuft.chentao.controller.presenter.FragmentGroupListPresenter.ItemGroupOperationPresenter" />
+            type="edu.csuft.chentao.controller.presenter.ItemGroupOperationPresenter" />
     </data>
 
     <LinearLayout

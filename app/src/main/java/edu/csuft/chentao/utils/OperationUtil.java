@@ -113,4 +113,50 @@ public class OperationUtil {
         return sb.toString() + ".jpg";
     }
 
+    /**
+     * 获得身份信息
+     *
+     * @param capital 身份值
+     */
+    public static String getCapital(int capital) {
+        String result = null;
+
+        switch (capital) {
+            case Constant.TYPE_GROUP_CAPITAL_ADMIN:
+                result = Constant.ADMIN;
+                break;
+            case Constant.TYPE_GROUP_CAPITAL_OWNER:
+                result = Constant.OWNER;
+                break;
+            case Constant.TYPE_GROUP_CAPITAL_USER:
+                result = Constant.USER;
+                break;
+        }
+
+        return result;
+    }
+
+    /**
+     * 根据身份获得背景颜色
+     *
+     * @param capital 身份值
+     */
+    public static int getCapitalBackgroundColor(int capital) {
+        int result = -1;
+
+        switch (capital) {
+            case Constant.TYPE_GROUP_CAPITAL_ADMIN:
+                result = android.R.color.holo_blue_light;
+                break;
+            case Constant.TYPE_GROUP_CAPITAL_OWNER:
+                result = android.R.color.holo_red_light;
+                break;
+            case Constant.TYPE_GROUP_CAPITAL_USER:
+                result = android.R.color.darker_gray;
+                break;
+        }
+
+        return result;
+    }
+
 }

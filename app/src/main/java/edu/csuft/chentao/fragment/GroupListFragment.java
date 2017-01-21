@@ -5,20 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -28,7 +17,6 @@ import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseFragment;
 import edu.csuft.chentao.controller.presenter.FragmentGroupListPresenter;
 import edu.csuft.chentao.databinding.FragmentGroupListBinding;
-import edu.csuft.chentao.databinding.ItemGroupOperationBinding;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
@@ -54,8 +42,6 @@ public class GroupListFragment extends BaseFragment {
 
     @Override
     public void initData() {
-
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mFragmentBinding.tlFragmentBar);
 
         EventBus.getDefault().register(this);
         FragmentGroupListPresenter presenter = new FragmentGroupListPresenter(mFragmentBinding);
@@ -89,36 +75,6 @@ public class GroupListFragment extends BaseFragment {
         if (handlerMessage.getTag().equals("GroupListFragment")) {
             this.mHandler = handlerMessage.getHandler();
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.menu_group_operation, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        //菜单
-        if (item.getItemId() == R.id.action_group) {
-
-            View view = LayoutInflater.from(getActivity())
-                    .inflate(R.layout.item_group_operation, null);
-            //弹出菜单
-            PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            popupWindow.setOutsideTouchable(true);
-            popupWindow.showAsDropDown(mFragmentBinding.tlFragmentBar);
-
-            //绑定ItemPresenter
-            ItemGroupOperationBinding binding =
-                    DataBindingUtil.bind(view);
-            binding.setItemPresenter(new FragmentGroupListPresenter.ItemGroupOperationPresenter());
-
-        }
-
-        return true;
     }
 
     public class GroupListReceiver extends BroadcastReceiver {

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="edu.csuft.chentao.utils.OperationUtil" />
+
+        <variable
+            name="userInfo"
+            type="edu.csuft.chentao.pojo.bean.UserInfo" />
+
+        <variable
+            name="capital"
+            type="int" />
+
+        <variable
+            name="userHead"
+            type="edu.csuft.chentao.pojo.bean.UserHead" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/layout_user_in_group"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_user_in_group_head"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:contentDescription="@string/app_name"
+            app:imageBytes="@{userHead.image}" />
+
+        <TextView
+            android:id="@+id/tv_user_in_group_capital"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@{capital==0?@android:color/holo_red_light:capital==1?@android:color/holo_blue_light:@android:color/darker_gray}"
+            android:gravity="center"
+            android:text="@{OperationUtil.getCapital(capital)}" />
+
+        <TextView
+            android:id="@+id/tv_user_in_group_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@{userInfo.nickname}" />
+    </LinearLayout>
+</layout>

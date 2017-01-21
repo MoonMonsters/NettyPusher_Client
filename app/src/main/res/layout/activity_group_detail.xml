@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="edu.csuft.chentao.activity.GroupDetailActivity">
+
+    <data>
+
+        <variable
+            name="groups"
+            type="edu.csuft.chentao.pojo.bean.Groups" />
+
+        <variable
+            name="presenter"
+            type="edu.csuft.chentao.controller.presenter.ActivityGroupDetailPresenter" />
+
+        <variable
+            name="adapter"
+            type="edu.csuft.chentao.adapter.UserInGroupAdapter" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/activity_group_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/layout_group_detail_background"
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+
+            <ImageView
+                android:id="@+id/iv_group_detail_groupImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:contentDescription="@string/app_name"
+                app:imageBytes="@{groups.image}" />
+
+            <TextView
+                android:id="@+id/tv_group_detail_groupId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="@{String.valueOf(groups.groupid)}" />
+
+            <TextView
+                android:id="@+id/tv_group_detail_groupName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="20dp"
+                android:text="@{groups.groupname}" />
+        </FrameLayout>
+
+        <ListView
+            android:id="@+id/lv_group_detail_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/layout_group_detail_background"
+            app:adapter="@{adapter}" />
+    </RelativeLayout>
+</layout>

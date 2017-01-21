@@ -4,7 +4,7 @@ import edu.csuft.chentao.netty.NettyClient;
 import io.netty.channel.Channel;
 
 /**
- * Created by Chalmers on 2016-12-16 15:20.
+ * Created by csuft.chentao on 2016-12-16 15:20.
  * email:qxinhai@yeah.net
  */
 

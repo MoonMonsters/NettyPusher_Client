@@ -5,6 +5,7 @@ import edu.csuft.chentao.pojo.resp.CreateGroupResp;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
 import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
+import edu.csuft.chentao.pojo.resp.UserIdsInGroupResp;
 import edu.csuft.chentao.pojo.resp.UserInfoResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
@@ -42,6 +43,9 @@ public class AllMessageHandler {
         } else if (object instanceof Message) {
             printMsg = "Message";
             handler = new MessageHandler();
+        } else if (object instanceof UserIdsInGroupResp) {
+            printMsg = "UserIdsInGroupResp";
+            handler = new UserIdsInGroupHandler();
         }
 
         LoggerUtil.logger(Constant.TAG, VALUE + object.toString());

@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,8 +28,10 @@ import edu.csuft.chentao.databinding.ActivityMessageBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
+import edu.csuft.chentao.pojo.req.GetUserAndGroupInfoReq;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.OperationUtil;
+import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 
 /**
@@ -40,7 +44,7 @@ public class MessageActivity extends BaseActivity {
     private BroadcastReceiver mReceiver = null;
     private Handler mHandler = null;
     //该聊天群的id
-    private static int groupId = -1;
+    private int groupId = -1;
 
     @Override
     public int getLayoutResourceId() {
@@ -132,6 +136,28 @@ public class MessageActivity extends BaseActivity {
                 Toast.makeText(this, "图片选取错误", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_message, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_enter_group_detail) {
+            Intent intent = new Intent(this, GroupDetailActivity.class);
+            intent.putExtra(Constant.EXTRA_GROUP_ID, groupId);
+            this.startActivity(intent);
+
+            GetUserAndGroupInfoReq req = new GetUserAndGroupInfoReq();
+            req.setType(Constant.TYPE_USER_GROUP_INFO_GROUP);
+            req.setId(groupId);
+            SendMessageUtil.sendMessage(req);
+
+        }
+        return true;
     }
 
     public class MessageReceiver extends BroadcastReceiver {

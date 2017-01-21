@@ -142,6 +142,10 @@ public interface Constant {
     String ACTION_RETURN_MESSAGE = "edu.csuft.chentao.action.return.message";
 
     /**
+     * 查看详细
+     */
+    String ACTION_GROUP_DATAIL = "edu.csuft.chentao.action.group.detail";
+    /**
      * 是否登录成功
      */
     String IS_LOGIN_SUCCESS = "is_login_success";
@@ -208,7 +212,12 @@ public interface Constant {
      * 位置
      */
     String EXTRA_POSITION = "extra_position";
+    /**
+     * 传递群中所有用户信息及其身份信息
+     */
+    String EXTRA_USER_IDS_CAPITAL_LIST = "extra_user_ids_capital_list";
 
+    String EXTRA_USER_IDS_IN_GROUP = "extra_user_ids_in_group";
     /**
      * 在MessageActivity和Presenter通过Handler传递数据
      */
@@ -256,6 +265,12 @@ public interface Constant {
      * 传递图片数据，在EditorInfoActivity和Presenter之间
      */
     int HANDLER_RETURN_MESSAGE_IMAGE = 10;
+
+    /**
+     * 在GroupDetailActivity和Presenter之间通过Handler传递数据
+     */
+    int HANDLER_GROUP_DETAIL = 11;
+
     /**
      * 用户名字符串
      */
@@ -273,4 +288,33 @@ public interface Constant {
      */
     int IMAGE_CODE = 0;
 
+    /*
+     * 在群里的身份信息
+	 */
+    /**
+     * 群主
+     */
+    int TYPE_GROUP_CAPITAL_OWNER = 0;
+    String OWNER = "群主";
+    /**
+     * 管理员
+     */
+    int TYPE_GROUP_CAPITAL_ADMIN = 1;
+    String ADMIN = "管理员";
+    /**
+     * 普通用户
+     */
+    int TYPE_GROUP_CAPITAL_USER = 2;
+    String USER = "普通成员";
+    /*
+     * 请求的数类型
+	 */
+    /**
+     * 请求用户信息
+     */
+    int TYPE_USER_GROUP_INFO_USER = 0;
+    /**
+     * 请求群信息
+     */
+    int TYPE_USER_GROUP_INFO_GROUP = 1;
 }

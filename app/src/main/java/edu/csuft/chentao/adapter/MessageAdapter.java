@@ -137,6 +137,5 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             intent.putExtra(Constant.EXTRA_USER_ID, mChattingMessage.getUserid());
             mContext.startActivity(intent);
         }
-
     }
 }

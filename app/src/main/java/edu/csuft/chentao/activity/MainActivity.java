@@ -4,13 +4,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityMainPresenter;
+import edu.csuft.chentao.controller.presenter.ItemGroupOperationPresenter;
 import edu.csuft.chentao.databinding.ActivityMainBinding;
+import edu.csuft.chentao.databinding.ItemGroupOperationBinding;
 import edu.csuft.chentao.utils.Constant;
 
 /**
@@ -49,7 +60,40 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        setSupportActionBar(mActivityBinding.tlMainBar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         new ActivityMainPresenter(mActivityBinding).init();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+        getMenuInflater().inflate(R.menu.menu_group_operation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        //菜单
+        if (item.getItemId() == R.id.action_group) {
+
+            View view = LayoutInflater.from(this)
+                    .inflate(R.layout.item_group_operation, null);
+            //弹出菜单
+            PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.showAsDropDown(mActivityBinding.tlMainBar);
+
+            //绑定ItemPresenter
+            ItemGroupOperationBinding binding =
+                    DataBindingUtil.bind(view);
+            binding.setItemPresenter(new ItemGroupOperationPresenter());
+        }
+
+        return true;
     }
 
     public class MainReceiver extends BroadcastReceiver {

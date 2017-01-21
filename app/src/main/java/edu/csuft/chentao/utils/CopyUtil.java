@@ -43,7 +43,6 @@ public class CopyUtil {
                 : "[图片]";
         saveChattingListItemData(groupId, nickname + ": " + lastMessage);
 
-
         return chattingMessage;
     }
 
