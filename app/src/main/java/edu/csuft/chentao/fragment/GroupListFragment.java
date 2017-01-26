@@ -20,6 +20,7 @@ import edu.csuft.chentao.databinding.FragmentGroupListBinding;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 
 /**
  * @author cusft.chentao
@@ -82,6 +83,7 @@ public class GroupListFragment extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            LoggerUtil.logger(Constant.TAG, "GroupListFragment-->" + action);
             if (action.equals(Constant.ACTION_GROUPS)) {
                 Groups groups = (Groups) intent.getSerializableExtra(Constant.EXTRA_GROUPS);
 

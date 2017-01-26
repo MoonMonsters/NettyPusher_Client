@@ -1,6 +1,4 @@
-/**
- *
- */
+
 package edu.csuft.chentao.pojo.resp;
 
 import java.io.Serializable;

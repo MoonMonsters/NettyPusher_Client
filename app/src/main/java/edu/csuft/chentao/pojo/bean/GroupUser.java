@@ -8,7 +8,7 @@ package edu.csuft.chentao.pojo.bean;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.Unique;
 
 /**
  * 群与用户对应表
@@ -21,12 +21,12 @@ public class GroupUser {
     /**
      * 群id
      */
-    @Index
+    @Unique
     private int groupid;
     /**
      * 用户id
      */
-    @Index
+    @Unique
     private int userid;
     public int getUserid() {
         return this.userid;

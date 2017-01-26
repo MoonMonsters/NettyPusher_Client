@@ -43,11 +43,8 @@ public class UserHeadDao extends AbstractDao<UserHead, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"USER_HEAD\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: _id
-                "\"USERID\" INTEGER NOT NULL ," + // 1: userid
+                "\"USERID\" INTEGER NOT NULL UNIQUE ," + // 1: userid
                 "\"IMAGE\" BLOB);"); // 2: image
-        // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_USER_HEAD_USERID ON USER_HEAD" +
-                " (\"USERID\" ASC);");
     }
 
     /** Drops the underlying database table. */

@@ -29,4 +29,21 @@
     <string name="string_operation">操作</string>
     <string name="string_create">创建</string>
     <string name="string_enter_group_detail_activity">进入GroupDetailActivity</string>
+    <string name="string_submit">提交</string>
+    <string name="string_group_name">群名称</string>
+
+    <string-array name="group_tags">
+        <item>同学</item>
+        <item>同事</item>
+        <item>亲友</item>
+        <item>家校</item>
+        <item>行业交流</item>
+        <item>生活休闲</item>
+        <item>兴趣爱好</item>
+        <item>置业安家</item>
+        <item>学习考试</item>
+        <item>品牌产品</item>
+        <item>游戏</item>
+        <item>粉丝</item>
+    </string-array>
 </resources>

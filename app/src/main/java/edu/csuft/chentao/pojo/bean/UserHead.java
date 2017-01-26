@@ -11,7 +11,7 @@ import android.databinding.Bindable;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.Unique;
 
 import edu.csuft.chentao.BR;
 
@@ -26,7 +26,7 @@ public class UserHead extends BaseObservable {
     /**
      * 用户id
      */
-    @Index
+    @Unique
     private int userid;
     /**
      * 用户头像

@@ -2,17 +2,13 @@ package edu.csuft.chentao.controller.handler;
 
 import android.content.Intent;
 
-import java.util.List;
-
 import edu.csuft.chentao.base.MyApplication;
-import edu.csuft.chentao.dao.DaoSession;
-import edu.csuft.chentao.dao.UserHeadDao;
-import edu.csuft.chentao.dao.UserInfoDao;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.resp.UserInfoResp;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.daoutil.GreenDaoUtil;
+import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
+import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-22 12:14.
@@ -50,29 +46,32 @@ public class UserInfoHandler implements Handler {
                 userHead.setUserid(resp.getUserid());
                 userHead.setImage(resp.getHeadImage());
 
+                UserHeadDaoUtil.saveUserHead(userHead);
+                UserInfoDaoUtil.saveUserInfo(userInfo);
+
                 //保存
-                DaoSession daoSession = GreenDaoUtil.getInstance().getDaoSession();
-                List<UserInfo> userInfoList = daoSession.getUserInfoDao().queryBuilder().where(UserInfoDao.Properties.Userid.eq(resp.getUserid()))
-                        .build().list();
-
-                if (userInfoList.size() > 0) {  //如果该数据已经存在，则更新
-                    UserInfo userInfo2 = userInfoList.get(0);
-                    userInfo2.setSignature(userInfo.getSignature());
-                    userInfo2.setNickname(userInfo.getNickname());
-                    daoSession.getUserInfoDao().update(userInfo2);
-                } else {    //否则插入
-                    daoSession.getUserInfoDao().insert(userInfo);
-                }
-
-                List<UserHead> userHeadList = daoSession.getUserHeadDao().queryBuilder().where(UserHeadDao.Properties.Userid.eq(resp.getUserid()))
-                        .list();
-                if (userHeadList.size() > 0) {  //同上
-                    UserHead userHead2 = userHeadList.get(0);
-                    userHead2.setImage(userHead.getImage());
-                    daoSession.getUserHeadDao().update(userHead2);
-                } else {
-                    daoSession.getUserHeadDao().insert(userHead);
-                }
+//                DaoSession daoSession = GreenDaoUtil.getInstance().getDaoSession();
+//                List<UserInfo> userInfoList = daoSession.getUserInfoDao().queryBuilder().where(UserInfoDao.Properties.Userid.eq(resp.getUserid()))
+//                        .build().list();
+//
+//                if (userInfoList.size() > 0) {  //如果该数据已经存在，则更新
+//                    UserInfo userInfo2 = userInfoList.get(0);
+//                    userInfo2.setSignature(userInfo.getSignature());
+//                    userInfo2.setNickname(userInfo.getNickname());
+//                    daoSession.getUserInfoDao().update(userInfo2);
+//                } else {    //否则插入
+//                    daoSession.getUserInfoDao().insert(userInfo);
+//                }
+//
+//                List<UserHead> userHeadList = daoSession.getUserHeadDao().queryBuilder().where(UserHeadDao.Properties.Userid.eq(resp.getUserid()))
+//                        .list();
+//                if (userHeadList.size() > 0) {  //同上
+//                    UserHead userHead2 = userHeadList.get(0);
+//                    userHead2.setImage(userHead.getImage());
+//                    daoSession.getUserHeadDao().update(userHead2);
+//                } else {
+//                    daoSession.getUserHeadDao().insert(userHead);
+//                }
 
                 if (resp.getType() == Constant.TYPE_LOGIN_NEW) {  //重新登录，需要发送广播
                     //发送广播，表示登录成功

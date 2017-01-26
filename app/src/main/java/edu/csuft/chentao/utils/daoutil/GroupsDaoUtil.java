@@ -36,7 +36,7 @@ public class GroupsDaoUtil {
      * @param groups Groups对象
      */
     public static void saveGroups(Groups groups) {
-        DaoSessionUtil.getGroupsDao().insert(groups);
+        DaoSessionUtil.getGroupsDao().save(groups);
     }
 
     /**

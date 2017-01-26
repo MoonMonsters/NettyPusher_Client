@@ -6,6 +6,8 @@ import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -13,6 +15,8 @@ import edu.csuft.chentao.adapter.GroupListAdapter;
 import edu.csuft.chentao.databinding.FragmentGroupListBinding;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
+import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 
 /**
@@ -34,27 +38,14 @@ public class FragmentGroupListPresenter {
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            Groups groups = (Groups) msg.obj;
+            if (msg.what == Constant.HANDLER_GROUPLIST) {
 
-            int index = -1;
-            for (int i = 0; i < mGroupsList.size(); i++) {
-                if (groups.getGroupid() == mGroupsList.get(i).getGroupid()) {
-                    index = i;
-                    break;
-                }
             }
-            if (index == -1) {
-                mGroupsList.add(groups);
-            } else {
-                mGroupsList.remove(index);
-                mGroupsList.add(groups);
-            }
-
-            mAdapter.notifyDataSetChanged();
         }
     };
 
     public FragmentGroupListPresenter(FragmentGroupListBinding fragmentBinding) {
+        EventBus.getDefault().register(this);
         this.mFragmentBinding = fragmentBinding;
         mContext = mFragmentBinding.getRoot().getContext();
         EventBus.getDefault().post(new HandlerMessage(mHandler, "GroupListFragment"));
@@ -70,5 +61,12 @@ public class FragmentGroupListPresenter {
 
         mFragmentBinding.rvGroupListContent.setLayoutManager(new LinearLayoutManager(mContext));
         mFragmentBinding.setAdapter(mAdapter);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEventBusGroups(Groups groups) {
+        LoggerUtil.logger(Constant.TAG, "FragmentGroupListPresenter-->接收到群数据");
+        mGroupsList.add(groups);
+        mAdapter.notifyDataSetChanged();
     }
 }

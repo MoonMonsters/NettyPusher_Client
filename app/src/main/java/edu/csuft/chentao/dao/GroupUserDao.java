@@ -43,13 +43,8 @@ public class GroupUserDao extends AbstractDao<GroupUser, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"GROUP_USER\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: _id
-                "\"GROUPID\" INTEGER NOT NULL ," + // 1: groupid
-                "\"USERID\" INTEGER NOT NULL );"); // 2: userid
-        // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_GROUP_USER_GROUPID ON GROUP_USER" +
-                " (\"GROUPID\" ASC);");
-        db.execSQL("CREATE INDEX " + constraint + "IDX_GROUP_USER_USERID ON GROUP_USER" +
-                " (\"USERID\" ASC);");
+                "\"GROUPID\" INTEGER NOT NULL UNIQUE ," + // 1: groupid
+                "\"USERID\" INTEGER NOT NULL UNIQUE );"); // 2: userid
     }
 
     /** Drops the underlying database table. */

@@ -47,13 +47,10 @@ public class GroupChattingItemDao extends AbstractDao<GroupChattingItem, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"GROUP_CHATTING_ITEM\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: _id
                 "\"GROUPNAME\" TEXT," + // 1: groupname
-                "\"GROUPID\" INTEGER NOT NULL ," + // 2: groupid
+                "\"GROUPID\" INTEGER NOT NULL UNIQUE ," + // 2: groupid
                 "\"LASTMESSAGE\" TEXT," + // 3: lastmessage
                 "\"IMAGE\" BLOB," + // 4: image
                 "\"NUMBER\" INTEGER NOT NULL );"); // 5: number
-        // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_GROUP_CHATTING_ITEM_GROUPID ON GROUP_CHATTING_ITEM" +
-                " (\"GROUPID\" ASC);");
     }
 
     /** Drops the underlying database table. */

@@ -5,7 +5,7 @@ import android.databinding.BaseObservable;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.Unique;
 
 import java.io.Serializable;
 
@@ -33,7 +33,7 @@ public class Groups extends BaseObservable implements Serializable {
     /**
      * 群id
      */
-    @Index
+    @Unique
     private int groupid;
     /**
      * 群人数

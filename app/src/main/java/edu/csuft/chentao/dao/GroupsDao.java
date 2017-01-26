@@ -48,12 +48,9 @@ public class GroupsDao extends AbstractDao<Groups, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: _id
                 "\"GROUPNAME\" TEXT," + // 1: groupname
                 "\"IMAGE\" BLOB," + // 2: image
-                "\"GROUPID\" INTEGER NOT NULL ," + // 3: groupid
+                "\"GROUPID\" INTEGER NOT NULL UNIQUE ," + // 3: groupid
                 "\"NUMBER\" INTEGER NOT NULL ," + // 4: number
                 "\"TAG\" TEXT);"); // 5: tag
-        // Add Indexes
-        db.execSQL("CREATE INDEX " + constraint + "IDX_GROUPS_GROUPID ON GROUPS" +
-                " (\"GROUPID\" ASC);");
     }
 
     /** Drops the underlying database table. */

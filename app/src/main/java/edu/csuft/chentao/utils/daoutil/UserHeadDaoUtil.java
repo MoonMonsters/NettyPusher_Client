@@ -32,7 +32,7 @@ public class UserHeadDaoUtil {
      * @param userHead UserHead对象
      */
     public static void saveUserHead(UserHead userHead) {
-        DaoSessionUtil.getUserHeadDao().insert(userHead);
+        DaoSessionUtil.getUserHeadDao().save(userHead);
     }
 
     /**

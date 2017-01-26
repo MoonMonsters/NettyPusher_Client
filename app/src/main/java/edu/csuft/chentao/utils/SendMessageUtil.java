@@ -23,20 +23,23 @@ public class SendMessageUtil {
 
         LoggerUtil.logger(Constant.TAG, "SendMessageUtil.initNettyClient");
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mClient = new NettyClient();
-                    mClient.init();
+        mClient = new NettyClient();
+        mChannel = mClient.connect(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
 
-                    mChannel = mClient.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    mClient = new NettyClient();
+//                    mClient.init();
+//
+//                    mChannel = mClient.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
     }
 
     /**
