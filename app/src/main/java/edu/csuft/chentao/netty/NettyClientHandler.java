@@ -4,6 +4,7 @@ import edu.csuft.chentao.controller.handler.AllMessageHandler;
 import edu.csuft.chentao.controller.handler.Handler;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.SendMessageUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -24,19 +25,22 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        super.channelActive(ctx);
+        //获取发送对象
+        SendMessageUtil.sChannel = ctx.channel();
+        //发送用户信息
+        SendMessageUtil.sendLoginReq();
         LoggerUtil.logger(Constant.TAG, VALUE + "channelActive");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        super.channelInactive(ctx);
+        //重新连接
+        NettyClient.connection(Constant.CONNECTION_URL,Constant.CONNECTION_PORT);
         LoggerUtil.logger(Constant.TAG, VALUE + "channelInactive");
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        super.channelRead(ctx, msg);
         LoggerUtil.logger(Constant.TAG, VALUE + "channelRead");
         //获得对应对象
         Handler handler = AllMessageHandler.handleMessage(msg);
@@ -46,7 +50,6 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        super.exceptionCaught(ctx, cause);
         LoggerUtil.logger(Constant.TAG, VALUE + "exceptionCaught");
     }
 }

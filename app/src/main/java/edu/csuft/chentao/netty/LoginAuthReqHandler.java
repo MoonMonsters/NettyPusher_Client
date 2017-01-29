@@ -15,6 +15,8 @@
  */
 package edu.csuft.chentao.netty;
 
+import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
@@ -35,6 +37,7 @@ public class LoginAuthReqHandler extends ChannelHandlerAdapter {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+		LoggerUtil.logger(Constant.TAG,"LoginAuthReqHandler->channelActive");
 	ctx.writeAndFlush(buildLoginReq());
     }
 
@@ -47,6 +50,7 @@ public class LoginAuthReqHandler extends ChannelHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
 	    throws Exception {
+		LoggerUtil.logger(Constant.TAG,"LoginAuthReqHandler->channelRead");
 	NettyMessage message = (NettyMessage) msg;
 
 	// 如果是握手应答消息，需要判断是否认证成功
@@ -66,6 +70,7 @@ public class LoginAuthReqHandler extends ChannelHandlerAdapter {
     }
 
     private NettyMessage buildLoginReq() {
+		LoggerUtil.logger(Constant.TAG,"LoginAuthReqHandler->buildLoginReq");
 	NettyMessage message = new NettyMessage();
 	Header header = new Header();
 	header.setType(MessageType.LOGIN_REQ.value());
@@ -75,6 +80,7 @@ public class LoginAuthReqHandler extends ChannelHandlerAdapter {
 
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 	    throws Exception {
+		LoggerUtil.logger(Constant.TAG,"LoginAuthReqHandler->exceptionCaught");
 	ctx.fireExceptionCaught(cause);
     }
 }

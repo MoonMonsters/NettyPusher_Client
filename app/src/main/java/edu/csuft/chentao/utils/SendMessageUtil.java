@@ -1,6 +1,9 @@
 package edu.csuft.chentao.utils;
 
+import android.text.TextUtils;
+
 import edu.csuft.chentao.netty.NettyClient;
+import edu.csuft.chentao.pojo.req.LoginReq;
 import io.netty.channel.Channel;
 
 /**
@@ -13,33 +16,26 @@ import io.netty.channel.Channel;
  */
 public class SendMessageUtil {
 
-    private static Channel mChannel;
-    private static NettyClient mClient = null;
+    public static Channel sChannel;
 
     /**
      * 初始化Netty
      */
-    public static synchronized void initNettyClient() {
+    public static void initNettyClient() {
 
         LoggerUtil.logger(Constant.TAG, "SendMessageUtil.initNettyClient");
 
-        mClient = new NettyClient();
-        mChannel = mClient.connect(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    mClient = new NettyClient();
-//                    mClient.init();
-//
-//                    mChannel = mClient.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    NettyClient.init();
+                    NettyClient.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     /**
@@ -52,16 +48,14 @@ public class SendMessageUtil {
             @Override
             public void run() {
                 try {
-                    if (mChannel.isActive()) {
-                        mChannel.writeAndFlush(object);
-                        mChannel.read();
+                    if (sChannel.isActive()) {
+                        sChannel.writeAndFlush(object);
+                        sChannel.read();
                     }
                 } catch (Exception e) {
 
                     synchronized (this) {
-                        if (mChannel == null || !mChannel.isActive()) {
-                            mChannel = mClient.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
-                        }
+                        NettyClient.connection(Constant.CONNECTION_URL,Constant.CONNECTION_PORT);
                         try {
                             Thread.sleep(3000);
                         } catch (InterruptedException e1) {
@@ -76,13 +70,20 @@ public class SendMessageUtil {
     }
 
     /**
-     * 关闭网络连接
+     * 发送登录信息
      */
-    public static void close() {
-        try {
-            mChannel.closeFuture().sync();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public static void sendLoginReq(){
+        String username = SharedPrefUserInfoUtil.getUsername();
+        String password = SharedPrefUserInfoUtil.getPassword();
+        if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)){
+            LoginReq req = new LoginReq();
+            req.setType(SharedPrefUserInfoUtil.getLoginType() ==
+                    Constant.TYPE_LOGIN_AUTO?
+                    Constant.TYPE_LOGIN_AUTO:
+                    Constant.TYPE_LOGIN_NEW);
+            req.setUsername(username);
+            req.setPassword(password);
+            sendMessage(req);
         }
     }
 }

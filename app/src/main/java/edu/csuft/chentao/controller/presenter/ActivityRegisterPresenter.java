@@ -54,6 +54,9 @@ public class ActivityRegisterPresenter {
                 SharedPrefUserInfoUtil.setUserId(resp.getUserid());
                 //设置登录方式为自动登录
                 SharedPrefUserInfoUtil.setLoginType();
+                //保存用户名和密码
+                SharedPrefUserInfoUtil.setUsernameAndPassword(mActivityBinding.etRegisterUsername.getText().toString(),
+                        mActivityBinding.etRegisterPassword.getText().toString());
 
                 //保存用户信息
                 UserInfo userInfo = new UserInfo();

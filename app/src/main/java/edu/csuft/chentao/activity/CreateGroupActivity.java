@@ -1,7 +1,10 @@
 package edu.csuft.chentao.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,11 +20,13 @@ import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityCreateGroupPresenter;
 import edu.csuft.chentao.databinding.ActivityCreateGroupBinding;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
+import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
 import edu.csuft.chentao.utils.Constant;
 
 public class CreateGroupActivity extends BaseActivity {
 
     private ActivityCreateGroupBinding mActivityBinding;
+    private BroadcastReceiver mReceiver = null;
 
     @Override
     public int getLayoutResourceId() {
@@ -59,6 +64,40 @@ public class CreateGroupActivity extends BaseActivity {
 
             } catch (Exception e) {
                 Toast.makeText(this, "图片选取错误", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mReceiver = new CreateGroupReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.ACTION_CREATE_GROUP);
+        registerReceiver(mReceiver, filter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(mReceiver);
+    }
+
+    /**
+     * 广播接收器
+     */
+    private class CreateGroupReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(Constant.ACTION_CREATE_GROUP)) {
+                ReturnMessageResp resp = (ReturnMessageResp) intent.getSerializableExtra(Constant.EXTRA_RETURN_MESSAGE);
+                //弹出提示框
+                Toast.makeText(CreateGroupActivity.this, resp.getDescription(), Toast.LENGTH_SHORT).show();
+                //创建成功，关闭当前界面
+                if (resp.getType() == Constant.TYPE_RETURN_MESSAGE_CREATE_GROUP_SUCCESS) {
+                    CreateGroupActivity.this.finish();
+                }
             }
         }
     }

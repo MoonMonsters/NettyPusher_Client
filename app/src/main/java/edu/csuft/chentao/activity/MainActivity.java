@@ -33,6 +33,8 @@ public class MainActivity extends BaseActivity {
 
     private MainReceiver mReceiver = null;
 
+    PopupWindow mPopupWindow;
+
     @Override
     public int getLayoutResourceId() {
         return R.layout.activity_main;
@@ -56,6 +58,9 @@ public class MainActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         unregisterReceiver(mReceiver);
+        if(mPopupWindow != null){
+            mPopupWindow.dismiss();
+        }
     }
 
     @Override
@@ -82,10 +87,10 @@ public class MainActivity extends BaseActivity {
             View view = LayoutInflater.from(this)
                     .inflate(R.layout.item_group_operation, null);
             //弹出菜单
-            PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            popupWindow.setOutsideTouchable(true);
-            popupWindow.showAsDropDown(mActivityBinding.tlMainBar);
+            mPopupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+            mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            mPopupWindow.setOutsideTouchable(true);
+            mPopupWindow.showAsDropDown(mActivityBinding.tlMainBar);
 
             //绑定ItemPresenter
             ItemGroupOperationBinding binding =

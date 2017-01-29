@@ -1,7 +1,9 @@
 package edu.csuft.chentao.base;
 
 import android.app.Application;
+import android.content.Intent;
 
+import edu.csuft.chentao.service.NettyClientService;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
 
@@ -19,8 +21,8 @@ public class MyApplication extends Application {
         super.onCreate();
 
         LoggerUtil.logger(Constant.TAG, "MyApplication.onCreate");
-
         application = this;
+        startService(new Intent(this, NettyClientService.class));
     }
 
     public static Application getInstance() {

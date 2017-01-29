@@ -21,13 +21,6 @@ public class NettyClientService extends Service {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //当服务销毁时，关闭网络连接
-        SendMessageUtil.close();
-    }
-
-    @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
     }

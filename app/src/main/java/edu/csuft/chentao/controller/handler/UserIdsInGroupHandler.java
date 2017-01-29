@@ -1,9 +1,8 @@
 package edu.csuft.chentao.controller.handler;
 
 
-import android.content.Intent;
+import org.greenrobot.eventbus.EventBus;
 
-import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.resp.UserIdsInGroupResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
@@ -20,9 +19,6 @@ public class UserIdsInGroupHandler implements Handler {
 
         LoggerUtil.logger(Constant.TAG, String.valueOf(resp.getGroupId()));
 
-        Intent intent = new Intent();
-        intent.setAction(Constant.ACTION_GROUP_DATAIL);
-        intent.putExtra(Constant.EXTRA_USER_IDS_IN_GROUP, resp);
-        MyApplication.getInstance().sendBroadcast(intent);
+        EventBus.getDefault().post(resp);
     }
 }

@@ -15,10 +15,11 @@
  */
 package edu.csuft.chentao.netty;
 
-import io.netty.buffer.ByteBuf;
 import org.jboss.marshalling.ByteInput;
 
 import java.io.IOException;
+
+import io.netty.buffer.ByteBuf;
 
 /**
  * {@link ByteInput} implementation which reads its data from a {@link ByteBuf}

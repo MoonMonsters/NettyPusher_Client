@@ -40,10 +40,6 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
      */
     private final int UPDATE_NICKNAME = 1;
     /**
-     * 更新头像
-     */
-    private final int UPDATE_HEADIMAGE = 2;
-    /**
      * 更新索引
      */
     private int UPDATE_INDEX = -1;
@@ -58,26 +54,24 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
                 //注销
                 EventBus.getDefault().unregister(ActivityEditorInfoPresenter.this);
                 ReturnMessageResp resp = (ReturnMessageResp) msg.obj;
-                //更新成功
-                if (resp.getType() == Constant.TYPE_RETURN_MESSAGE_SUCCESS) {
-                    switch (UPDATE_INDEX) {
-                        case UPDATE_SIGNATURE:  //更新签名
+                    //更新成功
+                    switch (resp.getType()) {
+                        case Constant.TYPE_RETURN_MESSAGE_UPDATE_SIGNATURE_SUCESS:  //更新签名
                             UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
                             userInfo.setSignature(mUpdateInfo);
                             UserInfoDaoUtil.updateUserInfo(userInfo);
                             break;
-                        case UPDATE_NICKNAME:   //更新昵称
+                        case Constant.TYPE_RETURN_MESSAGE_UPDATE_NICKNAME_SUCCESS:   //更新昵称
                             UserInfo userInfo2 = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
                             userInfo2.setNickname(mUpdateInfo);
                             UserInfoDaoUtil.updateUserInfo(userInfo2);
                             break;
-                        case UPDATE_HEADIMAGE:  //更新头像
+                        case Constant.TYPE_RETURN_MESSAGE_UPDATE_HEAD_IMAGE_SUCCESS:  //更新头像
                             UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
                             userHead.setImage(mImage);
                             UserHeadDaoUtil.updateUserHead(userHead);
                             break;
                     }
-                }
                 Toast.makeText(mActivityBinding.getRoot().getContext(),
                         resp.getDescription(), Toast.LENGTH_SHORT).show();
             } else if (msg.what == Constant.HANDLER_RETURN_MESSAGE_IMAGE) {
@@ -102,7 +96,6 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
      * 更新头像
      */
     public void onClickToUpdateHeadImage() {
-        UPDATE_INDEX = UPDATE_HEADIMAGE;
         Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
         getAlbum.setType(Constant.IMAGE_TYPE);
         ((EditorInfoActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);

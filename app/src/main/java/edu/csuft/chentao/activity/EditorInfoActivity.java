@@ -26,7 +26,6 @@ import edu.csuft.chentao.databinding.ActivityEditorInfoBinding;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
-import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
@@ -127,10 +126,9 @@ public class EditorInfoActivity extends BaseActivity {
             String action = intent.getAction();
             LoggerUtil.logger(Constant.TAG, action);
             if (action.equals(Constant.ACTION_RETURN_MESSAGE)) {
-                ReturnMessageResp resp = (ReturnMessageResp) intent.getSerializableExtra(Constant.EXTRA_RETURN_MESSAGE);
                 Message msg = mHandler.obtainMessage();
                 msg.what = Constant.HANDLER_RETURN_MESSAGE;
-                msg.obj = resp;
+                msg.obj = intent.getSerializableExtra(Constant.EXTRA_RETURN_MESSAGE);
                 mHandler.sendMessage(msg);
             }
         }

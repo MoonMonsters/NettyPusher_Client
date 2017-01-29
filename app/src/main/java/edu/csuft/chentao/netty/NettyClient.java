@@ -5,6 +5,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -27,18 +28,18 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 
 public class NettyClient {
 
-    private Bootstrap mBootstrap;
+    private static Bootstrap sBootstrap;
 
-    private ScheduledExecutorService executor = Executors
+    private static ScheduledExecutorService sExecutor = Executors
             .newScheduledThreadPool(1);
 
     /**
      * 初始化
      */
-    public void init() {
+    public static void init() {
         EventLoopGroup group = new NioEventLoopGroup();
-        mBootstrap = new Bootstrap();
-        mBootstrap.group(group).channel(NioSocketChannel.class)
+        sBootstrap = new Bootstrap();
+        sBootstrap.group(group).channel(NioSocketChannel.class)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new ChannelInitializer<Channel>() {
@@ -50,15 +51,16 @@ public class NettyClient {
                                 .addLast(new StringDecoder())
                                 .addLast(new StringEncoder())
                                 .addLast(new NettyClientHandler())
-                                .addLast(new NettyMessageDecoder(1024 * 1024, 4, 4))
-                                .addLast("MessageEncoder",
-                                        new NettyMessageEncoder())
+//                                .addLast(new NettyMessageDecoder(1024 * 1024, 4, 4))
+//                                .addLast("MessageEncoder",  //无
+//                                        new NettyMessageEncoder())
                                 .addLast("readTimeoutHandler",
-                                        new ReadTimeoutHandler(50))
+                                        new ReadTimeoutHandler(5000))
                                 .addLast("LoginAuthHandler",
                                         new LoginAuthReqHandler())
                                 .addLast("HeartBeatHandler",
                                         new HeartBeatReqHandler())
+
                         ;
                     }
                 });
@@ -70,17 +72,29 @@ public class NettyClient {
      * @param host url
      * @param port 端口
      */
-    public Channel connection(String host, int port) {
-        ChannelFuture future = null;
-        Channel channel = null;
+    public static void connection(final String host, final int port) {
         try {
-            future = mBootstrap.connect(host, port).sync();
-            channel = future.sync().channel();
+            LoggerUtil.logger(Constant.TAG, "NettyClient->connection");
+            ChannelFuture future = sBootstrap.connect(host, port).sync();
+            future.channel().closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
+            sExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                        try {
+                            connection(host, port);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
-
-        return channel;
     }
 
     public Channel connect(String host, int port) {
@@ -101,7 +115,6 @@ public class NettyClient {
                                     .addLast(new ObjectEncoder())
                                     .addLast(new StringDecoder())
                                     .addLast(new StringEncoder())
-                                    .addLast(new NettyClientHandler())
                                     .addLast(new NettyMessageDecoder(1024 * 1024, 4, 4))
                                     .addLast("MessageEncoder",
                                             new NettyMessageEncoder())
@@ -111,18 +124,18 @@ public class NettyClient {
                                             new LoginAuthReqHandler())
                                     .addLast("HeartBeatHandler",
                                             new HeartBeatReqHandler())
+                                    .addLast(new NettyClientHandler())
                             ;
                         }
                     });
             ChannelFuture future = bootstrap.connect(
                     Constant.CONNECTION_URL, Constant.CONNECTION_PORT
             ).sync();
-            channel = future.channel();
-            channel.closeFuture().sync();
+            channel = future.sync().channel();
         } catch (Exception e) {
 
         } finally {
-            executor.execute(new Runnable() {
+            sExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
                     try {

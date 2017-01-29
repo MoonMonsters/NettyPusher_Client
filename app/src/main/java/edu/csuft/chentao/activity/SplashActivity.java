@@ -7,9 +7,7 @@ import android.os.Handler;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.databinding.ActivitySplashBinding;
-import edu.csuft.chentao.service.LoginReqIntentService;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 
 public class SplashActivity extends BaseActivity {
@@ -53,11 +51,11 @@ public class SplashActivity extends BaseActivity {
         //启动服务
 //        startService(new Intent(this, NettyClientService.class));
 
-        SendMessageUtil.initNettyClient();
+//        SendMessageUtil.initNettyClient();
 
         int type = SharedPrefUserInfoUtil.getLoginType();
         if (type == Constant.TYPE_LOGIN_AUTO) {   //如果是自动登录类型
-            startService(new Intent(this, LoginReqIntentService.class));
+//            startService(new Intent(this, LoginReqIntentService.class));
 
             startAnotherActivity(MainActivity.class);
             finishThisActivity();

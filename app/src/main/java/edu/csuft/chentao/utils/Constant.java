@@ -17,11 +17,15 @@ public interface Constant {
     /**
      * 虚拟机连接
      */
-//    String CONNECTION_URL = "192.168.0.102";
+//    String CONNECTION_URL = "169.254.187.72";
     /**
      * Wifi连接
      */
-    String CONNECTION_URL = "192.168.191.1";
+//    String CONNECTION_URL = "192.168.191.3";
+    /**
+     * 外网连接
+     */
+    String CONNECTION_URL = "119.29.143.22";
     /**
      * 服务端端口
      */
@@ -78,7 +82,39 @@ public interface Constant {
     /**
      * 失败
      */
-    int TYPE_RETURN_MESSAGE_FAIL = 3;
+    int TYPE_RETURN_MESSAGE_FAIL = 1;
+    /**
+     * 创建群成功
+     */
+    int TYPE_RETURN_MESSAGE_CREATE_GROUP_SUCCESS = 2;
+    /**
+     * 创建群失败
+     */
+    int TYPE_RETURN_MESSAGE_CREATE_GROUP_FAIL = 3;
+    /**
+     * 更新头像成功
+     */
+    int TYPE_RETURN_MESSAGE_UPDATE_HEAD_IMAGE_SUCCESS = 4;
+    /**
+     * 更新头像失败
+     */
+    int TYPE_RETURN_MESSAGE_UPDATE_HEAD_IMAGE_FAIL = 5;
+    /**
+     * 更新签名成功
+     */
+    int TYPE_RETURN_MESSAGE_UPDATE_SIGNATURE_SUCESS = 6;
+    /**
+     * 更新签名失败
+     */
+    int TYPE_RETURN_MESSAGE_UPDATE_SIGNATURE_FAIL = 7;
+    /**
+     * 更新昵称成功
+     */
+    int TYPE_RETURN_MESSAGE_UPDATE_NICKNAME_SUCCESS = 8;
+    /**
+     * 更新昵称失败
+     */
+    int TYPE_RETURN_MESSAGE_UPDATE_NICKNAME_FAIL = 9;
 
     /**
      * 更新昵称
@@ -145,6 +181,12 @@ public interface Constant {
      * 查看详细
      */
     String ACTION_GROUP_DATAIL = "edu.csuft.chentao.action.group.detail";
+
+    /**
+     * 创建群界面
+     */
+    String ACTION_CREATE_GROUP = "edu.csuft.chentao.action.create.group";
+
     /**
      * 是否登录成功
      */
