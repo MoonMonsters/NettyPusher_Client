@@ -3,7 +3,7 @@ package edu.csuft.chentao.controller.handler;
 import android.content.Intent;
 
 import edu.csuft.chentao.base.MyApplication;
-import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
+import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.utils.Constant;
 
 /**
@@ -14,21 +14,21 @@ import edu.csuft.chentao.utils.Constant;
 public class ReturnMessageHandler implements Handler {
     @Override
     public void handle(Object object) {
-        ReturnMessageResp resp = (ReturnMessageResp) object;
+        ReturnInfoResp resp = (ReturnInfoResp) object;
 //        OperationUtil.sendBroadcastToUpdateUserInfo(resp);
         //如果是创建群相关的返回消息
-        if (resp.getType() == Constant.TYPE_RETURN_MESSAGE_CREATE_GROUP_SUCCESS
-                || resp.getType() == Constant.TYPE_RETURN_MESSAGE_CREATE_GROUP_FAIL) {
+        if (resp.getType() == Constant.TYPE_RETURN_INFO_CREATE_GROUP_SUCCESS
+                || resp.getType() == Constant.TYPE_RETURN_INFO_CREATE_GROUP_FAIL) {
             Intent intent = new Intent();
             intent.setAction(Constant.ACTION_CREATE_GROUP);
-            intent.putExtra(Constant.EXTRA_RETURN_MESSAGE, resp);
+            intent.putExtra(Constant.EXTRA_RETURN_INFO, resp);
             MyApplication.getInstance().sendBroadcast(intent);
             //更新数据的返回消息
-        }else if(resp.getType()>=Constant.TYPE_RETURN_MESSAGE_UPDATE_HEAD_IMAGE_SUCCESS
-                &&resp.getType()<=Constant.TYPE_RETURN_MESSAGE_UPDATE_NICKNAME_FAIL){
+        }else if(resp.getType()>=Constant.TYPE_RETURN_INFO_UPDATE_HEAD_IMAGE_SUCCESS
+                &&resp.getType()<=Constant.TYPE_RETURN_INFO_UPDATE_NICKNAME_FAIL){
             Intent intent = new Intent();
-            intent.setAction(Constant.ACTION_RETURN_MESSAGE);
-            intent.putExtra(Constant.EXTRA_RETURN_MESSAGE,resp);
+            intent.setAction(Constant.ACTION_RETURN_INFO);
+            intent.putExtra(Constant.EXTRA_RETURN_INFO,resp);
             MyApplication.getInstance().sendBroadcast(intent);
         }
     }

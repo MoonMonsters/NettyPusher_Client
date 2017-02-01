@@ -76,7 +76,7 @@ public class EditorInfoActivity extends BaseActivity {
         super.onStart();
         mReceiver = new EditorInfoReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.addAction(Constant.ACTION_RETURN_MESSAGE);
+        filter.addAction(Constant.ACTION_RETURN_INFO);
         registerReceiver(mReceiver, filter);
     }
 
@@ -107,7 +107,7 @@ public class EditorInfoActivity extends BaseActivity {
 
                 //发送数据到Presenter
                 Message msg = mHandler.obtainMessage();
-                msg.what = Constant.HANDLER_RETURN_MESSAGE_IMAGE;
+                msg.what = Constant.HANDLER_RETURN_INFO_IMAGE;
                 msg.obj = buf;
                 mHandler.sendMessage(msg);
 
@@ -125,10 +125,10 @@ public class EditorInfoActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             LoggerUtil.logger(Constant.TAG, action);
-            if (action.equals(Constant.ACTION_RETURN_MESSAGE)) {
+            if (action.equals(Constant.ACTION_RETURN_INFO)) {
                 Message msg = mHandler.obtainMessage();
-                msg.what = Constant.HANDLER_RETURN_MESSAGE;
-                msg.obj = intent.getSerializableExtra(Constant.EXTRA_RETURN_MESSAGE);
+                msg.what = Constant.HANDLER_RETURN_INFO;
+                msg.obj = intent.getSerializableExtra(Constant.EXTRA_RETURN_INFO);
                 mHandler.sendMessage(msg);
             }
         }

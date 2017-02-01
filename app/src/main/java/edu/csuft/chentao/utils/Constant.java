@@ -78,43 +78,43 @@ public interface Constant {
     /**
      * 成功
      */
-    int TYPE_RETURN_MESSAGE_SUCCESS = 0;
+    int TYPE_RETURN_INFO_SUCCESS = 0;
     /**
      * 失败
      */
-    int TYPE_RETURN_MESSAGE_FAIL = 1;
+    int TYPE_RETURN_INFO_FAIL = 1;
     /**
      * 创建群成功
      */
-    int TYPE_RETURN_MESSAGE_CREATE_GROUP_SUCCESS = 2;
+    int TYPE_RETURN_INFO_CREATE_GROUP_SUCCESS = 2;
     /**
      * 创建群失败
      */
-    int TYPE_RETURN_MESSAGE_CREATE_GROUP_FAIL = 3;
+    int TYPE_RETURN_INFO_CREATE_GROUP_FAIL = 3;
     /**
      * 更新头像成功
      */
-    int TYPE_RETURN_MESSAGE_UPDATE_HEAD_IMAGE_SUCCESS = 4;
+    int TYPE_RETURN_INFO_UPDATE_HEAD_IMAGE_SUCCESS = 4;
     /**
      * 更新头像失败
      */
-    int TYPE_RETURN_MESSAGE_UPDATE_HEAD_IMAGE_FAIL = 5;
+    int TYPE_RETURN_INFO_UPDATE_HEAD_IMAGE_FAIL = 5;
     /**
      * 更新签名成功
      */
-    int TYPE_RETURN_MESSAGE_UPDATE_SIGNATURE_SUCESS = 6;
+    int TYPE_RETURN_INFO_UPDATE_SIGNATURE_SUCESS = 6;
     /**
      * 更新签名失败
      */
-    int TYPE_RETURN_MESSAGE_UPDATE_SIGNATURE_FAIL = 7;
+    int TYPE_RETURN_INFO_UPDATE_SIGNATURE_FAIL = 7;
     /**
      * 更新昵称成功
      */
-    int TYPE_RETURN_MESSAGE_UPDATE_NICKNAME_SUCCESS = 8;
+    int TYPE_RETURN_INFO_UPDATE_NICKNAME_SUCCESS = 8;
     /**
      * 更新昵称失败
      */
-    int TYPE_RETURN_MESSAGE_UPDATE_NICKNAME_FAIL = 9;
+    int TYPE_RETURN_INFO_UPDATE_NICKNAME_FAIL = 9;
 
     /**
      * 更新昵称
@@ -175,7 +175,7 @@ public interface Constant {
     /**
      * 返回消息的广播ReturnMessage
      */
-    String ACTION_RETURN_MESSAGE = "edu.csuft.chentao.action.return.message";
+    String ACTION_RETURN_INFO = "edu.csuft.chentao.action.return.info";
 
     /**
      * 查看详细
@@ -248,7 +248,7 @@ public interface Constant {
     /**
      * 传递ReturnMessage对象
      */
-    String EXTRA_RETURN_MESSAGE = "extra_return_message";
+    String EXTRA_RETURN_INFO = "extra_return_info";
 
     /**
      * 位置
@@ -293,7 +293,7 @@ public interface Constant {
     /**
      * 传递ReturnMessage数据
      */
-    int HANDLER_RETURN_MESSAGE = 7;
+    int HANDLER_RETURN_INFO = 7;
     /**
      * 刷新
      */
@@ -306,7 +306,7 @@ public interface Constant {
     /**
      * 传递图片数据，在EditorInfoActivity和Presenter之间
      */
-    int HANDLER_RETURN_MESSAGE_IMAGE = 10;
+    int HANDLER_RETURN_INFO_IMAGE = 10;
 
     /**
      * 在GroupDetailActivity和Presenter之间通过Handler传递数据

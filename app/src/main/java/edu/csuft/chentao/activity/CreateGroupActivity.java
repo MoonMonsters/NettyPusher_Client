@@ -20,7 +20,7 @@ import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityCreateGroupPresenter;
 import edu.csuft.chentao.databinding.ActivityCreateGroupBinding;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
-import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
+import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.utils.Constant;
 
 public class CreateGroupActivity extends BaseActivity {
@@ -91,11 +91,11 @@ public class CreateGroupActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(Constant.ACTION_CREATE_GROUP)) {
-                ReturnMessageResp resp = (ReturnMessageResp) intent.getSerializableExtra(Constant.EXTRA_RETURN_MESSAGE);
+                ReturnInfoResp resp = (ReturnInfoResp) intent.getSerializableExtra(Constant.EXTRA_RETURN_INFO);
                 //弹出提示框
                 Toast.makeText(CreateGroupActivity.this, resp.getDescription(), Toast.LENGTH_SHORT).show();
                 //创建成功，关闭当前界面
-                if (resp.getType() == Constant.TYPE_RETURN_MESSAGE_CREATE_GROUP_SUCCESS) {
+                if (resp.getType() == Constant.TYPE_RETURN_INFO_CREATE_GROUP_SUCCESS) {
                     CreateGroupActivity.this.finish();
                 }
             }

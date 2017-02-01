@@ -44,6 +44,7 @@ public class SendMessageUtil {
      * @param object 待发送数据对象
      */
     public static synchronized void sendMessage(final Object object) {
+        LoggerUtil.logger(Constant.TAG, "SendMessageUtil->发送消息");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -55,7 +56,7 @@ public class SendMessageUtil {
                 } catch (Exception e) {
 
                     synchronized (this) {
-                        NettyClient.connection(Constant.CONNECTION_URL,Constant.CONNECTION_PORT);
+                        NettyClient.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
                         try {
                             Thread.sleep(3000);
                         } catch (InterruptedException e1) {
@@ -72,14 +73,15 @@ public class SendMessageUtil {
     /**
      * 发送登录信息
      */
-    public static void sendLoginReq(){
+    public static void sendLoginReq() {
+        LoggerUtil.logger(Constant.TAG, "SendMessageUtil->发送登录消息");
         String username = SharedPrefUserInfoUtil.getUsername();
         String password = SharedPrefUserInfoUtil.getPassword();
-        if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)){
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
             LoginReq req = new LoginReq();
             req.setType(SharedPrefUserInfoUtil.getLoginType() ==
-                    Constant.TYPE_LOGIN_AUTO?
-                    Constant.TYPE_LOGIN_AUTO:
+                    Constant.TYPE_LOGIN_AUTO ?
+                    Constant.TYPE_LOGIN_AUTO :
                     Constant.TYPE_LOGIN_NEW);
             req.setUsername(username);
             req.setPassword(password);

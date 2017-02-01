@@ -19,7 +19,6 @@ import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
-import io.netty.handler.timeout.ReadTimeoutHandler;
 
 /**
  * Created by Chalmers on 2016-12-16 15:20.
@@ -45,23 +44,21 @@ public class NettyClient {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) throws Exception {
+//                        ch.pipeline().addLast(new IdleStateHandler(5, 5, 5));
                         ch.pipeline().addLast(new ObjectDecoder(Integer.MAX_VALUE,
-                                ClassResolvers.weakCachingConcurrentResolver(null)))
-                                .addLast(new ObjectEncoder())
-                                .addLast(new StringDecoder())
-                                .addLast(new StringEncoder())
-                                .addLast(new NettyClientHandler())
-//                                .addLast(new NettyMessageDecoder(1024 * 1024, 4, 4))
-//                                .addLast("MessageEncoder",  //无
-//                                        new NettyMessageEncoder())
-                                .addLast("readTimeoutHandler",
-                                        new ReadTimeoutHandler(5000))
-                                .addLast("LoginAuthHandler",
-                                        new LoginAuthReqHandler())
-                                .addLast("HeartBeatHandler",
-                                        new HeartBeatReqHandler())
+                                ClassResolvers.weakCachingConcurrentResolver(null)));
 
-                        ;
+                        ch.pipeline().addLast(new ObjectEncoder());
+                        ch.pipeline().addLast(new StringDecoder());
+                        ch.pipeline().addLast(new StringEncoder());
+//                        ch.pipeline().addLast(new MyIdleHandler());
+                        ch.pipeline().addLast(new NettyClientHandler());
+//                        ch.pipeline().addLast(new NettyMessageDecoder(1024*1024,  4, 4, -8, 0));
+//                        ch.pipeline().addLast("MessageEncoder", new NettyMessageEncoder());
+//                        ch.pipeline().addLast("readTimeoutHandler", new ReadTimeoutHandler(50));
+//                        ch.pipeline().addLast("LoginAuthHandler", new LoginAuthReqHandler());
+//                        ch.pipeline().addLast("HeartBeatHandler", new HeartBeatReqHandler());
+//                        ch.pipeline().addLast(new NettyClientHandler());
                     }
                 });
     }
@@ -97,61 +94,61 @@ public class NettyClient {
         }
     }
 
-    public Channel connect(String host, int port) {
-        Channel channel = null;
-        Bootstrap bootstrap = null;
-
-        try {
-            EventLoopGroup group = new NioEventLoopGroup();
-            bootstrap = new Bootstrap();
-            bootstrap.group(group).channel(NioSocketChannel.class)
-                    .option(ChannelOption.SO_KEEPALIVE, true)
-                    .option(ChannelOption.TCP_NODELAY, true)
-                    .handler(new ChannelInitializer<Channel>() {
-                        @Override
-                        protected void initChannel(Channel ch) throws Exception {
-                            ch.pipeline().addLast(new ObjectDecoder(Integer.MAX_VALUE,
-                                    ClassResolvers.weakCachingConcurrentResolver(null)))
-                                    .addLast(new ObjectEncoder())
-                                    .addLast(new StringDecoder())
-                                    .addLast(new StringEncoder())
-                                    .addLast(new NettyMessageDecoder(1024 * 1024, 4, 4))
-                                    .addLast("MessageEncoder",
-                                            new NettyMessageEncoder())
-                                    .addLast("readTimeoutHandler",
-                                            new ReadTimeoutHandler(50))
-                                    .addLast("LoginAuthHandler",
-                                            new LoginAuthReqHandler())
-                                    .addLast("HeartBeatHandler",
-                                            new HeartBeatReqHandler())
-                                    .addLast(new NettyClientHandler())
-                            ;
-                        }
-                    });
-            ChannelFuture future = bootstrap.connect(
-                    Constant.CONNECTION_URL, Constant.CONNECTION_PORT
-            ).sync();
-            channel = future.sync().channel();
-        } catch (Exception e) {
-
-        } finally {
-            sExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                        try {
-                            connect(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);// 发起重连操作
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-
-        return channel;
-    }
+//    public Channel connect(String host, int port) {
+//        Channel channel = null;
+//        Bootstrap bootstrap = null;
+//
+//        try {
+//            EventLoopGroup group = new NioEventLoopGroup();
+//            bootstrap = new Bootstrap();
+//            bootstrap.group(group).channel(NioSocketChannel.class)
+//                    .option(ChannelOption.SO_KEEPALIVE, true)
+//                    .option(ChannelOption.TCP_NODELAY, true)
+//                    .handler(new ChannelInitializer<Channel>() {
+//                        @Override
+//                        protected void initChannel(Channel ch) throws Exception {
+//                            ch.pipeline().addLast(new ObjectDecoder(Integer.MAX_VALUE,
+//                                    ClassResolvers.weakCachingConcurrentResolver(null)))
+//                                    .addLast(new ObjectEncoder())
+//                                    .addLast(new StringDecoder())
+//                                    .addLast(new StringEncoder())
+//                                    .addLast(new NettyMessageDecoder(1024 * 1024, 4, 4))
+//                                    .addLast("MessageEncoder",
+//                                            new NettyMessageEncoder())
+//                                    .addLast("readTimeoutHandler",
+//                                            new ReadTimeoutHandler(50))
+//                                    .addLast("LoginAuthHandler",
+//                                            new LoginAuthReqHandler())
+//                                    .addLast("HeartBeatHandler",
+//                                            new HeartBeatReqHandler())
+//                                    .addLast(new NettyClientHandler())
+//                            ;
+//                        }
+//                    });
+//            ChannelFuture future = bootstrap.connect(
+//                    Constant.CONNECTION_URL, Constant.CONNECTION_PORT
+//            ).sync();
+//            channel = future.sync().channel();
+//        } catch (Exception e) {
+//
+//        } finally {
+//            sExecutor.execute(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        TimeUnit.SECONDS.sleep(1);
+//                        try {
+//                            connect(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);// 发起重连操作
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//        }
+//
+//        return channel;
+//    }
 }

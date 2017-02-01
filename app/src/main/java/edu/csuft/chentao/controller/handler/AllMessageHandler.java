@@ -4,7 +4,7 @@ import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.pojo.resp.CreateGroupResp;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
-import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
+import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.pojo.resp.UserIdsInGroupResp;
 import edu.csuft.chentao.pojo.resp.UserInfoResp;
 import edu.csuft.chentao.utils.Constant;
@@ -34,8 +34,8 @@ public class AllMessageHandler {
         } else if (object instanceof RegisterResp) {
             printMsg = "RegisterResp";
             handler = new RegisterHandler();
-        } else if (object instanceof ReturnMessageResp) {
-            printMsg = "ReturnMessageResp";
+        } else if (object instanceof ReturnInfoResp) {
+            printMsg = "ReturnInfoResp";
             handler = new ReturnMessageHandler();
         } else if (object instanceof UserInfoResp) {
             printMsg = "UserInfoResp";

@@ -15,7 +15,7 @@ import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.UpdateUserInfoReq;
-import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
+import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
@@ -50,23 +50,23 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == Constant.HANDLER_RETURN_MESSAGE) {
+            if (msg.what == Constant.HANDLER_RETURN_INFO) {
                 //注销
                 EventBus.getDefault().unregister(ActivityEditorInfoPresenter.this);
-                ReturnMessageResp resp = (ReturnMessageResp) msg.obj;
+                ReturnInfoResp resp = (ReturnInfoResp) msg.obj;
                     //更新成功
                     switch (resp.getType()) {
-                        case Constant.TYPE_RETURN_MESSAGE_UPDATE_SIGNATURE_SUCESS:  //更新签名
+                        case Constant.TYPE_RETURN_INFO_UPDATE_SIGNATURE_SUCESS:  //更新签名
                             UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
                             userInfo.setSignature(mUpdateInfo);
                             UserInfoDaoUtil.updateUserInfo(userInfo);
                             break;
-                        case Constant.TYPE_RETURN_MESSAGE_UPDATE_NICKNAME_SUCCESS:   //更新昵称
+                        case Constant.TYPE_RETURN_INFO_UPDATE_NICKNAME_SUCCESS:   //更新昵称
                             UserInfo userInfo2 = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
                             userInfo2.setNickname(mUpdateInfo);
                             UserInfoDaoUtil.updateUserInfo(userInfo2);
                             break;
-                        case Constant.TYPE_RETURN_MESSAGE_UPDATE_HEAD_IMAGE_SUCCESS:  //更新头像
+                        case Constant.TYPE_RETURN_INFO_UPDATE_HEAD_IMAGE_SUCCESS:  //更新头像
                             UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
                             userHead.setImage(mImage);
                             UserHeadDaoUtil.updateUserHead(userHead);
@@ -74,7 +74,7 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
                     }
                 Toast.makeText(mActivityBinding.getRoot().getContext(),
                         resp.getDescription(), Toast.LENGTH_SHORT).show();
-            } else if (msg.what == Constant.HANDLER_RETURN_MESSAGE_IMAGE) {
+            } else if (msg.what == Constant.HANDLER_RETURN_INFO_IMAGE) {
                 byte[] buf = (byte[]) msg.obj;
                 mImage = buf;
                 UpdateUserInfoReq req = new UpdateUserInfoReq();

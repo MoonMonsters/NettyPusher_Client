@@ -9,7 +9,7 @@ import java.util.Locale;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.req.Message;
-import edu.csuft.chentao.pojo.resp.ReturnMessageResp;
+import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 
 /**
  * Created by Chalmers on 2016-12-29 17:43.
@@ -60,10 +60,10 @@ public class OperationUtil {
     /**
      * 更新用户信息
      */
-    public static void sendBroadcastToUpdateUserInfo(ReturnMessageResp resp) {
+    public static void sendBroadcastToUpdateUserInfo(ReturnInfoResp resp) {
         Intent intent = new Intent();
-        intent.setAction(Constant.ACTION_RETURN_MESSAGE);
-        intent.putExtra(Constant.EXTRA_RETURN_MESSAGE, resp);
+        intent.setAction(Constant.ACTION_RETURN_INFO);
+        intent.putExtra(Constant.EXTRA_RETURN_INFO, resp);
         MyApplication.getInstance().sendBroadcast(intent);
     }
 

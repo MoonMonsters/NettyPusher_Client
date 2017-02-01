@@ -35,7 +35,7 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         //重新连接
-        NettyClient.connection(Constant.CONNECTION_URL,Constant.CONNECTION_PORT);
+        NettyClient.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
         LoggerUtil.logger(Constant.TAG, VALUE + "channelInactive");
     }
 
@@ -48,8 +48,29 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
         handler.handle(msg);
     }
 
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        LoggerUtil.logger(Constant.TAG, VALUE + "exceptionCaught");
-    }
+//    @Override
+//    public void userEventTriggered(ChannelHandlerContext ctx, Object evt)
+//            throws Exception {
+//        super.userEventTriggered(ctx, evt);
+//        if (evt instanceof IdleStateEvent) {
+//            IdleStateEvent e = (IdleStateEvent) evt;
+//
+//            if (e.state() == IdleState.READER_IDLE) {
+////                System.out.println("--- Reader Idle ---");
+////
+////                ctx.writeAndFlush(String.valueOf("Client Reader Idle"));
+//
+//                // ctx.close();
+//            } else if (e.state() == IdleState.WRITER_IDLE) {
+//                LoggerUtil.logger(Constant.TAG, "--- Write Idle ---");
+//
+//                ctx.writeAndFlush(String.valueOf("Client Write Idle"));
+//                // ctx.close();
+//            } else if (e.state() == IdleState.ALL_IDLE) {
+////                System.out.println("--- All_IDLE ---");
+////
+////                ctx.writeAndFlush(String.valueOf("Client All Idle"));
+//            }
+//        }
+//    }
 }

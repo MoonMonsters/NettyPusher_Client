@@ -10,7 +10,7 @@ import java.io.Serializable;
  *         <p>
  *         2016年12月11日 下午8:52:29
  */
-public class ReturnMessageResp implements Serializable {
+public class ReturnInfoResp implements Serializable {
 
     /**
      * 类型，成功or失败
@@ -21,13 +21,13 @@ public class ReturnMessageResp implements Serializable {
      */
     private String description;
 
-    public ReturnMessageResp(int type, String description) {
+    public ReturnInfoResp(int type, String description) {
         super();
         this.type = type;
         this.description = description;
     }
 
-    public ReturnMessageResp() {
+    public ReturnInfoResp() {
         super();
     }
 
@@ -49,7 +49,7 @@ public class ReturnMessageResp implements Serializable {
 
     @Override
     public String toString() {
-        return "ReturnMessageResp [type=" + type + ", description="
+        return "ReturnInfoResp [type=" + type + ", description="
                 + description + "]";
     }
 
