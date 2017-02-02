@@ -56,17 +56,18 @@ public class UserHeadDaoUtil {
      */
     public static void saveUserHeadFromHandler(UserInfoResp resp) {
         //用户头像
-        UserHead userHead = new UserHead();
-        userHead.setUserid(resp.getUserid());
-        userHead.setImage(resp.getHeadImage());
+        UserHead userHead = getUserHead(resp.getUserid());
+        if (userHead == null) { //插入
+            userHead = new UserHead();
+            userHead.setUserid(resp.getUserid());
+            userHead.setImage(resp.getHeadImage());
 
-        List<UserHead> userHeadList = loadAll();
-        if (userHeadList.size() > 0) {  //同上
-            UserHead userHead2 = userHeadList.get(0);
-            userHead2.setImage(userHead.getImage());
-            updateUserHead(userHead2);
-        } else {
             saveUserHead(userHead);
+        } else {    //更新
+            userHead.setUserid(resp.getUserid());
+            userHead.setImage(resp.getHeadImage());
+
+            updateUserHead(userHead);
         }
     }
 

@@ -23,6 +23,7 @@ public class CopyUtil {
      * 将发送的内容转换成ChattingMessage对象并且保存
      */
     public static ChattingMessage saveMessageReqToChattingMessage(Message message) {
+        LoggerUtil.logger(Constant.TAG, "Message转换成ChattingMessage");
         ChattingMessage chattingMessage = new ChattingMessage();
 
         chattingMessage.setImage(message.getPicFile());
@@ -33,7 +34,8 @@ public class CopyUtil {
         chattingMessage.setType(message.getType());
         chattingMessage.setTypemsg(message.getTypeMsg());
 
-        String nickname = UserInfoDaoUtil.getUserInfo(message.getUserid()).getNickname();
+        String nickname = UserInfoDaoUtil.getUserInfo(message.getUserid()) == null ?
+                null : UserInfoDaoUtil.getUserInfo(message.getUserid()).getNickname();
 
         //保存到本地
         ChattingMessageDaoUtil.saveChattingMessage(chattingMessage);

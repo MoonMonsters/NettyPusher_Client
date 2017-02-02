@@ -117,6 +117,15 @@ public interface Constant {
     int TYPE_RETURN_INFO_UPDATE_NICKNAME_FAIL = 9;
 
     /**
+     * 获取用户信息
+     */
+    int TYPE_GET_INFO_USERINFO = 0;
+    /**
+     * 退出登录
+     */
+    int TYPE_GET_INFO_UNLOGIN = 1;
+
+    /**
      * 更新昵称
      */
     int TYPE_UPDATE_NICKNAME = 0;
@@ -186,6 +195,11 @@ public interface Constant {
      * 创建群界面
      */
     String ACTION_CREATE_GROUP = "edu.csuft.chentao.action.create.group";
+
+    /**
+     * 获得成功用户信息
+     */
+    String ACTION_GET_USERINFO = "edu.csuft.chentao.action.get.userinfo";
 
     /**
      * 是否登录成功
@@ -297,7 +311,7 @@ public interface Constant {
     /**
      * 刷新
      */
-    int HANDLER_CHATTING_MESSAGE_REFRESH = 8;
+    int HANDLER_PRESENTER_REFRESH = 8;
 
     /**
      * 传递图片数据，在MessageActivity和Presenter之间

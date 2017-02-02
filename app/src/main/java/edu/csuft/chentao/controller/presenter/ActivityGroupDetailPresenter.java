@@ -1,5 +1,9 @@
 package edu.csuft.chentao.controller.presenter;
 
+import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.os.Message;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -10,6 +14,7 @@ import java.util.Map;
 
 import edu.csuft.chentao.adapter.UserInGroupAdapter;
 import edu.csuft.chentao.databinding.ActivityGroupDetailBinding;
+import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.resp.UserCapitalResp;
 import edu.csuft.chentao.pojo.resp.UserIdsInGroupResp;
@@ -32,12 +37,31 @@ public class ActivityGroupDetailPresenter {
     private int mGroupId;
     private List<UserInfo> mUserInfoList;
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            //刷新界面
+            if (msg.what == Constant.HANDLER_PRESENTER_REFRESH) {
+                int userId = msg.arg1;
+                UserInfo userInfo = UserInfoDaoUtil
+                        .getUserInfo(userId);
+                //避免存在相同的数据
+                if (mUserInfoList.contains(userInfo)) {
+                    return;
+                }
+                mUserInfoList.add(userInfo);
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+    };
+
     public ActivityGroupDetailPresenter(ActivityGroupDetailBinding activityBinding) {
         this.mActivityBinding = activityBinding;
     }
 
     public void init() {
         EventBus.getDefault().register(this);
+        EventBus.getDefault().post(new HandlerMessage(mHandler, "GroupDetailActivity"));
         initData();
     }
 
@@ -46,10 +70,10 @@ public class ActivityGroupDetailPresenter {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getUserIdsInGroupResp(UserIdsInGroupResp resp){
+    public void getUserIdsInGroupResp(UserIdsInGroupResp resp) {
         LoggerUtil.logger(Constant.TAG, "UserIdsInGroupResp-->" + resp.toString());
         mGroupId = resp.getGroupId();
-        Map<Integer, Integer> idCapital = new HashMap<>();
+        @SuppressLint("UseSparseArrays") Map<Integer, Integer> idCapital = new HashMap<>();
         for (UserCapitalResp ucr : resp.getUserIdCapitalList()) {
             idCapital.put(ucr.getUserId(), ucr.getCapital());
         }

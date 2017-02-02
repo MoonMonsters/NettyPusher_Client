@@ -22,6 +22,7 @@ import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.CopyUtil;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 
@@ -49,6 +50,7 @@ public class ActivityMessagePresenter {
             if (msg.what == Constant.HANDLER_MESSAGE_CHATTING_MESSAGE) {
                 //获得数据
                 ChattingMessage chattingMessage = (ChattingMessage) msg.obj;
+                LoggerUtil.logger(Constant.TAG, "接收到内容是->" + chattingMessage.toString());
                 //添加进集合
                 mChattingMessageList.add(chattingMessage);
                 //刷新界面
@@ -56,7 +58,8 @@ public class ActivityMessagePresenter {
                 //选中最后一行
                 mActivityBinding.rvMessageContent.getLayoutManager()
                         .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, mAdapter.getItemCount() - 1);
-            } else if (msg.what == Constant.HANDLER_CHATTING_MESSAGE_REFRESH) {
+            } else if (msg.what == Constant.HANDLER_PRESENTER_REFRESH) { //刷新界面
+                LoggerUtil.logger(Constant.TAG, "刷新MessageActivity界面");
                 mAdapter.notifyDataSetChanged();
                 //接收来自Activity的图片数据
             } else if (msg.what == Constant.HANDLER_MESSAGE_CHATTING_MESSAGE_IMAGE) {

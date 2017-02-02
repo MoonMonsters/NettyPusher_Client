@@ -36,12 +36,12 @@ public class ActivityUserInfoPresenter {
 
     private ActivityUserInfoBinding mActivityBinding = null;
     private UserHead mUserHead = null;
-    RecentMessageAdapter mAdapter = null;
+    private RecentMessageAdapter mAdapter = null;
 
     /**
      * ChattingMessage集合
      */
-    List<ChattingMessage> mChattingMessageList = null;
+    private List<ChattingMessage> mChattingMessageList = null;
     /**
      * 分页
      */
@@ -114,7 +114,6 @@ public class ActivityUserInfoPresenter {
 //        mActivityBinding.ptrlvUserinfoRecentMsg.setAdapter(mAdapter);
         mActivityBinding.setAdapter(mAdapter);
     }
-
 
     /**
      * 初始化监听器

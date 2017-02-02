@@ -4,6 +4,8 @@ import java.util.List;
 
 import edu.csuft.chentao.dao.ChattingMessageDao;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
+import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 
 /**
  * Created by Chalmers on 2017-01-07 13:59.
@@ -39,6 +41,7 @@ public class ChattingMessageDaoUtil {
      * 保存数据
      */
     public static void saveChattingMessage(ChattingMessage chattingMessage) {
+        LoggerUtil.logger(Constant.TAG, "保存ChattingMessage到本地");
         DaoSessionUtil.getChattingMessageDao().insert(chattingMessage);
     }
 

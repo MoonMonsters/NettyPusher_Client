@@ -49,4 +49,11 @@ public class UserIdsInGroupResp implements Serializable {
         this.userIdCapitalList = userIdCapitalList;
     }
 
+    @Override
+    public String toString() {
+        return "UserIdsInGroupResp{" +
+                "groupId=" + groupId +
+                ", userIdCapitalList=" + userIdCapitalList +
+                '}';
+    }
 }

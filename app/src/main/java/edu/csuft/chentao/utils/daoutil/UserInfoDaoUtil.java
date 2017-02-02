@@ -8,6 +8,9 @@ import java.util.Map;
 import edu.csuft.chentao.dao.UserInfoDao;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.resp.UserInfoResp;
+import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 
 /**
  * Created by csuft.chentao on 2017-01-07 14:01.
@@ -27,10 +30,18 @@ public class UserInfoDaoUtil {
      */
     public static UserInfo getUserInfo(int userId) {
 
+        UserInfo userInfo =
+                DaoSessionUtil.getUserInfoDao()
+                        .queryBuilder().where(UserInfoDao.Properties.Userid.eq(userId))
+                        .unique();
 
-        return DaoSessionUtil.getUserInfoDao()
-                .queryBuilder().where(UserInfoDao.Properties.Userid.eq(userId))
-                .unique();
+        //如果请求的数据为空，那么便向服务器请求用户的数据
+        if (userInfo == null) {
+            LoggerUtil.logger(Constant.TAG, "userId" + userId + "的数据为空");
+            OperationUtil.getUserInfoFromServerByUserId(userId);
+        }
+
+        return userInfo;
     }
 
     /**
@@ -56,7 +67,10 @@ public class UserInfoDaoUtil {
         List<UserInfo> userInfoList = new ArrayList<>();
         Iterator it = map.keySet().iterator();
         while (it.hasNext()) {
-            userInfoList.add(getUserInfo((int) it.next()));
+            UserInfo userInfo = getUserInfo((int) it.next());
+            if (userInfo != null) {
+                userInfoList.add(userInfo);
+            }
         }
 
         return userInfoList;
@@ -71,26 +85,22 @@ public class UserInfoDaoUtil {
 
     /**
      * 将Handler中的UserInfo数据保存到数据库中
-     *
-     * @param resp
      */
     public static void saveUserInfoFromHandler(UserInfoResp resp) {
         //用户信息
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUserid(resp.getUserid());
-        userInfo.setNickname(resp.getNickname());
-        userInfo.setSignature(resp.getSignature());
+        UserInfo userInfo = getUserInfo(resp.getUserid());
+        if (userInfo == null) { //如果用户数据不存在，则插入
+            userInfo = new UserInfo();
+            userInfo.setUserid(resp.getUserid());
+            userInfo.setNickname(resp.getNickname());
+            userInfo.setSignature(resp.getSignature());
 
-        //保存
-        List<UserInfo> userInfoList = loadAll();
-
-        if (userInfoList.size() > 0) {  //如果该数据已经存在，则更新
-            UserInfo userInfo2 = userInfoList.get(0);
-            userInfo2.setSignature(userInfo.getSignature());
-            userInfo2.setNickname(userInfo.getNickname());
-            updateUserInfo(userInfo2);
-        } else {    //否则插入
             saveUserInfo(userInfo);
+        } else {    //如果存在，则更新
+            userInfo.setUserid(resp.getUserid());
+            userInfo.setNickname(resp.getNickname());
+            userInfo.setSignature(resp.getSignature());
+            updateUserInfo(userInfo);
         }
     }
 }

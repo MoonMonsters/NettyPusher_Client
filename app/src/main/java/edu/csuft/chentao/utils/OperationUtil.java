@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
+import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 
@@ -158,5 +159,19 @@ public class OperationUtil {
 
         return result;
     }
+
+    /**
+     * 发送消息请求用户数据
+     *
+     * @param userId 用户id
+     */
+    public static void getUserInfoFromServerByUserId(int userId) {
+        GetInfoReq req = new GetInfoReq();
+        req.setType(Constant.TYPE_GET_INFO_USERINFO);
+        req.setArg1(userId);
+        SendMessageUtil.sendMessage(req);
+    }
+
+
 
 }

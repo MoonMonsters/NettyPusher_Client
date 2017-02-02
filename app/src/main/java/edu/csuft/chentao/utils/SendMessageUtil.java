@@ -3,6 +3,7 @@ package edu.csuft.chentao.utils;
 import android.text.TextUtils;
 
 import edu.csuft.chentao.netty.NettyClient;
+import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.pojo.req.LoginReq;
 import io.netty.channel.Channel;
 
@@ -87,5 +88,16 @@ public class SendMessageUtil {
             req.setPassword(password);
             sendMessage(req);
         }
+    }
+
+    /**
+     * 退出登录时，发送消息告知服务器
+     */
+    public static void sendUnLoginReq() {
+        LoggerUtil.logger(Constant.TAG, "SendMessageUtil->发送退出登录消息");
+        GetInfoReq req = new GetInfoReq();
+        req.setType(Constant.TYPE_GET_INFO_UNLOGIN);
+        req.setArg1(SharedPrefUserInfoUtil.getUserId());
+        sendMessage(req);
     }
 }

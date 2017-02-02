@@ -5,6 +5,7 @@ import android.content.Intent;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.resp.UserInfoResp;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
@@ -12,10 +13,12 @@ import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
  * Created by Chalmers on 2016-12-22 12:14.
  * email:qxinhai@yeah.net
  */
-public class UserInfoHandler implements Handler {
+class UserInfoHandler implements Handler {
     @Override
     public void handle(Object object) {
         UserInfoResp resp = (UserInfoResp) object;
+
+        LoggerUtil.logger(Constant.TAG, "UserInfoHandler->" + resp.toString());
 
         //判断uid是否为-1，如果为-1，表示登录失败，否则成功
         if (resp.getUserid() > 0) { //登录成功
@@ -28,6 +31,8 @@ public class UserInfoHandler implements Handler {
             } else if (resp.getType() == Constant.TYPE_LOGIN_NEW
                     || resp.getType() == Constant.TYPE_LOGIN_USER_INFO) { //如果是重新登录类型
 
+                LoggerUtil.logger(Constant.TAG, "UserInfoHandler->" + resp.getType());
+
                 /*
                 如果是重新登录类型或者获得其他用户信息类型，则要从服务端把该用户的所有数据都获取过来，保存
                  */
@@ -39,6 +44,14 @@ public class UserInfoHandler implements Handler {
                 if (resp.getType() == Constant.TYPE_LOGIN_NEW) {  //重新登录，需要发送广播
                     //发送广播，表示登录成功
                     sendBroadcast(true, resp.getUserid());
+                }
+                if (resp.getType() == Constant.TYPE_LOGIN_USER_INFO) {
+                    LoggerUtil.logger(Constant.TAG, "UserInfoHandler->LOGIN_USER_INFO....接收到用户数据");
+                    Intent intent = new Intent();
+                    intent.setAction(Constant.ACTION_GET_USERINFO);
+                    intent.putExtra(Constant.EXTRA_USER_ID, resp.getUserid());
+                    MyApplication.getInstance()
+                            .sendBroadcast(intent);
                 }
             }
         } else { //登录失败

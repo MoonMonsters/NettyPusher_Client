@@ -30,6 +30,7 @@ import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.req.GetUserAndGroupInfoReq;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
@@ -76,6 +77,7 @@ public class MessageActivity extends BaseActivity {
         mReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constant.ACTION_CHATTING_MESSAGE);
+        filter.addAction(Constant.ACTION_GET_USERINFO);
         registerReceiver(mReceiver, filter);
     }
 
@@ -89,12 +91,14 @@ public class MessageActivity extends BaseActivity {
          */
         //根据群id得到GroupChattingItem对象
         GroupChattingItem chattingItem = GroupChattingItemDaoUtil.getGroupChattingItem(groupId);
-        //将数据清0
-        chattingItem.setNumber(0);
-        //更新
-        GroupChattingItemDaoUtil.updateGroupChattingItem(chattingItem);
-        //发送广播
-        OperationUtil.sendBroadcastToUpdateGroupChattingItem(chattingItem);
+        if (chattingItem != null) {
+            //将数据清0
+            chattingItem.setNumber(0);
+            //更新
+            GroupChattingItemDaoUtil.updateGroupChattingItem(chattingItem);
+            //发送广播
+            OperationUtil.sendBroadcastToUpdateGroupChattingItem(chattingItem);
+        }
     }
 
     /**
@@ -155,17 +159,16 @@ public class MessageActivity extends BaseActivity {
             req.setType(Constant.TYPE_USER_GROUP_INFO_GROUP);
             req.setId(groupId);
             SendMessageUtil.sendMessage(req);
-
         }
         return true;
     }
 
     public class MessageReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             //广播类型
             String action = intent.getAction();
+            LoggerUtil.logger(Constant.TAG, "MessageActivity接收到到广播->" + action);
             //获得传输的数据对象
             ChattingMessage chattingMessage = (ChattingMessage) intent.getSerializableExtra(Constant.EXTRA_CHATTING_MESSAGE);
             if (action.equals(Constant.ACTION_CHATTING_MESSAGE)) {
@@ -177,6 +180,12 @@ public class MessageActivity extends BaseActivity {
                     msg.obj = chattingMessage;
                     mHandler.sendMessage(msg);
                 }
+            } else if (action.equals(Constant.ACTION_GET_USERINFO)) {
+                LoggerUtil.logger(Constant.TAG, "接收到广播Action_Get_Userinfo" + Constant.ACTION_GET_USERINFO);
+                //发送到Handler中去操作
+                android.os.Message msg = mHandler.obtainMessage();
+                msg.what = Constant.HANDLER_PRESENTER_REFRESH;
+                mHandler.sendMessage(msg);
             }
         }
     }

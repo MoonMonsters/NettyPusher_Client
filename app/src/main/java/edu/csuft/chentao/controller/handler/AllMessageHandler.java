@@ -48,7 +48,6 @@ public class AllMessageHandler {
             handler = new UserIdsInGroupHandler();
         }
 
-        LoggerUtil.logger(Constant.TAG, VALUE + object.toString());
         LoggerUtil.logger(Constant.TAG, VALUE + printMsg);
 
         return handler;

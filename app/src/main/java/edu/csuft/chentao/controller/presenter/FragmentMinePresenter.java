@@ -6,6 +6,7 @@ import edu.csuft.chentao.activity.EditorInfoActivity;
 import edu.csuft.chentao.activity.LoginActivity;
 import edu.csuft.chentao.activity.MainActivity;
 import edu.csuft.chentao.databinding.FragmentMineBinding;
+import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
@@ -36,6 +37,9 @@ public class FragmentMinePresenter {
         GroupChattingItemDaoUtil.deleteAll();
         //删除所有的Groups数据
         GroupsDaoUtil.deleteAll();
+        //退出登录
+        SendMessageUtil.sendUnLoginReq();
+
         (mFragmentBinding.getRoot().getContext()).startActivity(new Intent(
                 (mFragmentBinding.getRoot().getContext()),
                 LoginActivity.class));
