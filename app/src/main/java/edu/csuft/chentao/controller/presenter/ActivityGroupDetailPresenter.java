@@ -3,6 +3,7 @@ package edu.csuft.chentao.controller.presenter;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -16,6 +17,7 @@ import edu.csuft.chentao.adapter.UserInGroupAdapter;
 import edu.csuft.chentao.databinding.ActivityGroupDetailBinding;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.bean.UserInfo;
+import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.pojo.resp.UserCapitalResp;
 import edu.csuft.chentao.pojo.resp.UserIdsInGroupResp;
 import edu.csuft.chentao.utils.Constant;
@@ -41,7 +43,7 @@ public class ActivityGroupDetailPresenter {
         @Override
         public void handleMessage(Message msg) {
             //刷新界面
-            if (msg.what == Constant.HANDLER_PRESENTER_REFRESH) {
+            if (msg.what == Constant.HANDLER_PRESENTER_REFRESH_USERINFO) {
                 int userId = msg.arg1;
                 UserInfo userInfo = UserInfoDaoUtil
                         .getUserInfo(userId);
@@ -51,6 +53,14 @@ public class ActivityGroupDetailPresenter {
                 }
                 mUserInfoList.add(userInfo);
                 mAdapter.notifyDataSetChanged();
+                //用户身份值改变
+            } else if (msg.what == Constant.HANDLER_PRESENTER_REFRESH_CAPITAL) {
+                ReturnInfoResp resp = (ReturnInfoResp) msg.obj;
+                Toast.makeText(mActivityBinding.getRoot().getContext(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+                //刷新
+                if (resp.getType() == Constant.TYPE_RETURN_INFO_UPDATE_USER_CAPITAL_SUCCESS) {
+                    mAdapter.notifyChanged();
+                }
             }
         }
     };

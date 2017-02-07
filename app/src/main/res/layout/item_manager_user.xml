@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="itemPresenter"
+            type="edu.csuft.chentao.adapter.UserInGroupAdapter.ItemManagerUserPresenter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingEnd="30dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingStart="30dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/actv_manager_group_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="@{()->itemPresenter.onClickToSetAdmin()}"
+            android:text="@string/string_set_manager"
+            android:textSize="18sp" />
+
+        <View style="@style/view_line_bottom" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/actv_manager_group_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="@{()->itemPresenter.onClickToSetCommonUser()}"
+            android:text="@string/string_set_user"
+            android:textSize="18sp" />
+
+        <View style="@style/view_line_bottom" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/actv_manager_group_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="@{()->itemPresenter.onClickToRemoveUser()}"
+            android:text="@string/string_remove_user"
+            android:textSize="18sp" />
+    </LinearLayout>
+</layout>

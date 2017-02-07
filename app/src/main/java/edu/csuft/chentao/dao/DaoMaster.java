@@ -27,6 +27,7 @@ public class DaoMaster extends AbstractDaoMaster {
         GroupUserDao.createTable(db, ifNotExists);
         UserHeadDao.createTable(db, ifNotExists);
         UserInfoDao.createTable(db, ifNotExists);
+        HintDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -37,6 +38,7 @@ public class DaoMaster extends AbstractDaoMaster {
         GroupUserDao.dropTable(db, ifExists);
         UserHeadDao.dropTable(db, ifExists);
         UserInfoDao.dropTable(db, ifExists);
+        HintDao.dropTable(db, ifExists);
     }
 
     /**
@@ -61,6 +63,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(GroupUserDao.class);
         registerDaoClass(UserHeadDao.class);
         registerDaoClass(UserInfoDao.class);
+        registerDaoClass(HintDao.class);
     }
 
     public DaoSession newSession() {

@@ -13,15 +13,18 @@ import edu.csuft.chentao.utils.LoggerUtil;
  * email:qxinhai@yeah.net
  */
 
-public class GroupInfoHandler implements Handler {
+class GroupInfoHandler implements Handler {
     @Override
     public void handle(Object object) {
         GroupInfoResp resp = (GroupInfoResp) object;
-        final Groups groups = CopyUtil.saveGroupInfoToGroups(resp);
 
-        LoggerUtil.logger(Constant.TAG, "接收到GroupInfoResp数据");
-
-        EventBus.getDefault().post(groups);
-
+        if (resp.getType() == Constant.TYPE_GROUP_INFO_OWNER) { //需要存储在本地
+            final Groups groups = CopyUtil.saveGroupInfoToGroups(resp);
+            LoggerUtil.logger(Constant.TAG, "接收到GroupInfoResp--OWNER数据");
+            EventBus.getDefault().post(groups);
+            //搜索得到的群信息
+        } else if (resp.getType() == Constant.TYPE_GROUP_INFO_SEARCH) {
+            EventBus.getDefault().post(resp);
+        }
     }
 }

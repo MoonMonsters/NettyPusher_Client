@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import edu.csuft.chentao.activity.CreateGroupActivity;
+import edu.csuft.chentao.activity.SearchGroupActivity;
 import edu.csuft.chentao.base.MyApplication;
 
 /**
@@ -23,6 +24,9 @@ public class ItemGroupOperationPresenter {
      */
     public void onClickToSearchGroup() {
         Toast.makeText(MyApplication.getInstance(), "onClickToSearchGroup", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MyApplication.getInstance(), SearchGroupActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        MyApplication.getInstance().startActivity(intent);
     }
 
     /**

@@ -31,6 +31,11 @@
     <string name="string_enter_group_detail_activity">进入GroupDetailActivity</string>
     <string name="string_submit">提交</string>
     <string name="string_group_name">群名称</string>
+    <string name="string_set_manager">设为管理员</string>
+    <string name="string_set_user">设为普通成员</string>
+    <string name="string_remove_user">踢出该群</string>
+    <string name="string_input_id_name_tag">输入id/群名/标签</string>
+    <string name="string_enter_group">加入该群</string>
 
     <string-array name="group_tags">
         <item>同学</item>
@@ -45,5 +50,10 @@
         <item>品牌产品</item>
         <item>游戏</item>
         <item>粉丝</item>
+    </string-array>
+    <string-array name="group_tag_search_group">
+        <item>群id</item>
+        <item>群名</item>
+        <item>群标签</item>
     </string-array>
 </resources>

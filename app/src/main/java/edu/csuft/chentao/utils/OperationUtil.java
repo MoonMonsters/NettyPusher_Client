@@ -1,7 +1,9 @@
 package edu.csuft.chentao.utils;
 
+import android.content.Context;
 import android.content.Intent;
 import android.text.format.DateFormat;
+import android.view.WindowManager;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -10,6 +12,7 @@ import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.pojo.req.Message;
+import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 
 /**
@@ -172,6 +175,32 @@ public class OperationUtil {
         SendMessageUtil.sendMessage(req);
     }
 
+    /**
+     * 获取屏幕宽度
+     */
+    public static int getScreenWidth() {
+        WindowManager wm = (WindowManager) MyApplication.getInstance().getSystemService(Context.WINDOW_SERVICE);
+        return wm.getDefaultDisplay().getWidth();
+    }
+
+    /**
+     * 获取屏幕高度
+     */
+    public static int getScreenHeight() {
+        WindowManager wm = (WindowManager) MyApplication.getInstance().getSystemService(Context.WINDOW_SERVICE);
+        return wm.getDefaultDisplay().getHeight();
+    }
+
+    /**
+     * 拼凑数量和标签
+     *
+     * @param resp GroupInfoResp对象
+     * @return 拼凑的字符串
+     */
+    public static String getTagAndNumber(GroupInfoResp resp) {
+
+        return resp.getNumber() + "人/" + resp.getTag();
+    }
 
 
 }

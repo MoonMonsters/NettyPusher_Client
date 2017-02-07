@@ -61,7 +61,6 @@ public class ChattingListAdapter2 extends BaseAdapter {
         }
         binding.setItem(mGroupChattingItemList.get(position));
         binding.setItemPresenter(new ItemChattingListPresenter(mGroupChattingItemList.get(position)));
-
         return binding.getRoot();
     }
 

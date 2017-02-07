@@ -117,6 +117,23 @@ public interface Constant {
     int TYPE_RETURN_INFO_UPDATE_NICKNAME_FAIL = 9;
 
     /**
+     * 更新用户身份成功
+     */
+    int TYPE_RETURN_INFO_UPDATE_USER_CAPITAL_SUCCESS = 10;
+    /**
+     * 更新用户身份失败
+     */
+    int TYPE_RETURN_INFO_UPDATE_USER_CAPITAL_FAIL = 11;
+    /**
+     * 搜索群时，数据个数为0
+     */
+    int TYPE_RETURN_INFO_SEARCH_GROUP_SIZE_0 = 12;
+    /**
+     * 退出群失败
+     */
+    int TYPE_RETURN_INFO_EXIT_GROUP_FAIL = 13;
+
+    /**
      * 获取用户信息
      */
     int TYPE_GET_INFO_USERINFO = 0;
@@ -124,6 +141,18 @@ public interface Constant {
      * 退出登录
      */
     int TYPE_GET_INFO_UNLOGIN = 1;
+    /**
+     * 根据群id搜索
+     */
+    int TYPE_GET_INFO_SEARCH_GROUP_ID = 2;
+    /**
+     * 根据群名搜索
+     */
+    int TYPE_GET_INFO_SEARCH_GROUP_NAME = 3;
+    /**
+     * 根据标签搜索
+     */
+    int TYPE_GET_INFO_SEARCH_GROUP_TAG = 4;
 
     /**
      * 更新昵称
@@ -187,6 +216,11 @@ public interface Constant {
     String ACTION_RETURN_INFO = "edu.csuft.chentao.action.return.info";
 
     /**
+     * 修改用户数据的返回值
+     */
+    String ACTION_RETURN_INFO_USER_CAPITAL = "edu.csuft.chentao.action.return.info.user.capital";
+
+    /**
      * 查看详细
      */
     String ACTION_GROUP_DATAIL = "edu.csuft.chentao.action.group.detail";
@@ -200,6 +234,10 @@ public interface Constant {
      * 获得成功用户信息
      */
     String ACTION_GET_USERINFO = "edu.csuft.chentao.action.get.userinfo";
+    /**
+     * 搜索群数据时，接收到广播
+     */
+    String ACTION_SEARCH_GROUP = "edu.csuft.chentao.action.search.group";
 
     /**
      * 是否登录成功
@@ -312,6 +350,14 @@ public interface Constant {
      * 刷新
      */
     int HANDLER_PRESENTER_REFRESH = 8;
+    /**
+     * 刷新用户信息
+     */
+    int HANDLER_PRESENTER_REFRESH_USERINFO = 9;
+    /**
+     * 刷新用户身份值
+     */
+    int HANDLER_PRESENTER_REFRESH_CAPITAL = 10;
 
     /**
      * 传递图片数据，在MessageActivity和Presenter之间
@@ -321,6 +367,10 @@ public interface Constant {
      * 传递图片数据，在EditorInfoActivity和Presenter之间
      */
     int HANDLER_RETURN_INFO_IMAGE = 10;
+    /**
+     * 搜索到的数据为0
+     */
+    int HANDLER_SEARCH_GROUP_SIZE_0 = 11;
 
     /**
      * 在GroupDetailActivity和Presenter之间通过Handler传递数据
@@ -373,4 +423,56 @@ public interface Constant {
      * 请求群信息
      */
     int TYPE_USER_GROUP_INFO_GROUP = 1;
+    /**
+     * 用户拥有的群
+     */
+    int TYPE_GROUP_INFO_OWNER = 0;
+    /**
+     * 用户搜索时获取的群
+     */
+    int TYPE_GROUP_INFO_SEARCH = 1;
+
+    /*
+     * 群操作
+	 */
+    /**
+     * 自己退出群
+     */
+    int TYPE_GROUP_OPERATION_EXIT_BY_MYSELE = 1;
+    /**
+     * 被管理员踢出群
+     */
+    int TYPE_GROUP_OPERATION_EXIT_BY_ADMIN = 2;
+    /**
+     * 自己加入群
+     */
+    int TYPE_GROUP_OPERATION_ADD_BY_MYSELF = 3;
+    /**
+     * 被邀请加入群
+     */
+    int TYPE_GROUP_OPERATION_ADD_BY_INVITE = 4;
+    /**
+     * 同意加入群
+     */
+    int TYPE_GROUP_OPERATION_AGREE_ADD_GROUP = 5;
+    /**
+     * 拒绝加入群
+     */
+    int TYPE_GROUP_OPERATION_REFUSE_ADD_GROUP = 6;
+
+    /*
+     * 群消息相应
+     */
+    //1.退出群
+    int TYPE_GROUP_REMINDER_EXIT_BY_MYSELF = 0;
+    //2.踢出群
+    int TYPE_GROUP_REMINDER_REMOVE_USER = 1;
+    //3.加入群
+    int TYPE_GROUP_REMINDER_ADD_GROUP = 2;
+    //4.邀请入群
+    int TYPE_GROUP_REMINDER_INVITE_GROUP = 3;
+    //5.拒绝用户加入群
+    int TYPE_GROUP_REMINDER_REFUSE_ADD_GROUP = 4;
+    //6.同意用户加入群
+    int TYPE_GROUP_REMINDER_AGREE_ADD_GROUP = 5;
 }

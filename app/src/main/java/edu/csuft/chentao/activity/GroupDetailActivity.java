@@ -64,6 +64,7 @@ public class GroupDetailActivity extends BaseActivity {
         mReceiver = new GroupDetailReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constant.ACTION_GET_USERINFO);
+        filter.addAction(Constant.ACTION_RETURN_INFO_USER_CAPITAL);
         registerReceiver(mReceiver, filter);
     }
 
@@ -79,8 +80,13 @@ public class GroupDetailActivity extends BaseActivity {
             String action = intent.getAction();
             if (action.equals(Constant.ACTION_GET_USERINFO)) {
                 Message msg = mHandler.obtainMessage();
-                msg.what = Constant.HANDLER_PRESENTER_REFRESH;
+                msg.what = Constant.HANDLER_PRESENTER_REFRESH_USERINFO;
                 msg.arg1 = intent.getIntExtra(Constant.EXTRA_USER_ID, -1);
+                mHandler.sendMessage(msg);
+            } else if (action.equals(Constant.ACTION_RETURN_INFO_USER_CAPITAL)) {
+                Message msg = mHandler.obtainMessage();
+                msg.what = Constant.HANDLER_PRESENTER_REFRESH_CAPITAL;
+                msg.obj = intent.getSerializableExtra(Constant.EXTRA_RETURN_INFO);
                 mHandler.sendMessage(msg);
             }
         }

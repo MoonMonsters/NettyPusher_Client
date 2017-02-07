@@ -7,6 +7,10 @@
         <import type="edu.csuft.chentao.utils.OperationUtil" />
 
         <variable
+            name="itemPresenter"
+            type="edu.csuft.chentao.adapter.UserInGroupAdapter.ItemManagerUserPresenter" />
+
+        <variable
             name="userInfo"
             type="edu.csuft.chentao.pojo.bean.UserInfo" />
 
@@ -23,6 +27,8 @@
         android:id="@+id/layout_user_in_group"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:onClick="@{()->itemPresenter.onClickToUserDetail()}"
+        android:onLongClick="@{itemPresenter.onLongClick}"
         android:orientation="horizontal">
 
         <ImageView

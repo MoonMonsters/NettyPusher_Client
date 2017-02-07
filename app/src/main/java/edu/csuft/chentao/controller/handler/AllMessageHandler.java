@@ -3,6 +3,7 @@ package edu.csuft.chentao.controller.handler;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.pojo.resp.CreateGroupResp;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
+import edu.csuft.chentao.pojo.resp.GroupReminderResp;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.pojo.resp.UserIdsInGroupResp;
@@ -36,7 +37,7 @@ public class AllMessageHandler {
             handler = new RegisterHandler();
         } else if (object instanceof ReturnInfoResp) {
             printMsg = "ReturnInfoResp";
-            handler = new ReturnMessageHandler();
+            handler = new ReturnInfoHandler();
         } else if (object instanceof UserInfoResp) {
             printMsg = "UserInfoResp";
             handler = new UserInfoHandler();
@@ -46,6 +47,9 @@ public class AllMessageHandler {
         } else if (object instanceof UserIdsInGroupResp) {
             printMsg = "UserIdsInGroupResp";
             handler = new UserIdsInGroupHandler();
+        } else if (object instanceof GroupReminderResp) {
+            printMsg = "GroupReminderResp";
+            handler = new GroupReminderHandler();
         }
 
         LoggerUtil.logger(Constant.TAG, VALUE + printMsg);
