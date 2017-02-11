@@ -11,6 +11,7 @@ import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
+import edu.csuft.chentao.utils.daoutil.HintDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-29 19:05.
@@ -37,6 +38,8 @@ public class FragmentMinePresenter {
         GroupChattingItemDaoUtil.deleteAll();
         //删除所有的Groups数据
         GroupsDaoUtil.deleteAll();
+        //删除所有消息数据
+        HintDaoUtil.deleteAll();
         //退出登录
         SendMessageUtil.sendUnLoginReq();
 

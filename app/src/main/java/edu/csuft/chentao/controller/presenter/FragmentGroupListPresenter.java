@@ -1,6 +1,7 @@
 package edu.csuft.chentao.controller.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
+import edu.csuft.chentao.activity.HintActivity;
 import edu.csuft.chentao.adapter.GroupListAdapter;
 import edu.csuft.chentao.databinding.FragmentGroupListBinding;
 import edu.csuft.chentao.pojo.bean.Groups;
@@ -68,5 +70,13 @@ public class FragmentGroupListPresenter {
         LoggerUtil.logger(Constant.TAG, "FragmentGroupListPresenter-->接收到群数据");
         mGroupsList.add(groups);
         mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 点击进入HintActivity
+     */
+    public void onClickToEnterHintActivity() {
+        Intent intent = new Intent(mFragmentBinding.getRoot().getContext(), HintActivity.class);
+        mFragmentBinding.getRoot().getContext().startActivity(intent);
     }
 }

@@ -202,5 +202,18 @@ public class OperationUtil {
         return resp.getNumber() + "人/" + resp.getTag();
     }
 
+    /**
+     * 根据类型的值，返回对应的String值
+     */
+    public static String getTextWithHintType(int type) {
+        String result = null;
+        if (type == Constant.TYPE_HINT_SHOW_AGREE) {
+            result = "已同意";
+        } else if (type == Constant.TYPE_HINT_SHOW_REFUSE) {
+            result = "已拒绝";
+        }
+
+        return result;
+    }
 
 }

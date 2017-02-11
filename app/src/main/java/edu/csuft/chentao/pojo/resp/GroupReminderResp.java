@@ -4,7 +4,6 @@
 package edu.csuft.chentao.pojo.resp;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 /**
  * @author csuft.chentao
@@ -35,7 +34,7 @@ public class GroupReminderResp implements Serializable {
      */
     private String description;
     /**
-     * 群名称
+     * 群名称】
      */
     private String groupName;
 
@@ -104,7 +103,6 @@ public class GroupReminderResp implements Serializable {
     public String toString() {
         return "GroupReminderResp{" +
                 "type=" + type +
-                ", image=" + Arrays.toString(image) +
                 ", groupId=" + groupId +
                 ", userId=" + userId +
                 ", description='" + description + '\'' +

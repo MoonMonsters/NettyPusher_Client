@@ -4,18 +4,30 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityGroupDetailPresenter;
+import edu.csuft.chentao.controller.presenter.ItemGroupDetailPopupPresenter;
 import edu.csuft.chentao.databinding.ActivityGroupDetailBinding;
+import edu.csuft.chentao.databinding.ItemGroupDetailPopupBinding;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
@@ -28,6 +40,7 @@ public class GroupDetailActivity extends BaseActivity {
 
     private Handler mHandler = null;
     private BroadcastReceiver mReceiver = null;
+    private PopupWindow mPopupWindow;
 
     @Override
     public int getLayoutResourceId() {
@@ -72,6 +85,38 @@ public class GroupDetailActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         unregisterReceiver(mReceiver);
+
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+        getMenuInflater().inflate(R.menu.mene_group_detail, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_group_detail_more) {
+            View view = LayoutInflater.from(this)
+                    .inflate(R.layout.item_group_detail_popup, null);
+            //弹出菜单
+            mPopupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+            mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            mPopupWindow.setOutsideTouchable(true);
+            mPopupWindow.showAsDropDown(((GroupDetailActivity) mActivityBinding.getRoot().getContext()).getActionBar().getCustomView());
+
+            ItemGroupDetailPopupBinding binding =
+                    DataBindingUtil.bind(view);
+            binding.setVariable(BR.itemPresenter, new ItemGroupDetailPopupPresenter());
+        }
+
+        return true;
     }
 
     private class GroupDetailReceiver extends BroadcastReceiver {

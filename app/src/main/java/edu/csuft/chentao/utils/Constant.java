@@ -475,4 +475,23 @@ public interface Constant {
     int TYPE_GROUP_REMINDER_REFUSE_ADD_GROUP = 4;
     //6.同意用户加入群
     int TYPE_GROUP_REMINDER_AGREE_ADD_GROUP = 5;
+    //7.某用户申请加入群
+    int TYPE_GROUP_REMINDER_WANT_TO_ADD_GROUP = 6;
+
+    /**
+     * 不显示Button也不显示TextView
+     */
+    int TYPE_HINT_SHOW_NONE = 0;
+    /**
+     * 显示已经同意的TextView
+     */
+    int TYPE_HINT_SHOW_AGREE = 1;
+    /**
+     * 显示已经拒绝的TextView
+     */
+    int TYPE_HINT_SHOW_REFUSE = 2;
+    /**
+     * 显示同意或者拒绝的Button
+     */
+    int TYPE_HINT_SHOW_AGREE_REFUSE_BUTTON = 3;
 }

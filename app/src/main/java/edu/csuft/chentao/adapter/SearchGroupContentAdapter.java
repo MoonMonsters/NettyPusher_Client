@@ -16,8 +16,11 @@ import edu.csuft.chentao.activity.ImageActivity;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ItemSearchGroupInfoBinding;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
+import edu.csuft.chentao.pojo.req.GroupOperationReq;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.SendMessageUtil;
+import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 
 /**
  * Created by Chalmers on 2017-02-04 16:10.
@@ -79,7 +82,12 @@ public class SearchGroupContentAdapter extends BaseAdapter {
          * 点击加入群
          */
         public void onClickToEnterGroup() {
-
+            GroupOperationReq req = new GroupOperationReq();
+            req.setType(Constant.TYPE_GROUP_OPERATION_ADD_BY_MYSELF);
+            req.setGroupid(mGroupInfo.getGroupid());
+            req.setUserId1(SharedPrefUserInfoUtil.getUserId());
+            req.setUserId2(-1);
+            SendMessageUtil.sendMessage(req);
         }
 
         /**

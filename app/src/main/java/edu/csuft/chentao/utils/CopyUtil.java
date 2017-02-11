@@ -5,11 +5,14 @@ import java.util.List;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.Groups;
+import edu.csuft.chentao.pojo.bean.Hint;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
+import edu.csuft.chentao.pojo.resp.GroupReminderResp;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
+import edu.csuft.chentao.utils.daoutil.HintDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 /**
@@ -106,5 +109,49 @@ public class CopyUtil {
             //发送更新广播
             OperationUtil.sendBroadcastToUpdateGroupChattingItem(chattingItem);
         }
+    }
+
+    /**
+     * 将GroupReminderResp数据对象，转成Hint对象，并保存到数据库中
+     */
+    public static Hint saveHintFromGroupReminder(GroupReminderResp resp) {
+        Hint hint = new Hint();
+
+        hint.setGroupid(resp.getGroupId());
+        hint.setImage(resp.getImage());
+        hint.setDescription(resp.getDescription());
+        hint.setGroupname(resp.getGroupName());
+        hint.setType(resp.getType());
+        hint.setUserid(resp.getUserId());
+
+        int show = -1;
+        //加入了群
+        if (resp.getType() == Constant.TYPE_GROUP_REMINDER_ADD_GROUP) {
+            show = Constant.TYPE_HINT_SHOW_NONE;
+            //被管理员提出群
+        } else if (resp.getType() == Constant.TYPE_GROUP_REMINDER_REMOVE_USER) {
+            show = Constant.TYPE_HINT_SHOW_NONE;
+            //自己退出群
+        } else if (resp.getType() == Constant.TYPE_GROUP_REMINDER_EXIT_BY_MYSELF) {
+            show = Constant.TYPE_HINT_SHOW_NONE;
+            //邀请自己入群
+        } else if (resp.getType() == Constant.TYPE_GROUP_REMINDER_INVITE_GROUP) {
+            show = Constant.TYPE_HINT_SHOW_AGREE_REFUSE_BUTTON;
+            //被管理员拒绝加入群
+        } else if (resp.getType() == Constant.TYPE_GROUP_REMINDER_REFUSE_ADD_GROUP) {
+            show = Constant.TYPE_HINT_SHOW_NONE;
+            //管理员同意加入群
+        } else if (resp.getType() == Constant.TYPE_GROUP_REMINDER_AGREE_ADD_GROUP) {
+            show = Constant.TYPE_HINT_SHOW_NONE;
+            //用户申请加入群
+        } else if (resp.getType() == Constant.TYPE_GROUP_REMINDER_WANT_TO_ADD_GROUP) {
+            show = Constant.TYPE_HINT_SHOW_AGREE_REFUSE_BUTTON;
+        }
+
+        hint.setShow(show);
+
+        HintDaoUtil.insert(hint);
+
+        return hint;
     }
 }

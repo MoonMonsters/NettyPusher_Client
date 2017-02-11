@@ -47,7 +47,8 @@
         <activity android:name=".activity.UserInfoActivity" />
         <activity android:name=".activity.SearchGroupActivity" />
         <activity android:name=".activity.GroupDetailActivity" />
-        <activity android:name=".activity.CreateGroupActivity"></activity>
+        <activity android:name=".activity.CreateGroupActivity" />
+        <activity android:name=".activity.HintActivity"></activity>
     </application>
 
 </manifest>

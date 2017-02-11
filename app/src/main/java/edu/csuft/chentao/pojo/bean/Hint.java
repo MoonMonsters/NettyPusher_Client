@@ -29,13 +29,13 @@ public class Hint extends BaseObservable {
      */
     private byte[] image;
     /**
-     * 类型
+     * 数据类型
      */
     private int type;
     /**
-     * 是否已经解决
+     * 显示类型
      */
-    private boolean isHandle;
+    private int show;
     /**
      * 群名称
      */
@@ -94,13 +94,13 @@ public class Hint extends BaseObservable {
     }
 
     @Bindable
-    public boolean getIsHandle() {
-        return this.isHandle;
+    public int getShow() {
+        return this.show;
     }
 
-    public void setIsHandle(boolean isHandle) {
-        this.isHandle = isHandle;
-        notifyPropertyChanged(BR.isHandle);
+    public void setShow(int show) {
+        this.show = show;
+        notifyPropertyChanged(BR.show);
     }
 
     @Bindable
@@ -133,13 +133,13 @@ public class Hint extends BaseObservable {
         notifyPropertyChanged(BR._id);
     }
 
-    @Generated(hash = 1577853983)
-    public Hint(Long _id, byte[] image, int type, boolean isHandle,
-                String groupname, String description, int groupid, int userid) {
+    @Generated(hash = 1498400779)
+    public Hint(Long _id, byte[] image, int type, int show, String groupname,
+                String description, int groupid, int userid) {
         this._id = _id;
         this.image = image;
         this.type = type;
-        this.isHandle = isHandle;
+        this.show = show;
         this.groupname = groupname;
         this.description = description;
         this.groupid = groupid;
@@ -149,4 +149,6 @@ public class Hint extends BaseObservable {
     @Generated(hash = 184314319)
     public Hint() {
     }
+
+
 }

@@ -36,6 +36,12 @@
     <string name="string_remove_user">踢出该群</string>
     <string name="string_input_id_name_tag">输入id/群名/标签</string>
     <string name="string_enter_group">加入该群</string>
+    <string name="string_hint_list">消息列表</string>
+    <string name="string_agree">同意</string>
+    <string name="string_refuse">拒绝</string>
+    <string name="string_invite">邀请</string>
+    <string name="string_exit">退出</string>
+    <string name="string_more">更多</string>
 
     <string-array name="group_tags">
         <item>同学</item>
