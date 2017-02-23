@@ -132,7 +132,34 @@ public interface Constant {
      * 退出群失败
      */
     int TYPE_RETURN_INFO_EXIT_GROUP_FAIL = 13;
-
+    /**
+     * 管理员把用户踢出群成功
+     */
+    int TYPE_RETURN_INFO_REMOVE_USER_SUCCESS = 14;
+    /**
+     * 管理员把用户踢出群失败
+     */
+    int TYPE_RETURN_INFO_REMOVE_USER_FAIL = 15;
+    /**
+     * 申请加入群，群不存在
+     */
+    int TYPE_RETURN_INFO_GROUP_NOT_EXIST = 16;
+    /**
+     * 申请加入群，用户已经在群中存在
+     */
+    int TYPE_RETURN_INFO_GROUP_MUL_USER = 17;
+    /**
+     * 错误的用户id
+     */
+    int TYPE_RETURN_INFO_ERROR_USERID = 18;
+    /**
+     * 邀请用户加入群，邀请成功
+     */
+    int TYPE_RETURN_INFO_INVITE_SUCCESS = 19;
+    /**
+     * 邀请用户时，用户已经在群里，重复邀请
+     */
+    int TYPE_RETURN_INFO_INVITE_REPEAT = 20;
     /**
      * 获取用户信息
      */
@@ -238,6 +265,10 @@ public interface Constant {
      * 搜索群数据时，接收到广播
      */
     String ACTION_SEARCH_GROUP = "edu.csuft.chentao.action.search.group";
+    /**
+     * 移除掉群，退出或者被踢出
+     */
+    String ACTION_REMOVE_GROUP = "edu.csuft.chentao.action.remove.group";
 
     /**
      * 是否登录成功
@@ -371,6 +402,10 @@ public interface Constant {
      * 搜索到的数据为0
      */
     int HANDLER_SEARCH_GROUP_SIZE_0 = 11;
+    /**
+     * 移除掉群
+     */
+    int HANDLER_REMOVE_GROUP = 12;
 
     /**
      * 在GroupDetailActivity和Presenter之间通过Handler传递数据
@@ -438,7 +473,7 @@ public interface Constant {
     /**
      * 自己退出群
      */
-    int TYPE_GROUP_OPERATION_EXIT_BY_MYSELE = 1;
+    int TYPE_GROUP_OPERATION_EXIT_BY_MYSELF = 1;
     /**
      * 被管理员踢出群
      */
@@ -494,4 +529,16 @@ public interface Constant {
      * 显示同意或者拒绝的Button
      */
     int TYPE_HINT_SHOW_AGREE_REFUSE_BUTTON = 3;
+
+    /**
+     * 在对话框的标题显示类型
+     */
+    /**
+     * 邀请用户
+     */
+    int TYPE_INVITE_TITLE_AND_HINT_USER = 1;
+    /**
+     * 加入群
+     */
+    int TYPE_INVITE_TITLE_AND_HINT_GROUP = 2;
 }

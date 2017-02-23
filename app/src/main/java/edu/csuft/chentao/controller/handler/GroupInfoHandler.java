@@ -19,7 +19,7 @@ class GroupInfoHandler implements Handler {
         GroupInfoResp resp = (GroupInfoResp) object;
 
         if (resp.getType() == Constant.TYPE_GROUP_INFO_OWNER) { //需要存储在本地
-            final Groups groups = CopyUtil.saveGroupInfoToGroups(resp);
+            Groups groups = CopyUtil.saveGroupInfoToGroups(resp);
             LoggerUtil.logger(Constant.TAG, "接收到GroupInfoResp--OWNER数据");
             EventBus.getDefault().post(groups);
             //搜索得到的群信息

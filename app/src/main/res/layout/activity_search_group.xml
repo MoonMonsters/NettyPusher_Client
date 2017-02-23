@@ -45,14 +45,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:visibility="@{type==0?View.VISIBLE:View.GONE}">
+                android:visibility="@{type==0?View.VISIBLE:View.GONE}"
+                app:counterMaxLength="6">
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/acet_search_group_input_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/string_input_id_name_tag"
-                    android:inputType="number" />
+                    android:hint="@string/string_input_group_id"
+                    android:inputType="number"
+                    android:maxLength="6" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -65,7 +67,7 @@
                     android:id="@+id/acet_search_group_input_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/string_input_id_name_tag"
+                    android:hint="@string/string_input_group_name"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 
@@ -98,6 +100,5 @@
             android:padding="10dp"
             android:verticalSpacing="5dp"
             app:adapter="@{gridViewAdapter}" />
-
     </LinearLayout>
 </layout>

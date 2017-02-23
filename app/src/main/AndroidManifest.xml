@@ -46,9 +46,11 @@
         <activity android:name=".activity.EditorInfoActivity" />
         <activity android:name=".activity.UserInfoActivity" />
         <activity android:name=".activity.SearchGroupActivity" />
-        <activity android:name=".activity.GroupDetailActivity" />
+        <activity
+            android:name=".activity.GroupDetailActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".activity.CreateGroupActivity" />
-        <activity android:name=".activity.HintActivity"></activity>
+        <activity android:name=".activity.HintActivity" />
     </application>
 
 </manifest>

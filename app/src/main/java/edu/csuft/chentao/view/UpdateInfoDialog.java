@@ -1,11 +1,13 @@
 package edu.csuft.chentao.view;
 
-import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.databinding.DialogUpdateInfoBinding;
 
@@ -19,7 +21,7 @@ import edu.csuft.chentao.databinding.DialogUpdateInfoBinding;
  */
 public class UpdateInfoDialog {
 
-    private Dialog mDialog;
+    private AlertDialog mDialog;
     private Context mContext;
     private DialogUpdateInfoBinding mBinding;
     private String mHint;
@@ -27,7 +29,6 @@ public class UpdateInfoDialog {
 
     public UpdateInfoDialog(Context context, IDialogClickListener listener, String hint) {
         this.mContext = context;
-        mDialog = new Dialog(context);
         this.mListener = listener;
         this.mHint = hint;
     }
@@ -37,24 +38,44 @@ public class UpdateInfoDialog {
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.dialog_update_info, null);
         mBinding = DataBindingUtil.bind(view);
-        mDialog.setContentView(view);
-        mDialog.setTitle("更新信息");
-        mBinding.etDialogUpdateInfoInput.setHint(mHint);
-        mBinding.btnDialogUpdateInfoOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String info = mBinding.etDialogUpdateInfoInput.getText().toString();
-                mListener.onClickToUpdateInfo(info);
-                dismiss();
-            }
-        });
+        mBinding.setVariable(BR.hintData, mHint);
 
-        mBinding.btnDialogUpdateInfoCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        mDialog = builder.setView(view)
+                .setTitle("更新信息")
+                .setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String info = mBinding.etDialogUpdateInfoInput.getText().toString();
+                        mListener.onClickToUpdateInfo(info);
+                        dismiss();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dismiss();
+                    }
+                })
+                .create();
+//        mDialog.setContentView(view);
+//        mDialog.setTitle("更新信息");
+//        mBinding.etDialogUpdateInfoInput.setHint(mHint);
+//        mBinding.btnDialogUpdateInfoOk.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String info = mBinding.etDialogUpdateInfoInput.getText().toString();
+//                mListener.onClickToUpdateInfo(info);
+//                dismiss();
+//            }
+//        });
+//
+//        mBinding.btnDialogUpdateInfoCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dismiss();
+//            }
+//        });
 
         mDialog.show();
     }

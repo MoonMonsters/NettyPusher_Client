@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.databinding.ViewDataBinding;
 import android.os.Handler;
-import android.os.Message;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -17,7 +16,6 @@ import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseFragment;
 import edu.csuft.chentao.controller.presenter.FragmentGroupListPresenter;
 import edu.csuft.chentao.databinding.FragmentGroupListBinding;
-import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
@@ -55,20 +53,15 @@ public class GroupListFragment extends BaseFragment {
         super.onStart();
         mReceiver = new GroupListReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.addAction(Constant.ACTION_GROUPS);
+        filter.addAction(Constant.ACTION_REMOVE_GROUP);
         this.getActivity().registerReceiver(mReceiver, filter);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        this.getActivity().unregisterReceiver(mReceiver);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+        this.getActivity().unregisterReceiver(mReceiver);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -84,12 +77,11 @@ public class GroupListFragment extends BaseFragment {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             LoggerUtil.logger(Constant.TAG, "GroupListFragment-->" + action);
-            if (action.equals(Constant.ACTION_GROUPS)) {
-                Groups groups = (Groups) intent.getSerializableExtra(Constant.EXTRA_GROUPS);
-
-                Message msg = mHandler.obtainMessage();
-                msg.what = Constant.HANDLER_GROUPLIST;
-                msg.obj = groups;
+            if (action.equals(Constant.ACTION_REMOVE_GROUP)) {
+                int groupId = intent.getIntExtra(Constant.EXTRA_GROUP_ID, -1);
+                android.os.Message msg = mHandler.obtainMessage();
+                msg.what = Constant.HANDLER_REMOVE_GROUP;
+                msg.arg1 = groupId;
                 mHandler.sendMessage(msg);
             }
         }

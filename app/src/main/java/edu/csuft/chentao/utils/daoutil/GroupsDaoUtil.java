@@ -55,6 +55,17 @@ public class GroupsDaoUtil {
 
         return DaoSessionUtil.getGroupsDao().queryBuilder()
                 .where(GroupsDao.Properties.Groupid.eq(groupId))
-                .build().list().get(0);
+                .build().unique();
+    }
+
+    /**
+     * genuine群id把对应的Groups对象移除掉
+     *
+     * @param groupId 群id
+     */
+    public static void deleteByGroupId(int groupId) {
+
+        Groups groups = getGroups(groupId);
+        DaoSessionUtil.getGroupsDao().delete(groups);
     }
 }

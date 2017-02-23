@@ -42,6 +42,10 @@
     <string name="string_invite">邀请</string>
     <string name="string_exit">退出</string>
     <string name="string_more">更多</string>
+    <string name="string_input_user_id">输入用户id值</string>
+    <string name="string_ok">确定</string>
+    <string name="string_input_group_id">输入群id</string>
+    <string name="string_input_group_name">输入群名</string>
 
     <string-array name="group_tags">
         <item>同学</item>

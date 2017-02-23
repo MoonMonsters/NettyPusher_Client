@@ -80,4 +80,17 @@ public class GroupChattingItemDaoUtil {
                 .where(GroupChattingItemDao.Properties.Groupid.eq(groupId))
                 .build().list();
     }
+
+    /**
+     * 根据群id移除聊天框的聊天项
+     *
+     * @param groupId 群id
+     */
+    public static void removeByGroupId(int groupId) {
+
+        GroupChattingItem item = getGroupChattingItem(groupId);
+        DaoSessionUtil.getGroupChattingItemDao().delete(item);
+    }
+
+
 }

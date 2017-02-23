@@ -40,8 +40,23 @@ public class FragmentGroupListPresenter {
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == Constant.HANDLER_GROUPLIST) {
-
+            if (msg.what == Constant.HANDLER_REMOVE_GROUP) {
+                int groupId = msg.arg1;
+                int index = -1;
+                for (Groups g : mGroupsList) {
+                    if (g.getGroupid() == groupId) {
+                        index = mGroupsList.indexOf(g);
+                        break;
+                    }
+                }
+                if (index != -1) {
+                    //从显示列表中移除掉该数据
+                    mGroupsList.remove(index);
+                    //刷新
+                    mAdapter.notifyDataSetChanged();
+                    //移除掉
+                    GroupsDaoUtil.deleteByGroupId(groupId);
+                }
             }
         }
     };

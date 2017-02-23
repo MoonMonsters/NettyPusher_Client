@@ -65,6 +65,20 @@ public class FragmentChattingListPresenter {
                         mGroupChattingItemList.add(chattingItem);
                     }
                     mAdapter.notifyDataSetChanged();
+                } else if (msg.what == Constant.HANDLER_REMOVE_GROUP) {
+                    int groupId = msg.arg1;
+                    int index = -1;
+                    for (GroupChattingItem item : mGroupChattingItemList) {
+                        if (item.getGroupid() == groupId) {
+                            index = mGroupChattingItemList.indexOf(item);
+                            break;
+                        }
+                    }
+                    if (index != -1) {
+                        mGroupChattingItemList.remove(index);
+                        mAdapter.notifyDataSetChanged();
+                        GroupChattingItemDaoUtil.removeByGroupId(groupId);
+                    }
                 }
             }
         }

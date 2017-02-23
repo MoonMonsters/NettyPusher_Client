@@ -43,6 +43,7 @@ public class ChattingListFragment extends BaseFragment {
         mReceiver = new ChattingListReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constant.ACTION_CHATTING_LIST);
+        filter.addAction(Constant.ACTION_REMOVE_GROUP);
         this.getActivity().registerReceiver(mReceiver, filter);
 
         EventBus.getDefault().register(this);
@@ -91,6 +92,13 @@ public class ChattingListFragment extends BaseFragment {
                     msg.arg1 = intent.getIntExtra(Constant.EXTRA_POSITION, -1);
                     mHandler.sendMessage(msg);
                 }
+                //此移除不同于上面的删除，这个是退出群后，在ChattingList中把数据项移除
+            } else if (action.equals(Constant.ACTION_REMOVE_GROUP)) {
+                int groupId = intent.getIntExtra(Constant.EXTRA_GROUP_ID, -1);
+                Message msg = mHandler.obtainMessage();
+                msg.what = Constant.HANDLER_REMOVE_GROUP;
+                msg.arg1 = groupId;
+                mHandler.sendMessage(msg);
             }
         }
     }

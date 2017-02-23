@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         unregisterReceiver(mReceiver);
-        if(mPopupWindow != null){
+        if (mPopupWindow != null) {
             mPopupWindow.dismiss();
         }
     }
@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity {
             //绑定ItemPresenter
             ItemGroupOperationBinding binding =
                     DataBindingUtil.bind(view);
-            binding.setItemPresenter(new ItemGroupOperationPresenter());
+            binding.setItemPresenter(new ItemGroupOperationPresenter(mActivityBinding));
         }
 
         return true;

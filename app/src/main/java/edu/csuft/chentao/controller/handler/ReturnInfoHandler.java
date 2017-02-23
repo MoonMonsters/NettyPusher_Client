@@ -44,7 +44,21 @@ public class ReturnInfoHandler implements Handler {
             intent.putExtra(Constant.EXTRA_RETURN_INFO, resp);
             MyApplication.getInstance().sendBroadcast(intent);
         } else if (resp.getType() == Constant.TYPE_RETURN_INFO_EXIT_GROUP_FAIL) {   //退出群失败，弹出提示框
-            Toast.makeText(MyApplication.getInstance(), resp.getDescription(), Toast.LENGTH_LONG).show();
+            Toast.makeText(MyApplication.getInstance(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+        } else if (resp.getType() == Constant.TYPE_RETURN_INFO_REMOVE_USER_SUCCESS) {   //管理员把用户踢出去成功，提示管理员
+
+        } else if (resp.getType() == Constant.TYPE_RETURN_INFO_REMOVE_USER_FAIL) {  //管理员把用户踢出去失败，提示管理员
+            Toast.makeText(MyApplication.getInstance(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+        } else if (resp.getType() == Constant.TYPE_RETURN_INFO_GROUP_NOT_EXIST) {   //申请加入群，但群不存在，提示用户
+            Toast.makeText(MyApplication.getInstance(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+        } else if (resp.getType() == Constant.TYPE_RETURN_INFO_GROUP_MUL_USER) {    //申请加入群，但用户已经在群里存在，提示用户
+            Toast.makeText(MyApplication.getInstance(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+        } else if (resp.getType() == Constant.TYPE_RETURN_INFO_ERROR_USERID) {  //邀请用户加入群，但用户id错误
+            Toast.makeText(MyApplication.getInstance(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+        } else if (resp.getType() == Constant.TYPE_RETURN_INFO_INVITE_SUCCESS) {    //邀请用户加入群，邀请操作成功
+            Toast.makeText(MyApplication.getInstance(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+        } else if (resp.getType() == Constant.TYPE_RETURN_INFO_INVITE_REPEAT) { //邀请用户加入群，但用户已经在群里存在
+            Toast.makeText(MyApplication.getInstance(), resp.getDescription(), Toast.LENGTH_SHORT).show();
         }
     }
 }

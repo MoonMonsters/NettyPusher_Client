@@ -13,8 +13,6 @@ import edu.csuft.chentao.BR;
 import edu.csuft.chentao.adapter.HintAdapter;
 import edu.csuft.chentao.databinding.ActivityHintBinding;
 import edu.csuft.chentao.pojo.bean.Hint;
-import edu.csuft.chentao.pojo.resp.GroupReminderResp;
-import edu.csuft.chentao.utils.CopyUtil;
 import edu.csuft.chentao.utils.daoutil.HintDaoUtil;
 
 /**
@@ -25,8 +23,9 @@ import edu.csuft.chentao.utils.daoutil.HintDaoUtil;
 public class ActivityHintPresenter {
 
     private ActivityHintBinding mActivityBinding;
-
+    //数据集合
     private List<Hint> mHintList;
+    //适配器
     private HintAdapter mAdapter;
 
     public ActivityHintPresenter(ActivityHintBinding activityBinding) {
@@ -48,8 +47,7 @@ public class ActivityHintPresenter {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getGroupReminderData(GroupReminderResp resp) {
-        Hint hint = CopyUtil.saveHintFromGroupReminder(resp);
+    public void getGroupReminderData(Hint hint) {
         if (mHintList == null) {
             mHintList = new ArrayList<>();
         }

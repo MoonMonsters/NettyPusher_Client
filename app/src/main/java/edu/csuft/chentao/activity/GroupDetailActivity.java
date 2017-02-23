@@ -54,6 +54,7 @@ public class GroupDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        setSupportActionBar(mActivityBinding.tlGroupDetailBar);
         EventBus.getDefault().register(this);
         mGroupId = getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1);
         Groups groups = GroupsDaoUtil.getGroups(mGroupId);
@@ -109,11 +110,14 @@ public class GroupDetailActivity extends BaseActivity {
             mPopupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
             mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             mPopupWindow.setOutsideTouchable(true);
-            mPopupWindow.showAsDropDown(((GroupDetailActivity) mActivityBinding.getRoot().getContext()).getActionBar().getCustomView());
+            mPopupWindow.showAsDropDown(mActivityBinding.tlGroupDetailBar);
 
             ItemGroupDetailPopupBinding binding =
                     DataBindingUtil.bind(view);
-            binding.setVariable(BR.itemPresenter, new ItemGroupDetailPopupPresenter());
+            ItemGroupDetailPopupPresenter itemPresenter =
+                    new ItemGroupDetailPopupPresenter(mActivityBinding,mPopupWindow);
+            itemPresenter.setGroupId(mGroupId);
+            binding.setVariable(BR.itemPresenter, itemPresenter);
         }
 
         return true;
