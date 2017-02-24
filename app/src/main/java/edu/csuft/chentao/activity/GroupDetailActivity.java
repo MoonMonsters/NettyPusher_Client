@@ -60,7 +60,7 @@ public class GroupDetailActivity extends BaseActivity {
         Groups groups = GroupsDaoUtil.getGroups(mGroupId);
         ActivityGroupDetailPresenter presenter =
                 new ActivityGroupDetailPresenter(mActivityBinding);
-        presenter.init();
+        presenter.init(mGroupId);
         mActivityBinding.setPresenter(presenter);
         mActivityBinding.setGroups(groups);
     }

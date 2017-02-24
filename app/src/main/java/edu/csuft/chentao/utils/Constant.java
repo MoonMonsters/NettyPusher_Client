@@ -541,4 +541,28 @@ public interface Constant {
      * 加入群
      */
     int TYPE_INVITE_TITLE_AND_HINT_GROUP = 2;
+
+    /**
+     * ActivityGroupDetailPresenter
+     */
+    String TAG_ACTIVITY_GROUP_DETAIL_PRESENTER = "ActivityGroupDetailPresenter";
+    /**
+     * Handler向ActivityGroupDetailPresenter发送UserIdsInGroupResp数据
+     */
+    String TAG_ACTIVITY_GROUP_DETAIL_PRESENTER2 = "ActivityGroupDetailPresenter2";
+
+    /**
+     * Handler向FragmentGroupListPresenter中传递Groups数据
+     */
+    String TAG_FRAGMENT_GROUP_LIST_PRESENTER = "FragmentGroupListPresenter";
+    /**
+     * Handler向FragmentGroupListPresenter中传递GroupInfoResp数据
+     */
+    String TAG_ACTIVITY_SEARCH_GROUP_PRESENTER = "ActivitySearchGroupPresenter";
+    /**
+     * Handler向ActivityHintPresenter中传递Hint数据
+     */
+    String TAG_ACTIVITY_HINT_PRESENTER = "ActivityHintPresenter";
+
+
 }

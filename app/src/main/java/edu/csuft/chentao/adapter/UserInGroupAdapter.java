@@ -33,16 +33,37 @@ import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
  * email:qxinhai@yeah.net
  */
 
+/**
+ * 显示群成员列表的Adapter
+ */
 public class UserInGroupAdapter extends BaseAdapter {
 
+    /**
+     * 群成员信息列表
+     */
     private List<UserInfo> mUserInfoList;
     private Context mContext;
+    /**
+     * id对应的身份值
+     */
     private Map<Integer, Integer> mCapitalMap;
+    /**
+     * 群id
+     */
     private int mGroupId;
 
+    /**
+     * 改变用户身份值用到的变量
+     */
     private int mCapitalChanged;
+    /**
+     * 因为不是一次性就加载了群成员的信息，这个是当接收到新的成员信息时，加载的成员信息的id
+     */
     private int mUserIdChanged;
-    private int mUserRemoverd;
+    /**
+     * 把用户踢出去用到的变量
+     */
+    private int mUserRemoved;
 
     public UserInGroupAdapter(Context context, List<UserInfo> userInfoList,
                               Map<Integer, Integer> capitalMap, int groupId) {
@@ -105,7 +126,15 @@ public class UserInGroupAdapter extends BaseAdapter {
      * 踢出用户，如果踢出成功，则刷新一下界面
      */
     public void removeUserAndNotifyChanged() {
-        mCapitalMap.remove(mUserRemoverd);
+        mCapitalMap.remove(mUserRemoved);
+        UserInfo userInfo = null;
+        for (UserInfo ui : mUserInfoList) {
+            if (ui.getUserid() == mUserRemoved) {
+                userInfo = ui;
+                break;
+            }
+        }
+        mUserInfoList.remove(userInfo);
         this.notifyDataSetChanged();
     }
 
@@ -220,7 +249,7 @@ public class UserInGroupAdapter extends BaseAdapter {
             //如果身份高于，则踢出群
             if (myCapital < hisCapital) {
                 //得到被踢出的用户的id
-                mUserRemoverd = mUserInfo.getUserid();
+                mUserRemoved = mUserInfo.getUserid();
                 GroupOperationReq req = new GroupOperationReq();
                 req.setType(Constant.TYPE_GROUP_OPERATION_EXIT_BY_ADMIN);
                 req.setUserId1(mUserInfo.getUserid());

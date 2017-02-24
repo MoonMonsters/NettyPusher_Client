@@ -17,6 +17,7 @@ import java.util.List;
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.adapter.SearchGroupContentAdapter;
 import edu.csuft.chentao.databinding.ActivitySearchGroupBinding;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
@@ -110,15 +111,18 @@ public class ActivitySearchGroupPresenter {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getGroupInfoRespData(GroupInfoResp resp) {
+    public void getGroupInfoRespData(EBToPreObject ebObj) {
         dismissProgressDialog();
-        synchronized (this) {
-            //如果已经存在，则返回，避免数据重复获得
-            if (mGroupInfoList.contains(resp)) {
-                return;
+        if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER)) {
+            GroupInfoResp resp = (GroupInfoResp) ebObj.getObject();
+            synchronized (this) {
+                //如果已经存在，则返回，避免数据重复获得
+                if (mGroupInfoList.contains(resp)) {
+                    return;
+                }
+                mGroupInfoList.add(resp);
+                mAdapter.notifyDataSetChanged();
             }
-            mGroupInfoList.add(resp);
-            mAdapter.notifyDataSetChanged();
         }
     }
 

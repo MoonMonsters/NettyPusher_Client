@@ -28,11 +28,9 @@ import edu.csuft.chentao.databinding.ActivityMessageBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
-import edu.csuft.chentao.pojo.req.GetUserAndGroupInfoReq;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
-import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 
 /**
@@ -154,11 +152,6 @@ public class MessageActivity extends BaseActivity {
             Intent intent = new Intent(this, GroupDetailActivity.class);
             intent.putExtra(Constant.EXTRA_GROUP_ID, groupId);
             this.startActivity(intent);
-
-            GetUserAndGroupInfoReq req = new GetUserAndGroupInfoReq();
-            req.setType(Constant.TYPE_USER_GROUP_INFO_GROUP);
-            req.setId(groupId);
-            SendMessageUtil.sendMessage(req);
         }
         return true;
     }

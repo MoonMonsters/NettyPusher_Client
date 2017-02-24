@@ -15,13 +15,16 @@ import java.util.Map;
 
 import edu.csuft.chentao.adapter.UserInGroupAdapter;
 import edu.csuft.chentao.databinding.ActivityGroupDetailBinding;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.bean.UserInfo;
+import edu.csuft.chentao.pojo.req.GetUserAndGroupInfoReq;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.pojo.resp.UserCapitalResp;
 import edu.csuft.chentao.pojo.resp.UserIdsInGroupResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 /**
@@ -69,27 +72,58 @@ public class ActivityGroupDetailPresenter {
         this.mActivityBinding = activityBinding;
     }
 
-    public void init() {
+    public void init(int groupId) {
+        mGroupId = groupId;
         EventBus.getDefault().register(this);
         EventBus.getDefault().post(new HandlerMessage(mHandler, "GroupDetailActivity"));
         initData();
     }
 
     private void initData() {
+        getUserAndGroupInfo();
+    }
+
+    /**
+     * 发送消息，获取群用户信息
+     */
+    private void getUserAndGroupInfo() {
+        GetUserAndGroupInfoReq req = new GetUserAndGroupInfoReq();
+        req.setType(Constant.TYPE_USER_GROUP_INFO_GROUP);
+        req.setId(mGroupId);
+        SendMessageUtil.sendMessage(req);
+    }
+
+    /**
+     * 接收来自Handler的UserIdsInGroupResp数据
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getUserIdsInGroupResp(EBToPreObject ebObj) {
+        if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER2)) {
+            UserIdsInGroupResp resp = (UserIdsInGroupResp) ebObj.getObject();
+            LoggerUtil.logger(Constant.TAG, "UserIdsInGroupResp-->" + resp.toString());
+//            mGroupId = resp.getGroupId();
+            @SuppressLint("UseSparseArrays") Map<Integer, Integer> idCapital = new HashMap<>();
+            for (UserCapitalResp ucr : resp.getUserIdCapitalList()) {
+                idCapital.put(ucr.getUserId(), ucr.getCapital());
+            }
+            mUserInfoList = UserInfoDaoUtil.getAllUserInfosWithGroupIdMap(idCapital);
+            mAdapter = new UserInGroupAdapter(mActivityBinding.getRoot().getContext(),
+                    mUserInfoList, idCapital, mGroupId);
+            mActivityBinding.setAdapter(mAdapter);
+        }
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getUserIdsInGroupResp(UserIdsInGroupResp resp) {
-        LoggerUtil.logger(Constant.TAG, "UserIdsInGroupResp-->" + resp.toString());
-        mGroupId = resp.getGroupId();
-        @SuppressLint("UseSparseArrays") Map<Integer, Integer> idCapital = new HashMap<>();
-        for (UserCapitalResp ucr : resp.getUserIdCapitalList()) {
-            idCapital.put(ucr.getUserId(), ucr.getCapital());
+    public void getEBToPreObject(EBToPreObject obj) {
+        LoggerUtil.logger(Constant.TAG, Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER + "-->getEBToPreObject");
+        if (obj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER)) {
+            ReturnInfoResp resp = (ReturnInfoResp) obj.getObject();
+            if (resp.getType() == Constant.TYPE_RETURN_INFO_REMOVE_USER_SUCCESS) {
+                Toast.makeText(mActivityBinding.getRoot().getContext(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+                mAdapter.removeUserAndNotifyChanged();
+            }
         }
-        mUserInfoList = UserInfoDaoUtil.getAllUserInfosWithGroupIdMap(idCapital);
-        mAdapter = new UserInGroupAdapter(mActivityBinding.getRoot().getContext(),
-                mUserInfoList, idCapital, mGroupId);
-        mActivityBinding.setAdapter(mAdapter);
     }
+
 }

@@ -12,7 +12,9 @@ import java.util.List;
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.adapter.HintAdapter;
 import edu.csuft.chentao.databinding.ActivityHintBinding;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.Hint;
+import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.daoutil.HintDaoUtil;
 
 /**
@@ -47,14 +49,18 @@ public class ActivityHintPresenter {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getGroupReminderData(Hint hint) {
-        if (mHintList == null) {
-            mHintList = new ArrayList<>();
+    public void getGroupReminderData(EBToPreObject ebObj) {
+        if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_HINT_PRESENTER)) {
+            Hint hint = (Hint) ebObj.getObject();
+            if (mHintList == null) {
+                mHintList = new ArrayList<>();
+            }
+            if (mHintList.contains(hint)) {
+                return;
+            }
+            mHintList.add(hint);
+            mAdapter.notifyDataSetChanged();
         }
-        if (mHintList.contains(hint)) {
-            return;
-        }
-        mHintList.add(hint);
-        mAdapter.notifyDataSetChanged();
+
     }
 }

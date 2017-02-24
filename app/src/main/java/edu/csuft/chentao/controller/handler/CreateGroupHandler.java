@@ -10,7 +10,7 @@ import edu.csuft.chentao.pojo.resp.CreateGroupResp;
  * email:qxinhai@yeah.net
  */
 
-public class CreateGroupHandler implements Handler {
+class CreateGroupHandler implements Handler {
     @Override
     public void handle(Object object) {
         CreateGroupResp resp = (CreateGroupResp) object;

@@ -3,9 +3,13 @@ package edu.csuft.chentao.controller.handler;
 import android.content.Intent;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import edu.csuft.chentao.base.MyApplication;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 
 /**
  * Created by Chalmers on 2016-12-22 12:13.
@@ -16,6 +20,7 @@ public class ReturnInfoHandler implements Handler {
     @Override
     public void handle(Object object) {
         ReturnInfoResp resp = (ReturnInfoResp) object;
+        LoggerUtil.logger(Constant.TAG, resp.toString());
 //        OperationUtil.sendBroadcastToUpdateUserInfo(resp);
         //如果是创建群相关的返回消息
         if (resp.getType() == Constant.TYPE_RETURN_INFO_CREATE_GROUP_SUCCESS
@@ -46,7 +51,14 @@ public class ReturnInfoHandler implements Handler {
         } else if (resp.getType() == Constant.TYPE_RETURN_INFO_EXIT_GROUP_FAIL) {   //退出群失败，弹出提示框
             Toast.makeText(MyApplication.getInstance(), resp.getDescription(), Toast.LENGTH_SHORT).show();
         } else if (resp.getType() == Constant.TYPE_RETURN_INFO_REMOVE_USER_SUCCESS) {   //管理员把用户踢出去成功，提示管理员
-
+            LoggerUtil.logger(Constant.TAG, "ReturnInfoHandler-->TYPE_RETURN_INFO_REMOVE_USER_SUCCESS");
+            /*
+            直接把数据发送到ActivityGroupDetailPresenter类中去
+             */
+            EBToPreObject obj = new EBToPreObject();
+            obj.setTag(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER);
+            obj.setObject(resp);
+            EventBus.getDefault().post(obj);
         } else if (resp.getType() == Constant.TYPE_RETURN_INFO_REMOVE_USER_FAIL) {  //管理员把用户踢出去失败，提示管理员
             Toast.makeText(MyApplication.getInstance(), resp.getDescription(), Toast.LENGTH_SHORT).show();
         } else if (resp.getType() == Constant.TYPE_RETURN_INFO_GROUP_NOT_EXIST) {   //申请加入群，但群不存在，提示用户

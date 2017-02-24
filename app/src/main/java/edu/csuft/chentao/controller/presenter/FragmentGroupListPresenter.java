@@ -15,6 +15,7 @@ import java.util.List;
 import edu.csuft.chentao.activity.HintActivity;
 import edu.csuft.chentao.adapter.GroupListAdapter;
 import edu.csuft.chentao.databinding.FragmentGroupListBinding;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
@@ -81,10 +82,13 @@ public class FragmentGroupListPresenter {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getEventBusGroups(Groups groups) {
+    public void getEventBusGroups(EBToPreObject object) {
         LoggerUtil.logger(Constant.TAG, "FragmentGroupListPresenter-->接收到群数据");
-        mGroupsList.add(groups);
-        mAdapter.notifyDataSetChanged();
+        if (object.getTag().equals(Constant.TAG_FRAGMENT_GROUP_LIST_PRESENTER)) {
+            Groups groups = (Groups) object.getObject();
+            mGroupsList.add(groups);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     /**
