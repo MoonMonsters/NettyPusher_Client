@@ -9,11 +9,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.activity.MessageActivity;
 import edu.csuft.chentao.databinding.ItemChattingListBinding;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
@@ -99,11 +102,14 @@ public class ChattingListAdapter2 extends BaseAdapter {
         public void onClickToDeleteItem() {
             //需要删除的位置
             int position = mGroupChattingItemList.indexOf(mChattingItem);
-            Intent intent = new Intent();
-            intent.setAction(Constant.ACTION_CHATTING_LIST);
-            intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 3);
-            intent.putExtra(Constant.EXTRA_POSITION, position);
-            mContext.sendBroadcast(intent);
+            //发送消息到FragmentChattingListPresenter去移除掉position位置的数据项
+            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_REMOVE_ITEM, position);
+            EventBus.getDefault().post(ebObj);
+//            Intent intent = new Intent();
+//            intent.setAction(Constant.ACTION_CHATTING_LIST);
+//            intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 3);
+//            intent.putExtra(Constant.EXTRA_POSITION, position);
+//            mContext.sendBroadcast(intent);
         }
     }
 }

@@ -22,6 +22,7 @@ import edu.csuft.chentao.pojo.req.GetUserAndGroupInfoReq;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.pojo.resp.UserCapitalResp;
 import edu.csuft.chentao.pojo.resp.UserIdsInGroupResp;
+import edu.csuft.chentao.pojo.resp.UserInfoResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
@@ -93,12 +94,35 @@ public class ActivityGroupDetailPresenter {
         SendMessageUtil.sendMessage(req);
     }
 
-    /**
-     * 接收来自Handler的UserIdsInGroupResp数据
-     */
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getUserIdsInGroupResp(EBToPreObject ebObj) {
-        if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER2)) {
+
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEBToPreObject(EBToPreObject ebObj) {
+        LoggerUtil.logger(Constant.TAG, Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER + "-->getEBToPreObject");
+        //删除用户，数据类型设置错误了，最开始没想到这么多
+        //就是接收了从Handler中传递过来的数据
+        if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER)) {
+            ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
+            if (resp.getType() == Constant.TYPE_RETURN_INFO_REMOVE_USER_SUCCESS) {
+                Toast.makeText(mActivityBinding.getRoot().getContext(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+                mAdapter.removeUserAndNotifyChanged();
+            }
+            //刷新用户的身份值，从Handler传递过来的数据
+        } else if (ebObj.getTag().equals(Constant.TAG_REFRESH_USER_CAPITAL)) {
+            ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
+            Toast.makeText(mActivityBinding.getRoot().getContext(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+            //刷新
+            if (resp.getType() == Constant.TYPE_RETURN_INFO_UPDATE_USER_CAPITAL_SUCCESS) {
+                mAdapter.notifyChanged();
+            }
+            //接收从Handler传递过来的数据，是用户身份信息值
+            // 接收来自Handler的UserIdsInGroupResp数据
+        } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER2)) {
             UserIdsInGroupResp resp = (UserIdsInGroupResp) ebObj.getObject();
             LoggerUtil.logger(Constant.TAG, "UserIdsInGroupResp-->" + resp.toString());
 //            mGroupId = resp.getGroupId();
@@ -110,20 +134,20 @@ public class ActivityGroupDetailPresenter {
             mAdapter = new UserInGroupAdapter(mActivityBinding.getRoot().getContext(),
                     mUserInfoList, idCapital, mGroupId);
             mActivityBinding.setAdapter(mAdapter);
-        }
-
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getEBToPreObject(EBToPreObject obj) {
-        LoggerUtil.logger(Constant.TAG, Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER + "-->getEBToPreObject");
-        if (obj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER)) {
-            ReturnInfoResp resp = (ReturnInfoResp) obj.getObject();
-            if (resp.getType() == Constant.TYPE_RETURN_INFO_REMOVE_USER_SUCCESS) {
-                Toast.makeText(mActivityBinding.getRoot().getContext(), resp.getDescription(), Toast.LENGTH_SHORT).show();
-                mAdapter.removeUserAndNotifyChanged();
+        /*
+        当查看群中数据时，而此时没有该用户，则向服务端请求用户数据，此时通过
+        Handler传递过来
+         */
+        } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER_ADD_USER)) {
+            UserInfoResp resp = (UserInfoResp) ebObj.getObject();
+            UserInfo userInfo = UserInfoDaoUtil
+                    .getUserInfo(resp.getUserid());
+            //避免存在相同的数据
+            if (mUserInfoList.contains(userInfo)) {
+                return;
             }
+            mUserInfoList.add(userInfo);
+            mAdapter.notifyDataSetChanged();
         }
     }
-
 }

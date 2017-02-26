@@ -545,24 +545,75 @@ public interface Constant {
     /**
      * ActivityGroupDetailPresenter
      */
-    String TAG_ACTIVITY_GROUP_DETAIL_PRESENTER = "ActivityGroupDetailPresenter";
+    String TAG_ACTIVITY_GROUP_DETAIL_PRESENTER = "TAGActivityGroupDetailPresenter";
     /**
      * Handler向ActivityGroupDetailPresenter发送UserIdsInGroupResp数据
      */
-    String TAG_ACTIVITY_GROUP_DETAIL_PRESENTER2 = "ActivityGroupDetailPresenter2";
+    String TAG_ACTIVITY_GROUP_DETAIL_PRESENTER2 = "TAGActivityGroupDetailPresenter2";
+    /**
+     * 向GroupDetailActivity界面添加UserInfo数据
+     */
+    String TAG_ACTIVITY_GROUP_DETAIL_PRESENTER_ADD_USER = "tag.activity.group.detail.presenter.add.user";
 
     /**
      * Handler向FragmentGroupListPresenter中传递Groups数据
      */
-    String TAG_FRAGMENT_GROUP_LIST_PRESENTER = "FragmentGroupListPresenter";
+    String TAG_FRAGMENT_GROUP_LIST_PRESENTER = "TAGFragmentGroupListPresenter";
     /**
      * Handler向FragmentGroupListPresenter中传递GroupInfoResp数据
      */
-    String TAG_ACTIVITY_SEARCH_GROUP_PRESENTER = "ActivitySearchGroupPresenter";
+    String TAG_ACTIVITY_SEARCH_GROUP_PRESENTER = "TAGActivitySearchGroupPresenter";
+    /**
+     * 当搜索到的群信息为0时
+     */
+    String TAG_ACTIVITY_SEARCH_GROUP_PRESENTER_SIZE_0 = "TAGActivitySearchGroupPresenter.size.0";
     /**
      * Handler向ActivityHintPresenter中传递Hint数据
      */
-    String TAG_ACTIVITY_HINT_PRESENTER = "ActivityHintPresenter";
+    String TAG_ACTIVITY_HINT_PRESENTER = "TAGActivityHintPresenter";
 
+//    String HANDLER_ACTIVITY_EDITOR_INFO_Presenter = "HandlerActivityEditor";
+
+    /**
+     * 当接收到该EB数据时，把群移除掉，即退出了群，删除聊天列表的数据和群数据
+     */
+    String TAG_REMOVE_GROUPS = "tag.remove.groups";
+    /**
+     * 向聊天列表更新数据项
+     */
+    String TAG_FRAGMENT_CHATTING_LIST_PRESENTER_UPDATE_ITEM = "tag.fragment.chatting.list.presenter.update.item";
+    /**
+     * 向聊天列表添加数据项
+     */
+    String TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM = "tag.fragment.chatting.list.presenter.add.item";
+    /**
+     * 移除聊天列表的数据项
+     */
+    String TAG_FRAGMENT_CHATTING_LIST_PRESENTER_REMOVE_ITEM = "tag.fragment.chatting.list.presenter.remove.item";
+    /**
+     * 在MessageActivity界面添加聊天数据
+     */
+    String TAG_ADD_CHATTING_MESSAGE = "tag.add.chatting.message";
+
+    /**
+     * RegisterHandler向ActivityRegisterPresenter传递RegisterResp数据
+     */
+    String TAG_REGISTER_PRESENTER = "tag.register.presenter";
+    /**
+     * 创建群的返回信息，从Handler中传递到ActivityCreateGroupPresenter中去
+     */
+    String TAG_CREATE_GROUP_PRESENTER = "tag.create.group.presenter";
+    /**
+     * 更新用户信息，从Handler传递数据到ActivityEditorInfoPresenter
+     */
+    String TAG_UPDATE_USER_INFO = "tag.update.user.info";
+    /**
+     * 管理员更改用户的身份信息，从Handler传递数据到ActivityGroupDetailPresenter
+     */
+    String TAG_REFRESH_USER_CAPITAL = "tag.refresh.user.capital";
+    /**
+     * 用户登录是否成功，把数据从Handler发送到ActivityLoginPresenter中去
+     */
+    String TAG_USER_LOGIN_PRESENTER = "tag.user.login.presenter";
 
 }

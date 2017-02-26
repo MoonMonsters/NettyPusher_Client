@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.WindowManager;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Calendar;
 import java.util.Locale;
 
 import edu.csuft.chentao.base.MyApplication;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.pojo.req.Message;
@@ -42,23 +45,29 @@ public class OperationUtil {
      * @param chattingItem GroupChattingItem对象
      */
     public static void sendBroadcastToUpdateGroupChattingItem(GroupChattingItem chattingItem) {
-        Intent intent = new Intent();
-        intent.setAction(Constant.ACTION_CHATTING_LIST);
-        intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 2);
-        intent.putExtra(Constant.EXTRA_GROUPSITEM, chattingItem);
-        MyApplication.getInstance().sendBroadcast(intent);
+        //向FragmentChattingListPresenter发送数据，更新数据项
+        EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_UPDATE_ITEM, chattingItem);
+        EventBus.getDefault().post(ebObj);
+//        Intent intent = new Intent();
+//        intent.setAction(Constant.ACTION_CHATTING_LIST);
+//        intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 2);
+//        intent.putExtra(Constant.EXTRA_GROUPSITEM, chattingItem);
+//        MyApplication.getInstance().sendBroadcast(intent);
     }
 
     /**
      * 发送广播去添加GroupChattingItem独享
      */
     public static void sendBroadcastToAddGroupChattingItem(GroupChattingItem chattingItem) {
-        //发送广播，通知数据发生改变
-        Intent intent = new Intent();
-        intent.setAction(Constant.ACTION_CHATTING_LIST);
-        intent.putExtra(Constant.EXTRA_GROUPSITEM, chattingItem);
-        intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 1);
-        MyApplication.getInstance().sendBroadcast(intent);
+        LoggerUtil.logger("FragmentChattingListPresenter", Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM+"sendBroadcastToAddGroupChattingItem");
+        //传递对象到FragmentChattingListPresenter中去，添加数据项
+        EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM, chattingItem);
+        EventBus.getDefault().post(ebObj);
+//        Intent intent = new Intent();
+//        intent.setAction(Constant.ACTION_CHATTING_LIST);
+//        intent.putExtra(Constant.EXTRA_GROUPSITEM, chattingItem);
+//        intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 1);
+//        MyApplication.getInstance().sendBroadcast(intent);
     }
 
     /**

@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +20,7 @@ import edu.csuft.chentao.activity.MessageActivity;
 import edu.csuft.chentao.adapter.MessageAdapter;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.utils.Constant;
@@ -77,6 +80,7 @@ public class ActivityMessagePresenter {
     public ActivityMessagePresenter(ActivityMessageBinding activityBinding) {
         mActivityBinding = activityBinding;
         mContext = mActivityBinding.getRoot().getContext();
+        EventBus.getDefault().register(this);
     }
 
     public void init(int groupId) {
@@ -102,6 +106,24 @@ public class ActivityMessagePresenter {
                 .smoothScrollToPosition(mActivityBinding.rvMessageContent,
                         null, (mChattingMessageList.size() == 0 ? 0 : mChattingMessageList.size()));
         mActivityBinding.setAdapter(mAdapter);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEBToPresenterObject(EBToPreObject ebObj) {
+        //接收到了添加ChattingMessage数据的命令
+        if (ebObj.getTag().equals(Constant.TAG_ADD_CHATTING_MESSAGE)) {
+            //得到要添加的数据
+            ChattingMessage chattingMessage = (ChattingMessage) ebObj.getObject();
+            LoggerUtil.logger(Constant.TAG, "接收到内容是->" + chattingMessage.toString());
+            //添加进集合
+            mChattingMessageList.add(chattingMessage);
+            //刷新界面
+            mAdapter.notifyDataSetChanged();
+            //选中最后一行
+            mActivityBinding.rvMessageContent.getLayoutManager()
+                    .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, mAdapter.getItemCount() - 1);
+        }
+
     }
 
     /**

@@ -5,11 +5,8 @@ package edu.csuft.chentao.controller.handler;
  * email:qxinhai@yeah.net
  */
 
-import android.content.Intent;
-
 import org.greenrobot.eventbus.EventBus;
 
-import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.Hint;
 import edu.csuft.chentao.pojo.resp.GroupReminderResp;
@@ -34,10 +31,12 @@ class GroupReminderHandler implements Handler {
          */
         if (resp.getType() == Constant.TYPE_GROUP_REMINDER_EXIT_BY_MYSELF
                 || resp.getType() == Constant.TYPE_GROUP_REMINDER_REMOVE_USER) {
-            Intent intent = new Intent();
-            intent.setAction(Constant.ACTION_REMOVE_GROUP);
-            intent.putExtra(Constant.EXTRA_GROUP_ID, resp.getGroupId());
-            MyApplication.getInstance().sendBroadcast(intent);
+            EBToPreObject obj = new EBToPreObject(Constant.TAG_REMOVE_GROUPS, resp);
+            EventBus.getDefault().post(obj);
+//            Intent intent = new Intent();
+//            intent.setAction(Constant.ACTION_REMOVE_GROUP);
+//            intent.putExtra(Constant.EXTRA_GROUP_ID, resp.getGroupId());
+//            MyApplication.getInstance().sendBroadcast(intent);
         }
     }
 }

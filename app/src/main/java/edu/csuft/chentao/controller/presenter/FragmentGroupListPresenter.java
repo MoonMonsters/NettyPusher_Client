@@ -18,6 +18,7 @@ import edu.csuft.chentao.databinding.FragmentGroupListBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
+import edu.csuft.chentao.pojo.resp.GroupReminderResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
@@ -82,12 +83,34 @@ public class FragmentGroupListPresenter {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getEventBusGroups(EBToPreObject object) {
+    public void getEBToPresenterObject(EBToPreObject ebObj) {
         LoggerUtil.logger(Constant.TAG, "FragmentGroupListPresenter-->接收到群数据");
-        if (object.getTag().equals(Constant.TAG_FRAGMENT_GROUP_LIST_PRESENTER)) {
-            Groups groups = (Groups) object.getObject();
+        //接收到了groups数据，在列表中增加一个群数据
+        if (ebObj.getTag().equals(Constant.TAG_FRAGMENT_GROUP_LIST_PRESENTER)) {
+            Groups groups = (Groups) ebObj.getObject();
             mGroupsList.add(groups);
             mAdapter.notifyDataSetChanged();
+            //接收到了移除群数据，从列表中把groups数据移除掉
+        } else if (ebObj.getTag().equals(Constant.TAG_REMOVE_GROUPS)) {
+            GroupReminderResp resp = (GroupReminderResp) ebObj.getObject();
+            //得到需要移除的群id
+            int groupId = resp.getGroupId();
+            int index = -1;
+            //遍历
+            for (Groups g : mGroupsList) {
+                if (g.getGroupid() == groupId) {
+                    index = mGroupsList.indexOf(g);
+                    break;
+                }
+            }
+            if (index != -1) {
+                //从显示列表中移除掉该数据
+                mGroupsList.remove(index);
+                //刷新
+                mAdapter.notifyDataSetChanged();
+                //移除掉
+                GroupsDaoUtil.deleteByGroupId(groupId);
+            }
         }
     }
 

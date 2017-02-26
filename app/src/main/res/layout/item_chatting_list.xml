@@ -31,8 +31,8 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:background="@android:color/holo_red_dark"
+                android:gravity="center"
                 android:onClick="@{()->itemPresenter.onClickToDeleteItem()}"
                 android:text="@string/string_delete"
                 android:textColor="#fff" />

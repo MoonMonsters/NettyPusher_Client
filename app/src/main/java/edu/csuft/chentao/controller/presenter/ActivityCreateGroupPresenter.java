@@ -12,8 +12,10 @@ import edu.csuft.chentao.R;
 import edu.csuft.chentao.activity.CreateGroupActivity;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityCreateGroupBinding;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.req.CreateGroupReq;
+import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
@@ -69,6 +71,19 @@ public class ActivityCreateGroupPresenter {
         Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
         getAlbum.setType(Constant.IMAGE_TYPE);
         ((CreateGroupActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
+    }
+
+    @Subscribe
+    public void getEBToPresenterObject(EBToPreObject ebObj) {
+        if (ebObj.getTag().equals(Constant.TAG_CREATE_GROUP_PRESENTER)) {
+            ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
+            //弹出提示框
+            Toast.makeText(mActivityBinding.getRoot().getContext(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+            //创建成功，关闭当前界面
+            if (resp.getType() == Constant.TYPE_RETURN_INFO_CREATE_GROUP_SUCCESS) {
+                ((CreateGroupActivity) (mActivityBinding.getRoot().getContext())).finish();
+            }
+        }
     }
 
     @Subscribe

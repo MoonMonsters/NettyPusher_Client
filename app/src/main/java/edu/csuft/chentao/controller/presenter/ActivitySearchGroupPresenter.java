@@ -112,7 +112,6 @@ public class ActivitySearchGroupPresenter {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getGroupInfoRespData(EBToPreObject ebObj) {
-        dismissProgressDialog();
         if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER)) {
             GroupInfoResp resp = (GroupInfoResp) ebObj.getObject();
             synchronized (this) {
@@ -123,7 +122,15 @@ public class ActivitySearchGroupPresenter {
                 mGroupInfoList.add(resp);
                 mAdapter.notifyDataSetChanged();
             }
+            //隐藏对话框
+            dismissProgressDialog();
+            //搜索到的群数量为0
+        } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER_SIZE_0)) {
+            ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
+            //弹出提示框
+            Toast.makeText(mActivityBinding.getRoot().getContext(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+            //隐藏对话框
+            dismissProgressDialog();
         }
     }
-
 }

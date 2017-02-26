@@ -6,10 +6,13 @@ import android.os.Message;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import edu.csuft.chentao.activity.EditorInfoActivity;
 import edu.csuft.chentao.activity.ImageActivity;
 import edu.csuft.chentao.databinding.ActivityEditorInfoBinding;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.UserHead;
@@ -54,24 +57,24 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
                 //注销
                 EventBus.getDefault().unregister(ActivityEditorInfoPresenter.this);
                 ReturnInfoResp resp = (ReturnInfoResp) msg.obj;
-                    //更新成功
-                    switch (resp.getType()) {
-                        case Constant.TYPE_RETURN_INFO_UPDATE_SIGNATURE_SUCESS:  //更新签名
-                            UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
-                            userInfo.setSignature(mUpdateInfo);
-                            UserInfoDaoUtil.updateUserInfo(userInfo);
-                            break;
-                        case Constant.TYPE_RETURN_INFO_UPDATE_NICKNAME_SUCCESS:   //更新昵称
-                            UserInfo userInfo2 = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
-                            userInfo2.setNickname(mUpdateInfo);
-                            UserInfoDaoUtil.updateUserInfo(userInfo2);
-                            break;
-                        case Constant.TYPE_RETURN_INFO_UPDATE_HEAD_IMAGE_SUCCESS:  //更新头像
-                            UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
-                            userHead.setImage(mImage);
-                            UserHeadDaoUtil.updateUserHead(userHead);
-                            break;
-                    }
+                //更新成功
+                switch (resp.getType()) {
+                    case Constant.TYPE_RETURN_INFO_UPDATE_SIGNATURE_SUCESS:  //更新签名
+                        UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
+                        userInfo.setSignature(mUpdateInfo);
+                        UserInfoDaoUtil.updateUserInfo(userInfo);
+                        break;
+                    case Constant.TYPE_RETURN_INFO_UPDATE_NICKNAME_SUCCESS:   //更新昵称
+                        UserInfo userInfo2 = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
+                        userInfo2.setNickname(mUpdateInfo);
+                        UserInfoDaoUtil.updateUserInfo(userInfo2);
+                        break;
+                    case Constant.TYPE_RETURN_INFO_UPDATE_HEAD_IMAGE_SUCCESS:  //更新头像
+                        UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
+                        userHead.setImage(mImage);
+                        UserHeadDaoUtil.updateUserHead(userHead);
+                        break;
+                }
                 Toast.makeText(mActivityBinding.getRoot().getContext(),
                         resp.getDescription(), Toast.LENGTH_SHORT).show();
             } else if (msg.what == Constant.HANDLER_RETURN_INFO_IMAGE) {
@@ -88,8 +91,37 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
     };
 
     public ActivityEditorInfoPresenter(ActivityEditorInfoBinding activityBinding) {
+        EventBus.getDefault().register(this);
         this.mActivityBinding = activityBinding;
         EventBus.getDefault().post(new HandlerMessage(mHandler, "EditorInfoActivity"));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEBToPresenterObject(EBToPreObject ebObj) {
+        //如果是更新用户数据命令
+        if (ebObj.getTag().equals(Constant.TAG_UPDATE_USER_INFO)) {
+            ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
+            //更新成功
+            switch (resp.getType()) {
+                case Constant.TYPE_RETURN_INFO_UPDATE_SIGNATURE_SUCESS:  //更新签名
+                    UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
+                    userInfo.setSignature(mUpdateInfo);
+                    UserInfoDaoUtil.updateUserInfo(userInfo);
+                    break;
+                case Constant.TYPE_RETURN_INFO_UPDATE_NICKNAME_SUCCESS:   //更新昵称
+                    UserInfo userInfo2 = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
+                    userInfo2.setNickname(mUpdateInfo);
+                    UserInfoDaoUtil.updateUserInfo(userInfo2);
+                    break;
+                case Constant.TYPE_RETURN_INFO_UPDATE_HEAD_IMAGE_SUCCESS:  //更新头像
+                    UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
+                    userHead.setImage(mImage);
+                    UserHeadDaoUtil.updateUserHead(userHead);
+                    break;
+            }
+            Toast.makeText(mActivityBinding.getRoot().getContext(),
+                    resp.getDescription(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

@@ -11,12 +11,15 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
 
 import edu.csuft.chentao.activity.RegisterActivity;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityRegisterBinding;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
@@ -78,6 +81,35 @@ public class ActivityRegisterPresenter {
         this.mActivityBinding = activityBinding;
         //发送Handler对象到RegisterActivity中
         EventBus.getDefault().post(new HandlerMessage(mHandler, "RegisterActivity"));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEBToPresenterObject(EBToPreObject ebObj) {
+        //如果是注册消息类型
+        if (ebObj.getTag().equals(Constant.TAG_REGISTER_PRESENTER)) {
+            RegisterResp resp = (RegisterResp) ebObj.getObject();
+
+            //保存用户id
+            SharedPrefUserInfoUtil.setUserId(resp.getUserid());
+            //设置登录方式为自动登录
+            SharedPrefUserInfoUtil.setLoginType();
+            //保存用户名和密码
+            SharedPrefUserInfoUtil.setUsernameAndPassword(mActivityBinding.etRegisterUsername.getText().toString(),
+                    mActivityBinding.etRegisterPassword.getText().toString());
+
+            //保存用户信息
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserid(resp.getUserid());
+            userInfo.setSignature(req.getSignature());
+            userInfo.setNickname(req.getNickname());
+            UserInfoDaoUtil.saveUserInfo(userInfo);
+
+            //保存用户头像
+            UserHead userHead = new UserHead();
+            userHead.setUserid(resp.getUserid());
+            userHead.setImage(req.getHeadImage());
+            UserHeadDaoUtil.saveUserHead(userHead);
+        }
     }
 
     public void onClickForRegister() {
