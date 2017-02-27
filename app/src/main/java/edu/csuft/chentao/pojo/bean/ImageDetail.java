@@ -12,9 +12,12 @@ import java.io.Serializable;
  */
 public class ImageDetail implements Serializable {
 
+    private String tag;
+
     private byte[] image;
 
-    public ImageDetail(byte[] image) {
+    public ImageDetail(String tag, byte[] image) {
+        this.tag = tag;
         this.image = image;
     }
 
@@ -27,5 +30,13 @@ public class ImageDetail implements Serializable {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

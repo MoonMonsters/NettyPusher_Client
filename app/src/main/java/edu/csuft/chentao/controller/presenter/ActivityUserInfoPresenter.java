@@ -144,7 +144,7 @@ public class ActivityUserInfoPresenter {
      */
     public void onClickToBigImage() {
         Intent intent = new Intent(mActivityBinding.getRoot().getContext(), ImageActivity.class);
-        ImageDetail detail = new ImageDetail(mUserHead.getImage());
+        ImageDetail detail = new ImageDetail(null,mUserHead.getImage());
         intent.putExtra(Constant.EXTRA_IMAGE_DETAIL, detail);
         mActivityBinding.getRoot().getContext()
                 .startActivity(intent);

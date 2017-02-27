@@ -31,12 +31,12 @@ public class ActivityLoginPresenter extends BasePresenter {
     private ActivityLoginBinding mActivityBinding = null;
 
     public ActivityLoginPresenter(ViewDataBinding viewDataBinding) {
-        super(viewDataBinding);
+        this.mActivityBinding = (ActivityLoginBinding) viewDataBinding;
+        init();
     }
 
     @Override
-    public void init() {
-        mActivityBinding = (ActivityLoginBinding) getViewDataBinding();
+    public void initData() {
         LoggerUtil.logger(Constant.TAG, "3-->" + mActivityBinding.toString());
         if (mActivityBinding == null) {
             LoggerUtil.logger(Constant.TAG, "ActivityLoginPresenter->ActivityBinding为空");
@@ -53,35 +53,25 @@ public class ActivityLoginPresenter extends BasePresenter {
         //如果登录成功，则保存用户名及密码，以及修改相关其他数据
         if (ebObj.getTag().equals(Constant.TAG_USER_LOGIN_PRESENTER)) {
 
-            LoggerUtil.logger(Constant.TAG, Constant.TAG_USER_LOGIN_PRESENTER);
-
             UserInfoResp resp = (UserInfoResp) ebObj.getObject();
             //得到用户id
             int userId = resp.getUserid();
-            LoggerUtil.logger(Constant.TAG, "userId = " + userId);
             if (userId > 0) {
-                LoggerUtil.logger(Constant.TAG, "保存密码");
                 //得到登录的用户名和密码，并保存
-//                String username = mActivityBinding.etLoginUsername.getText().toString();
-//                String password = mActivityBinding.etLoginPassword.getText().toString();
-                String username = "chentao";
-                String password = "123456";
+                String username = mActivityBinding.etLoginUsername.getText().toString();
+                String password = mActivityBinding.etLoginPassword.getText().toString();
+
                 //保存用户名和密码
                 SharedPrefUserInfoUtil.setUsernameAndPassword(username, password);
-                LoggerUtil.logger(Constant.TAG, "保存密码");
                 //保存用户id
                 SharedPrefUserInfoUtil.setUserId(userId);
-                LoggerUtil.logger(Constant.TAG, "保存用户id");
                 //将登录类型设置成自动登录类型
                 SharedPrefUserInfoUtil.setLoginType();
-                LoggerUtil.logger(Constant.TAG, "自动登录");
 
                 mActivityBinding.getRoot().getContext().startActivity(
                         new Intent(mActivityBinding.getRoot().getContext(),
                                 MainActivity.class));
-                LoggerUtil.logger(Constant.TAG, "跳到MainActivity");
                 finishLoginActivity();
-                LoggerUtil.logger(Constant.TAG, "跳转界面");
             }
         }
     }
@@ -90,12 +80,8 @@ public class ActivityLoginPresenter extends BasePresenter {
      * 点击登录
      */
     public void onClickToLogin() {
-        String username2 = mActivityBinding.etLoginUsername.getText().toString();
-        LoggerUtil.logger(Constant.TAG, "username2 = " + username2);
-//        String password = mActivityBinding.etLoginPassword.getText().toString();
-
-        String username = "chentao";
-        String password = "123456";
+        String username = mActivityBinding.etLoginUsername.getText().toString();
+        String password = mActivityBinding.etLoginPassword.getText().toString();
 
         if (TextUtils.isEmpty(username)) {
             Toast.makeText(mActivityBinding.getRoot().getContext(), "用户名不能为空", Toast.LENGTH_SHORT).show();

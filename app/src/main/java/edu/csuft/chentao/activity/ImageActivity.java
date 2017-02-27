@@ -3,6 +3,7 @@ package edu.csuft.chentao.activity;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 
+import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityImagePresenter;
@@ -13,6 +14,7 @@ import edu.csuft.chentao.utils.Constant;
 public class ImageActivity extends BaseActivity {
 
     private ActivityImageBinding mActivityBinding = null;
+    private ActivityImagePresenter mPresenter;
 
     @Override
     public int getLayoutResourceId() {
@@ -28,8 +30,14 @@ public class ImageActivity extends BaseActivity {
     public void initData() {
         Intent intent = getIntent();
         ImageDetail detail = (ImageDetail) intent.getSerializableExtra(Constant.EXTRA_IMAGE_DETAIL);
-        mActivityBinding.setDetail(detail);
-        ActivityImagePresenter presenter = new ActivityImagePresenter(mActivityBinding);
-        mActivityBinding.setPresenter(presenter);
+        mPresenter = new ActivityImagePresenter(mActivityBinding);
+        mActivityBinding.setVariable(BR.detail, detail);
+        mActivityBinding.setVariable(BR.presenter, mPresenter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPresenter.unregisterEventBus();
     }
 }

@@ -616,4 +616,13 @@ public interface Constant {
      */
     String TAG_USER_LOGIN_PRESENTER = "tag.user.login.presenter";
 
+    /**
+     * 从CreateGroupActivity传递Image数据到Presenter中去
+     */
+    String IMAGE_ACTIVITY_CREATE_GROUP_PRESENTER = "image.activity.create.group.presenter";
+    /**
+     * 更新头像，从EditorInfoActivity把Image数据传递到Presenter中去
+     */
+    String IMAGE_ACTIVITY_EDITOR_INFO_PRESENTER = "image.activity.editor.info.presenter";
+
 }

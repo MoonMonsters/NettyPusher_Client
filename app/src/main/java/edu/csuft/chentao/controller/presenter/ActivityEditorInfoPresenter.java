@@ -1,19 +1,16 @@
 package edu.csuft.chentao.controller.presenter;
 
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import edu.csuft.chentao.activity.EditorInfoActivity;
 import edu.csuft.chentao.activity.ImageActivity;
+import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityEditorInfoBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
-import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
@@ -31,7 +28,10 @@ import edu.csuft.chentao.view.UpdateInfoDialog;
  * email:qxinhai@yeah.net
  */
 
-public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClickListener {
+/**
+ * 编辑个人信息的Presenter
+ */
+public class ActivityEditorInfoPresenter extends BasePresenter implements UpdateInfoDialog.IDialogClickListener {
 
     private ActivityEditorInfoBinding mActivityBinding = null;
     /**
@@ -47,57 +47,23 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
      */
     private int UPDATE_INDEX = -1;
 
+    /**
+     * 更新的内容
+     */
     private String mUpdateInfo = null;
+    /**
+     * 记录下来更新的图片
+     */
     private byte[] mImage = null;
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == Constant.HANDLER_RETURN_INFO) {
-                //注销
-                EventBus.getDefault().unregister(ActivityEditorInfoPresenter.this);
-                ReturnInfoResp resp = (ReturnInfoResp) msg.obj;
-                //更新成功
-                switch (resp.getType()) {
-                    case Constant.TYPE_RETURN_INFO_UPDATE_SIGNATURE_SUCESS:  //更新签名
-                        UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
-                        userInfo.setSignature(mUpdateInfo);
-                        UserInfoDaoUtil.updateUserInfo(userInfo);
-                        break;
-                    case Constant.TYPE_RETURN_INFO_UPDATE_NICKNAME_SUCCESS:   //更新昵称
-                        UserInfo userInfo2 = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
-                        userInfo2.setNickname(mUpdateInfo);
-                        UserInfoDaoUtil.updateUserInfo(userInfo2);
-                        break;
-                    case Constant.TYPE_RETURN_INFO_UPDATE_HEAD_IMAGE_SUCCESS:  //更新头像
-                        UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
-                        userHead.setImage(mImage);
-                        UserHeadDaoUtil.updateUserHead(userHead);
-                        break;
-                }
-                Toast.makeText(mActivityBinding.getRoot().getContext(),
-                        resp.getDescription(), Toast.LENGTH_SHORT).show();
-            } else if (msg.what == Constant.HANDLER_RETURN_INFO_IMAGE) {
-                byte[] buf = (byte[]) msg.obj;
-                mImage = buf;
-                UpdateUserInfoReq req = new UpdateUserInfoReq();
-                req.setContent(null);
-                req.setUserid(SharedPrefUserInfoUtil.getUserId());
-                req.setHeadImage(buf);
-                req.setType(Constant.TYPE_UPDATE_HEADIMAGE);
-                SendMessageUtil.sendMessage(req);
-            }
-        }
-    };
-
     public ActivityEditorInfoPresenter(ActivityEditorInfoBinding activityBinding) {
-        EventBus.getDefault().register(this);
         this.mActivityBinding = activityBinding;
-        EventBus.getDefault().post(new HandlerMessage(mHandler, "EditorInfoActivity"));
+        init();
     }
 
+    @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getEBToPresenterObject(EBToPreObject ebObj) {
+    public void getEBToObjectPresenter(EBToPreObject ebObj) {
         //如果是更新用户数据命令
         if (ebObj.getTag().equals(Constant.TAG_UPDATE_USER_INFO)) {
             ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
@@ -125,7 +91,7 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
     }
 
     /**
-     * 更新头像
+     * 点击选择更新头像
      */
     public void onClickToUpdateHeadImage() {
         Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
@@ -134,10 +100,27 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
     }
 
     /**
+     * 接收从Activity传递过来的Image数据
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getImageDetail(ImageDetail imageDetail) {
+        if (imageDetail.getTag().equals(Constant.IMAGE_ACTIVITY_EDITOR_INFO_PRESENTER)) {
+            byte[] buf = imageDetail.getImage();
+            mImage = buf;
+            UpdateUserInfoReq req = new UpdateUserInfoReq();
+            req.setContent(null);
+            req.setUserid(SharedPrefUserInfoUtil.getUserId());
+            req.setHeadImage(buf);
+            req.setType(Constant.TYPE_UPDATE_HEADIMAGE);
+            SendMessageUtil.sendMessage(req);
+        }
+    }
+
+    /**
      * 放大头像
      */
     public void onClickToBigImage() {
-        ImageDetail detail = new ImageDetail(UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId()).getImage());
+        ImageDetail detail = new ImageDetail(null, UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId()).getImage());
         Intent intent = new Intent(mActivityBinding.getRoot().getContext(),
                 ImageActivity.class);
         intent.putExtra(Constant.EXTRA_IMAGE_DETAIL, detail);
@@ -166,6 +149,9 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
         dialog.show();
     }
 
+    /**
+     * 回调方法
+     */
     @Override
     public void onClickToUpdateInfo(String updateInfo) {
         //保存更新的信息
@@ -184,5 +170,10 @@ public class ActivityEditorInfoPresenter implements UpdateInfoDialog.IDialogClic
         req.setHeadImage(null);
         //发送更新信息
         SendMessageUtil.sendMessage(req);
+    }
+
+    @Override
+    protected void initData() {
+
     }
 }

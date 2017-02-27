@@ -2,7 +2,6 @@ package edu.csuft.chentao.controller.presenter;
 
 import android.support.v7.widget.LinearLayoutManager;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -11,6 +10,7 @@ import java.util.List;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.adapter.HintAdapter;
+import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityHintBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.Hint;
@@ -22,7 +22,7 @@ import edu.csuft.chentao.utils.daoutil.HintDaoUtil;
  * email:qxinhai@yeah.net
  */
 
-public class ActivityHintPresenter {
+public class ActivityHintPresenter extends BasePresenter {
 
     private ActivityHintBinding mActivityBinding;
     //数据集合
@@ -35,9 +35,8 @@ public class ActivityHintPresenter {
         init();
     }
 
-    private void init() {
-        //注册
-        EventBus.getDefault().register(this);
+    @Override
+    protected void initData() {
         if (mHintList == null) {
             mHintList = new ArrayList<>();
         }
@@ -48,8 +47,9 @@ public class ActivityHintPresenter {
         mActivityBinding.setVariable(BR.adapter, mAdapter);
     }
 
+    @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getGroupReminderData(EBToPreObject ebObj) {
+    protected void getEBToObjectPresenter(EBToPreObject ebObj) {
         if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_HINT_PRESENTER)) {
             Hint hint = (Hint) ebObj.getObject();
             if (mHintList == null) {
@@ -61,6 +61,5 @@ public class ActivityHintPresenter {
             mHintList.add(hint);
             mAdapter.notifyDataSetChanged();
         }
-
     }
 }

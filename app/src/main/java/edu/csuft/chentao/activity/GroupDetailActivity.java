@@ -1,25 +1,15 @@
 package edu.csuft.chentao.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
@@ -29,18 +19,18 @@ import edu.csuft.chentao.controller.presenter.ItemGroupDetailPopupPresenter;
 import edu.csuft.chentao.databinding.ActivityGroupDetailBinding;
 import edu.csuft.chentao.databinding.ItemGroupDetailPopupBinding;
 import edu.csuft.chentao.pojo.bean.Groups;
-import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 
+/**
+ * 详细群数据
+ */
 public class GroupDetailActivity extends BaseActivity {
 
     private ActivityGroupDetailBinding mActivityBinding = null;
     private int mGroupId = -1;
-
-    private Handler mHandler = null;
-    private BroadcastReceiver mReceiver = null;
     private PopupWindow mPopupWindow;
+    private ActivityGroupDetailPresenter mPresenter;
 
     @Override
     public int getLayoutResourceId() {
@@ -55,41 +45,26 @@ public class GroupDetailActivity extends BaseActivity {
     @Override
     public void initData() {
         setSupportActionBar(mActivityBinding.tlGroupDetailBar);
-        EventBus.getDefault().register(this);
         mGroupId = getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1);
         Groups groups = GroupsDaoUtil.getGroups(mGroupId);
-        ActivityGroupDetailPresenter presenter =
-                new ActivityGroupDetailPresenter(mActivityBinding);
-        presenter.init(mGroupId);
-        mActivityBinding.setPresenter(presenter);
-        mActivityBinding.setGroups(groups);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getPresenterHandler(HandlerMessage handlerMessage) {
-        if (handlerMessage.getTag().equals("GroupDetailActivity")) {
-            this.mHandler = handlerMessage.getHandler();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mReceiver = new GroupDetailReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Constant.ACTION_GET_USERINFO);
-        filter.addAction(Constant.ACTION_RETURN_INFO_USER_CAPITAL);
-        registerReceiver(mReceiver, filter);
+        mPresenter = new ActivityGroupDetailPresenter(mActivityBinding, mGroupId);
+        mActivityBinding.setVariable(BR.presenter, mPresenter);
+        mActivityBinding.setVariable(BR.groups, groups);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(mReceiver);
 
         if (mPopupWindow != null) {
             mPopupWindow.dismiss();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unregisterEventBus();
     }
 
     @Override
@@ -115,29 +90,11 @@ public class GroupDetailActivity extends BaseActivity {
             ItemGroupDetailPopupBinding binding =
                     DataBindingUtil.bind(view);
             ItemGroupDetailPopupPresenter itemPresenter =
-                    new ItemGroupDetailPopupPresenter(mActivityBinding,mPopupWindow);
+                    new ItemGroupDetailPopupPresenter(mActivityBinding, mPopupWindow);
             itemPresenter.setGroupId(mGroupId);
             binding.setVariable(BR.itemPresenter, itemPresenter);
         }
 
         return true;
-    }
-
-    private class GroupDetailReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(Constant.ACTION_GET_USERINFO)) {
-                Message msg = mHandler.obtainMessage();
-                msg.what = Constant.HANDLER_PRESENTER_REFRESH_USERINFO;
-                msg.arg1 = intent.getIntExtra(Constant.EXTRA_USER_ID, -1);
-                mHandler.sendMessage(msg);
-            } else if (action.equals(Constant.ACTION_RETURN_INFO_USER_CAPITAL)) {
-                Message msg = mHandler.obtainMessage();
-                msg.what = Constant.HANDLER_PRESENTER_REFRESH_CAPITAL;
-                msg.obj = intent.getSerializableExtra(Constant.EXTRA_RETURN_INFO);
-                mHandler.sendMessage(msg);
-            }
-        }
     }
 }

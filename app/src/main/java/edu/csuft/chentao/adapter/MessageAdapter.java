@@ -121,7 +121,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
          */
         public void onClickForImageDetail() {
             Intent intent = new Intent(MyApplication.getInstance(), ImageActivity.class);
-            ImageDetail detail = new ImageDetail(mChattingMessage.getImage());
+            ImageDetail detail = new ImageDetail(null,mChattingMessage.getImage());
             //传递数据
             intent.putExtra(Constant.EXTRA_IMAGE_DETAIL, detail);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

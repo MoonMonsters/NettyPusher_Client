@@ -1,33 +1,26 @@
 package edu.csuft.chentao.activity;
 
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
 
+import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityEditorInfoPresenter;
 import edu.csuft.chentao.databinding.ActivityEditorInfoBinding;
-import edu.csuft.chentao.pojo.bean.HandlerMessage;
+import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
@@ -35,8 +28,7 @@ import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 public class EditorInfoActivity extends BaseActivity {
 
     private ActivityEditorInfoBinding mActivityBinding = null;
-    private Handler mHandler = null;
-    private BroadcastReceiver mReceiver = null;
+    private ActivityEditorInfoPresenter mPresenter;
 
     @Override
     public int getLayoutResourceId() {
@@ -51,41 +43,22 @@ public class EditorInfoActivity extends BaseActivity {
     @Override
     public void initData() {
 
-        //注册
-        EventBus.getDefault().register(this);
         UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
         UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
         //设置属性
         mActivityBinding.setUserHead(userHead);
         mActivityBinding.setUserInfo(userInfo);
 
-        ActivityEditorInfoPresenter presenter =
+        mPresenter =
                 new ActivityEditorInfoPresenter(mActivityBinding);
-        mActivityBinding.setPresenter(presenter);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getPresenterHandler(HandlerMessage message) {
-        if (message.getTag().equals("EditorInfoActivity")) {
-            mHandler = message.getHandler();
-        }
+        mActivityBinding.setVariable(BR.presenter, mPresenter);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        mReceiver = new EditorInfoReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Constant.ACTION_RETURN_INFO);
-        registerReceiver(mReceiver, filter);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //注销
-        unregisterReceiver(mReceiver);
-        EventBus.getDefault().unregister(this);
+    protected void onDestroy() {
+        super.onDestroy();
+        //注销EventBus
+        mPresenter.unregisterEventBus();
     }
 
     @Override
@@ -105,31 +78,14 @@ public class EditorInfoActivity extends BaseActivity {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 byte[] buf = baos.toByteArray();
 
-                //发送数据到Presenter
-                Message msg = mHandler.obtainMessage();
-                msg.what = Constant.HANDLER_RETURN_INFO_IMAGE;
-                msg.obj = buf;
-                mHandler.sendMessage(msg);
+                /*
+                把图片数据发送到Presenter
+                 */
+                ImageDetail imageDetail = new ImageDetail(Constant.IMAGE_ACTIVITY_EDITOR_INFO_PRESENTER, buf);
+                EventBus.getDefault().post(imageDetail);
 
             } catch (Exception e) {
                 Toast.makeText(this, "图片选取错误", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    /**
-     * 广播
-     */
-    private class EditorInfoReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            LoggerUtil.logger(Constant.TAG, action);
-            if (action.equals(Constant.ACTION_RETURN_INFO)) {
-                Message msg = mHandler.obtainMessage();
-                msg.what = Constant.HANDLER_RETURN_INFO;
-                msg.obj = intent.getSerializableExtra(Constant.EXTRA_RETURN_INFO);
-                mHandler.sendMessage(msg);
             }
         }
     }

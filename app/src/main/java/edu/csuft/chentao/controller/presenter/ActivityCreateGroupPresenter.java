@@ -5,11 +5,13 @@ import android.text.TextUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
+import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.activity.CreateGroupActivity;
+import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityCreateGroupBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
@@ -25,7 +27,7 @@ import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
  * email:qxinhai@yeah.net
  */
 
-public class ActivityCreateGroupPresenter {
+public class ActivityCreateGroupPresenter extends BasePresenter {
 
     private ActivityCreateGroupBinding mActivityBinding;
     private ImageDetail mImageDetail;
@@ -35,12 +37,8 @@ public class ActivityCreateGroupPresenter {
         init();
     }
 
-    private void init() {
-        initData();
-    }
-
-    private void initData() {
-        EventBus.getDefault().register(this);
+    @Override
+    protected void initData() {
         ArrayAdapter adapter = new ArrayAdapter(mActivityBinding.getRoot().getContext(),
                 android.R.layout.simple_list_item_1, mActivityBinding.getRoot().getContext().getResources().getTextArray(R.array.group_tags));
         mActivityBinding.acsCreateGroupTag.setAdapter(adapter);
@@ -73,8 +71,9 @@ public class ActivityCreateGroupPresenter {
         ((CreateGroupActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
     }
 
-    @Subscribe
-    public void getEBToPresenterObject(EBToPreObject ebObj) {
+    @Override
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEBToObjectPresenter(EBToPreObject ebObj) {
         if (ebObj.getTag().equals(Constant.TAG_CREATE_GROUP_PRESENTER)) {
             ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
             //弹出提示框
@@ -86,9 +85,11 @@ public class ActivityCreateGroupPresenter {
         }
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void getGroupImageBytes(ImageDetail imageDetail) {
-        this.mImageDetail = imageDetail;
-        mActivityBinding.setDetail(imageDetail);
+        if (imageDetail.getTag().equals(Constant.IMAGE_ACTIVITY_CREATE_GROUP_PRESENTER)) {
+            this.mImageDetail = imageDetail;
+            mActivityBinding.setVariable(BR.detail, imageDetail);
+        }
     }
 }

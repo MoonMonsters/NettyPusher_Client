@@ -1,10 +1,7 @@
 package edu.csuft.chentao.activity;
 
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -15,18 +12,18 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
 
+import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityCreateGroupPresenter;
 import edu.csuft.chentao.databinding.ActivityCreateGroupBinding;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
-import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.utils.Constant;
 
 public class CreateGroupActivity extends BaseActivity {
 
     private ActivityCreateGroupBinding mActivityBinding;
-    private BroadcastReceiver mReceiver = null;
+    private ActivityCreateGroupPresenter mPresenter;
 
     @Override
     public int getLayoutResourceId() {
@@ -40,7 +37,8 @@ public class CreateGroupActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mActivityBinding.setPresenter(new ActivityCreateGroupPresenter(mActivityBinding));
+        mPresenter = new ActivityCreateGroupPresenter(mActivityBinding);
+        mActivityBinding.setVariable(BR.presenter, mPresenter);
     }
 
     @Override
@@ -60,7 +58,7 @@ public class CreateGroupActivity extends BaseActivity {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 byte[] buf = baos.toByteArray();
 
-                EventBus.getDefault().post(new ImageDetail(buf));
+                EventBus.getDefault().post(new ImageDetail(Constant.IMAGE_ACTIVITY_CREATE_GROUP_PRESENTER, buf));
 
             } catch (Exception e) {
                 Toast.makeText(this, "图片选取错误", Toast.LENGTH_SHORT).show();
@@ -69,36 +67,8 @@ public class CreateGroupActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        mReceiver = new CreateGroupReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Constant.ACTION_CREATE_GROUP);
-        registerReceiver(mReceiver, filter);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        unregisterReceiver(mReceiver);
-    }
-
-    /**
-     * 广播接收器
-     */
-    private class CreateGroupReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(Constant.ACTION_CREATE_GROUP)) {
-                ReturnInfoResp resp = (ReturnInfoResp) intent.getSerializableExtra(Constant.EXTRA_RETURN_INFO);
-                //弹出提示框
-                Toast.makeText(CreateGroupActivity.this, resp.getDescription(), Toast.LENGTH_SHORT).show();
-                //创建成功，关闭当前界面
-                if (resp.getType() == Constant.TYPE_RETURN_INFO_CREATE_GROUP_SUCCESS) {
-                    CreateGroupActivity.this.finish();
-                }
-            }
-        }
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unregisterEventBus();
     }
 }

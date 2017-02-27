@@ -95,7 +95,7 @@ public class SearchGroupContentAdapter extends BaseAdapter {
          */
         public void onClickToBigImage() {
             Intent intent = new Intent(MyApplication.getInstance(), ImageActivity.class);
-            ImageDetail detail = new ImageDetail(mGroupInfo.getHeadImage());
+            ImageDetail detail = new ImageDetail(null,mGroupInfo.getHeadImage());
             //传递数据
             intent.putExtra(Constant.EXTRA_IMAGE_DETAIL, detail);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

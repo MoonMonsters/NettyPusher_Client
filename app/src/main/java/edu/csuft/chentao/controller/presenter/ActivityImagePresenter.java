@@ -6,7 +6,9 @@ import android.view.View;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityImageBinding;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.OperationUtil;
 
@@ -15,12 +17,13 @@ import edu.csuft.chentao.utils.OperationUtil;
  * email:qxinhai@yeah.net
  */
 
-public class ActivityImagePresenter {
+public class ActivityImagePresenter extends BasePresenter {
 
     private ActivityImageBinding mActivityBinding = null;
 
     public ActivityImagePresenter(ActivityImageBinding activityBinding) {
         this.mActivityBinding = activityBinding;
+        init();
     }
 
     /**
@@ -64,4 +67,13 @@ public class ActivityImagePresenter {
         });
     }
 
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void getEBToObjectPresenter(EBToPreObject ebObj) {
+
+    }
 }

@@ -94,7 +94,7 @@ public class RecentMessageAdapter extends BaseAdapter {
          */
         public void onClickToBigImage() {
             Intent intent = new Intent(mContext, ImageActivity.class);
-            ImageDetail detail = new ImageDetail(mChattingMessage.getImage());
+            ImageDetail detail = new ImageDetail(null,mChattingMessage.getImage());
             intent.putExtra(Constant.EXTRA_IMAGE_DETAIL, detail);
             mContext.startActivity(intent);
         }

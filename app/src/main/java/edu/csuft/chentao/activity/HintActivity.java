@@ -11,6 +11,7 @@ import edu.csuft.chentao.databinding.ActivityHintBinding;
 public class HintActivity extends BaseActivity {
 
     private ActivityHintBinding mActivityBinding;
+    private ActivityHintPresenter mPresenter;
 
     @Override
     public int getLayoutResourceId() {
@@ -24,7 +25,13 @@ public class HintActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        ActivityHintPresenter presenter = new ActivityHintPresenter(mActivityBinding);
-        mActivityBinding.setVariable(BR.presenter, presenter);
+        mPresenter = new ActivityHintPresenter(mActivityBinding);
+        mActivityBinding.setVariable(BR.presenter, mPresenter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unregisterEventBus();
     }
 }
