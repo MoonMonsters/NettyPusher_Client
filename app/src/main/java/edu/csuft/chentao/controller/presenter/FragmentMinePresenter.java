@@ -5,25 +5,32 @@ import android.content.Intent;
 import edu.csuft.chentao.activity.EditorInfoActivity;
 import edu.csuft.chentao.activity.LoginActivity;
 import edu.csuft.chentao.activity.MainActivity;
+import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.FragmentMineBinding;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
+import edu.csuft.chentao.pojo.bean.UserHead;
+import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 import edu.csuft.chentao.utils.daoutil.HintDaoUtil;
+import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
+import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-29 19:05.
  * email:qxinhai@yeah.net
  */
 
-public class FragmentMinePresenter {
+public class FragmentMinePresenter extends BasePresenter {
 
     private FragmentMineBinding mFragmentBinding = null;
 
     public FragmentMinePresenter(FragmentMineBinding fragmentBinding) {
         this.mFragmentBinding = fragmentBinding;
+        init();
     }
 
     /**
@@ -56,5 +63,20 @@ public class FragmentMinePresenter {
     public void onClickToEditorInfo() {
         mFragmentBinding.getRoot().getContext()
                 .startActivity(new Intent(mFragmentBinding.getRoot().getContext(), EditorInfoActivity.class));
+    }
+
+    @Override
+    protected void initData() {
+        //绑定数据
+        UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
+        UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
+
+        mFragmentBinding.setUserInfo(userInfo);
+        mFragmentBinding.setUserHead(userHead);
+    }
+
+    @Override
+    protected void getEBToObjectPresenter(EBToPreObject ebObj) {
+
     }
 }

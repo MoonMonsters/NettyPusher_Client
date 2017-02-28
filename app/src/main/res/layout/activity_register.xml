@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.csuft.chentao.activity.RegisterActivity">
 
@@ -8,6 +9,10 @@
         <variable
             name="presenter"
             type="edu.csuft.chentao.controller.presenter.ActivityRegisterPresenter" />
+
+        <variable
+            name="detail"
+            type="edu.csuft.chentao.pojo.bean.ImageDetail" />
     </data>
 
     <LinearLayout
@@ -23,7 +28,8 @@
             android:layout_gravity="center"
             android:background="@drawable/ic_add_head"
             android:contentDescription="@string/app_name"
-            android:onClick="@{()->presenter.onClickForSelectPicture()}" />
+            android:onClick="@{()->presenter.onClickForSelectPicture()}"
+            app:imageBytes="@{detail.image}" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

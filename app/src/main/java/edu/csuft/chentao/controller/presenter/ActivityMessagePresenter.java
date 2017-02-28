@@ -2,14 +2,12 @@ package edu.csuft.chentao.controller.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -18,10 +16,11 @@ import java.util.List;
 
 import edu.csuft.chentao.activity.MessageActivity;
 import edu.csuft.chentao.adapter.MessageAdapter;
+import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
-import edu.csuft.chentao.pojo.bean.HandlerMessage;
+import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.CopyUtil;
@@ -37,7 +36,7 @@ import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 /**
  * MessageActivity的Presenter类
  */
-public class ActivityMessagePresenter {
+public class ActivityMessagePresenter extends BasePresenter {
 
     private ActivityMessageBinding mActivityBinding = null;
     private MessageAdapter mAdapter = null;
@@ -47,53 +46,35 @@ public class ActivityMessagePresenter {
 
     private int mGroupId;
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(android.os.Message msg) {
-            if (msg.what == Constant.HANDLER_MESSAGE_CHATTING_MESSAGE) {
-                //获得数据
-                ChattingMessage chattingMessage = (ChattingMessage) msg.obj;
-                LoggerUtil.logger(Constant.TAG, "接收到内容是->" + chattingMessage.toString());
-                //添加进集合
-                mChattingMessageList.add(chattingMessage);
-                //刷新界面
-                mAdapter.notifyDataSetChanged();
-                //选中最后一行
-                mActivityBinding.rvMessageContent.getLayoutManager()
-                        .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, mAdapter.getItemCount() - 1);
-            } else if (msg.what == Constant.HANDLER_PRESENTER_REFRESH) { //刷新界面
-                LoggerUtil.logger(Constant.TAG, "刷新MessageActivity界面");
-                mAdapter.notifyDataSetChanged();
-                //接收来自Activity的图片数据
-            } else if (msg.what == Constant.HANDLER_MESSAGE_CHATTING_MESSAGE_IMAGE) {
-                byte[] buf = (byte[]) msg.obj;
-                //发送图片消息
-                Message message = OperationUtil.sendChattingMessage(mGroupId, Constant.TYPE_MSG_IMAGE, null, buf);
-                //发送完成后，自动添加到集合中
-                mChattingMessageList.add(CopyUtil.saveMessageReqToChattingMessage(message));
-                //刷新界面
-                mAdapter.notifyDataSetChanged();
-            }
-        }
-    };
-
-    public ActivityMessagePresenter(ActivityMessageBinding activityBinding) {
+    public ActivityMessagePresenter(ActivityMessageBinding activityBinding, Object object1) {
         mActivityBinding = activityBinding;
         mContext = mActivityBinding.getRoot().getContext();
-        EventBus.getDefault().register(this);
+        this.mGroupId = (int) object1;
+
+        init();
     }
 
-    public void init(int groupId) {
-        //将Handler发送到MessageActivity中
-        EventBus.getDefault().post(new HandlerMessage(mHandler, "MessageActivity"));
-        initData(groupId);
-        initListener();
+    @Override
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEBToObjectPresenter(EBToPreObject ebObj) {
+        //接收到了添加ChattingMessage数据的命令
+        if (ebObj.getTag().equals(Constant.TAG_ADD_CHATTING_MESSAGE)) {
+            //得到要添加的数据
+            ChattingMessage chattingMessage = (ChattingMessage) ebObj.getObject();
+            LoggerUtil.logger(Constant.TAG, "接收到内容是->" + chattingMessage.toString());
+            //添加进集合
+            mChattingMessageList.add(chattingMessage);
+            //刷新界面
+            mAdapter.notifyDataSetChanged();
+            //选中最后一行
+            mActivityBinding.rvMessageContent.getLayoutManager()
+                    .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, mAdapter.getItemCount() - 1);
+        }
     }
 
-    private void initData(final int groupId) {
-        //群id
-        this.mGroupId = groupId;
 
+    @Override
+    protected void initData() {
         //获得该群的聊天记录
         mChattingMessageList = reverse(ChattingMessageDaoUtil.getChattingMessageListWithOffset(mGroupId, mOffset));
         //适配器
@@ -108,22 +89,18 @@ public class ActivityMessagePresenter {
         mActivityBinding.setAdapter(mAdapter);
     }
 
+    @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getEBToPresenterObject(EBToPreObject ebObj) {
-        //接收到了添加ChattingMessage数据的命令
-        if (ebObj.getTag().equals(Constant.TAG_ADD_CHATTING_MESSAGE)) {
-            //得到要添加的数据
-            ChattingMessage chattingMessage = (ChattingMessage) ebObj.getObject();
-            LoggerUtil.logger(Constant.TAG, "接收到内容是->" + chattingMessage.toString());
-            //添加进集合
-            mChattingMessageList.add(chattingMessage);
+    public void getImageDetail(ImageDetail detail) {
+        if (detail.getTag().equals(Constant.IMAGE_ACTIVITY_MESSAGE_PRESENTER)) {
+            byte[] buf = detail.getImage();
+            //发送图片消息
+            Message message = OperationUtil.sendChattingMessage(mGroupId, Constant.TYPE_MSG_IMAGE, null, buf);
+            //发送完成后，自动添加到集合中
+            mChattingMessageList.add(CopyUtil.saveMessageReqToChattingMessage(message));
             //刷新界面
             mAdapter.notifyDataSetChanged();
-            //选中最后一行
-            mActivityBinding.rvMessageContent.getLayoutManager()
-                    .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, mAdapter.getItemCount() - 1);
         }
-
     }
 
     /**
@@ -169,7 +146,8 @@ public class ActivityMessagePresenter {
         }
     }
 
-    private void initListener() {
+    @Override
+    protected void initListener() {
         //刷新方法
         mActivityBinding.srlMessageRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

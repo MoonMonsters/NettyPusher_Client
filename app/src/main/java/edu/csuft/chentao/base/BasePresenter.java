@@ -7,6 +7,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
+import edu.csuft.chentao.pojo.bean.ImageDetail;
 
 /**
  * Created by Chalmers on 2017-02-26 11:50.
@@ -36,7 +37,7 @@ public abstract class BasePresenter {
     protected void init() {
         registerEventBus();
         initData();
-        setListener();
+        initListener();
     }
 
     /**
@@ -51,9 +52,17 @@ public abstract class BasePresenter {
     protected abstract void getEBToObjectPresenter(EBToPreObject ebObj);
 
     /**
+     * 获得从Activity发送过来的图片数据
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    protected void getImageDetail(ImageDetail imageDetail) {
+
+    }
+
+    /**
      * 可能需要用上的设置监听器方法
      */
-    protected void setListener() {
+    protected void initListener() {
 
     }
 

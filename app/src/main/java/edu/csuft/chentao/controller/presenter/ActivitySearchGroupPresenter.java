@@ -1,13 +1,10 @@
 package edu.csuft.chentao.controller.presenter;
 
 import android.app.ProgressDialog;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -16,9 +13,9 @@ import java.util.List;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.adapter.SearchGroupContentAdapter;
+import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivitySearchGroupBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
-import edu.csuft.chentao.pojo.bean.HandlerMessage;
 import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
@@ -30,34 +27,22 @@ import edu.csuft.chentao.utils.SendMessageUtil;
  * email:qxinhai@yeah.net
  */
 
-public class ActivitySearchGroupPresenter {
+public class ActivitySearchGroupPresenter extends BasePresenter {
 
     private ActivitySearchGroupBinding mActivityBinding = null;
     private List<GroupInfoResp> mGroupInfoList;
     private SearchGroupContentAdapter mAdapter;
     private ProgressDialog mDialog;
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == Constant.HANDLER_SEARCH_GROUP_SIZE_0) {
-                ReturnInfoResp resp = (ReturnInfoResp) msg.obj;
-                Toast.makeText(mActivityBinding.getRoot().getContext(), resp.getDescription(), Toast.LENGTH_SHORT).show();
-                dismissProgressDialog();
-            }
-        }
-    };
-
     public ActivitySearchGroupPresenter(ActivitySearchGroupBinding activityBinding) {
         this.mActivityBinding = activityBinding;
-        EventBus.getDefault().register(this);
         initData();
     }
 
-    private void initData() {
+    @Override
+    protected void initData() {
 //        ArrayAdapter spinnerAdapter = new ArrayAdapter(mActivityBinding.getRoot().getContext(),
 //                android.R.layout.simple_spinner_dropdown_item, mActivityBinding.getRoot().getContext().getResources().getTextArray(R.array.group_tag_search_group));
-        EventBus.getDefault().post(new HandlerMessage(mHandler, "SearchGroupActivity"));
         mGroupInfoList = new ArrayList<>();
         mAdapter = new SearchGroupContentAdapter(mActivityBinding.getRoot().getContext(), mGroupInfoList);
 //        mActivityBinding.setVariable(BR.spinnerAdapter, spinnerAdapter);
@@ -110,8 +95,9 @@ public class ActivitySearchGroupPresenter {
         }
     }
 
+    @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getGroupInfoRespData(EBToPreObject ebObj) {
+    public void getEBToObjectPresenter(EBToPreObject ebObj) {
         if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER)) {
             GroupInfoResp resp = (GroupInfoResp) ebObj.getObject();
             synchronized (this) {

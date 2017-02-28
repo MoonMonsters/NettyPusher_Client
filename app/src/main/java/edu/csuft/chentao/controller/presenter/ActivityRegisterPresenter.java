@@ -5,22 +5,21 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
 
+import edu.csuft.chentao.BR;
 import edu.csuft.chentao.activity.RegisterActivity;
+import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityRegisterBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
-import edu.csuft.chentao.pojo.bean.HandlerMessage;
+import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.RegisterReq;
@@ -36,7 +35,7 @@ import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
  * email:qxinhai@yeah.net
  */
 
-public class ActivityRegisterPresenter {
+public class ActivityRegisterPresenter extends BasePresenter {
 
     /**
      * DataBinding类型
@@ -47,44 +46,14 @@ public class ActivityRegisterPresenter {
      */
     private RegisterReq req = null;
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == Constant.HANDLER_REGISTER) {
-                RegisterResp resp = (RegisterResp) msg.obj;
-
-                //保存用户id
-                SharedPrefUserInfoUtil.setUserId(resp.getUserid());
-                //设置登录方式为自动登录
-                SharedPrefUserInfoUtil.setLoginType();
-                //保存用户名和密码
-                SharedPrefUserInfoUtil.setUsernameAndPassword(mActivityBinding.etRegisterUsername.getText().toString(),
-                        mActivityBinding.etRegisterPassword.getText().toString());
-
-                //保存用户信息
-                UserInfo userInfo = new UserInfo();
-                userInfo.setUserid(resp.getUserid());
-                userInfo.setSignature(req.getSignature());
-                userInfo.setNickname(req.getNickname());
-                UserInfoDaoUtil.saveUserInfo(userInfo);
-
-                //保存用户头像
-                UserHead userHead = new UserHead();
-                userHead.setUserid(resp.getUserid());
-                userHead.setImage(req.getHeadImage());
-                UserHeadDaoUtil.saveUserHead(userHead);
-            }
-        }
-    };
-
     public ActivityRegisterPresenter(ActivityRegisterBinding activityBinding) {
         this.mActivityBinding = activityBinding;
-        //发送Handler对象到RegisterActivity中
-        EventBus.getDefault().post(new HandlerMessage(mHandler, "RegisterActivity"));
+        init();
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getEBToPresenterObject(EBToPreObject ebObj) {
+    public void getEBToObjectPresenter(EBToPreObject ebObj) {
         //如果是注册消息类型
         if (ebObj.getTag().equals(Constant.TAG_REGISTER_PRESENTER)) {
             RegisterResp resp = (RegisterResp) ebObj.getObject();
@@ -112,6 +81,17 @@ public class ActivityRegisterPresenter {
         }
     }
 
+    @Override
+    @Subscribe
+    protected void getImageDetail(ImageDetail imageDetail) {
+        if (imageDetail.getTag().equals(Constant.IMAGE_ACTIVITY_REGISTER_PRESENTER)) {
+            mActivityBinding.setVariable(BR.detail, imageDetail);
+        }
+    }
+
+    /**
+     * 点击注册
+     */
     public void onClickForRegister() {
         //用户名
         String username = mActivityBinding.etRegisterUsername.getText().toString();
@@ -147,10 +127,16 @@ public class ActivityRegisterPresenter {
         }
     }
 
+    /**
+     * 点击取消
+     */
     public void onClickForCancel() {
         Toast.makeText(MyApplication.getInstance(), "取消", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * 点击选择图片
+     */
     public void onClickForSelectPicture() {
         Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
         getAlbum.setType(Constant.IMAGE_TYPE);
@@ -185,5 +171,10 @@ public class ActivityRegisterPresenter {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();
+    }
+
+    @Override
+    protected void initData() {
+
     }
 }

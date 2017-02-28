@@ -7,15 +7,17 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.activity.MainActivity;
+import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityMainBinding;
 import edu.csuft.chentao.fragment.FragmentFactory;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 
 /**
  * Created by Chalmers on 2016-12-28 17:26.
  * email:qxinhai@yeah.net
  */
 
-public class ActivityMainPresenter {
+public class ActivityMainPresenter extends BasePresenter {
 
     private ActivityMainBinding mActivityBinding = null;
     private static MainActivity mActivity = null;
@@ -26,13 +28,20 @@ public class ActivityMainPresenter {
     public ActivityMainPresenter(ActivityMainBinding binding) {
         this.mActivityBinding = binding;
         mActivity = (MainActivity) mActivityBinding.getRoot().getContext();
+        init();
     }
 
-    public void init() {
+    @Override
+    protected void initData() {
         initFragmentData();
         addAllFragmentData();
         setBottomNavigationBarData();
         setBottomNavigationBarListener();
+    }
+
+    @Override
+    protected void getEBToObjectPresenter(EBToPreObject ebObj) {
+
     }
 
     /**

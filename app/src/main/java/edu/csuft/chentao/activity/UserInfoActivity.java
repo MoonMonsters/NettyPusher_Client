@@ -2,6 +2,7 @@ package edu.csuft.chentao.activity;
 
 import android.databinding.ViewDataBinding;
 
+import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityUserInfoPresenter;
@@ -15,6 +16,7 @@ import edu.csuft.chentao.utils.Constant;
 public class UserInfoActivity extends BaseActivity {
 
     private ActivityUserInfoBinding mActivityBinding = null;
+    private ActivityUserInfoPresenter mPresenter;
 
     @Override
     public int getLayoutResourceId() {
@@ -32,8 +34,13 @@ public class UserInfoActivity extends BaseActivity {
         int userId = getIntent().getIntExtra(Constant.EXTRA_USER_ID, -1);
         int groupId = getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1);
 
-        ActivityUserInfoPresenter presenter = new ActivityUserInfoPresenter(mActivityBinding);
-        mActivityBinding.setPresenter(presenter);
-        presenter.init(groupId, userId);
+        mPresenter = new ActivityUserInfoPresenter(mActivityBinding, groupId, userId);
+        mActivityBinding.setVariable(BR.presenter, mPresenter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPresenter.unregisterEventBus();
     }
 }

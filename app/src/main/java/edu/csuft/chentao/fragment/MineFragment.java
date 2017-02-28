@@ -7,15 +7,11 @@ import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseFragment;
 import edu.csuft.chentao.controller.presenter.FragmentMinePresenter;
 import edu.csuft.chentao.databinding.FragmentMineBinding;
-import edu.csuft.chentao.pojo.bean.UserHead;
-import edu.csuft.chentao.pojo.bean.UserInfo;
-import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
-import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
-import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 public class MineFragment extends BaseFragment {
 
     private FragmentMineBinding mFragmentBinding = null;
+    private FragmentMinePresenter mPresenter;
 
     @Override
     public int getLayoutResourceId() {
@@ -29,14 +25,13 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        FragmentMinePresenter presenter = new FragmentMinePresenter(mFragmentBinding);
-        mFragmentBinding.setPresenter(presenter);
+        mPresenter = new FragmentMinePresenter(mFragmentBinding);
+        mFragmentBinding.setPresenter(mPresenter);
+    }
 
-        //绑定数据
-        UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
-        UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
-
-        mFragmentBinding.setUserInfo(userInfo);
-        mFragmentBinding.setUserHead(userHead);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.unregisterEventBus();
     }
 }

@@ -14,12 +14,16 @@ import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.activity.ImageActivity;
 import edu.csuft.chentao.adapter.RecentMessageAdapter;
+import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityUserInfoBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
+import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
@@ -32,7 +36,7 @@ import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 /**
  * UserInfoActivity的Presenter类
  */
-public class ActivityUserInfoPresenter {
+public class ActivityUserInfoPresenter extends BasePresenter {
 
     private ActivityUserInfoBinding mActivityBinding = null;
     private UserHead mUserHead = null;
@@ -85,27 +89,21 @@ public class ActivityUserInfoPresenter {
         }
     };
 
-    public ActivityUserInfoPresenter(ActivityUserInfoBinding activityBinding) {
+    public ActivityUserInfoPresenter(ActivityUserInfoBinding activityBinding,
+                                     Object object1, Object object2) {
         this.mActivityBinding = activityBinding;
+        this.mGroupId = (int) object1;
+        this.mUserId = (int) object2;
+
+        init();
     }
 
-    public void init(int groupId, int userId) {
-        initData(groupId, userId);
-        initListener();
-    }
-
-    private void initData(int groupId, int userId) {
-        this.mGroupId = groupId;
-        this.mUserId = userId;
-
-        UserInfo userInfo = UserInfoDaoUtil.getUserInfo(userId);
-        mUserHead = UserHeadDaoUtil.getUserHead(userId);
-
-        mActivityBinding.setUserInfo(userInfo);
-        mActivityBinding.setUserHead(mUserHead);
+    @Override
+    protected void initData() {
+        setUserInfo();
 
         mChattingMessageList =
-                ChattingMessageDaoUtil.getChattingMessageListWithGroupIdAndUserId(groupId, userId, mOffset);
+                ChattingMessageDaoUtil.getChattingMessageListWithGroupIdAndUserId(mGroupId, mUserId, mOffset);
 
         mAdapter = new RecentMessageAdapter(mActivityBinding.getRoot().getContext(),
                 mChattingMessageList, R.layout.item_recent_msg, BR.chattingMessage);
@@ -113,12 +111,33 @@ public class ActivityUserInfoPresenter {
         mActivityBinding.ptrlvUserinfoRecentMsg.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
 //        mActivityBinding.ptrlvUserinfoRecentMsg.setAdapter(mAdapter);
         mActivityBinding.setAdapter(mAdapter);
+
+        GetInfoReq req = new GetInfoReq();
+        req.setType(Constant.TYPE_GET_INFO_USERINFO);
+        req.setArg1(mUserId);
+        SendMessageUtil.sendMessage(req);
+    }
+
+    @Override
+    protected void getEBToObjectPresenter(EBToPreObject ebObj) {
+        if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER_ADD_USER)) {
+            setUserInfo();
+        }
+    }
+
+    private void setUserInfo() {
+        UserInfo userInfo = UserInfoDaoUtil.getUserInfo(mUserId);
+        mUserHead = UserHeadDaoUtil.getUserHead(mUserId);
+
+        mActivityBinding.setUserInfo(userInfo);
+        mActivityBinding.setUserHead(mUserHead);
     }
 
     /**
      * 初始化监听器
      */
-    private void initListener() {
+    @Override
+    protected void initListener() {
         mActivityBinding.ptrlvUserinfoRecentMsg.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> pullToRefreshBase) {
@@ -144,9 +163,10 @@ public class ActivityUserInfoPresenter {
      */
     public void onClickToBigImage() {
         Intent intent = new Intent(mActivityBinding.getRoot().getContext(), ImageActivity.class);
-        ImageDetail detail = new ImageDetail(null,mUserHead.getImage());
+        ImageDetail detail = new ImageDetail(null, mUserHead.getImage());
         intent.putExtra(Constant.EXTRA_IMAGE_DETAIL, detail);
         mActivityBinding.getRoot().getContext()
                 .startActivity(intent);
     }
+
 }

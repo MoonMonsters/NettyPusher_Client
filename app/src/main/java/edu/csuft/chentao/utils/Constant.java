@@ -624,5 +624,13 @@ public interface Constant {
      * 更新头像，从EditorInfoActivity把Image数据传递到Presenter中去
      */
     String IMAGE_ACTIVITY_EDITOR_INFO_PRESENTER = "image.activity.editor.info.presenter";
+    /**
+     * 发送图片，把图片从MessageActivity发送到Presenter
+     */
+    String IMAGE_ACTIVITY_MESSAGE_PRESENTER = "image.activity.message.presenter";
+    /**
+     * 选择头像，把图片从RegisterActivity发送到Presenter
+     */
+    String IMAGE_ACTIVITY_REGISTER_PRESENTER = "image.activity.register.presenter";
 
 }

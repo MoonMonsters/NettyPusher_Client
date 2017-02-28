@@ -54,11 +54,6 @@ class UserInfoHandler implements Handler {
                     //向GroupDetailActivity界面添加新的数据
                     EBToPreObject ebObj = new EBToPreObject(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER_ADD_USER, resp);
                     EventBus.getDefault().post(ebObj);
-//                    Intent intent = new Intent();
-//                    intent.setAction(Constant.ACTION_GET_USERINFO);
-//                    intent.putExtra(Constant.EXTRA_USER_ID, resp.getUserid());
-//                    MyApplication.getInstance()
-//                            .sendBroadcast(intent);
                 }
             }
         } else { //登录失败
