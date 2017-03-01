@@ -632,5 +632,16 @@ public interface Constant {
      * 选择头像，把图片从RegisterActivity发送到Presenter
      */
     String IMAGE_ACTIVITY_REGISTER_PRESENTER = "image.activity.register.presenter";
-
+    /**
+     * 选择头像，把头像发送到CutViewActivity
+     */
+    String IMAGE_ACTIVITY_CUT_VIEW_PRESENTER = "image.activity.cut.view.presenter";
+    /**
+     * 将图片数据发送RegisterActivity
+     */
+    String CUT_VIEW_REGISTER_ACTIVITY = "cut.view.register.activity";
+    /**
+     * 传递需要CutView图片类型
+     */
+    String EXTRA_CUT_VIEW = "extra.cut.view";
 }

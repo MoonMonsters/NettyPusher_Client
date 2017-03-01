@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="edu.csuft.chentao.activity.CutViewActivity">
+
+    <data>
+
+        <variable
+            name="presenter"
+            type="edu.csuft.chentao.controller.presenter.ActivityCutViewPresenter" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/activity_cut_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <edu.csuft.chentao.view.CutView
+            android:id="@+id/cv_cut_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/acbtn_cut_view_ok"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="@{()->presenter.onClickToCutImage()}"
+                android:text="@string/string_ok" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/acbtn_cut_view_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="@{()->presenter.onClickToCancel()}"
+                android:text="@string/string_cancel" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

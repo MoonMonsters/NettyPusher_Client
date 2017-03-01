@@ -2,6 +2,7 @@ package edu.csuft.chentao.controller.presenter;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
@@ -13,8 +14,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
 
-import edu.csuft.chentao.BR;
-import edu.csuft.chentao.activity.RegisterActivity;
+import edu.csuft.chentao.activity.CutViewActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityRegisterBinding;
@@ -25,6 +25,7 @@ import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.RegisterReq;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
@@ -84,8 +85,12 @@ public class ActivityRegisterPresenter extends BasePresenter {
     @Override
     @Subscribe
     protected void getImageDetail(ImageDetail imageDetail) {
-        if (imageDetail.getTag().equals(Constant.IMAGE_ACTIVITY_REGISTER_PRESENTER)) {
-            mActivityBinding.setVariable(BR.detail, imageDetail);
+        if (imageDetail.getTag().equals(Constant.CUT_VIEW_REGISTER_ACTIVITY)) {
+
+            LoggerUtil.logger(Constant.TAG,"getImageDetail----"+Constant.CUT_VIEW_REGISTER_ACTIVITY);
+
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageDetail.getImage(), 0, imageDetail.getImage().length);
+            mActivityBinding.ivRegisterHead.setImageBitmap(bitmap);
         }
     }
 
@@ -138,9 +143,13 @@ public class ActivityRegisterPresenter extends BasePresenter {
      * 点击选择图片
      */
     public void onClickForSelectPicture() {
-        Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-        getAlbum.setType(Constant.IMAGE_TYPE);
-        ((RegisterActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
+//        Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
+//        getAlbum.setType(Constant.IMAGE_TYPE);
+//        ((RegisterActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
+        Intent intent = new Intent(mActivityBinding.getRoot().getContext(),
+                CutViewActivity.class);
+        intent.putExtra(Constant.EXTRA_CUT_VIEW, Constant.CUT_VIEW_REGISTER_ACTIVITY);
+        mActivityBinding.getRoot().getContext().startActivity(intent);
     }
 
     /**

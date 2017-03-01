@@ -51,6 +51,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".activity.CreateGroupActivity" />
         <activity android:name=".activity.HintActivity" />
+        <activity android:name=".activity.CutViewActivity"></activity>
     </application>
 
 </manifest>
