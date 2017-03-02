@@ -27,7 +27,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initData() {
         mPresenter = new ActivityLoginPresenter(mActivityBinding);
-        LoggerUtil.logger(Constant.TAG, "2-->" + mActivityBinding.toString());
         mActivityBinding.setPresenter(mPresenter);
     }
 

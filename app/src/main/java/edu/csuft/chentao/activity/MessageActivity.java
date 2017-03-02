@@ -19,6 +19,7 @@ import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityMessagePresenter;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.utils.Constant;
@@ -75,8 +76,8 @@ public class MessageActivity extends BaseActivity {
             chattingItem.setNumber(0);
             //更新
             GroupChattingItemDaoUtil.updateGroupChattingItem(chattingItem);
-            //发送广播
-            OperationUtil.sendBroadcastToUpdateGroupChattingItem(chattingItem);
+            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_UPDATE_ITEM, chattingItem);
+            EventBus.getDefault().post(ebObj);
         }
     }
 

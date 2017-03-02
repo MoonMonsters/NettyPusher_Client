@@ -27,6 +27,7 @@ import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.CutListener;
 import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.view.CutView;
 
 /**
@@ -58,6 +59,14 @@ public class ActivityCutViewPresenter extends BasePresenter implements CutListen
 
     @Override
     protected void initData() {
+        pickPicture();
+    }
+
+    /**
+     * 打开选择图片界面
+     */
+    private void pickPicture() {
+        //配置
         ImgSelConfig config = new ImgSelConfig.Builder(mActivityBinding.getRoot().getContext(), loader)
                 // 是否多选
                 .multiSelect(false)
@@ -69,34 +78,24 @@ public class ActivityCutViewPresenter extends BasePresenter implements CutListen
                 // 使用沉浸式状态栏
                 .statusBarColor(Color.parseColor("#3F51B5"))
                 // 返回图标ResId
-                .backResId(R.drawable.ic_add_head)
+                .backResId(R.drawable.ic_back)
+                //标题
                 .title("Images")
+                //标题颜色
                 .titleColor(Color.WHITE)
                 .titleBgColor(Color.parseColor("#3F51B5"))
+                //标题显示
                 .allImagesText("All Images")
-                .needCrop(false)    //不需要裁剪
+                //不需要裁剪
+                .needCrop(false)
                 .cropSize(1, 1, 200, 200)
                 // 第一个是否显示相机
                 .needCamera(true)
                 // 最大选择图片数量
                 .maxNum(9)
                 .build();
-
+        //启动选择界面
         ImgSelActivity.startActivity((CutViewActivity) mActivityBinding.getRoot().getContext(), config, REQUEST_CODE);
-//        mActivityBinding.cvCutView.setImageBitmap(BitmapFactory.decodeResource(mActivityBinding.getRoot().getContext().getResources(), R.drawable.testview));
-//        mActivityBinding.cvCutView.setCutListener(this);//设置剪裁监听，用于剪裁完成后获取圆形头像
-//
-//        //自定义CutView的一些属性
-//        mActivityBinding.cvCutView.setShadeColor(0X6674d6b5);//色值要使用argb，带透明度的
-//        mActivityBinding.cvCutView.setPathColor(0Xfff9771e);//argb
-//        mActivityBinding.cvCutView.setCutRadius(150);//这里的单位是px
-//        mActivityBinding.cvCutView.setPathEffect(new CornerPathEffect(3.0f));//将默认的圆形虚线线条改为实线
-//        mActivityBinding.cvCutView.setPathWidth(2);//设置线条宽度，默认是2，单位是px
-//        mActivityBinding.cvCutView.setCutFillColor(0xffffffff);//图片剪切空白部分颜色设置为白色，argb
-//
-//        mActivityBinding.cvCutView.setPathType(CutView.PathType.OVAL);
-//
-//        mActivityBinding.cvCutView.setRoundRectRadius(10.0f);//如果剪切类型为圆角矩形，需要设置圆角矩形的圆角半径，可不设置默认是3.0f
     }
 
     @Override
@@ -149,19 +148,11 @@ public class ActivityCutViewPresenter extends BasePresenter implements CutListen
     public void cutResultWithBitmap(Bitmap bitmap) {
         LoggerUtil.logger(Constant.TAG, "cutResultWithBitmap-----" + mTag);
 
-        byte[] buf = bitmapToBytes(bitmap);
+        byte[] buf = OperationUtil.bitmapToBytes(bitmap);
         ImageDetail imageDetail = new ImageDetail(mTag, buf);
         EventBus.getDefault().post(imageDetail);
 
+        //关闭界面
         ((CutViewActivity) mActivityBinding.getRoot().getContext()).finish();
-    }
-
-    /**
-     * Bitmap转成byte[]
-     */
-    private byte[] bitmapToBytes(Bitmap bm) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        return baos.toByteArray();
     }
 }

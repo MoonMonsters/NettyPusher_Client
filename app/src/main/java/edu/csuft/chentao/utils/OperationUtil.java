@@ -2,17 +2,20 @@ package edu.csuft.chentao.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.text.format.DateFormat;
 import android.view.WindowManager;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Locale;
 
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
+import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
@@ -46,28 +49,17 @@ public class OperationUtil {
      */
     public static void sendBroadcastToUpdateGroupChattingItem(GroupChattingItem chattingItem) {
         //向FragmentChattingListPresenter发送数据，更新数据项
-        EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_UPDATE_ITEM, chattingItem);
-        EventBus.getDefault().post(ebObj);
-//        Intent intent = new Intent();
-//        intent.setAction(Constant.ACTION_CHATTING_LIST);
-//        intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 2);
-//        intent.putExtra(Constant.EXTRA_GROUPSITEM, chattingItem);
-//        MyApplication.getInstance().sendBroadcast(intent);
+
     }
 
     /**
      * 发送广播去添加GroupChattingItem独享
      */
     public static void sendBroadcastToAddGroupChattingItem(GroupChattingItem chattingItem) {
-        LoggerUtil.logger("FragmentChattingListPresenter", Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM+"sendBroadcastToAddGroupChattingItem");
+        LoggerUtil.logger("FragmentChattingListPresenter", Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM + "sendBroadcastToAddGroupChattingItem");
         //传递对象到FragmentChattingListPresenter中去，添加数据项
         EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM, chattingItem);
         EventBus.getDefault().post(ebObj);
-//        Intent intent = new Intent();
-//        intent.setAction(Constant.ACTION_CHATTING_LIST);
-//        intent.putExtra(Constant.EXTRA_GROUPSITEM, chattingItem);
-//        intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 1);
-//        MyApplication.getInstance().sendBroadcast(intent);
     }
 
     /**
@@ -150,29 +142,6 @@ public class OperationUtil {
     }
 
     /**
-     * 根据身份获得背景颜色
-     *
-     * @param capital 身份值
-     */
-    public static int getCapitalBackgroundColor(int capital) {
-        int result = -1;
-
-        switch (capital) {
-            case Constant.TYPE_GROUP_CAPITAL_ADMIN:
-                result = android.R.color.holo_blue_light;
-                break;
-            case Constant.TYPE_GROUP_CAPITAL_OWNER:
-                result = android.R.color.holo_red_light;
-                break;
-            case Constant.TYPE_GROUP_CAPITAL_USER:
-                result = android.R.color.darker_gray;
-                break;
-        }
-
-        return result;
-    }
-
-    /**
      * 发送消息请求用户数据
      *
      * @param userId 用户id
@@ -223,6 +192,36 @@ public class OperationUtil {
         }
 
         return result;
+    }
+
+    /**
+     * 将bitmap转化成byte[]数组
+     *
+     * @param bm Bitmap对象
+     * @return 转化后的byte[]数组
+     */
+    public static byte[] bitmapToBytes(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+    }
+
+    /**
+     * 发送EBToObjectPresenter对象
+     * @param tag 标志
+     * @param ebObj 实例对象
+     */
+    public static void sendEBToObjectPresenter(String tag, EBToPreObject ebObj){
+
+    }
+
+    /**
+     * 发送ImageDetail对象
+     * @param tag 标志
+     * @param imageDetail 实例对象
+     */
+    public static void sendImageDetail(String tag, ImageDetail imageDetail){
+
     }
 
 }
