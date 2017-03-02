@@ -11,7 +11,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.Objects;
 
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
@@ -59,8 +58,7 @@ public class OperationUtil {
     public static void sendBroadcastToAddGroupChattingItem(GroupChattingItem chattingItem) {
         LoggerUtil.logger("FragmentChattingListPresenter", Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM + "sendBroadcastToAddGroupChattingItem");
         //传递对象到FragmentChattingListPresenter中去，添加数据项
-        EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM, chattingItem);
-        EventBus.getDefault().post(ebObj);
+
     }
 
     /**

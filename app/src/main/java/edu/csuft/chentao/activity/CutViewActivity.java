@@ -7,8 +7,6 @@ import android.graphics.BitmapFactory;
 
 import com.yuyh.library.imgsel.ImgSelActivity;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.io.File;
 import java.net.URI;
 import java.util.List;
@@ -18,7 +16,6 @@ import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityCutViewPresenter;
 import edu.csuft.chentao.databinding.ActivityCutViewBinding;
-import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.OperationUtil;
 
@@ -61,8 +58,6 @@ public class CutViewActivity extends BaseActivity {
                 Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 byte[] buf = OperationUtil.bitmapToBytes(bitmap);
 
-//                ImageDetail imageDetail = new ImageDetail(Constant.IMAGE_ACTIVITY_CUT_VIEW_PRESENTER, buf);
-//                EventBus.getDefault().post(imageDetail);
                 OperationUtil.sendImageDetail(Constant.IMAGE_ACTIVITY_CUT_VIEW_PRESENTER, buf);
 
             } else {

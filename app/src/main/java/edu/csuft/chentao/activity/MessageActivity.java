@@ -10,8 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.io.ByteArrayOutputStream;
 
 import edu.csuft.chentao.BR;
@@ -19,9 +17,7 @@ import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityMessagePresenter;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
-import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
-import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
@@ -76,8 +72,6 @@ public class MessageActivity extends BaseActivity {
             chattingItem.setNumber(0);
             //更新
             GroupChattingItemDaoUtil.updateGroupChattingItem(chattingItem);
-//            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_UPDATE_ITEM, chattingItem);
-//            EventBus.getDefault().post(ebObj);
 
             OperationUtil.sendEBToObjectPresenter(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_UPDATE_ITEM, chattingItem);
         }
@@ -103,9 +97,6 @@ public class MessageActivity extends BaseActivity {
                 /*
                 发送到Presenter中去处理
                  */
-//                ImageDetail detail = new ImageDetail(Constant.IMAGE_ACTIVITY_MESSAGE_PRESENTER, buf);
-//                EventBus.getDefault().post(detail);
-
                 OperationUtil.sendImageDetail(Constant.IMAGE_ACTIVITY_MESSAGE_PRESENTER, buf);
 
             } catch (Exception e) {

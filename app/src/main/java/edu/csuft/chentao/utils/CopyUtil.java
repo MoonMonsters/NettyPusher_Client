@@ -98,14 +98,14 @@ public class CopyUtil {
             chattingItem.setNumber(1);
             GroupChattingItemDaoUtil.saveGroupChattingItem(chattingItem);
 
-            //发送添加广播
-            OperationUtil.sendBroadcastToAddGroupChattingItem(chattingItem);
+            OperationUtil.sendEBToObjectPresenter(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM, chattingItem);
         } else {
             GroupChattingItem chattingItem = chattingItemList.get(0);
             chattingItem.setLastmessage(lastMessage);
             chattingItem.setNumber(chattingItem.getNumber() + 1);
             GroupChattingItemDaoUtil.updateGroupChattingItem(chattingItem);
 
+            //TODO
             //发送更新广播
             OperationUtil.sendBroadcastToUpdateGroupChattingItem(chattingItem);
         }
