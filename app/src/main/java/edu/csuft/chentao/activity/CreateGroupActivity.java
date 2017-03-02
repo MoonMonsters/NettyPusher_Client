@@ -13,6 +13,7 @@ public class CreateGroupActivity extends BaseActivity {
     private ActivityCreateGroupBinding mActivityBinding;
     private ActivityCreateGroupPresenter mPresenter;
 
+
     @Override
     public int getLayoutResourceId() {
         return R.layout.activity_create_group;

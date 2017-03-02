@@ -1,1 +1,1 @@
-include ':app', ':bottom-navigation-bar', ':swipelistview', ':imageselectorlibrary', ':image_selector_library'
+include ':app', ':bottom-navigation-bar', ':swipelistview'
