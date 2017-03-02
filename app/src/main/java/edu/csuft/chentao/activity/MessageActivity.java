@@ -76,8 +76,10 @@ public class MessageActivity extends BaseActivity {
             chattingItem.setNumber(0);
             //更新
             GroupChattingItemDaoUtil.updateGroupChattingItem(chattingItem);
-            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_UPDATE_ITEM, chattingItem);
-            EventBus.getDefault().post(ebObj);
+//            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_UPDATE_ITEM, chattingItem);
+//            EventBus.getDefault().post(ebObj);
+
+            OperationUtil.sendEBToObjectPresenter(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_UPDATE_ITEM, chattingItem);
         }
     }
 
@@ -101,8 +103,10 @@ public class MessageActivity extends BaseActivity {
                 /*
                 发送到Presenter中去处理
                  */
-                ImageDetail detail = new ImageDetail(Constant.IMAGE_ACTIVITY_MESSAGE_PRESENTER, buf);
-                EventBus.getDefault().post(detail);
+//                ImageDetail detail = new ImageDetail(Constant.IMAGE_ACTIVITY_MESSAGE_PRESENTER, buf);
+//                EventBus.getDefault().post(detail);
+
+                OperationUtil.sendImageDetail(Constant.IMAGE_ACTIVITY_MESSAGE_PRESENTER, buf);
 
             } catch (Exception e) {
                 Toast.makeText(this, "图片选取错误", Toast.LENGTH_SHORT).show();

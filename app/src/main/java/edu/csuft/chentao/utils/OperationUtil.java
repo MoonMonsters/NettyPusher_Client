@@ -11,6 +11,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
@@ -208,20 +209,24 @@ public class OperationUtil {
 
     /**
      * 发送EBToObjectPresenter对象
-     * @param tag 标志
-     * @param ebObj 实例对象
+     *
+     * @param tag    标志
+     * @param object 实例对象
      */
-    public static void sendEBToObjectPresenter(String tag, EBToPreObject ebObj){
-
+    public static void sendEBToObjectPresenter(String tag, Object object) {
+        EBToPreObject ebObj = new EBToPreObject(tag, object);
+        EventBus.getDefault().post(ebObj);
     }
 
     /**
      * 发送ImageDetail对象
-     * @param tag 标志
-     * @param imageDetail 实例对象
+     *
+     * @param tag         标志
+     * @param buf 图片的byte[]数组
      */
-    public static void sendImageDetail(String tag, ImageDetail imageDetail){
-
+    public static void sendImageDetail(String tag, byte[] buf) {
+        ImageDetail imageDetail = new ImageDetail(tag,buf);
+        EventBus.getDefault().post(imageDetail);
     }
 
 }

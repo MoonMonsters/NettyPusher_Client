@@ -61,8 +61,9 @@ public class CutViewActivity extends BaseActivity {
                 Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 byte[] buf = OperationUtil.bitmapToBytes(bitmap);
 
-                ImageDetail imageDetail = new ImageDetail(Constant.IMAGE_ACTIVITY_CUT_VIEW_PRESENTER, buf);
-                EventBus.getDefault().post(imageDetail);
+//                ImageDetail imageDetail = new ImageDetail(Constant.IMAGE_ACTIVITY_CUT_VIEW_PRESENTER, buf);
+//                EventBus.getDefault().post(imageDetail);
+                OperationUtil.sendImageDetail(Constant.IMAGE_ACTIVITY_CUT_VIEW_PRESENTER, buf);
 
             } else {
                 this.finish();

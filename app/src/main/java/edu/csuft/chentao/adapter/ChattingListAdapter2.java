@@ -19,6 +19,7 @@ import edu.csuft.chentao.databinding.ItemChattingListBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 
 /**
@@ -103,8 +104,10 @@ public class ChattingListAdapter2 extends BaseAdapter {
             //需要删除的位置
             int position = mGroupChattingItemList.indexOf(mChattingItem);
             //发送消息到FragmentChattingListPresenter去移除掉position位置的数据项
-            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_REMOVE_ITEM, position);
-            EventBus.getDefault().post(ebObj);
+//            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_REMOVE_ITEM, position);
+//            EventBus.getDefault().post(ebObj);
+
+            OperationUtil.sendEBToObjectPresenter(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_REMOVE_ITEM, position);
 //            Intent intent = new Intent();
 //            intent.setAction(Constant.ACTION_CHATTING_LIST);
 //            intent.putExtra(Constant.EXTRA_MESSAGE_TYPE, 3);

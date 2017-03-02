@@ -12,6 +12,7 @@ import edu.csuft.chentao.pojo.bean.Hint;
 import edu.csuft.chentao.pojo.resp.GroupReminderResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.CopyUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 
 /**
  * 处理操作群返回的消息
@@ -31,8 +32,9 @@ class GroupReminderHandler implements Handler {
          */
         if (resp.getType() == Constant.TYPE_GROUP_REMINDER_EXIT_BY_MYSELF
                 || resp.getType() == Constant.TYPE_GROUP_REMINDER_REMOVE_USER) {
-            EBToPreObject obj = new EBToPreObject(Constant.TAG_REMOVE_GROUPS, resp);
-            EventBus.getDefault().post(obj);
+//            EBToPreObject obj = new EBToPreObject(Constant.TAG_REMOVE_GROUPS, resp);
+//            EventBus.getDefault().post(obj);
+            OperationUtil.sendEBToObjectPresenter(Constant.TAG_REMOVE_GROUPS, resp);
 //            Intent intent = new Intent();
 //            intent.setAction(Constant.ACTION_REMOVE_GROUP);
 //            intent.putExtra(Constant.EXTRA_GROUP_ID, resp.getGroupId());

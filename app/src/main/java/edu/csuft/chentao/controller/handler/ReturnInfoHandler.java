@@ -9,6 +9,7 @@ import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 
 /**
  * Created by Chalmers on 2016-12-22 12:13.
@@ -24,8 +25,10 @@ public class ReturnInfoHandler implements Handler {
         //如果是创建群相关的返回消息
         if (resp.getType() == Constant.TYPE_RETURN_INFO_CREATE_GROUP_SUCCESS
                 || resp.getType() == Constant.TYPE_RETURN_INFO_CREATE_GROUP_FAIL) {
-            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_CREATE_GROUP_PRESENTER, resp);
-            EventBus.getDefault().post(ebObj);
+//            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_CREATE_GROUP_PRESENTER, resp);
+//            EventBus.getDefault().post(ebObj);
+
+            OperationUtil.sendEBToObjectPresenter(Constant.TAG_CREATE_GROUP_PRESENTER, resp);
 //            Intent intent = new Intent();
 //            intent.setAction(Constant.ACTION_CREATE_GROUP);
 //            intent.putExtra(Constant.EXTRA_RETURN_INFO, resp);
@@ -33,8 +36,10 @@ public class ReturnInfoHandler implements Handler {
             //更新用户数据的返回消息
         } else if (resp.getType() >= Constant.TYPE_RETURN_INFO_UPDATE_HEAD_IMAGE_SUCCESS
                 && resp.getType() <= Constant.TYPE_RETURN_INFO_UPDATE_NICKNAME_FAIL) {
-            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_UPDATE_USER_INFO, resp);
-            EventBus.getDefault().post(ebObj);
+//            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_UPDATE_USER_INFO, resp);
+//            EventBus.getDefault().post(ebObj);
+
+            OperationUtil.sendEBToObjectPresenter(Constant.TAG_UPDATE_USER_INFO, resp);
 //            Intent intent = new Intent();
 //            intent.setAction(Constant.ACTION_RETURN_INFO);
 //            intent.putExtra(Constant.EXTRA_RETURN_INFO, resp);

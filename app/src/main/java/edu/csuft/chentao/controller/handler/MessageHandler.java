@@ -8,6 +8,7 @@ import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.CopyUtil;
 import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 
 /**
  * Created by Chalmers on 2016-12-22 14:22.
@@ -26,8 +27,9 @@ class MessageHandler implements Handler {
         LoggerUtil.logger(Constant.TAG, "MessageHandler->保存到了本地，发送广播");
 
         //发送消息到ActivityMessagePresenter
-        EBToPreObject ebObj = new EBToPreObject(Constant.TAG_ADD_CHATTING_MESSAGE, chattingMessage);
-        EventBus.getDefault().post(ebObj);
+//        EBToPreObject ebObj = new EBToPreObject(Constant.TAG_ADD_CHATTING_MESSAGE, chattingMessage);
+//        EventBus.getDefault().post(ebObj);
+        OperationUtil.sendEBToObjectPresenter(Constant.TAG_ADD_CHATTING_MESSAGE, chattingMessage);
 
 //        Intent intent = new Intent();
 //        intent.setAction(Constant.ACTION_CHATTING_MESSAGE);

@@ -9,6 +9,7 @@ import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 
 /**
  * Created by Chalmers on 2016-12-22 12:13.
@@ -24,8 +25,10 @@ public class RegisterHandler implements Handler {
 
         if (resp.getType() == Constant.TYPE_REGISTER_SUCCESS) { //注册成功
             //向ActivityRegisterPresenter传递数据
-            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_REGISTER_PRESENTER, resp);
-            EventBus.getDefault().post(ebObj);
+//            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_REGISTER_PRESENTER, resp);
+//            EventBus.getDefault().post(ebObj);
+
+            OperationUtil.sendEBToObjectPresenter(Constant.TAG_REGISTER_PRESENTER, resp);
 //            Intent intent = new Intent();
 //            //广播
 //            intent.setAction(Constant.ACTION_REGISTER);
