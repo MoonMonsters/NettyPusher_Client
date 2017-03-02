@@ -641,6 +641,14 @@ public interface Constant {
      */
     String CUT_VIEW_REGISTER_ACTIVITY = "cut.view.register.activity";
     /**
+     * 将图片数据发送到EditorInfoActivity
+     */
+    String CUT_VIEW_EDITOR_INFO_PRESENTER = "cut.view.editor.info.presenter";
+    /**
+     * 将图片发送到CreateGroupActivity中去
+     */
+    String CUT_VIEW_CREATE_GROUP_ACTIVITY = "cut.view.create.group.activity";
+    /**
      * 传递需要CutView图片类型
      */
     String EXTRA_CUT_VIEW = "extra.cut.view";

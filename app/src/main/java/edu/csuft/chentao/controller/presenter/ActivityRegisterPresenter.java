@@ -14,7 +14,11 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
 
+import edu.csuft.chentao.R;
 import edu.csuft.chentao.activity.CutViewActivity;
+import edu.csuft.chentao.activity.LoginActivity;
+import edu.csuft.chentao.activity.MainActivity;
+import edu.csuft.chentao.activity.RegisterActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityRegisterBinding;
@@ -79,15 +83,21 @@ public class ActivityRegisterPresenter extends BasePresenter {
             userHead.setUserid(resp.getUserid());
             userHead.setImage(req.getHeadImage());
             UserHeadDaoUtil.saveUserHead(userHead);
+
+
+            mActivityBinding.getRoot().getContext()
+                    .startActivity(new Intent(mActivityBinding.getRoot().getContext(), MainActivity.class));
+            ((RegisterActivity) (mActivityBinding.getRoot().getContext()))
+                    .finish();
         }
     }
 
     @Override
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     protected void getImageDetail(ImageDetail imageDetail) {
         if (imageDetail.getTag().equals(Constant.CUT_VIEW_REGISTER_ACTIVITY)) {
 
-            LoggerUtil.logger(Constant.TAG,"getImageDetail----"+Constant.CUT_VIEW_REGISTER_ACTIVITY);
+            LoggerUtil.logger(Constant.TAG, "getImageDetail----" + Constant.CUT_VIEW_REGISTER_ACTIVITY);
 
             Bitmap bitmap = BitmapFactory.decodeByteArray(imageDetail.getImage(), 0, imageDetail.getImage().length);
             mActivityBinding.ivRegisterHead.setImageBitmap(bitmap);
@@ -111,7 +121,9 @@ public class ActivityRegisterPresenter extends BasePresenter {
         Drawable drawable = mActivityBinding.ivRegisterHead.getDrawable();
         //如果没有设置类型，那么则使用默认的图片
         if (drawable == null) {
-            drawable = mActivityBinding.ivRegisterHead.getBackground();
+//            drawable = mActivityBinding.ivRegisterHead.getBackground();
+            drawable = mActivityBinding.getRoot().getContext()
+                    .getResources().getDrawable(R.drawable.back1);
         }
         //转成byte[]类型
         byte[] buf = bitmapToBytes(drawableToBitmap(drawable));
@@ -137,6 +149,12 @@ public class ActivityRegisterPresenter extends BasePresenter {
      */
     public void onClickForCancel() {
         Toast.makeText(MyApplication.getInstance(), "取消", Toast.LENGTH_SHORT).show();
+
+        mActivityBinding.getRoot().getContext()
+                .startActivity(new Intent(mActivityBinding.getRoot().getContext(), LoginActivity.class));
+
+        ((RegisterActivity) (mActivityBinding.getRoot().getContext()))
+                .finish();
     }
 
     /**

@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/NettyPusher.iml" filepath="$PROJECT_DIR$/NettyPusher.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/bottom-navigation-bar/bottom-navigation-bar.iml" filepath="$PROJECT_DIR$/bottom-navigation-bar/bottom-navigation-bar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/image_selector_library/image_selector_library.iml" filepath="$PROJECT_DIR$/image_selector_library/image_selector_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imageselectorlibrary/imageselectorlibrary.iml" filepath="$PROJECT_DIR$/imageselectorlibrary/imageselectorlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/swipelistview/swipelistview.iml" filepath="$PROJECT_DIR$/swipelistview/swipelistview.iml" />
     </modules>
   </component>

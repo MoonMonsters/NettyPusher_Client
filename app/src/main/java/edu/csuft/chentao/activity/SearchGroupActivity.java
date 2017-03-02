@@ -30,7 +30,7 @@ public class SearchGroupActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
         super.onStop();
         mPresenter.unregisterEventBus();
     }

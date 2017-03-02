@@ -30,7 +30,7 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:background="@drawable/splash"
+            android:background="@drawable/ic_add_img_circle"
             android:contentDescription="@string/app_name"
             android:onClick="@{()->presenter.onClickToSelectImage()}"
             app:imageBytes="@{detail.image}" />

@@ -26,8 +26,10 @@ class GroupInfoHandler implements Handler {
             EventBus.getDefault().post(ebObj);
             //搜索得到的群信息
         } else if (resp.getType() == Constant.TYPE_GROUP_INFO_SEARCH) { //如果返回的GroupInfoResp的数据类型是搜索群
-            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER, resp);
-            EventBus.getDefault().post(ebObj);
+            LoggerUtil.logger(Constant.TAG, "GroupInfoHandler-->搜索到群");
+
+            EBToPreObject ebObj2 = new EBToPreObject(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER, resp);
+            EventBus.getDefault().post(ebObj2);
         }
     }
 }

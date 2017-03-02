@@ -6,7 +6,7 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import edu.csuft.chentao.activity.EditorInfoActivity;
+import edu.csuft.chentao.activity.CutViewActivity;
 import edu.csuft.chentao.activity.ImageActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityEditorInfoBinding;
@@ -94,9 +94,12 @@ public class ActivityEditorInfoPresenter extends BasePresenter implements Update
      * 点击选择更新头像
      */
     public void onClickToUpdateHeadImage() {
-        Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-        getAlbum.setType(Constant.IMAGE_TYPE);
-        ((EditorInfoActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
+        Intent intent = new Intent(mActivityBinding.getRoot().getContext(), CutViewActivity.class);
+        intent.putExtra(Constant.EXTRA_CUT_VIEW, Constant.CUT_VIEW_EDITOR_INFO_PRESENTER);
+        mActivityBinding.getRoot().getContext().startActivity(intent);
+//        Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
+//        getAlbum.setType(Constant.IMAGE_TYPE);
+//        ((EditorInfoActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
     }
 
     /**
@@ -104,7 +107,7 @@ public class ActivityEditorInfoPresenter extends BasePresenter implements Update
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getImageDetail(ImageDetail imageDetail) {
-        if (imageDetail.getTag().equals(Constant.IMAGE_ACTIVITY_EDITOR_INFO_PRESENTER)) {
+        if (imageDetail.getTag().equals(Constant.CUT_VIEW_EDITOR_INFO_PRESENTER)) {
             byte[] buf = imageDetail.getImage();
             mImage = buf;
             UpdateUserInfoReq req = new UpdateUserInfoReq();
@@ -174,6 +177,10 @@ public class ActivityEditorInfoPresenter extends BasePresenter implements Update
 
     @Override
     protected void initData() {
-
+        UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
+        UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
+        //设置属性
+        mActivityBinding.setUserHead(userHead);
+        mActivityBinding.setUserInfo(userInfo);
     }
 }

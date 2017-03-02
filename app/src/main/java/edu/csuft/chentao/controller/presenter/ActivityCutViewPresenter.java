@@ -28,13 +28,13 @@ import edu.csuft.chentao.view.CutView;
 public class ActivityCutViewPresenter extends BasePresenter implements CutListener {
 
     private ActivityCutViewBinding mActivityBinding;
-    private String tag;
+    private String mTag;
 
     public ActivityCutViewPresenter(ActivityCutViewBinding activityBinding, Object object) {
         this.mActivityBinding = activityBinding;
-        this.tag = (String) object;
+        this.mTag = (String) object;
 
-        LoggerUtil.logger(Constant.TAG, tag);
+        LoggerUtil.logger(Constant.TAG, mTag);
 
         init();
     }
@@ -105,10 +105,10 @@ public class ActivityCutViewPresenter extends BasePresenter implements CutListen
 
     @Override
     public void cutResultWithBitmap(Bitmap bitmap) {
-        LoggerUtil.logger(Constant.TAG, "cutResultWithBitmap");
+        LoggerUtil.logger(Constant.TAG, "cutResultWithBitmap-----"+mTag);
 
         byte[] buf = bitmapToBytes(bitmap);
-        ImageDetail imageDetail = new ImageDetail(tag, buf);
+        ImageDetail imageDetail = new ImageDetail(mTag, buf);
         EventBus.getDefault().post(imageDetail);
 
         ((CutViewActivity) mActivityBinding.getRoot().getContext()).finish();

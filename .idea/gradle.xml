@@ -11,6 +11,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/bottom-navigation-bar" />
+            <option value="$PROJECT_DIR$/image_selector_library" />
+            <option value="$PROJECT_DIR$/imageselectorlibrary" />
             <option value="$PROJECT_DIR$/swipelistview" />
           </set>
         </option>

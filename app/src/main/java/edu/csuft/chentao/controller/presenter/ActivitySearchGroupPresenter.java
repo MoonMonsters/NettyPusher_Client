@@ -20,6 +20,7 @@ import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 
 /**
@@ -36,7 +37,7 @@ public class ActivitySearchGroupPresenter extends BasePresenter {
 
     public ActivitySearchGroupPresenter(ActivitySearchGroupBinding activityBinding) {
         this.mActivityBinding = activityBinding;
-        initData();
+        init();
     }
 
     @Override
@@ -100,6 +101,7 @@ public class ActivitySearchGroupPresenter extends BasePresenter {
     public void getEBToObjectPresenter(EBToPreObject ebObj) {
         if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER)) {
             GroupInfoResp resp = (GroupInfoResp) ebObj.getObject();
+            LoggerUtil.logger(Constant.TAG, "接收到群数据---" + resp.getGroupname());
             synchronized (this) {
                 //如果已经存在，则返回，避免数据重复获得
                 if (mGroupInfoList.contains(resp)) {
