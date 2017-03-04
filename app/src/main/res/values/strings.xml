@@ -46,6 +46,9 @@
     <string name="string_ok">确定</string>
     <string name="string_input_group_id">输入群id</string>
     <string name="string_input_group_name">输入群名</string>
+    <string name="string_shape_circle">圆形</string>
+    <string name="string_shape_rect">方形</string>
+    <string name="string_shape_null">无</string>
 
     <string-array name="group_tags">
         <item>同学</item>

@@ -8,12 +8,17 @@
         <variable
             name="presenter"
             type="edu.csuft.chentao.controller.presenter.ActivityCutViewPresenter" />
+
+        <variable
+            name="type"
+            type="Integer" />
     </data>
 
     <RelativeLayout
         android:id="@+id/activity_cut_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/black">
 
         <edu.csuft.chentao.view.CutView
             android:id="@+id/cv_cut_view"
@@ -21,26 +26,70 @@
             android:layout_height="match_parent" />
 
         <LinearLayout
+            android:id="@+id/layout_cut_view_operation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/white"
+            android:gravity="end"
+            android:weightSum="8">
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/acbtn_cut_view_ok"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:onClick="@{()->presenter.onClickToCutImage()}"
                 android:text="@string/string_ok" />
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/acbtn_cut_view_cancel"
+            <ImageView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:onClick="@{()->presenter.onClickToCancel()}"
-                android:text="@string/string_cancel" />
+                android:background="@drawable/ic_more"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->presenter.onClickToChooseShape()}" />
         </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/rg_cut_view_choose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/layout_cut_view_operation"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/white"
+            android:paddingBottom="10dp"
+            android:paddingEnd="10dp"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:visibility="gone">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{type==1?true:false}"
+                android:onClick="@{()->presenter.onClickToChooseOVAL()}"
+                android:text="@string/string_shape_circle" />
+
+            <View style="@style/view_line_bottom" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{type==1?false:true}"
+                android:onClick="@{()->presenter.onClickToChooseRECT()}"
+                android:text="@string/string_shape_rect" />
+
+            <View style="@style/view_line_bottom" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->presenter.onClickToChooseNULL()}"
+                android:text="@string/string_shape_null" />
+        </RadioGroup>
 
     </RelativeLayout>
 </layout>
