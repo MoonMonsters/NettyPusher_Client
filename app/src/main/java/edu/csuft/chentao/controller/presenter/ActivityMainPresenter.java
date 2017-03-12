@@ -40,7 +40,7 @@ public class ActivityMainPresenter extends BasePresenter {
     }
 
     @Override
-    protected void getEBToObjectPresenter(EBToPreObject ebObj) {
+    public void getEBToObjectPresenter(EBToPreObject ebObj) {
 
     }
 

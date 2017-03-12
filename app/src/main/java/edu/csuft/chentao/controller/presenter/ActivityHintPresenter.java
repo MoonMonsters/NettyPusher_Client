@@ -49,7 +49,7 @@ public class ActivityHintPresenter extends BasePresenter {
 
     @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
-    protected void getEBToObjectPresenter(EBToPreObject ebObj) {
+    public void getEBToObjectPresenter(EBToPreObject ebObj) {
         if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_HINT_PRESENTER)) {
             Hint hint = (Hint) ebObj.getObject();
             if (mHintList == null) {

@@ -49,27 +49,27 @@ public abstract class BasePresenter {
      * 每个类都需要实现该方法，用来接收EventBus传递过来的数据
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    protected abstract void getEBToObjectPresenter(EBToPreObject ebObj);
+    public abstract void getEBToObjectPresenter(EBToPreObject ebObj);
 
     /**
      * 获得从Activity发送过来的图片数据
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    protected void getImageDetail(ImageDetail imageDetail) {
+    public void getImageDetail(ImageDetail imageDetail) {
 
     }
 
     /**
      * 可能需要用上的设置监听器方法
      */
-    protected void initListener() {
+    public void initListener() {
 
     }
 
     /**
      * 注册EventBus
      */
-    private void registerEventBus() {
+    protected void registerEventBus() {
         EventBus.getDefault().register(this);
     }
 

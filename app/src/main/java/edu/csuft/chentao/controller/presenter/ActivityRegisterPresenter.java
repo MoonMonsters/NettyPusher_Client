@@ -94,7 +94,7 @@ public class ActivityRegisterPresenter extends BasePresenter {
 
     @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
-    protected void getImageDetail(ImageDetail imageDetail) {
+    public void getImageDetail(ImageDetail imageDetail) {
         if (imageDetail.getTag().equals(Constant.CUT_VIEW_REGISTER_ACTIVITY)) {
 
             LoggerUtil.logger(Constant.TAG, "getImageDetail----" + Constant.CUT_VIEW_REGISTER_ACTIVITY);

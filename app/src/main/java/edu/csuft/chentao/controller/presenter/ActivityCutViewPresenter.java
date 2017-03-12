@@ -7,21 +7,15 @@ import android.graphics.Color;
 import android.graphics.CornerPathEffect;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yuyh.library.imgsel.ImageLoader;
 import com.yuyh.library.imgsel.ImgSelActivity;
 import com.yuyh.library.imgsel.ImgSelConfig;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.ByteArrayOutputStream;
-import java.util.logging.Logger;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
@@ -126,7 +120,7 @@ public class ActivityCutViewPresenter extends BasePresenter implements CutListen
 
     @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
-    protected void getImageDetail(ImageDetail imageDetail) {
+    public void getImageDetail(ImageDetail imageDetail) {
         if (imageDetail.getTag().equals(Constant.IMAGE_ACTIVITY_CUT_VIEW_PRESENTER)) {
 
             this.mImageDetail = imageDetail;
@@ -289,7 +283,7 @@ public class ActivityCutViewPresenter extends BasePresenter implements CutListen
 
     @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
-    protected void getEBToObjectPresenter(EBToPreObject ebObj) {
+    public void getEBToObjectPresenter(EBToPreObject ebObj) {
 
     }
 }

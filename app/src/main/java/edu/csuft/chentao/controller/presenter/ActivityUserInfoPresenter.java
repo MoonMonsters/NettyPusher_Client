@@ -119,7 +119,7 @@ public class ActivityUserInfoPresenter extends BasePresenter {
     }
 
     @Override
-    protected void getEBToObjectPresenter(EBToPreObject ebObj) {
+    public void getEBToObjectPresenter(EBToPreObject ebObj) {
         if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER_ADD_USER)) {
             setUserInfo();
         }
@@ -137,7 +137,7 @@ public class ActivityUserInfoPresenter extends BasePresenter {
      * 初始化监听器
      */
     @Override
-    protected void initListener() {
+    public void initListener() {
         mActivityBinding.ptrlvUserinfoRecentMsg.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> pullToRefreshBase) {

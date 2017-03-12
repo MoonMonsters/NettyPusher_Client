@@ -76,7 +76,7 @@ public class FragmentMinePresenter extends BasePresenter {
     }
 
     @Override
-    protected void getEBToObjectPresenter(EBToPreObject ebObj) {
+    public void getEBToObjectPresenter(EBToPreObject ebObj) {
 
     }
 }

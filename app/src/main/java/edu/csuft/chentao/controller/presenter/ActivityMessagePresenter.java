@@ -147,7 +147,7 @@ public class ActivityMessagePresenter extends BasePresenter {
     }
 
     @Override
-    protected void initListener() {
+    public void initListener() {
         //刷新方法
         mActivityBinding.srlMessageRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
