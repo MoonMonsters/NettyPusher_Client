@@ -14,7 +14,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.Collections;
 import java.util.List;
 
-import edu.csuft.chentao.activity.MessageActivity;
+import edu.csuft.chentao.activity.CutViewActivity;
 import edu.csuft.chentao.adapter.MessageAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
@@ -92,7 +92,7 @@ public class ActivityMessagePresenter extends BasePresenter {
     @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getImageDetail(ImageDetail detail) {
-        if (detail.getTag().equals(Constant.IMAGE_ACTIVITY_MESSAGE_PRESENTER)) {
+        if (detail.getTag().equals(Constant.CUT_VIEW_MESSAGE_ACTIVITY)) {
             byte[] buf = detail.getImage();
             //发送图片消息
             Message message = OperationUtil.sendChattingMessage(mGroupId, Constant.TYPE_MSG_IMAGE, null, buf);
@@ -120,9 +120,12 @@ public class ActivityMessagePresenter extends BasePresenter {
      * 发送图片消息
      */
     public void onClickToSendImageMessage() {
-        Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-        getAlbum.setType(Constant.IMAGE_TYPE);
-        ((MessageActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
+        Intent intent = new Intent(mActivityBinding.getRoot().getContext(), CutViewActivity.class);
+        intent.putExtra(Constant.EXTRA_CUT_VIEW, Constant.CUT_VIEW_MESSAGE_ACTIVITY);
+        mActivityBinding.getRoot().getContext().startActivity(intent);
+//        Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
+//        getAlbum.setType(Constant.IMAGE_TYPE);
+//        ((MessageActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
     }
 
     /**
