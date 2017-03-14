@@ -7,10 +7,8 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
-
-import java.io.Serializable;
-
 import edu.csuft.chentao.BR;
+import java.io.Serializable;
 
 /**
  * 聊天信息

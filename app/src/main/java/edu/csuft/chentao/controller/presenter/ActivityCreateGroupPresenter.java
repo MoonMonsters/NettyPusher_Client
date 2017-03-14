@@ -16,8 +16,8 @@ import java.io.ByteArrayOutputStream;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.activity.CreateGroupActivity;
-import edu.csuft.chentao.activity.CutViewActivity;
+import edu.csuft.chentao.ui.activity.CreateGroupActivity;
+import edu.csuft.chentao.ui.activity.CutViewActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityCreateGroupBinding;
@@ -87,9 +87,6 @@ public class ActivityCreateGroupPresenter extends BasePresenter {
         Intent intent = new Intent(mActivityBinding.getRoot().getContext(), CutViewActivity.class);
         intent.putExtra(Constant.EXTRA_CUT_VIEW, Constant.CUT_VIEW_CREATE_GROUP_ACTIVITY);
         mActivityBinding.getRoot().getContext().startActivity(intent);
-//        Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-//        getAlbum.setType(Constant.IMAGE_TYPE);
-//        ((CreateGroupActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
     }
 
     @Override

@@ -9,8 +9,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import edu.csuft.chentao.activity.HintActivity;
-import edu.csuft.chentao.adapter.GroupListAdapter;
+import edu.csuft.chentao.ui.activity.HintActivity;
+import edu.csuft.chentao.ui.adapter.GroupListAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.FragmentGroupListBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;

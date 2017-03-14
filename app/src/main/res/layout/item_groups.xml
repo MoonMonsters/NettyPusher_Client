@@ -10,7 +10,7 @@
 
         <variable
             name="itemPresenter"
-            type="edu.csuft.chentao.adapter.GroupListAdapter.ItemGroupListPresenter" />
+            type="edu.csuft.chentao.ui.adapter.GroupListAdapter.ItemGroupListPresenter" />
     </data>
 
     <LinearLayout

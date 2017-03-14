@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.csuft.chentao.BR;
-import edu.csuft.chentao.adapter.HintAdapter;
+import edu.csuft.chentao.ui.adapter.HintAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityHintBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;

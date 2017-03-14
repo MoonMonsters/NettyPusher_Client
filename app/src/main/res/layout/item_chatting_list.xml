@@ -12,7 +12,7 @@
 
         <variable
             name="itemPresenter"
-            type="edu.csuft.chentao.adapter.ChattingListAdapter2.ItemChattingListPresenter" />
+            type="edu.csuft.chentao.ui.adapter.ChattingListAdapter2.ItemChattingListPresenter" />
     </data>
 
     <FrameLayout
@@ -89,7 +89,7 @@
                         android:text="@{item.lastmessage}" />
                 </LinearLayout>
 
-                <edu.csuft.chentao.view.RedDot
+                <edu.csuft.chentao.ui.view.RedDot
                     android:id="@+id/redDot"
                     android:layout_width="20dp"
                     android:layout_height="20dp"

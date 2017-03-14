@@ -15,10 +15,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.ByteArrayOutputStream;
 
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.activity.CutViewActivity;
-import edu.csuft.chentao.activity.LoginActivity;
-import edu.csuft.chentao.activity.MainActivity;
-import edu.csuft.chentao.activity.RegisterActivity;
+import edu.csuft.chentao.ui.activity.CutViewActivity;
+import edu.csuft.chentao.ui.activity.LoginActivity;
+import edu.csuft.chentao.ui.activity.MainActivity;
+import edu.csuft.chentao.ui.activity.RegisterActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityRegisterBinding;
@@ -83,7 +83,6 @@ public class ActivityRegisterPresenter extends BasePresenter {
             userHead.setUserid(resp.getUserid());
             userHead.setImage(req.getHeadImage());
             UserHeadDaoUtil.saveUserHead(userHead);
-
 
             mActivityBinding.getRoot().getContext()
                     .startActivity(new Intent(mActivityBinding.getRoot().getContext(), MainActivity.class));
@@ -161,9 +160,6 @@ public class ActivityRegisterPresenter extends BasePresenter {
      * 点击选择图片
      */
     public void onClickForSelectPicture() {
-//        Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-//        getAlbum.setType(Constant.IMAGE_TYPE);
-//        ((RegisterActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
         Intent intent = new Intent(mActivityBinding.getRoot().getContext(),
                 CutViewActivity.class);
         intent.putExtra(Constant.EXTRA_CUT_VIEW, Constant.CUT_VIEW_REGISTER_ACTIVITY);

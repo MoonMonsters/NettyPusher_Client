@@ -25,14 +25,8 @@ public class ReturnInfoHandler implements Handler {
         //如果是创建群相关的返回消息
         if (resp.getType() == Constant.TYPE_RETURN_INFO_CREATE_GROUP_SUCCESS
                 || resp.getType() == Constant.TYPE_RETURN_INFO_CREATE_GROUP_FAIL) {
-//            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_CREATE_GROUP_PRESENTER, resp);
-//            EventBus.getDefault().post(ebObj);
 
             OperationUtil.sendEBToObjectPresenter(Constant.TAG_CREATE_GROUP_PRESENTER, resp);
-//            Intent intent = new Intent();
-//            intent.setAction(Constant.ACTION_CREATE_GROUP);
-//            intent.putExtra(Constant.EXTRA_RETURN_INFO, resp);
-//            MyApplication.getInstance().sendBroadcast(intent);
             //更新用户数据的返回消息
         } else if (resp.getType() >= Constant.TYPE_RETURN_INFO_UPDATE_HEAD_IMAGE_SUCCESS
                 && resp.getType() <= Constant.TYPE_RETURN_INFO_UPDATE_NICKNAME_FAIL) {
@@ -40,28 +34,16 @@ public class ReturnInfoHandler implements Handler {
 //            EventBus.getDefault().post(ebObj);
 
             OperationUtil.sendEBToObjectPresenter(Constant.TAG_UPDATE_USER_INFO, resp);
-//            Intent intent = new Intent();
-//            intent.setAction(Constant.ACTION_RETURN_INFO);
-//            intent.putExtra(Constant.EXTRA_RETURN_INFO, resp);
-//            MyApplication.getInstance().sendBroadcast(intent);
             //更新用户身份
         } else if (resp.getType() == Constant.TYPE_RETURN_INFO_UPDATE_USER_CAPITAL_SUCCESS ||
                 resp.getType() == Constant.TYPE_RETURN_INFO_UPDATE_USER_CAPITAL_FAIL) {
             //管理员对用户的身份信息进行更改，接收更改后的信息，并返回到ActivityGroupDetailPresenter中去
             EBToPreObject ebObj = new EBToPreObject(Constant.TAG_REFRESH_USER_CAPITAL, resp);
             EventBus.getDefault().post(ebObj);
-//            Intent intent = new Intent();
-//            intent.setAction(Constant.ACTION_RETURN_INFO_USER_CAPITAL);
-//            intent.putExtra(Constant.EXTRA_RETURN_INFO, resp);
-//            MyApplication.getInstance().sendBroadcast(intent);
         } else if (resp.getType() == Constant.TYPE_RETURN_INFO_SEARCH_GROUP_SIZE_0) {
             //搜索到的群的数量为0，传递数据到ActivitySearchGroupPresenter中去
             EBToPreObject ebObj = new EBToPreObject(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER_SIZE_0, resp);
             EventBus.getDefault().post(ebObj);
-//            Intent intent = new Intent();
-//            intent.setAction(Constant.ACTION_SEARCH_GROUP);
-//            intent.putExtra(Constant.EXTRA_RETURN_INFO, resp);
-//            MyApplication.getInstance().sendBroadcast(intent);
         } else if (resp.getType() == Constant.TYPE_RETURN_INFO_EXIT_GROUP_FAIL) {   //退出群失败，弹出提示框
             Toast.makeText(MyApplication.getInstance(), resp.getDescription(), Toast.LENGTH_SHORT).show();
         } else if (resp.getType() == Constant.TYPE_RETURN_INFO_REMOVE_USER_SUCCESS) {   //管理员把用户踢出去成功，提示管理员

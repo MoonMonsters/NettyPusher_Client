@@ -6,10 +6,10 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.activity.MainActivity;
+import edu.csuft.chentao.ui.activity.MainActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityMainBinding;
-import edu.csuft.chentao.fragment.FragmentFactory;
+import edu.csuft.chentao.ui.fragment.FragmentFactory;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
 
 /**

@@ -22,7 +22,7 @@
 
         <variable
             name="itemPresenter"
-            type="edu.csuft.chentao.adapter.MessageAdapter.ItemMessagePresenter" />
+            type="edu.csuft.chentao.ui.adapter.MessageAdapter.ItemMessagePresenter" />
     </data>
 
     <LinearLayout

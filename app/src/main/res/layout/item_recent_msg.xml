@@ -14,7 +14,7 @@
 
         <variable
             name="itemPresenter"
-            type="edu.csuft.chentao.adapter.RecentMessageAdapter.ItemRecentMessagePresenter" />
+            type="edu.csuft.chentao.ui.adapter.RecentMessageAdapter.ItemRecentMessagePresenter" />
     </data>
 
     <LinearLayout

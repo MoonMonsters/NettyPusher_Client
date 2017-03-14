@@ -3,15 +3,15 @@ package edu.csuft.chentao.controller.presenter;
 import android.content.Intent;
 import android.widget.Toast;
 
-import edu.csuft.chentao.activity.CreateGroupActivity;
-import edu.csuft.chentao.activity.SearchGroupActivity;
+import edu.csuft.chentao.ui.activity.CreateGroupActivity;
+import edu.csuft.chentao.ui.activity.SearchGroupActivity;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityMainBinding;
 import edu.csuft.chentao.pojo.req.GroupOperationReq;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
-import edu.csuft.chentao.view.InvitePersonDialog;
+import edu.csuft.chentao.ui.view.InvitePersonDialog;
 
 /**
  * 菜单栏的Presenter,负责加入群，搜索群和创建群操作

@@ -8,7 +8,7 @@
 
         <variable
             name="itemPresenter"
-            type="edu.csuft.chentao.adapter.UserInGroupAdapter.ItemManagerUserPresenter" />
+            type="edu.csuft.chentao.ui.adapter.UserInGroupAdapter.ItemManagerUserPresenter" />
 
         <variable
             name="userInfo"

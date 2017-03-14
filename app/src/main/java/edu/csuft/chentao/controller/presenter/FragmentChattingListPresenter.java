@@ -5,7 +5,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
-import edu.csuft.chentao.adapter.ChattingListAdapter2;
+import edu.csuft.chentao.ui.adapter.ChattingListAdapter2;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.FragmentChattingListBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;

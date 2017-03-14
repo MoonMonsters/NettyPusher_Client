@@ -18,7 +18,7 @@
         android:id="@+id/activity_splash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="edu.csuft.chentao.activity.SplashActivity">
+        tools:context=".ui.activity.SplashActivity">
 
         <ImageView
             android:id="@+id/iv_splash_image"

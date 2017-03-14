@@ -1,7 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="edu.csuft.chentao.fragment.GroupListFragment">
+    tools:context=".ui.fragment.GroupListFragment">
 
     <data>
 
@@ -11,7 +11,7 @@
 
         <variable
             name="adapter"
-            type="edu.csuft.chentao.adapter.GroupListAdapter" />
+            type="edu.csuft.chentao.ui.adapter.GroupListAdapter" />
     </data>
 
     <LinearLayout

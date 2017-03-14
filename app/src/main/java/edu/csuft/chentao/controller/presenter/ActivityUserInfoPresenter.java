@@ -12,8 +12,8 @@ import java.util.List;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.activity.ImageActivity;
-import edu.csuft.chentao.adapter.RecentMessageAdapter;
+import edu.csuft.chentao.ui.activity.ImageActivity;
+import edu.csuft.chentao.ui.adapter.RecentMessageAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityUserInfoBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;

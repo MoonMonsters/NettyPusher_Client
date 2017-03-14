@@ -22,16 +22,10 @@ class GroupInfoHandler implements Handler {
 
         if (resp.getType() == Constant.TYPE_GROUP_INFO_OWNER) { //需要存储在本地
             Groups groups = CopyUtil.saveGroupInfoToGroups(resp);
-//            EBToPreObject ebObj = new EBToPreObject(Constant.TAG_FRAGMENT_GROUP_LIST_PRESENTER, groups);
-//            LoggerUtil.logger(Constant.TAG, "接收到GroupInfoResp--OWNER数据");
-//            EventBus.getDefault().post(ebObj);
             OperationUtil.sendEBToObjectPresenter(Constant.TAG_FRAGMENT_GROUP_LIST_PRESENTER, groups);
             //搜索得到的群信息
         } else if (resp.getType() == Constant.TYPE_GROUP_INFO_SEARCH) { //如果返回的GroupInfoResp的数据类型是搜索群
             LoggerUtil.logger(Constant.TAG, "GroupInfoHandler-->搜索到群");
-
-//            EBToPreObject ebObj2 = new EBToPreObject(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER, resp);
-//            EventBus.getDefault().post(ebObj2);
 
             OperationUtil.sendEBToObjectPresenter(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER, resp);
         }

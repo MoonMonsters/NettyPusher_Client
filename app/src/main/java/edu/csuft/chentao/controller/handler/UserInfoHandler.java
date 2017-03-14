@@ -29,7 +29,6 @@ class UserInfoHandler implements Handler {
             if (resp.getType() == Constant.TYPE_LOGIN_AUTO) {   //如果是自动登录类型
                 Toast.makeText(MyApplication.getInstance(), "登录成功", Toast.LENGTH_SHORT).show();
                 //发送广播到MainActivity
-//                sendBroadcast(true, 0);
             } else if (resp.getType() == Constant.TYPE_LOGIN_NEW
                     || resp.getType() == Constant.TYPE_LOGIN_USER_INFO) { //如果是重新登录类型
 
@@ -58,23 +57,6 @@ class UserInfoHandler implements Handler {
             }
         } else { //登录失败
             Toast.makeText(MyApplication.getInstance(), "登录失败", Toast.LENGTH_SHORT).show();
-//            sendBroadcast(false, -1);
         }
-    }
-
-    /**
-     * 发送广播
-     *
-     * @param isSuccess 是否登录成功
-     */
-    private void sendBroadcast(boolean isSuccess, int userId) {
-        Intent intent = new Intent();
-        //添加广播
-        intent.setAction(Constant.ACTION_LOGIN);
-        //发送成功标志
-        intent.putExtra(Constant.IS_LOGIN_SUCCESS, isSuccess);
-        //用户id
-        intent.putExtra(Constant.LOGIN_USER_ID, userId);
-        MyApplication.getInstance().sendBroadcast(intent);
     }
 }

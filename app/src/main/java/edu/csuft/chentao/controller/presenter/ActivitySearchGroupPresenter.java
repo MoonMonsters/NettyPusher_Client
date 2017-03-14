@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.csuft.chentao.BR;
-import edu.csuft.chentao.adapter.SearchGroupContentAdapter;
+import edu.csuft.chentao.ui.adapter.SearchGroupContentAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivitySearchGroupBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;

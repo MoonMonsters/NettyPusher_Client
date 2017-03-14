@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="edu.csuft.chentao.activity.UserInfoActivity">
+    tools:context=".ui.activity.UserInfoActivity">
 
     <data>
 
@@ -20,7 +20,7 @@
 
         <variable
             name="adapter"
-            type="edu.csuft.chentao.adapter.RecentMessageAdapter" />
+            type="edu.csuft.chentao.ui.adapter.RecentMessageAdapter" />
     </data>
 
     <LinearLayout
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/string_signature2" />
 
-            <edu.csuft.chentao.view.MarqueeText
+            <edu.csuft.chentao.ui.view.MarqueeText
                 android:id="@+id/tv_userinfo_signature"
                 style="@style/marquee_text"
                 android:layout_width="wrap_content"

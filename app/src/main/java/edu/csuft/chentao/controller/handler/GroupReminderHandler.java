@@ -32,13 +32,7 @@ class GroupReminderHandler implements Handler {
          */
         if (resp.getType() == Constant.TYPE_GROUP_REMINDER_EXIT_BY_MYSELF
                 || resp.getType() == Constant.TYPE_GROUP_REMINDER_REMOVE_USER) {
-//            EBToPreObject obj = new EBToPreObject(Constant.TAG_REMOVE_GROUPS, resp);
-//            EventBus.getDefault().post(obj);
             OperationUtil.sendEBToObjectPresenter(Constant.TAG_REMOVE_GROUPS, resp);
-//            Intent intent = new Intent();
-//            intent.setAction(Constant.ACTION_REMOVE_GROUP);
-//            intent.putExtra(Constant.EXTRA_GROUP_ID, resp.getGroupId());
-//            MyApplication.getInstance().sendBroadcast(intent);
         }
     }
 }

@@ -12,7 +12,7 @@
 
         <variable
             name="itemPresenter"
-            type="edu.csuft.chentao.adapter.SearchGroupContentAdapter.ItemSearchGroupContentPresenter" />
+            type="edu.csuft.chentao.ui.adapter.SearchGroupContentAdapter.ItemSearchGroupContentPresenter" />
 
     </data>
 
@@ -29,7 +29,7 @@
             android:onClick="@{()->itemPresenter.onClickToBigImage()}"
             app:imageBytes="@{groupInfo.headImage}" />
 
-        <edu.csuft.chentao.view.MarqueeText
+        <edu.csuft.chentao.ui.view.MarqueeText
             android:id="@+id/actv_item_search_group_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

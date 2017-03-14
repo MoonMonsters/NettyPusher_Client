@@ -6,8 +6,8 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import edu.csuft.chentao.activity.CutViewActivity;
-import edu.csuft.chentao.activity.ImageActivity;
+import edu.csuft.chentao.ui.activity.CutViewActivity;
+import edu.csuft.chentao.ui.activity.ImageActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityEditorInfoBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
@@ -21,7 +21,7 @@ import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
-import edu.csuft.chentao.view.UpdateInfoDialog;
+import edu.csuft.chentao.ui.view.UpdateInfoDialog;
 
 /**
  * Created by Chalmers on 2017-01-06 18:00.

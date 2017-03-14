@@ -16,7 +16,7 @@
 
         <variable
             name="itemPresenter"
-            type="edu.csuft.chentao.adapter.HintAdapter.ItemHintPresenter" />
+            type="edu.csuft.chentao.ui.adapter.HintAdapter.ItemHintPresenter" />
     </data>
 
     <LinearLayout

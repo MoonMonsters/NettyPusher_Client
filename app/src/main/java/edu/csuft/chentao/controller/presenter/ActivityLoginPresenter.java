@@ -8,9 +8,9 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import edu.csuft.chentao.activity.LoginActivity;
-import edu.csuft.chentao.activity.MainActivity;
-import edu.csuft.chentao.activity.RegisterActivity;
+import edu.csuft.chentao.ui.activity.LoginActivity;
+import edu.csuft.chentao.ui.activity.MainActivity;
+import edu.csuft.chentao.ui.activity.RegisterActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityLoginBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;

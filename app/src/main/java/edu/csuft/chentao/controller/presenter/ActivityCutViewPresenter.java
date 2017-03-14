@@ -19,7 +19,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.activity.CutViewActivity;
+import edu.csuft.chentao.ui.activity.CutViewActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityCutViewBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
@@ -28,7 +28,7 @@ import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.CutListener;
 import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
-import edu.csuft.chentao.view.CutView;
+import edu.csuft.chentao.ui.view.CutView;
 
 /**
  * Created by Chalmers on 2017-02-28 20:44.

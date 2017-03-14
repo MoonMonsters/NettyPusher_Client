@@ -6,14 +6,14 @@ import android.support.v7.app.AlertDialog;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import edu.csuft.chentao.activity.MainActivity;
+import edu.csuft.chentao.ui.activity.MainActivity;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityGroupDetailBinding;
 import edu.csuft.chentao.pojo.req.GroupOperationReq;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
-import edu.csuft.chentao.view.InvitePersonDialog;
+import edu.csuft.chentao.ui.view.InvitePersonDialog;
 
 /**
  * Created by Chalmers on 2017-02-11 17:57.

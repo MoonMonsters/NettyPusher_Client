@@ -14,8 +14,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.Collections;
 import java.util.List;
 
-import edu.csuft.chentao.activity.CutViewActivity;
-import edu.csuft.chentao.adapter.MessageAdapter;
+import edu.csuft.chentao.ui.activity.CutViewActivity;
+import edu.csuft.chentao.ui.adapter.MessageAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
@@ -72,7 +72,6 @@ public class ActivityMessagePresenter extends BasePresenter {
         }
     }
 
-
     @Override
     protected void initData() {
         //获得该群的聊天记录
@@ -123,9 +122,6 @@ public class ActivityMessagePresenter extends BasePresenter {
         Intent intent = new Intent(mActivityBinding.getRoot().getContext(), CutViewActivity.class);
         intent.putExtra(Constant.EXTRA_CUT_VIEW, Constant.CUT_VIEW_MESSAGE_ACTIVITY);
         mActivityBinding.getRoot().getContext().startActivity(intent);
-//        Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-//        getAlbum.setType(Constant.IMAGE_TYPE);
-//        ((MessageActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
     }
 
     /**

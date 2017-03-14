@@ -2,9 +2,9 @@ package edu.csuft.chentao.controller.presenter;
 
 import android.content.Intent;
 
-import edu.csuft.chentao.activity.EditorInfoActivity;
-import edu.csuft.chentao.activity.LoginActivity;
-import edu.csuft.chentao.activity.MainActivity;
+import edu.csuft.chentao.ui.activity.EditorInfoActivity;
+import edu.csuft.chentao.ui.activity.LoginActivity;
+import edu.csuft.chentao.ui.activity.MainActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.FragmentMineBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
