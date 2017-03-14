@@ -3,6 +3,7 @@ package edu.csuft.chentao.controller.presenter;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.text.TextUtils;
+import android.view.TextureView;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -37,12 +38,6 @@ public class ActivityLoginPresenter extends BasePresenter {
 
     @Override
     public void initData() {
-        LoggerUtil.logger(Constant.TAG, "3-->" + mActivityBinding.toString());
-        if (mActivityBinding == null) {
-            LoggerUtil.logger(Constant.TAG, "ActivityLoginPresenter->ActivityBinding为空");
-        } else {
-            LoggerUtil.logger(Constant.TAG, "ActivityLoginPresenter->ActivityBinding不为空");
-        }
     }
 
     @Override
@@ -58,8 +53,8 @@ public class ActivityLoginPresenter extends BasePresenter {
             int userId = resp.getUserid();
             if (userId > 0) {
                 //得到登录的用户名和密码，并保存
-                String username = mActivityBinding.etLoginUsername.getText().toString();
-                String password = mActivityBinding.etLoginPassword.getText().toString();
+                String username = mActivityBinding.etLoginUsername.getEditText().getText().toString();
+                String password = mActivityBinding.etLoginPassword.getEditText().getText().toString();
 
                 //保存用户名和密码
                 SharedPrefUserInfoUtil.setUsernameAndPassword(username, password);
@@ -77,18 +72,75 @@ public class ActivityLoginPresenter extends BasePresenter {
     }
 
     /**
+     * Username输入框的输入监听事件
+     */
+    public void onTextChangedForUsername(CharSequence s, int start, int before, int count) {
+        if (TextUtils.isEmpty(s)) { //用户名不能为空
+            usernameNotNull();
+        } else if (s.length() < 6) {    //用户名不能低于6位
+            mActivityBinding.etLoginUsername.setError("用户名不能低于6位");
+            mActivityBinding.etLoginUsername.setErrorEnabled(true);
+        } else {    //都符合，隐去错误提示
+            mActivityBinding.etLoginUsername.setError(null);
+            mActivityBinding.etLoginUsername.setErrorEnabled(false);
+        }
+    }
+
+    /**
+     * Password输入框的输入监听事件
+     */
+    public void onTextChangedForPassword(CharSequence s, int start, int before, int count) {
+        if (TextUtils.isEmpty(s)) { //密码不能为空
+            passwordNotNull();
+        } else if (s.length() < 6) {    //密码不能低于6位
+            mActivityBinding.etLoginPassword.setError("密码不能低于6位");
+            mActivityBinding.etLoginPassword.setErrorEnabled(true);
+        } else {    //都符合，隐去错误提示
+            mActivityBinding.etLoginPassword.setError(null);
+            mActivityBinding.etLoginPassword.setErrorEnabled(false);
+        }
+    }
+
+    /**
+     * 密码不能为空
+     */
+    private void passwordNotNull() {
+        mActivityBinding.etLoginPassword.setError("密码不能为空");
+        mActivityBinding.etLoginPassword.setErrorEnabled(true);
+    }
+
+    /**
+     * 用户名不能为空
+     */
+    private void usernameNotNull() {
+        mActivityBinding.etLoginUsername.setError("用户名不能为空");
+        mActivityBinding.etLoginUsername.setErrorEnabled(true);
+    }
+
+    /**
      * 点击登录
      */
     public void onClickToLogin() {
-        String username = mActivityBinding.etLoginUsername.getText().toString();
-        String password = mActivityBinding.etLoginPassword.getText().toString();
+        String username = mActivityBinding.etLoginUsername.getEditText().getText().toString();
+        String password = mActivityBinding.etLoginPassword.getEditText().getText().toString();
 
+        /*
+        写用户名和密码不能为空的代码，是避免用户在不输入的情况下，直接按登录按钮而没有错误提示信息
+         */
+        //用户名不能为空
         if (TextUtils.isEmpty(username)) {
-            Toast.makeText(mActivityBinding.getRoot().getContext(), "用户名不能为空", Toast.LENGTH_SHORT).show();
+            usernameNotNull();
             return;
         }
+
+        //密码不能为空
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(mActivityBinding.getRoot().getContext(), "密码不能为空", Toast.LENGTH_SHORT).show();
+            passwordNotNull();
+            return;
+        }
+
+        //用户名和密码都不能低于6位
+        if (username.length() < 6 || password.length() < 6) {
             return;
         }
 

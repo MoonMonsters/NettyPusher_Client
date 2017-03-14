@@ -25,9 +25,12 @@ import io.netty.handler.codec.string.StringEncoder;
  * email:qxinhai@yeah.net
  */
 
+/**
+ * Netty连接类
+ */
 public class NettyClient {
 
-    private static Bootstrap sBootstrap;
+    private static Bootstrap sBootstrap = new Bootstrap();
 
     private static ScheduledExecutorService sExecutor = Executors
             .newScheduledThreadPool(1);
@@ -37,7 +40,6 @@ public class NettyClient {
      */
     public static void init() {
         EventLoopGroup group = new NioEventLoopGroup();
-        sBootstrap = new Bootstrap();
         sBootstrap.group(group).channel(NioSocketChannel.class)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.TCP_NODELAY, true)
@@ -93,62 +95,4 @@ public class NettyClient {
             });
         }
     }
-
-//    public Channel connect(String host, int port) {
-//        Channel channel = null;
-//        Bootstrap bootstrap = null;
-//
-//        try {
-//            EventLoopGroup group = new NioEventLoopGroup();
-//            bootstrap = new Bootstrap();
-//            bootstrap.group(group).channel(NioSocketChannel.class)
-//                    .option(ChannelOption.SO_KEEPALIVE, true)
-//                    .option(ChannelOption.TCP_NODELAY, true)
-//                    .handler(new ChannelInitializer<Channel>() {
-//                        @Override
-//                        protected void initChannel(Channel ch) throws Exception {
-//                            ch.pipeline().addLast(new ObjectDecoder(Integer.MAX_VALUE,
-//                                    ClassResolvers.weakCachingConcurrentResolver(null)))
-//                                    .addLast(new ObjectEncoder())
-//                                    .addLast(new StringDecoder())
-//                                    .addLast(new StringEncoder())
-//                                    .addLast(new NettyMessageDecoder(1024 * 1024, 4, 4))
-//                                    .addLast("MessageEncoder",
-//                                            new NettyMessageEncoder())
-//                                    .addLast("readTimeoutHandler",
-//                                            new ReadTimeoutHandler(50))
-//                                    .addLast("LoginAuthHandler",
-//                                            new LoginAuthReqHandler())
-//                                    .addLast("HeartBeatHandler",
-//                                            new HeartBeatReqHandler())
-//                                    .addLast(new NettyClientHandler())
-//                            ;
-//                        }
-//                    });
-//            ChannelFuture future = bootstrap.connect(
-//                    Constant.CONNECTION_URL, Constant.CONNECTION_PORT
-//            ).sync();
-//            channel = future.sync().channel();
-//        } catch (Exception e) {
-//
-//        } finally {
-//            sExecutor.execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        TimeUnit.SECONDS.sleep(1);
-//                        try {
-//                            connect(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);// 发起重连操作
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//        }
-//
-//        return channel;
-//    }
 }

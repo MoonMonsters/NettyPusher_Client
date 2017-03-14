@@ -42,10 +42,8 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         LoggerUtil.logger(Constant.TAG, VALUE + "channelRead");
-        //获得对应对象
-        Handler handler = AllMessageHandler.handleMessage(msg);
         //处理消息
-        handler.handle(msg);
+        AllMessageHandler.handleMessage(msg);
     }
 
 //    @Override
