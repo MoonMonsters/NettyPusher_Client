@@ -30,6 +30,7 @@ import edu.csuft.chentao.pojo.req.RegisterReq;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
@@ -57,6 +58,7 @@ public class ActivityRegisterPresenter extends BasePresenter {
 
     }
 
+    @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEBToObjectPresenter(EBToPreObject ebObj) {
         //如果是注册消息类型
@@ -68,8 +70,8 @@ public class ActivityRegisterPresenter extends BasePresenter {
             //设置登录方式为自动登录
             SharedPrefUserInfoUtil.setLoginType();
             //保存用户名和密码
-            SharedPrefUserInfoUtil.setUsernameAndPassword(mActivityBinding.etRegisterUsername.getText().toString(),
-                    mActivityBinding.etRegisterPassword.getText().toString());
+            SharedPrefUserInfoUtil.setUsernameAndPassword(mActivityBinding.etRegisterUsername.getEditText().getText().toString(),
+                    mActivityBinding.etRegisterPassword.getEditText().getText().toString());
 
             //保存用户信息
             UserInfo userInfo = new UserInfo();
@@ -95,12 +97,128 @@ public class ActivityRegisterPresenter extends BasePresenter {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getImageDetail(ImageDetail imageDetail) {
         if (imageDetail.getTag().equals(Constant.CUT_VIEW_REGISTER_ACTIVITY)) {
-
-            LoggerUtil.logger(Constant.TAG, "getImageDetail----" + Constant.CUT_VIEW_REGISTER_ACTIVITY);
-
             Bitmap bitmap = BitmapFactory.decodeByteArray(imageDetail.getImage(), 0, imageDetail.getImage().length);
             mActivityBinding.ivRegisterHead.setImageBitmap(bitmap);
         }
+    }
+
+    /**
+     * Username输入框的输入监听事件
+     */
+    public void onTextChangedForUsername(CharSequence s, int start, int before, int count) {
+        if (TextUtils.isEmpty(s)) { //用户名不能为空
+            notNoneForUsername();
+        } else if (s.length() < 6) {    //用户名不能低于6位
+            mActivityBinding.etRegisterUsername.setError(
+                    mActivityBinding.getRoot().getContext().getString(R.string.string_not_length_less6_username));
+            mActivityBinding.etRegisterUsername.setErrorEnabled(true);
+        } else if (TextUtils.isDigitsOnly(s)) { //用户名不能为纯数字
+            mActivityBinding.etRegisterUsername.setError(
+                    mActivityBinding.getRoot().getContext().getString(R.string.string_not_only_digit_username));
+            mActivityBinding.etRegisterUsername.setErrorEnabled(true);
+        } else {
+            mActivityBinding.etRegisterUsername.setError(null);
+            mActivityBinding.etRegisterUsername.setErrorEnabled(false);
+        }
+    }
+
+    /**
+     * Username输入框的输入监听事件
+     */
+    public void onTextChangedForPassword(CharSequence s, int start, int before, int count) {
+        //得到密码
+        String password = mActivityBinding.etRegisterPassword.getEditText().getText().toString();
+        //得到重复密码
+        String password2 = mActivityBinding.etRegisterPassword2.getEditText().getText().toString();
+
+        if (TextUtils.isEmpty(s)) { //用户名不能为空
+            notNoneForPassword();
+        } else if (s.length() < 6) {    //用户名不能低于6位
+            mActivityBinding.etRegisterPassword.setError(
+                    mActivityBinding.getRoot().getContext().getString(R.string.string_not_length_less6_password));
+            mActivityBinding.etRegisterPassword.setErrorEnabled(true);
+        } else if (!TextUtils.isEmpty(password2)
+                && !password.equals(password2)) {
+            mActivityBinding.etRegisterPassword.setError(
+                    mActivityBinding.getRoot().getContext().getString(R.string.string_not_equal_password));
+            mActivityBinding.etRegisterPassword.setErrorEnabled(true);
+        } else if (password.equals(password2)) {    //密码匹配了，两个输入框的错误提示信息都隐藏
+            hideTipsForPassword();
+            hideTipsForPassword2();
+        } else {
+            hideTipsForPassword();
+        }
+    }
+
+    /**
+     * Username输入框的输入监听事件
+     */
+    public void onTextChangedForPassword2(CharSequence s, int start, int before, int count) {
+        //得到密码
+        String password = mActivityBinding.etRegisterPassword.getEditText().getText().toString();
+        //得到重复密码
+        String password2 = mActivityBinding.etRegisterPassword2.getEditText().getText().toString();
+
+        if (TextUtils.isEmpty(s)) { //密码不能为空
+            notNoneForPassword2();
+        } else if (s.length() < 6) {    //密码不能低于6位
+            mActivityBinding.etRegisterPassword2.setError(
+                    mActivityBinding.getRoot().getContext().getString(R.string.string_not_length_less6_password));
+            mActivityBinding.etRegisterPassword2.setErrorEnabled(true);
+        } else if (!TextUtils.isEmpty(password)
+                && !password.equals(password2)) {   //密码不匹配
+            mActivityBinding.etRegisterPassword2.setError(
+                    mActivityBinding.getRoot().getContext().getString(R.string.string_not_equal_password));
+            mActivityBinding.etRegisterPassword2.setErrorEnabled(true);
+        } else if (password.equals(password2)) {    //密码匹配了，两个输入框的错误提示信息都隐藏
+            hideTipsForPassword();
+            hideTipsForPassword2();
+        } else {
+            hideTipsForPassword2();
+        }
+    }
+
+    /**
+     * 用户名不能为空
+     */
+    private void notNoneForUsername() {
+        mActivityBinding.etRegisterUsername.setError(
+                mActivityBinding.getRoot().getContext().getString(R.string.string_not_none_username));
+        mActivityBinding.etRegisterUsername.setErrorEnabled(true);
+    }
+
+    /**
+     * 密码不能为空
+     */
+    private void notNoneForPassword() {
+        mActivityBinding.etRegisterPassword.setError(
+                mActivityBinding.getRoot().getContext().getString(R.string.string_not_none_password));
+        mActivityBinding.etRegisterPassword.setErrorEnabled(true);
+    }
+
+    /**
+     * 重复密码不能为空
+     */
+    private void notNoneForPassword2() {
+        mActivityBinding.etRegisterPassword2.setError(
+                mActivityBinding.getRoot().getContext().getString(R.string.string_not_none_password));
+        mActivityBinding.etRegisterPassword2.setErrorEnabled(true);
+    }
+
+    /**
+     * 隐藏password的错误提示框
+     */
+    private void hideTipsForPassword() {
+        mActivityBinding.etRegisterPassword.setError(null);
+        mActivityBinding.etRegisterPassword.setErrorEnabled(false);
+    }
+
+    /**
+     * 隐藏password2的隐藏提示框
+     */
+    private void hideTipsForPassword2() {
+        mActivityBinding.etRegisterPassword2.setError(null);
+        mActivityBinding.etRegisterPassword2.setErrorEnabled(false);
     }
 
     /**
@@ -108,10 +226,42 @@ public class ActivityRegisterPresenter extends BasePresenter {
      */
     public void onClickForRegister() {
         //用户名
-        String username = mActivityBinding.etRegisterUsername.getText().toString();
+        String username = mActivityBinding.etRegisterUsername.getEditText().getText().toString();
         //密码
-        String password = mActivityBinding.etRegisterPassword.getText().toString();
-        String password2 = mActivityBinding.etRegisterPassword2.getText().toString();
+        String password = mActivityBinding.etRegisterPassword.getEditText().getText().toString();
+        String password2 = mActivityBinding.etRegisterPassword2.getEditText().getText().toString();
+
+        /**
+         * 加入下面的判断，是为了避免用户不输入任何数据直接进行注册操作
+         */
+        //用户名不能为空
+        if (TextUtils.isEmpty(username)) {
+            notNoneForUsername();
+
+            return;
+        }
+
+        //密码不能为空
+        if (TextUtils.isEmpty(password)) {
+            notNoneForPassword();
+
+            return;
+        }
+
+        //重复密码不能为空
+        if (TextUtils.isEmpty(password2)) {
+            notNoneForPassword2();
+            return;
+        }
+
+        //密码和用户名均不能低于6位
+        if (username.length() < 6
+                || TextUtils.isDigitsOnly(username)
+                || password.length() < 6
+                || password2.length() < 6) {
+            return;
+        }
+
         //昵称
         String nickname = mActivityBinding.etRegisterNickname.getText().toString();
         //签名
@@ -125,7 +275,7 @@ public class ActivityRegisterPresenter extends BasePresenter {
                     .getResources().getDrawable(R.drawable.back1);
         }
         //转成byte[]类型
-        byte[] buf = bitmapToBytes(drawableToBitmap(drawable));
+        byte[] buf = OperationUtil.bitmapToBytes(drawableToBitmap(drawable));
 
         //判断密码是否一样或者不为空
         if (password.equals(password2) && !TextUtils.isEmpty(password)
@@ -185,15 +335,6 @@ public class ActivityRegisterPresenter extends BasePresenter {
         // 把 drawable 内容画到画布中
         drawable.draw(canvas);
         return bitmap;
-    }
-
-    /**
-     * Bitmap转成byte[]
-     */
-    private byte[] bitmapToBytes(Bitmap bm) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        return baos.toByteArray();
     }
 
     @Override

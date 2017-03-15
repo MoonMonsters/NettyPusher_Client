@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activity.RegisterActivity">
 
@@ -20,56 +21,65 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_register_head"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_add_img_circle"
             android:contentDescription="@string/app_name"
-            android:onClick="@{()->presenter.onClickForSelectPicture()}"  />
+            android:onClick="@{()->presenter.onClickForSelectPicture()}" />
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_register_username"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:counterMaxLength="18">
 
-            <EditText
-                android:id="@+id/et_register_username"
+            <android.support.v7.widget.AppCompatEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/string_username"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:maxLength="18"
+                android:onTextChanged="@{presenter.onTextChangedForUsername}" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_register_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:counterMaxLength="18">
 
-            <EditText
-                android:id="@+id/et_register_password"
+            <android.support.v7.widget.AppCompatEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/string_password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:maxLength="18"
+                android:onTextChanged="@{presenter.onTextChangedForPassword}" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_register_password2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:counterMaxLength="18">
 
-            <EditText
-                android:id="@+id/et_register_password2"
+            <android.support.v7.widget.AppCompatEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/string_repeat_password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:maxLength="18"
+                android:onTextChanged="@{presenter.onTextChangedForPassword2}" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_register_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_register_signature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,14 +99,14 @@
                 android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_register_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{()->presenter.onClickForRegister()}"
             android:text="@string/string_register" />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_register_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
