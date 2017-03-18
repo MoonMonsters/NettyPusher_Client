@@ -38,7 +38,6 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LoggerUtil.logger(Constant.TAG, "RegisterActivity----onDestroy");
         mActivityPresenter.unregisterEventBus();
     }
 }

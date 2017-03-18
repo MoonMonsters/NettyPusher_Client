@@ -6,9 +6,13 @@ import android.view.View;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import edu.csuft.chentao.BR;
+import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityImageBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
+import edu.csuft.chentao.pojo.bean.ImageDetail;
+import edu.csuft.chentao.ui.activity.ImageActivity;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.OperationUtil;
 
@@ -32,21 +36,19 @@ public class ActivityImagePresenter extends BasePresenter {
     public void onClickToSaveImage() {
         byte[] buf = mActivityBinding.getDetail().getImage();
         try {
-            File file = new File(Constant.PATH, OperationUtil.getImageName());
-            boolean isCreateNewFile = false;
-            if (!file.exists()) {
-                isCreateNewFile = file.createNewFile();
-            }
-            if (isCreateNewFile) {  //文件创建成功
+            File file = OperationUtil.createFile(Constant.PATH, OperationUtil.getImageName());
+            if (file != null) {  //文件创建成功
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(buf);
                 fos.close();
 
-                showSnakeBar("图片保存成功", "完成");
+                showSnakeBar(OperationUtil.getString(mActivityBinding, R.string.string_save_image_success),
+                        OperationUtil.getString(mActivityBinding, R.string.string_complete));
             }
         } catch (Exception e) {
             e.printStackTrace();
-            showSnakeBar("图片保存失败", "取消");
+            showSnakeBar(OperationUtil.getString(mActivityBinding, R.string.string_save_image_fail),
+                    OperationUtil.getString(mActivityBinding, R.string.string_fail));
         }
     }
 
@@ -69,11 +71,8 @@ public class ActivityImagePresenter extends BasePresenter {
 
     @Override
     protected void initData() {
-
-    }
-
-    @Override
-    public void getEBToObjectPresenter(EBToPreObject ebObj) {
-
+        ImageDetail imageDetail = (ImageDetail) ((ImageActivity) mActivityBinding.getRoot().getContext())
+                .getIntent().getSerializableExtra(Constant.EXTRA_IMAGE_DETAIL);
+        mActivityBinding.setVariable(BR.detail, imageDetail);
     }
 }

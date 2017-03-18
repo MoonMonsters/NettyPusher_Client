@@ -18,9 +18,7 @@ import edu.csuft.chentao.controller.presenter.ActivityGroupDetailPresenter;
 import edu.csuft.chentao.controller.presenter.ItemGroupDetailPopupPresenter;
 import edu.csuft.chentao.databinding.ActivityGroupDetailBinding;
 import edu.csuft.chentao.databinding.ItemGroupDetailPopupBinding;
-import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 
 /**
  * 详细群数据
@@ -28,7 +26,6 @@ import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 public class GroupDetailActivity extends BaseActivity {
 
     private ActivityGroupDetailBinding mActivityBinding = null;
-    private int mGroupId = -1;
     private PopupWindow mPopupWindow;
     private ActivityGroupDetailPresenter mPresenter;
 
@@ -44,12 +41,10 @@ public class GroupDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        //设置toolbar
         setSupportActionBar(mActivityBinding.tlGroupDetailBar);
-        mGroupId = getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1);
-        Groups groups = GroupsDaoUtil.getGroups(mGroupId);
-        mPresenter = new ActivityGroupDetailPresenter(mActivityBinding, mGroupId);
+        mPresenter = new ActivityGroupDetailPresenter(mActivityBinding);
         mActivityBinding.setVariable(BR.presenter, mPresenter);
-        mActivityBinding.setVariable(BR.groups, groups);
     }
 
     @Override
@@ -91,7 +86,7 @@ public class GroupDetailActivity extends BaseActivity {
                     DataBindingUtil.bind(view);
             ItemGroupDetailPopupPresenter itemPresenter =
                     new ItemGroupDetailPopupPresenter(mActivityBinding, mPopupWindow);
-            itemPresenter.setGroupId(mGroupId);
+            itemPresenter.setGroupId(getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1));
             binding.setVariable(BR.itemPresenter, itemPresenter);
         }
 

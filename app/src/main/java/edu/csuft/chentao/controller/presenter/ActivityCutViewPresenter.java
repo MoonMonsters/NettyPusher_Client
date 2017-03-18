@@ -35,6 +35,9 @@ import edu.csuft.chentao.ui.view.CutView;
  * email:qxinhai@yeah.net
  */
 
+/**
+ * CutViewActivity的处理类
+ */
 public class ActivityCutViewPresenter extends BasePresenter implements CutListener {
 
     private ActivityCutViewBinding mActivityBinding;
@@ -110,7 +113,7 @@ public class ActivityCutViewPresenter extends BasePresenter implements CutListen
                 .needCrop(false)
                 .cropSize(1, 1, 200, 200)
                 // 第一个是否显示相机
-                .needCamera(true)
+                .needCamera(false)
                 // 最大选择图片数量
                 .maxNum(9)
                 .build();
@@ -209,7 +212,6 @@ public class ActivityCutViewPresenter extends BasePresenter implements CutListen
 
     @Override
     public void cutResultWithBitmap(Bitmap bitmap) {
-        LoggerUtil.logger(Constant.TAG, "cutResultWithBitmap-----" + mTag);
 
         byte[] buf = OperationUtil.bitmapToBytes(bitmap);
         OperationUtil.sendImageDetail(mTag, buf);
@@ -279,11 +281,5 @@ public class ActivityCutViewPresenter extends BasePresenter implements CutListen
     private void hideRadioGroup() {
         //设置成不可见状态
         mActivityBinding.rgCutViewChoose.setVisibility(View.GONE);
-    }
-
-    @Override
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getEBToObjectPresenter(EBToPreObject ebObj) {
-
     }
 }

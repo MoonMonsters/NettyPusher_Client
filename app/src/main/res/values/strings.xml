@@ -55,7 +55,20 @@
     <string name="string_not_length_less6_password">密码不能低于6位</string>
     <string name="string_not_equal_password">密码不匹配</string>
     <string name="string_not_only_digit_username">用户名不能为纯数字</string>
-
+    <string name="string_not_groupname_null">群名称不能为空</string>
+    <string name="string_chatting">聊天</string>
+    <string name="string_address_list">通讯录</string>
+    <string name="string_me">我</string>
+    <string name="string_not_send_empty_message">不能发送空内容</string>
+    <string name="string_searching">正在搜索中...</string>
+    <string name="string_not_have_more_data">没有更多数据</string>
+    <string name="string_exit_group">退出聊天群</string>
+    <string name="string_exit_by_owner">是否退出该群？如果你是群主，将会解散该群！</string>
+    <string name="string_save_image_success">图片保存成功</string>
+    <string name="string_save_image_fail">图片保存失败</string>
+    <string name="string_fail">失败</string>
+    <string name="string_complete">完成</string>
+    
     <string-array name="group_tags">
         <item>同学</item>
         <item>同事</item>

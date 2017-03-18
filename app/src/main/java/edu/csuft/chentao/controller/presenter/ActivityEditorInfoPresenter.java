@@ -97,9 +97,6 @@ public class ActivityEditorInfoPresenter extends BasePresenter implements Update
         Intent intent = new Intent(mActivityBinding.getRoot().getContext(), CutViewActivity.class);
         intent.putExtra(Constant.EXTRA_CUT_VIEW, Constant.CUT_VIEW_EDITOR_INFO_PRESENTER);
         mActivityBinding.getRoot().getContext().startActivity(intent);
-//        Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-//        getAlbum.setType(Constant.IMAGE_TYPE);
-//        ((EditorInfoActivity) (mActivityBinding.getRoot().getContext())).startActivityForResult(getAlbum, Constant.IMAGE_CODE);
     }
 
     /**

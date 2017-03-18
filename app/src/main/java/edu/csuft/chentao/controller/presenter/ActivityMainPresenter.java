@@ -11,6 +11,7 @@ import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityMainBinding;
 import edu.csuft.chentao.ui.fragment.FragmentFactory;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
+import edu.csuft.chentao.utils.OperationUtil;
 
 /**
  * Created by Chalmers on 2016-12-28 17:26.
@@ -37,11 +38,6 @@ public class ActivityMainPresenter extends BasePresenter {
         addAllFragmentData();
         setBottomNavigationBarData();
         setBottomNavigationBarListener();
-    }
-
-    @Override
-    public void getEBToObjectPresenter(EBToPreObject ebObj) {
-
     }
 
     /**
@@ -75,9 +71,9 @@ public class ActivityMainPresenter extends BasePresenter {
         mActivityBinding.bnbMainTab.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         //添加选项
         mActivityBinding.bnbMainTab
-                .addItem(new BottomNavigationItem(R.drawable.ic_chat_cancel, "聊天")).setActiveColor(R.color.bnbActive)
-                .addItem(new BottomNavigationItem(R.drawable.ic_list_cancel, "通讯录")).setActiveColor(R.color.bnbActive)
-                .addItem(new BottomNavigationItem(R.drawable.ic_mine_cancel, "我")).setActiveColor(R.color.bnbActive)
+                .addItem(new BottomNavigationItem(R.drawable.ic_chat_cancel, OperationUtil.getString(mActivityBinding, R.string.string_chatting))).setActiveColor(R.color.bnbActive)
+                .addItem(new BottomNavigationItem(R.drawable.ic_list_cancel, OperationUtil.getString(mActivityBinding, R.string.string_address_list))).setActiveColor(R.color.bnbActive)
+                .addItem(new BottomNavigationItem(R.drawable.ic_mine_cancel, OperationUtil.getString(mActivityBinding, R.string.string_me))).setActiveColor(R.color.bnbActive)
                 //默认选中第0个
                 .setFirstSelectedPosition(0)
                 //实例化，一定要加上该方法

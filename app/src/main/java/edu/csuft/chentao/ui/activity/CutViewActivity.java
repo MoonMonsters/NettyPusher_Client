@@ -36,7 +36,6 @@ public class CutViewActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
         mActivityPresenter = new ActivityCutViewPresenter(mActivityBinding, getIntent().getStringExtra(Constant.EXTRA_CUT_VIEW));
         mActivityBinding.setVariable(BR.presenter, mActivityPresenter);
     }

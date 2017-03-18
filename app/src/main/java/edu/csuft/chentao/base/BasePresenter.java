@@ -49,7 +49,9 @@ public abstract class BasePresenter {
      * 每个类都需要实现该方法，用来接收EventBus传递过来的数据
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public abstract void getEBToObjectPresenter(EBToPreObject ebObj);
+    public void getEBToObjectPresenter(EBToPreObject ebObj) {
+
+    }
 
     /**
      * 获得从Activity发送过来的图片数据

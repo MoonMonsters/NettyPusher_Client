@@ -28,7 +28,6 @@ public class ItemGroupOperationPresenter implements InvitePersonDialog.IDialogCl
      * 加入群
      */
     public void onClickToAddGroup() {
-        Toast.makeText(MyApplication.getInstance(), "onClickToAddGroup", Toast.LENGTH_SHORT).show();
         InvitePersonDialog dialog = new InvitePersonDialog(mActivityBinding.getRoot().getContext(), this, Constant.TYPE_INVITE_TITLE_AND_HINT_GROUP);
         dialog.show();
     }
@@ -37,7 +36,6 @@ public class ItemGroupOperationPresenter implements InvitePersonDialog.IDialogCl
      * 搜索群
      */
     public void onClickToSearchGroup() {
-        Toast.makeText(MyApplication.getInstance(), "onClickToSearchGroup", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(MyApplication.getInstance(), SearchGroupActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         MyApplication.getInstance().startActivity(intent);
@@ -47,7 +45,6 @@ public class ItemGroupOperationPresenter implements InvitePersonDialog.IDialogCl
      * 创建群
      */
     public void onClickToCreateGroup() {
-        Toast.makeText(MyApplication.getInstance(), "onClickToCreateGroup", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(MyApplication.getInstance(), CreateGroupActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         MyApplication.getInstance().startActivity(intent);

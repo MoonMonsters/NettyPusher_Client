@@ -37,11 +37,11 @@
             android:layout_height="80dp"
             android:onClick="@{()->presenter.onClickToUpdateHeadImage()}">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 style="@style/view_editor_tv_beizhu"
                 android:text="@string/string_head_image" />
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_editor_head"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -64,11 +64,11 @@
             style="@style/layout_editor_hw"
             android:onClick="@{()->presenter.onClickToUpdateNickname()}">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 style="@style/view_editor_tv_beizhu"
                 android:text="@string/string_nickname" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_editor_nickname"
                 style="@style/view_editor_tv_neirong"
                 android:text="@{userInfo.nickname}" />
@@ -78,11 +78,11 @@
 
         <RelativeLayout style="@style/layout_editor_hw">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 style="@style/view_editor_tv_beizhu"
                 android:text="@string/string_username" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 style="@style/view_editor_tv_neirong"
                 android:text="@{SharedPrefUserInfoUtil.getUsername()}" />
         </RelativeLayout>
@@ -91,11 +91,11 @@
 
         <RelativeLayout style="@style/layout_editor_hw">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 style="@style/view_editor_tv_beizhu"
                 android:text="@string/string_user_id" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 style="@style/view_editor_tv_neirong"
                 android:text="@{String.valueOf(SharedPrefUserInfoUtil.getUserId())}" />
         </RelativeLayout>
@@ -106,11 +106,11 @@
             style="@style/layout_editor_hw"
             android:onClick="@{()->presenter.onClickToUpdateSignature()}">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 style="@style/view_editor_tv_beizhu"
                 android:text="@string/string_signature" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_editor_signature"
                 style="@style/view_editor_tv_neirong"
                 android:text="@{userInfo.signature}" />

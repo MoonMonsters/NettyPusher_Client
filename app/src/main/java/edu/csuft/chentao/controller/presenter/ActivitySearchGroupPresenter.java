@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.csuft.chentao.BR;
+import edu.csuft.chentao.R;
 import edu.csuft.chentao.ui.adapter.SearchGroupContentAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivitySearchGroupBinding;
@@ -21,6 +22,7 @@ import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 
 /**
@@ -42,11 +44,8 @@ public class ActivitySearchGroupPresenter extends BasePresenter {
 
     @Override
     protected void initData() {
-//        ArrayAdapter spinnerAdapter = new ArrayAdapter(mActivityBinding.getRoot().getContext(),
-//                android.R.layout.simple_spinner_dropdown_item, mActivityBinding.getRoot().getContext().getResources().getTextArray(R.array.group_tag_search_group));
         mGroupInfoList = new ArrayList<>();
         mAdapter = new SearchGroupContentAdapter(mActivityBinding.getRoot().getContext(), mGroupInfoList);
-//        mActivityBinding.setVariable(BR.spinnerAdapter, spinnerAdapter);
         mActivityBinding.setVariable(BR.gridViewAdapter, mAdapter);
         mActivityBinding.setVariable(BR.type, 0);
     }
@@ -64,7 +63,7 @@ public class ActivitySearchGroupPresenter extends BasePresenter {
     public void onClickToSearchGroup() {
 
         mDialog = ProgressDialog.show(mActivityBinding.getRoot().getContext(),
-                null, "正在搜索中...", false, true);
+                null, OperationUtil.getString(mActivityBinding, R.string.string_searching), false, true);
 
         mGroupInfoList.clear();
         GetInfoReq req = new GetInfoReq();
@@ -101,7 +100,6 @@ public class ActivitySearchGroupPresenter extends BasePresenter {
     public void getEBToObjectPresenter(EBToPreObject ebObj) {
         if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER)) {
             GroupInfoResp resp = (GroupInfoResp) ebObj.getObject();
-            LoggerUtil.logger(Constant.TAG, "接收到群数据---" + resp.getGroupname());
             synchronized (this) {
                 //如果已经存在，则返回，避免数据重复获得
                 if (mGroupInfoList.contains(resp)) {

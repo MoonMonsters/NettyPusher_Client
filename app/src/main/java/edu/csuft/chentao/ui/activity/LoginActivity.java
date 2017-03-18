@@ -2,6 +2,7 @@ package edu.csuft.chentao.ui.activity;
 
 import android.databinding.ViewDataBinding;
 
+import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityLoginPresenter;
@@ -25,7 +26,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initData() {
         mPresenter = new ActivityLoginPresenter(mActivityBinding);
-        mActivityBinding.setPresenter(mPresenter);
+        mActivityBinding.setVariable(BR.presenter, mPresenter);
     }
 
     @Override

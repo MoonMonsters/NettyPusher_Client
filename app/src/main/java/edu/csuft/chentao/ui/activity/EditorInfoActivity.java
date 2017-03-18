@@ -25,8 +25,7 @@ public class EditorInfoActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mPresenter =
-                new ActivityEditorInfoPresenter(mActivityBinding);
+        mPresenter = new ActivityEditorInfoPresenter(mActivityBinding);
         mActivityBinding.setVariable(BR.presenter, mPresenter);
     }
 

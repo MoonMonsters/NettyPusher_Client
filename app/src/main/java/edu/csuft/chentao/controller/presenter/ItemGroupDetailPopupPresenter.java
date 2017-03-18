@@ -6,11 +6,13 @@ import android.support.v7.app.AlertDialog;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import edu.csuft.chentao.R;
 import edu.csuft.chentao.ui.activity.MainActivity;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityGroupDetailBinding;
 import edu.csuft.chentao.pojo.req.GroupOperationReq;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.ui.view.InvitePersonDialog;
@@ -45,7 +47,6 @@ public class ItemGroupDetailPopupPresenter implements InvitePersonDialog.IDialog
      * 邀请其他用户参加
      */
     public void onClickToInvite() {
-        Toast.makeText(MyApplication.getInstance(), "邀请2222222", Toast.LENGTH_SHORT).show();
         mPopupWindow.dismiss();
 
         InvitePersonDialog dialog = new InvitePersonDialog(mActivityBinding.getRoot().getContext(), this, Constant.TYPE_INVITE_TITLE_AND_HINT_USER);
@@ -56,16 +57,15 @@ public class ItemGroupDetailPopupPresenter implements InvitePersonDialog.IDialog
      * 自己退出群
      */
     public void onClickToExit() {
-        Toast.makeText(MyApplication.getInstance(), "退出", Toast.LENGTH_SHORT).show();
         mPopupWindow.dismiss();
 
         /*
         弹出对话框提示
          */
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivityBinding.getRoot().getContext());
-        builder.setTitle("退出聊天群")
-                .setMessage("是否退出该群？如果你是群主，将会解散该群！")
-                .setPositiveButton("退出", new DialogInterface.OnClickListener() {
+        builder.setTitle(OperationUtil.getString(mActivityBinding, R.string.string_exit_group))
+                .setMessage(OperationUtil.getString(mActivityBinding, R.string.string_exit_by_owner))
+                .setPositiveButton(OperationUtil.getString(mActivityBinding, R.string.string_exit), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //退出
@@ -85,7 +85,7 @@ public class ItemGroupDetailPopupPresenter implements InvitePersonDialog.IDialog
                         dialog.dismiss();
                     }
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                .setNegativeButton(OperationUtil.getString(mActivityBinding, R.string.string_cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

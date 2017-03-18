@@ -2,6 +2,7 @@ package edu.csuft.chentao.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.text.format.DateFormat;
 import android.view.WindowManager;
@@ -9,6 +10,8 @@ import android.view.WindowManager;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -219,12 +222,58 @@ public class OperationUtil {
     /**
      * 发送ImageDetail对象
      *
-     * @param tag         标志
+     * @param tag 标志
      * @param buf 图片的byte[]数组
      */
     public static void sendImageDetail(String tag, byte[] buf) {
-        ImageDetail imageDetail = new ImageDetail(tag,buf);
+        ImageDetail imageDetail = new ImageDetail(tag, buf);
         EventBus.getDefault().post(imageDetail);
+    }
+
+    /**
+     * 创建文件夹
+     *
+     * @param path 文件夹路径
+     * @return 是否创建成功
+     */
+    private static boolean createDirectory(String path) {
+        boolean isExist = true;
+        File file = new File(path);
+        if (!file.exists()) {
+            //创建
+            isExist = file.mkdir();
+        }
+
+        return isExist;
+    }
+
+    /**
+     * 创建文件
+     *
+     * @param path     文件夹路径
+     * @param fileName 文件路径
+     */
+    public static File createFile(String path, String fileName) {
+
+        File file = null;
+
+        if (createDirectory(path)) {
+            file = new File(path, fileName);
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return file;
+    }
+
+    /**
+     * 获得id对应的String内容
+     */
+    public static String getString(ViewDataBinding viewDataBinding, int stringId) {
+        return viewDataBinding.getRoot().getContext().getString(stringId);
     }
 
 }

@@ -14,6 +14,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.Collections;
 import java.util.List;
 
+import edu.csuft.chentao.BR;
+import edu.csuft.chentao.R;
 import edu.csuft.chentao.ui.activity.CutViewActivity;
 import edu.csuft.chentao.ui.adapter.MessageAdapter;
 import edu.csuft.chentao.base.BasePresenter;
@@ -61,7 +63,6 @@ public class ActivityMessagePresenter extends BasePresenter {
         if (ebObj.getTag().equals(Constant.TAG_ADD_CHATTING_MESSAGE)) {
             //得到要添加的数据
             ChattingMessage chattingMessage = (ChattingMessage) ebObj.getObject();
-            LoggerUtil.logger(Constant.TAG, "接收到内容是->" + chattingMessage.toString());
             //添加进集合
             mChattingMessageList.add(chattingMessage);
             //刷新界面
@@ -81,11 +82,10 @@ public class ActivityMessagePresenter extends BasePresenter {
 
         //设置布局方式
         mActivityBinding.rvMessageContent.setLayoutManager(new LinearLayoutManager(mContext));
-//        mActivityBinding.rvMessageContent.setAdapter(mAdapter);
         mActivityBinding.rvMessageContent.getLayoutManager()
                 .smoothScrollToPosition(mActivityBinding.rvMessageContent,
                         null, (mChattingMessageList.size() == 0 ? 0 : mChattingMessageList.size()));
-        mActivityBinding.setAdapter(mAdapter);
+        mActivityBinding.setVariable(BR.adapter, mAdapter);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class ActivityMessagePresenter extends BasePresenter {
     public void onClickToSendTextMessage() {
         String content = mActivityBinding.etMessageInput.getText().toString();
         if (TextUtils.isEmpty(content)) {   //发送内容为空
-            Toast.makeText(mContext, "不能发送空内容", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, OperationUtil.getString(mActivityBinding, R.string.string_not_send_empty_message), Toast.LENGTH_SHORT).show();
         } else {
             //发送文字消息
             Message message = OperationUtil.sendChattingMessage(mGroupId, Constant.TYPE_MSG_TEXT,

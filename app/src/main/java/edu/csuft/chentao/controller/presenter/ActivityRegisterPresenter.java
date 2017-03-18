@@ -297,7 +297,7 @@ public class ActivityRegisterPresenter extends BasePresenter {
      * 点击取消
      */
     public void onClickForCancel() {
-        Toast.makeText(MyApplication.getInstance(), "取消", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MyApplication.getInstance(), OperationUtil.getString(mActivityBinding,R.string.string_cancel), Toast.LENGTH_SHORT).show();
 
         mActivityBinding.getRoot().getContext()
                 .startActivity(new Intent(mActivityBinding.getRoot().getContext(), LoginActivity.class));

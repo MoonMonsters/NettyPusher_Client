@@ -53,7 +53,6 @@ public class FragmentGroupListPresenter extends BasePresenter{
     @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEBToObjectPresenter(EBToPreObject ebObj) {
-//        LoggerUtil.logger(Constant.TAG, "FragmentGroupListPresenter-->接收到群数据");
         //接收到了groups数据，在列表中增加一个群数据
         if (ebObj.getTag().equals(Constant.TAG_FRAGMENT_GROUP_LIST_PRESENTER)) {
             Groups groups = (Groups) ebObj.getObject();

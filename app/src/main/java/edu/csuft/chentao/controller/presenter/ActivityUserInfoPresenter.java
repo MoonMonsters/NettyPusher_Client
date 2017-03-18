@@ -23,6 +23,7 @@ import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
@@ -82,7 +83,7 @@ public class ActivityUserInfoPresenter extends BasePresenter {
                     mAdapter.notifyDataSetChanged();
                     break;
                 case HANDLER_ONREFRESH_NO_DATA:
-                    Toast.makeText(mActivityBinding.getRoot().getContext(), "没有更多数据", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivityBinding.getRoot().getContext(), OperationUtil.getString(mActivityBinding, R.string.string_not_have_more_data), Toast.LENGTH_SHORT).show();
                     break;
             }
             mActivityBinding.ptrlvUserinfoRecentMsg.onRefreshComplete();

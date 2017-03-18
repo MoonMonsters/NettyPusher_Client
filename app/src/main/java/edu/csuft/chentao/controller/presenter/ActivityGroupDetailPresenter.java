@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.csuft.chentao.BR;
+import edu.csuft.chentao.pojo.bean.Groups;
+import edu.csuft.chentao.ui.activity.GroupDetailActivity;
 import edu.csuft.chentao.ui.adapter.UserInGroupAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityGroupDetailBinding;
@@ -22,6 +25,7 @@ import edu.csuft.chentao.pojo.resp.UserIdsInGroupResp;
 import edu.csuft.chentao.pojo.resp.UserInfoResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.SendMessageUtil;
+import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 /**
@@ -42,14 +46,18 @@ public class ActivityGroupDetailPresenter extends BasePresenter {
     private int mGroupId;
     private List<UserInfo> mUserInfoList;
 
-    public ActivityGroupDetailPresenter(ActivityGroupDetailBinding activityBinding, Object object) {
+    public ActivityGroupDetailPresenter(ActivityGroupDetailBinding activityBinding) {
         this.mActivityBinding = activityBinding;
-        this.mGroupId = (int) object;
         init();
     }
 
     @Override
     protected void initData() {
+        this.mGroupId = ((GroupDetailActivity) mActivityBinding.getRoot().getContext())
+                .getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1);
+        Groups groups = GroupsDaoUtil.getGroups(mGroupId);
+        mActivityBinding.setVariable(BR.groups, groups);
+
         getUserAndGroupInfo();
     }
 

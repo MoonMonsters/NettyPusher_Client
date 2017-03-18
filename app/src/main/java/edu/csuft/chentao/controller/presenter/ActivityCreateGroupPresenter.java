@@ -12,8 +12,6 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.ByteArrayOutputStream;
-
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.ui.activity.CreateGroupActivity;
@@ -26,6 +24,7 @@ import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.req.CreateGroupReq;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 
@@ -34,6 +33,9 @@ import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
  * email:qxinhai@yeah.net
  */
 
+/**
+ * CreateGroupActivity的处理类
+ */
 public class ActivityCreateGroupPresenter extends BasePresenter {
 
     private ActivityCreateGroupBinding mActivityBinding;
@@ -56,7 +58,7 @@ public class ActivityCreateGroupPresenter extends BasePresenter {
     public void onClickToSubmit() {
         String groupName = mActivityBinding.etCreateGroupGroupName.getText().toString();
         if (TextUtils.isEmpty(groupName)) {
-            Toast.makeText(MyApplication.getInstance(), "群名称不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MyApplication.getInstance(), OperationUtil.getString(mActivityBinding,R.string.string_not_groupname_null), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -64,12 +66,11 @@ public class ActivityCreateGroupPresenter extends BasePresenter {
         Drawable drawable = mActivityBinding.ivCreateGroupHead.getDrawable();
         //如果没有设置类型，那么则使用默认的图片
         if (drawable == null) {
-//            drawable = mActivityBinding.ivCreateGroupHead.getBackground();
             drawable = mActivityBinding.getRoot().getContext()
                     .getResources().getDrawable(R.drawable.back2);
         }
         //转成byte[]类型
-        byte[] buf = bitmapToBytes(drawableToBitmap(drawable));
+        byte[] buf = OperationUtil.bitmapToBytes(drawableToBitmap(drawable));
 
         CreateGroupReq req = new CreateGroupReq();
         req.setCreatorId(SharedPrefUserInfoUtil.getUserId());
@@ -130,14 +131,5 @@ public class ActivityCreateGroupPresenter extends BasePresenter {
         // 把 drawable 内容画到画布中
         drawable.draw(canvas);
         return bitmap;
-    }
-
-    /**
-     * Bitmap转成byte[]
-     */
-    private byte[] bitmapToBytes(Bitmap bm) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        return baos.toByteArray();
     }
 }

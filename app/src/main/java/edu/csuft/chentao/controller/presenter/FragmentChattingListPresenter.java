@@ -45,7 +45,6 @@ public class FragmentChattingListPresenter extends BasePresenter {
     @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEBToObjectPresenter(EBToPreObject ebObj) {
-        LoggerUtil.logger("FragmentChattingListPresenter", ebObj.toString());
         /*
             接收到了移除数据命令
             此命令是退出了群，然后把ChattingItem移除掉
@@ -74,7 +73,6 @@ public class FragmentChattingListPresenter extends BasePresenter {
                  向聊天列表添加数据项
              */
         } else if (ebObj.getTag().equals(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM)) {
-            LoggerUtil.logger("FragmentChattingListPresenter", Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM);
             GroupChattingItem chattingItem = (GroupChattingItem) ebObj.getObject();
 
             if (mGroupChattingItemList.contains(chattingItem)) {

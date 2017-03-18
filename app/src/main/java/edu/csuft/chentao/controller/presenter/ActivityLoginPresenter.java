@@ -3,12 +3,11 @@ package edu.csuft.chentao.controller.presenter;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.text.TextUtils;
-import android.view.TextureView;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import edu.csuft.chentao.R;
 import edu.csuft.chentao.ui.activity.LoginActivity;
 import edu.csuft.chentao.ui.activity.MainActivity;
 import edu.csuft.chentao.ui.activity.RegisterActivity;
@@ -18,7 +17,7 @@ import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.req.LoginReq;
 import edu.csuft.chentao.pojo.resp.UserInfoResp;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 
@@ -78,7 +77,7 @@ public class ActivityLoginPresenter extends BasePresenter {
         if (TextUtils.isEmpty(s)) { //用户名不能为空
             usernameNotNull();
         } else if (s.length() < 6) {    //用户名不能低于6位
-            mActivityBinding.etLoginUsername.setError("用户名不能低于6位");
+            mActivityBinding.etLoginUsername.setError(OperationUtil.getString(mActivityBinding,R.string.string_not_length_less6_username));
             mActivityBinding.etLoginUsername.setErrorEnabled(true);
         } else {    //都符合，隐去错误提示
             mActivityBinding.etLoginUsername.setError(null);
@@ -93,7 +92,7 @@ public class ActivityLoginPresenter extends BasePresenter {
         if (TextUtils.isEmpty(s)) { //密码不能为空
             passwordNotNull();
         } else if (s.length() < 6) {    //密码不能低于6位
-            mActivityBinding.etLoginPassword.setError("密码不能低于6位");
+            mActivityBinding.etLoginPassword.setError(OperationUtil.getString(mActivityBinding,R.string.string_not_length_less6_password));
             mActivityBinding.etLoginPassword.setErrorEnabled(true);
         } else {    //都符合，隐去错误提示
             mActivityBinding.etLoginPassword.setError(null);
@@ -105,7 +104,7 @@ public class ActivityLoginPresenter extends BasePresenter {
      * 密码不能为空
      */
     private void passwordNotNull() {
-        mActivityBinding.etLoginPassword.setError("密码不能为空");
+        mActivityBinding.etLoginPassword.setError(OperationUtil.getString(mActivityBinding,R.string.string_not_none_password));
         mActivityBinding.etLoginPassword.setErrorEnabled(true);
     }
 
@@ -113,7 +112,7 @@ public class ActivityLoginPresenter extends BasePresenter {
      * 用户名不能为空
      */
     private void usernameNotNull() {
-        mActivityBinding.etLoginUsername.setError("用户名不能为空");
+        mActivityBinding.etLoginUsername.setError(OperationUtil.getString(mActivityBinding,R.string.string_not_none_username));
         mActivityBinding.etLoginUsername.setErrorEnabled(true);
     }
 
