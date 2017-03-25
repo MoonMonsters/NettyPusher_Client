@@ -17,6 +17,7 @@
     <string name="string_send">发送</string>
     <string name="string_input_message_content">输入聊天内容</string>
     <string name="string_exit_login">退出登录</string>
+    <string name="string_exit_login_detail_message">确定退出登录？退出后，将会清空聊天记录！！</string>
     <string name="string_delete">删除</string>
     <string name="string_head_image">头像</string>
     <string name="string_user_id">用户id</string>
@@ -68,7 +69,7 @@
     <string name="string_save_image_fail">图片保存失败</string>
     <string name="string_fail">失败</string>
     <string name="string_complete">完成</string>
-    
+
     <string-array name="group_tags">
         <item>同学</item>
         <item>同事</item>

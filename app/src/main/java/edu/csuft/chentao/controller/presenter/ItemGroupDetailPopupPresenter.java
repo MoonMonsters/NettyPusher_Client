@@ -11,6 +11,7 @@ import edu.csuft.chentao.ui.activity.MainActivity;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityGroupDetailBinding;
 import edu.csuft.chentao.pojo.req.GroupOperationReq;
+import edu.csuft.chentao.ui.view.CustomerAlertDialog;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
@@ -22,7 +23,7 @@ import edu.csuft.chentao.ui.view.InvitePersonDialog;
  * email:qxinhai@yeah.net
  */
 
-public class ItemGroupDetailPopupPresenter implements InvitePersonDialog.IDialogClickListener {
+public class ItemGroupDetailPopupPresenter implements InvitePersonDialog.IDialogClickListener, CustomerAlertDialog.IAlertDialogClickListener {
 
     private ActivityGroupDetailBinding mActivityBinding;
     private PopupWindow mPopupWindow;
@@ -59,40 +60,14 @@ public class ItemGroupDetailPopupPresenter implements InvitePersonDialog.IDialog
     public void onClickToExit() {
         mPopupWindow.dismiss();
 
-        /*
-        弹出对话框提示
-         */
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivityBinding.getRoot().getContext());
-        builder.setTitle(OperationUtil.getString(mActivityBinding, R.string.string_exit_group))
-                .setMessage(OperationUtil.getString(mActivityBinding, R.string.string_exit_by_owner))
-                .setPositiveButton(OperationUtil.getString(mActivityBinding, R.string.string_exit), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //退出
-                        GroupOperationReq req = new GroupOperationReq();
-                        req.setGroupid(mGroupId);
-                        req.setUserId1(SharedPrefUserInfoUtil.getUserId());
-                        req.setType(Constant.TYPE_GROUP_OPERATION_EXIT_BY_MYSELF);
-                        //发送退出群消息
-                        SendMessageUtil.sendMessage(req);
-
-                        //跳转到MainActivity界面去
-                        Intent intent = new Intent();
-                        intent.setClass(mActivityBinding.getRoot().getContext(), MainActivity.class);
-                        //清除MainActivity之上的Activity，将MainActivity提到最上面
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        mActivityBinding.getRoot().getContext().startActivity(intent);
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton(OperationUtil.getString(mActivityBinding, R.string.string_cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create()
-                .show();
+        CustomerAlertDialog dialog = new CustomerAlertDialog(mActivityBinding.getRoot().getContext(),
+                this,
+                OperationUtil.getString(mActivityBinding, R.string.string_exit_group),
+                OperationUtil.getString(mActivityBinding, R.string.string_exit_by_owner),
+                OperationUtil.getString(mActivityBinding, R.string.string_exit),
+                OperationUtil.getString(mActivityBinding, R.string.string_cancel)
+        );
+        dialog.show();
     }
 
     @Override
@@ -106,5 +81,23 @@ public class ItemGroupDetailPopupPresenter implements InvitePersonDialog.IDialog
         //数据类型
         req.setType(Constant.TYPE_GROUP_OPERATION_ADD_BY_INVITE);
         SendMessageUtil.sendMessage(req);
+    }
+
+    @Override
+    public void doClickAlertDialogToOk() {
+        //退出
+        GroupOperationReq req = new GroupOperationReq();
+        req.setGroupid(mGroupId);
+        req.setUserId1(SharedPrefUserInfoUtil.getUserId());
+        req.setType(Constant.TYPE_GROUP_OPERATION_EXIT_BY_MYSELF);
+        //发送退出群消息
+        SendMessageUtil.sendMessage(req);
+
+        //跳转到MainActivity界面去
+        Intent intent = new Intent();
+        intent.setClass(mActivityBinding.getRoot().getContext(), MainActivity.class);
+        //清除MainActivity之上的Activity，将MainActivity提到最上面
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        mActivityBinding.getRoot().getContext().startActivity(intent);
     }
 }
