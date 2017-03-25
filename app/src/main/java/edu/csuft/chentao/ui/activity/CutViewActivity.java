@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 
 import com.yuyh.library.imgsel.ImgSelActivity;
 
+import net.bither.util.NativeUtil;
+
 import java.io.File;
 import java.net.URI;
 import java.util.List;
@@ -58,7 +60,6 @@ public class CutViewActivity extends BaseActivity {
                 byte[] buf = OperationUtil.bitmapToBytes(bitmap);
 
                 OperationUtil.sendImageDetail(Constant.IMAGE_ACTIVITY_CUT_VIEW_PRESENTER, buf);
-
             } else {
                 this.finish();
             }

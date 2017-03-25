@@ -9,8 +9,12 @@ import android.view.WindowManager;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Locale;
@@ -276,4 +280,65 @@ public class OperationUtil {
         return viewDataBinding.getRoot().getContext().getString(stringId);
     }
 
+    /**
+     * 将File转换成byte[]类型
+     *
+     * @param file File对象
+     * @return byte[]数组
+     */
+    public static byte[] file2byte(File file) {
+        byte[] buffer = null;
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] b = new byte[1024];
+            int n;
+            while ((n = fis.read(b)) != -1) {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return buffer;
+    }
+
+    /**
+     * 将byte[]数据类型转换成File对象
+     *
+     * @param buf byte[]数据
+     * @return File对象
+     */
+    public static File byte2File(byte[] buf) {
+        File file = createFile(Constant.PATH, "imageFileCache.jpeg");
+
+        BufferedOutputStream bos = null;
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            bos = new BufferedOutputStream(fos);
+            bos.write(buf);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (bos != null) {
+                try {
+                    bos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return file;
+    }
 }
