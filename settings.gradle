@@ -1,1 +1,1 @@
-include ':app', ':bottom-navigation-bar', ':swipelistview', ':lib-bither-compress'
+include ':app', ':bottom-navigation-bar', ':swipelistview'

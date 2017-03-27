@@ -3,11 +3,8 @@ package edu.csuft.chentao.ui.activity;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import com.yuyh.library.imgsel.ImgSelActivity;
-
-import net.bither.util.NativeUtil;
 
 import java.io.File;
 import java.net.URI;
@@ -56,7 +53,7 @@ public class CutViewActivity extends BaseActivity {
 
             File file = new File(URI.create("file://" + pathList.get(0)));
             if (file.exists()) {
-                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                Bitmap bitmap = OperationUtil.decodeSampledBitmapFromFd(file.getAbsolutePath(), 250, 250);
                 byte[] buf = OperationUtil.bitmapToBytes(bitmap);
 
                 OperationUtil.sendImageDetail(Constant.IMAGE_ACTIVITY_CUT_VIEW_PRESENTER, buf);
@@ -68,4 +65,6 @@ public class CutViewActivity extends BaseActivity {
             this.finish();
         }
     }
+
+
 }

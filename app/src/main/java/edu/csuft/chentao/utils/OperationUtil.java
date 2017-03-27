@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.format.DateFormat;
 import android.view.WindowManager;
 
@@ -340,5 +341,63 @@ public class OperationUtil {
         }
 
         return file;
+    }
+
+    /**
+     * 将byte[]转换成bitmap
+     *
+     * @param b byte[]数组
+     * @return Bitmap对象
+     */
+    public static Bitmap bytes2Bimap(byte[] b) {
+        if (b.length != 0) {
+            return BitmapFactory.decodeByteArray(b, 0, b.length);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 压缩图片
+     *
+     * @param pathName  图片地址
+     * @param reqWidth  图片宽度
+     * @param reqHeight 图片高度
+     * @return 压缩后的图片对象
+     */
+    public static Bitmap decodeSampledBitmapFromFd(String pathName,
+                                                   int reqWidth, int reqHeight) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(pathName, options);
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        options.inJustDecodeBounds = false;
+        Bitmap src = BitmapFactory.decodeFile(pathName, options);
+        return createScaleBitmap(src, reqWidth, reqHeight);
+    }
+
+    private static Bitmap createScaleBitmap(Bitmap src, int dstWidth,
+                                            int dstHeight) {
+        Bitmap dst = Bitmap.createScaledBitmap(src, dstWidth, dstHeight, false);
+        if (src != dst) { // 如果没有缩放，那么不回收
+            src.recycle(); // 释放Bitmap的native像素数组
+        }
+        return dst;
+    }
+
+    private static int calculateInSampleSize(BitmapFactory.Options options,
+                                             int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+        return inSampleSize;
     }
 }
