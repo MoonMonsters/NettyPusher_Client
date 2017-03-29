@@ -3,6 +3,7 @@ package edu.csuft.chentao.ui.activity;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.yuyh.library.imgsel.ImgSelActivity;
 
@@ -16,6 +17,7 @@ import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityCutViewPresenter;
 import edu.csuft.chentao.databinding.ActivityCutViewBinding;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 
 public class CutViewActivity extends BaseActivity {
@@ -53,8 +55,15 @@ public class CutViewActivity extends BaseActivity {
 
             File file = new File(URI.create("file://" + pathList.get(0)));
             if (file.exists()) {
-                Bitmap bitmap = OperationUtil.decodeSampledBitmapFromFd(file.getAbsolutePath(), 250, 250);
-                byte[] buf = OperationUtil.bitmapToBytes(bitmap);
+                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                int width = bitmap.getWidth();
+                int height = bitmap.getHeight();
+                //获得较大值
+                int max = Math.max(width, height);
+                //按比例压缩
+                Bitmap bitmap2 = OperationUtil.decodeSampledBitmapFromFd(file.getAbsolutePath(), (int) (width * 1.0 / max * 400), (int) (height * 1.0 / max * 400));
+
+                byte[] buf = OperationUtil.bitmapToBytes(bitmap2);
 
                 OperationUtil.sendImageDetail(Constant.IMAGE_ACTIVITY_CUT_VIEW_PRESENTER, buf);
             } else {

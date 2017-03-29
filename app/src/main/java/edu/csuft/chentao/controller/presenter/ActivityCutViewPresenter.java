@@ -68,8 +68,6 @@ public class ActivityCutViewPresenter extends BasePresenter implements CutListen
         this.mActivityBinding = activityBinding;
         this.mTag = (String) object;
 
-        LoggerUtil.logger(Constant.TAG, mTag);
-
         init();
     }
 
