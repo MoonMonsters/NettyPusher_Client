@@ -1,6 +1,9 @@
 package edu.csuft.chentao.controller.presenter;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import com.yuyh.library.imgsel.widget.DividerGridItemDecoration;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -14,6 +17,7 @@ import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityHintBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.Hint;
+import edu.csuft.chentao.ui.view.DividerItemDecoration;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.daoutil.HintDaoUtil;
 
@@ -44,6 +48,8 @@ public class ActivityHintPresenter extends BasePresenter {
 
         mAdapter = new HintAdapter(mActivityBinding.getRoot().getContext(), mHintList);
         mActivityBinding.rvHintContent.setLayoutManager(new LinearLayoutManager(mActivityBinding.getRoot().getContext()));
+        mActivityBinding.rvHintContent.addItemDecoration(new DividerItemDecoration(mActivityBinding.getRoot().getContext(),
+                DividerItemDecoration.HORIZONTAL));
         mActivityBinding.setVariable(BR.adapter, mAdapter);
     }
 

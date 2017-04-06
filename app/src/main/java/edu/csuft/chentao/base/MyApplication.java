@@ -20,7 +20,6 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        LoggerUtil.logger(Constant.TAG, "MyApplication.onCreate");
         application = this;
         startService(new Intent(this, NettyClientService.class));
     }

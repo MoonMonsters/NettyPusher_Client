@@ -7,8 +7,7 @@ import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityRegisterPresenter;
 import edu.csuft.chentao.databinding.ActivityRegisterBinding;
-import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 
 /**
  * @author csuft.chentao
@@ -31,6 +30,9 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public void initData() {
+
+        OperationUtil.fullScreen(this);
+
         mActivityPresenter = new ActivityRegisterPresenter(mActivityBinding);
         mActivityBinding.setVariable(BR.presenter, mActivityPresenter);
     }
@@ -39,5 +41,10 @@ public class RegisterActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mActivityPresenter.unregisterEventBus();
+    }
+
+    @Override
+    public void onBackPressed() {
+        mActivityPresenter.onClickForCancel();
     }
 }

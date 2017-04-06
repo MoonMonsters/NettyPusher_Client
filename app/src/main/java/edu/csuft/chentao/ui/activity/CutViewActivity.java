@@ -56,14 +56,20 @@ public class CutViewActivity extends BaseActivity {
             File file = new File(URI.create("file://" + pathList.get(0)));
             if (file.exists()) {
                 Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                int width = bitmap.getWidth();
-                int height = bitmap.getHeight();
-                //获得较大值
-                int max = Math.max(width, height);
-                //按比例压缩
-                Bitmap bitmap2 = OperationUtil.decodeSampledBitmapFromFd(file.getAbsolutePath(), (int) (width * 1.0 / max * 400), (int) (height * 1.0 / max * 400));
 
-                byte[] buf = OperationUtil.bitmapToBytes(bitmap2);
+                byte[] buf;
+                if (file.length() >= 1024 * 1024) { //大于1M的图片才进行压缩处理
+                    int width = bitmap.getWidth();
+                    int height = bitmap.getHeight();
+                    //获得较大值
+                    int max = Math.max(width, height);
+                    //按比例压缩
+                    Bitmap bitmap2 = OperationUtil.decodeSampledBitmapFromFd(file.getAbsolutePath(), (int) (width * 1.0 / max * 400), (int) (height * 1.0 / max * 400));
+
+                    buf = OperationUtil.bitmapToBytes(bitmap2);
+                } else {
+                    buf = OperationUtil.bitmapToBytes(bitmap);
+                }
 
                 OperationUtil.sendImageDetail(Constant.IMAGE_ACTIVITY_CUT_VIEW_PRESENTER, buf);
             } else {

@@ -2,12 +2,17 @@ package edu.csuft.chentao.ui.activity;
 
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
+import android.view.View;
 
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.databinding.ActivitySplashBinding;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 
 public class SplashActivity extends BaseActivity {
@@ -26,6 +31,9 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initData() {
+
+        OperationUtil.fullScreen(this);
+
         this.mActivityBinding.setImageUrl(Constant.SPLASH_IMAGE_NAME);
         this.mActivityBinding.setPlacehold(R.drawable.splash);
 
@@ -48,14 +56,8 @@ public class SplashActivity extends BaseActivity {
      */
     private void enterAnotherActivity() {
 
-        //启动服务
-//        startService(new Intent(this, NettyClientService.class));
-
-//        SendMessageUtil.initNettyClient();
-
         int type = SharedPrefUserInfoUtil.getLoginType();
         if (type == Constant.TYPE_LOGIN_AUTO) {   //如果是自动登录类型
-//            startService(new Intent(this, LoginReqIntentService.class));
 
             startAnotherActivity(MainActivity.class);
             finishThisActivity();

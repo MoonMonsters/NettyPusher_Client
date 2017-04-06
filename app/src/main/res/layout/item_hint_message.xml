@@ -21,7 +21,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:layout_margin="5dp"
         android:onLongClick="@{itemPresenter.onLongClick}"
         android:orientation="horizontal">
@@ -29,12 +29,15 @@
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
             app:imageBytes="@{hintData.image}" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="4"
             android:orientation="vertical">
 
@@ -42,9 +45,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
+                android:gravity="bottom"
                 android:text="@{hintData.groupname}"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
@@ -67,24 +70,28 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:visibility="@{hintData.show==Constant.TYPE_HINT_SHOW_AGREE_REFUSE_BUTTON?View.VISIBLE:View.GONE}">
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_hint_agree"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_button_smaller"
                 android:onClick="@{()->itemPresenter.onClickToAgree()}"
                 android:text="@string/string_agree" />
 
             <android.support.v7.widget.AppCompatButton
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:background="@drawable/selector_button_smaller"
                 android:onClick="@{()->itemPresenter.onClickToRefuse()}"
                 android:text="@string/string_refuse" />
         </LinearLayout>
-
     </LinearLayout>
 </layout>

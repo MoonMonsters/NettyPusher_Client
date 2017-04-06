@@ -22,6 +22,7 @@
     </data>
 
     <LinearLayout
+        android:padding="5dp"
         android:id="@+id/activity_search_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -81,11 +82,13 @@
                 android:visibility="@{type==2?View.VISIBLE:View.GONE}" />
 
             <android.support.v7.widget.AppCompatButton
+                android:gravity="center"
                 android:id="@+id/acbtn_search_group_submit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="5"
+                android:background="@drawable/selector_button_smaller"
                 android:onClick="@{()->presenter.onClickToSearchGroup()}"
                 android:text="@string/string_search_group" />
         </LinearLayout>

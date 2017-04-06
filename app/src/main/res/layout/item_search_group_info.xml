@@ -48,9 +48,10 @@
             android:text="@{OperationUtil.getTagAndNumber(groupInfo)}" />
 
         <android.support.v7.widget.AppCompatButton
+            android:background="@drawable/selector_button_smaller"
             android:id="@+id/acbtn_item_search_group_enter"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_gravity="center"
             android:onClick="@{()->itemPresenter.onClickToEnterGroup()}"
             android:text="@string/string_enter_group" />

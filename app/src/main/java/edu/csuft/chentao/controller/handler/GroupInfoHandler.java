@@ -1,8 +1,5 @@
 package edu.csuft.chentao.controller.handler;
 
-import org.greenrobot.eventbus.EventBus;
-
-import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.utils.Constant;

@@ -58,24 +58,6 @@ public class UpdateInfoDialog {
                     }
                 })
                 .create();
-//        mDialog.setContentView(view);
-//        mDialog.setTitle("更新信息");
-//        mBinding.etDialogUpdateInfoInput.setHint(mHint);
-//        mBinding.btnDialogUpdateInfoOk.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String info = mBinding.etDialogUpdateInfoInput.getText().toString();
-//                mListener.onClickToUpdateInfo(info);
-//                dismiss();
-//            }
-//        });
-//
-//        mBinding.btnDialogUpdateInfoCancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dismiss();
-//            }
-//        });
 
         mDialog.show();
     }

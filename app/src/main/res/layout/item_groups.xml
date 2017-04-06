@@ -20,14 +20,14 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_group_list_head"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:contentDescription="@string/app_name"
             app:imageBytes="@{item.image}" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_group_list_groupname"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

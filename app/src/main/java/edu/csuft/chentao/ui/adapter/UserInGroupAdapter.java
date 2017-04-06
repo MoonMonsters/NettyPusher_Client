@@ -242,7 +242,6 @@ public class UserInGroupAdapter extends BaseAdapter {
          * 移除用户
          */
         public void onClickToRemoveUser() {
-            //TODO
             int myCapital = mCapitalMap.get(SharedPrefUserInfoUtil.getUserId());
             int hisCapital = mCapitalMap.get(mUserInfo.getUserid());
 
@@ -256,10 +255,11 @@ public class UserInGroupAdapter extends BaseAdapter {
                 req.setUserId2(SharedPrefUserInfoUtil.getUserId());
                 req.setGroupid(mGroupId);
                 SendMessageUtil.sendMessage(req);
+            } else {
+                Toast.makeText(mContext, "你没有该权限", Toast.LENGTH_SHORT).show();
             }
 
             dismissPopupWindow();
-            Toast.makeText(mContext, "移除用户", Toast.LENGTH_SHORT).show();
         }
 
         /**

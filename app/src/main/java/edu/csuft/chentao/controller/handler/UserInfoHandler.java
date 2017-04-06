@@ -1,6 +1,5 @@
 package edu.csuft.chentao.controller.handler;
 
-import android.content.Intent;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -32,8 +31,6 @@ class UserInfoHandler implements Handler {
             } else if (resp.getType() == Constant.TYPE_LOGIN_NEW
                     || resp.getType() == Constant.TYPE_LOGIN_USER_INFO) { //如果是重新登录类型
 
-                LoggerUtil.logger(Constant.TAG, "UserInfoHandler->" + resp.getType());
-
                 /*
                 如果是新登录或者获得其他用户信息类型，则要从服务端把该用户的所有数据都获取过来，保存
                  */
@@ -43,7 +40,6 @@ class UserInfoHandler implements Handler {
                 UserHeadDaoUtil.saveUserHeadFromHandler(resp);
 
                 if (resp.getType() == Constant.TYPE_LOGIN_NEW) {  //重新登录，需要发送广播
-//                    sendBroadcast(true, resp.getUserid());
                     //把数据从Handler传递到ActivityLoginPresenter，由Presenter去处理是否登录成功，已经后续操作
                     EBToPreObject ebObj = new EBToPreObject(Constant.TAG_USER_LOGIN_PRESENTER, resp);
                     EventBus.getDefault().post(ebObj);

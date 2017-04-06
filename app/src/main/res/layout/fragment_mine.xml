@@ -32,14 +32,13 @@
             android:onClick="@{()->presenter.onClickToEditorInfo()}"
             android:orientation="horizontal">
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_mine_head"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/ic_add_head"
                 android:contentDescription="@string/app_name"
                 app:imageBytes="@{userHead.image}" />
 
@@ -69,11 +68,16 @@
         </LinearLayout>
 
         <Button
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/selector_button_exit"
             android:id="@+id/btn_mine_exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="25dp"
             android:onClick="@{()->presenter.onClickToExitLogining()}"
             android:text="@string/string_exit_login" />
 

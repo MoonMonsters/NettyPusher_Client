@@ -16,16 +16,26 @@
     </data>
 
     <LinearLayout
+        android:padding="10dp"
         android:id="@+id/activity_register"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/timg"
         android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:onClick="@{()->presenter.onClickForCancel()}" />
+
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_register_head"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
+            android:layout_marginTop="8dp"
             android:background="@drawable/ic_add_img_circle"
             android:contentDescription="@string/app_name"
             android:onClick="@{()->presenter.onClickForSelectPicture()}" />
@@ -100,18 +110,14 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
+            android:layout_margin="10dp"
             android:id="@+id/btn_register_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_button_login"
             android:onClick="@{()->presenter.onClickForRegister()}"
             android:text="@string/string_register" />
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_register_cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="@{()->presenter.onClickForCancel()}"
-            android:text="@string/string_cancel" />
 
     </LinearLayout>
 </layout>

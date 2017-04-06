@@ -21,8 +21,6 @@ public class RegisterHandler implements Handler {
     public void handle(Object object) {
         RegisterResp resp = (RegisterResp) object;
 
-        LoggerUtil.logger(Constant.TAG, "RegisterHandler.handle->" + resp.toString());
-
         if (resp.getType() == Constant.TYPE_REGISTER_SUCCESS) { //注册成功
 
             OperationUtil.sendEBToObjectPresenter(Constant.TAG_REGISTER_PRESENTER, resp);

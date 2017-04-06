@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             app:counterMaxLength="@{type==Constant.TYPE_INVITE_TITLE_AND_HINT_USER?5:6}">
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/acet_invite_person_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

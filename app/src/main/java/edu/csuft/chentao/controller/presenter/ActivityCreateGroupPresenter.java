@@ -67,7 +67,7 @@ public class ActivityCreateGroupPresenter extends BasePresenter {
         //如果没有设置类型，那么则使用默认的图片
         if (drawable == null) {
             drawable = mActivityBinding.getRoot().getContext()
-                    .getResources().getDrawable(R.drawable.back2);
+                    .getResources().getDrawable(R.mipmap.ic_launcher);
         }
         //转成byte[]类型
         byte[] buf = OperationUtil.bitmapToBytes(drawableToBitmap(drawable));

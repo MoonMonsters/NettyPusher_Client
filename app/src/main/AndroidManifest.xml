@@ -18,8 +18,7 @@
             android:name=".ui.activity.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".ui.activity.SplashActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:name=".ui.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,7 +31,8 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ui.activity.LoginActivity" />
+        <activity
+            android:name=".ui.activity.LoginActivity"/>
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.MessageActivity" />
 

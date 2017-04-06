@@ -11,21 +11,29 @@
     </data>
 
     <LinearLayout
+        android:padding="10dp"
+        android:background="@drawable/timg"
         android:id="@+id/activity_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:background="@mipmap/ic_launcher" />
 
         <android.support.design.widget.TextInputLayout
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:id="@+id/et_login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="20dp" >
 
             <EditText
                 android:layout_width="match_parent"
@@ -36,9 +44,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:id="@+id/et_login_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" >
 
             <EditText
                 android:layout_width="match_parent"
@@ -49,6 +61,8 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_button_login"
             android:id="@+id/btn_login_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,13 +70,16 @@
             android:text="@string/string_login" />
 
         <TextView
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="10dp"
             android:onClick="@{()->presenter.onClickToRegisterActivity()}"
             android:text="@string/string_new_user_register"
-            android:textColor="@android:color/holo_blue_light" />
+            android:textColor="@android:color/holo_blue_bright"
+            />
 
     </LinearLayout>
 </layout>

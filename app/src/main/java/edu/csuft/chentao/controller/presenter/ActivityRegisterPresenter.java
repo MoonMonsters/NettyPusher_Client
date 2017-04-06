@@ -12,8 +12,6 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.ByteArrayOutputStream;
-
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.ui.activity.CutViewActivity;
 import edu.csuft.chentao.ui.activity.LoginActivity;
@@ -29,7 +27,6 @@ import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.RegisterReq;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
@@ -272,7 +269,7 @@ public class ActivityRegisterPresenter extends BasePresenter {
         if (drawable == null) {
 //            drawable = mActivityBinding.ivRegisterHead.getBackground();
             drawable = mActivityBinding.getRoot().getContext()
-                    .getResources().getDrawable(R.drawable.back1);
+                    .getResources().getDrawable(R.mipmap.ic_launcher);
         }
         //转成byte[]类型
         byte[] buf = OperationUtil.bitmapToBytes(drawableToBitmap(drawable));
@@ -297,8 +294,6 @@ public class ActivityRegisterPresenter extends BasePresenter {
      * 点击取消
      */
     public void onClickForCancel() {
-        Toast.makeText(MyApplication.getInstance(), OperationUtil.getString(mActivityBinding,R.string.string_cancel), Toast.LENGTH_SHORT).show();
-
         mActivityBinding.getRoot().getContext()
                 .startActivity(new Intent(mActivityBinding.getRoot().getContext(), LoginActivity.class));
 
