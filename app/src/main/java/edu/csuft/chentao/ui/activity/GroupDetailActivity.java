@@ -1,5 +1,6 @@
 package edu.csuft.chentao.ui.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
@@ -42,7 +43,7 @@ public class GroupDetailActivity extends BaseActivity {
     @Override
     public void initData() {
         //设置toolbar
-        setSupportActionBar(mActivityBinding.tlGroupDetailBar);
+        setSupportActionBar(mActivityBinding.includeToolbar.layoutToolbar);
         mPresenter = new ActivityGroupDetailPresenter(mActivityBinding);
         mActivityBinding.setVariable(BR.presenter, mPresenter);
     }
@@ -73,22 +74,27 @@ public class GroupDetailActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.action_group_detail_more) {
-            View view = LayoutInflater.from(this)
-                    .inflate(R.layout.item_group_detail_popup, null);
-            //弹出菜单
-            mPopupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-            mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            mPopupWindow.setOutsideTouchable(true);
-            mPopupWindow.showAsDropDown(mActivityBinding.tlGroupDetailBar);
-
-            ItemGroupDetailPopupBinding binding =
-                    DataBindingUtil.bind(view);
-            ItemGroupDetailPopupPresenter itemPresenter =
-                    new ItemGroupDetailPopupPresenter(mActivityBinding, mPopupWindow);
-            itemPresenter.setGroupId(getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1));
-            binding.setVariable(BR.itemPresenter, itemPresenter);
+        if (item.getItemId() == R.id.action_group_detail_setting) {
+            //点击菜单栏进入下一个界面去
+            mPresenter.enterGroupSettingActivity();
         }
+
+//        if (item.getItemId() == R.id.action_group_detail_more) {
+//            View view = LayoutInflater.from(this)
+//                    .inflate(R.layout.item_group_detail_popup, null);
+//            //弹出菜单
+//            mPopupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+//            mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//            mPopupWindow.setOutsideTouchable(true);
+//            mPopupWindow.showAsDropDown(mActivityBinding.tlGroupDetailBar);
+//
+//            ItemGroupDetailPopupBinding binding =
+//                    DataBindingUtil.bind(view);
+//            ItemGroupDetailPopupPresenter itemPresenter =
+//                    new ItemGroupDetailPopupPresenter(mActivityBinding, mPopupWindow);
+//            itemPresenter.setGroupId(getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1));
+//            binding.setVariable(BR.itemPresenter, itemPresenter);
+//        }
 
         return true;
     }

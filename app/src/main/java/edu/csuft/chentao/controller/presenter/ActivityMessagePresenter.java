@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -16,7 +17,10 @@ import java.util.List;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
+import edu.csuft.chentao.pojo.bean.LocalAnnouncement;
 import edu.csuft.chentao.ui.activity.CutViewActivity;
+import edu.csuft.chentao.ui.activity.GroupDetailActivity;
+import edu.csuft.chentao.ui.activity.MessageActivity;
 import edu.csuft.chentao.ui.adapter.MessageAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
@@ -29,6 +33,8 @@ import edu.csuft.chentao.utils.CopyUtil;
 import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
+import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
+import edu.csuft.chentao.utils.daoutil.LocalAnnouncementDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-29 13:51.
@@ -45,8 +51,13 @@ public class ActivityMessagePresenter extends BasePresenter {
     private List<ChattingMessage> mChattingMessageList = null;
     private Context mContext = null;
     private int mOffset = 0;
-
     private int mGroupId;
+
+    /**
+     * 新的公告集合
+     */
+    private List<LocalAnnouncement> mPopupAnnouncementList;
+    private int mAnnouncementIndex = 0;
 
     public ActivityMessagePresenter(ActivityMessageBinding activityBinding, Object object1) {
         mActivityBinding = activityBinding;
@@ -86,6 +97,10 @@ public class ActivityMessagePresenter extends BasePresenter {
                 .smoothScrollToPosition(mActivityBinding.rvMessageContent,
                         null, (mChattingMessageList.size() == 0 ? 0 : mChattingMessageList.size()));
         mActivityBinding.setVariable(BR.adapter, mAdapter);
+        mActivityBinding.setVariable(BR.title, GroupsDaoUtil.getGroups(mGroupId).getGroupname());
+
+        //弹出公告框
+        showPopupAnnouncement();
     }
 
     @Override
@@ -161,6 +176,13 @@ public class ActivityMessagePresenter extends BasePresenter {
                 mActivityBinding.srlMessageRefresh.setRefreshing(false);
             }
         });
+
+        mActivityBinding.includeToolbar.layoutToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MessageActivity) mActivityBinding.getRoot().getContext()).finish();
+            }
+        });
     }
 
     /**
@@ -171,4 +193,76 @@ public class ActivityMessagePresenter extends BasePresenter {
         Collections.reverse(list);
         return list;
     }
+
+    private void showPopupAnnouncement() {
+        mPopupAnnouncementList = LocalAnnouncementDaoUtil.getAllLocalAnnouncementsWithNew(mGroupId, true);
+        if (mPopupAnnouncementList.size() != 0) {
+            //显示公告框
+            mActivityBinding.includePopupAnnouncement.layoutPopupAnnouncement.setVisibility(View.VISIBLE);
+            mActivityBinding.includePopupAnnouncement.setVariable(BR.presenter, this);
+
+            bindLocalAnnouncement();
+            showNextAndPrevious();
+        }
+    }
+
+    /**
+     * 绑定数据
+     */
+    private void bindLocalAnnouncement() {
+        mActivityBinding.includePopupAnnouncement.setVariable(BR.announcement, mPopupAnnouncementList.get(mAnnouncementIndex));
+    }
+
+    /**
+     * 关闭弹出公告框
+     */
+    public void doClickToCloseOrOpen() {
+        mActivityBinding.includePopupAnnouncement.layoutPopupAnnouncement.setVisibility(View.GONE);
+    }
+
+    /**
+     * 点击显示下一条公告
+     */
+    public void doClickToNext() {
+
+        if (mAnnouncementIndex < mPopupAnnouncementList.size() - 1) {
+            mAnnouncementIndex++;
+        }
+
+        bindLocalAnnouncement();
+        showNextAndPrevious();
+    }
+
+    /**
+     * 点击显示上一条公告
+     */
+    public void doClickToPrevious() {
+
+        if (mAnnouncementIndex > 0) {
+            mAnnouncementIndex--;
+        }
+
+        bindLocalAnnouncement();
+        showNextAndPrevious();
+    }
+
+    /**
+     * 控制下一条和上一条开关的显示
+     */
+    private void showNextAndPrevious() {
+        if (mPopupAnnouncementList.size() == 1) {
+            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementLeft.setVisibility(View.GONE);
+            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementRight.setVisibility(View.GONE);
+        } else if (mAnnouncementIndex == 0) {  //如果当前是第一条公告，则隐藏上翻
+            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementLeft.setVisibility(View.GONE);
+            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementRight.setVisibility(View.VISIBLE);
+        } else if (mAnnouncementIndex == mPopupAnnouncementList.size() - 1) {
+            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementLeft.setVisibility(View.VISIBLE);
+            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementRight.setVisibility(View.GONE);
+        } else {
+            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementLeft.setVisibility(View.VISIBLE);
+            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementRight.setVisibility(View.VISIBLE);
+        }
+    }
+
 }

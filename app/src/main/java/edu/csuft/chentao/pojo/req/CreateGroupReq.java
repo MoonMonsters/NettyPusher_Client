@@ -7,6 +7,10 @@ import java.io.Serializable;
  *         <p>
  *         2016年12月8日 下午9:49:23
  */
+
+/**
+ * 创建群操作
+ */
 public class CreateGroupReq implements Serializable {
 
     private static final long serialVersionUID = 1L;

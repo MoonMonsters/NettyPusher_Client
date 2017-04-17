@@ -39,6 +39,9 @@ public class MessageActivity extends BaseActivity {
 
     @Override
     public void initData() {
+
+        //设置toolbar
+        setSupportActionBar(mActivityBinding.includeToolbar.layoutToolbar);
         //获得传递进来的群id
         groupId = this.getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1);
 

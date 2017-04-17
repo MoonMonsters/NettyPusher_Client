@@ -2,10 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--<item-->
+    <!--android:id="@+id/action_group_detail_more"-->
+    <!--android:icon="@drawable/ic_more"-->
+    <!--android:title="@string/string_more"-->
+    <!--app:showAsAction="always" />-->
+
     <item
-        android:id="@+id/action_group_detail_more"
-        android:icon="@drawable/ic_more"
-        android:title="@string/string_more"
+        android:id="@+id/action_group_detail_setting"
+        android:icon="@drawable/ic_group_settings"
+        android:title="设置"
         app:showAsAction="always" />
 
 </menu>

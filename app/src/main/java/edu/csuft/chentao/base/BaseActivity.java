@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import edu.csuft.chentao.ui.activity.GroupDetailActivity;
+import edu.csuft.chentao.ui.activity.ImageActivity;
+import edu.csuft.chentao.ui.activity.MainActivity;
+
 /**
  * Created by Chalmers on 2016-12-16 13:44.
  * email:qxinhai@yeah.net
@@ -21,6 +25,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         mViewDataBinding = DataBindingUtil.setContentView(this, getLayoutResourceId());
         setActivityBinding(mViewDataBinding);
         initData();
+
+        if (!(this instanceof MainActivity) && !(this instanceof ImageActivity)) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     /**

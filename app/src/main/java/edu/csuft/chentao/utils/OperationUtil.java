@@ -421,4 +421,62 @@ public class OperationUtil {
         actionBar.hide();
     }
 
+    /**
+     * 获得图片的宽度
+     *
+     * @param buf 图片资源
+     * @return 图片宽度
+     */
+    public static int getImageWidth(byte[] buf) {
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+        /**
+         * 最关键在此，把options.inJustDecodeBounds = true;
+         * 这里再decodeFile()，返回的bitmap为空，但此时调用options.outHeight时，已经包含了图片的高了
+         */
+        options.inJustDecodeBounds = true;
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(buf, 0, buf.length, options);
+
+        return options.outWidth;
+    }
+
+    /**
+     * 获得图片高度
+     *
+     * @param buf 图片资源
+     * @return 图片高度
+     */
+    public static int getImageHeight(byte[] buf) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+        /**
+         * 最关键在此，把options.inJustDecodeBounds = true;
+         * 这里再decodeFile()，返回的bitmap为空，但此时调用options.outHeight时，已经包含了图片的高了
+         */
+        options.inJustDecodeBounds = true;
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(buf, 0, buf.length, options);
+
+        return options.outHeight;
+    }
+
+    /**
+     * 字符串的拼接,用空格隔开
+     *
+     * @param values 字符串的所有值
+     * @return 拼接后的字符串
+     */
+    public static String appendString(String... values) {
+        StringBuilder sb = new StringBuilder();
+        for (String str : values) {
+            sb.append(str);
+            sb.append(" ");
+        }
+        sb.replace(sb.length() - 1, sb.length(), "");
+
+        return sb.toString();
+    }
+
 }

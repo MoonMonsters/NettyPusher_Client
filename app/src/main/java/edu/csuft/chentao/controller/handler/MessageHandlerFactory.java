@@ -3,6 +3,7 @@ package edu.csuft.chentao.controller.handler;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.csuft.chentao.pojo.req.Announcement;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.pojo.resp.CreateGroupResp;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
@@ -37,7 +38,7 @@ class MessageHandlerFactory {
         Handler handler = null;
 
         //得到object对应的type值
-        MessageHandlerFactory.EHandler type = getHandlerType(object);
+        EHandler type = getHandlerType(object);
 
         //判断type对应的Handler对象是否存在，存在则直接取出，节省内容，提高速度
         if (handlerMap.get(type) != null) {
@@ -66,6 +67,8 @@ class MessageHandlerFactory {
             handler = new UserIdsInGroupHandler();
         } else if (object instanceof GroupReminderResp) {
             handler = new GroupReminderHandler();
+        } else if (object instanceof Announcement) {
+            handler = new AnnouncementHandler();
         }
 
         //将Handler对象放入Map中
@@ -82,25 +85,27 @@ class MessageHandlerFactory {
      * @param object 对象
      * @return type值
      */
-    private static MessageHandlerFactory.EHandler getHandlerType(Object object) {
-        MessageHandlerFactory.EHandler type = MessageHandlerFactory.EHandler.NONEOBJECT;
+    private static EHandler getHandlerType(Object object) {
+        EHandler type = EHandler.NONEOBJECT;
 
         if (object instanceof CreateGroupResp) {
-            type = MessageHandlerFactory.EHandler.CreateGroupResp;
+            type = EHandler.CreateGroupResp;
         } else if (object instanceof GroupInfoResp) {
-            type = MessageHandlerFactory.EHandler.GroupInfoResp;
+            type = EHandler.GroupInfoResp;
         } else if (object instanceof RegisterResp) {
-            type = MessageHandlerFactory.EHandler.RegisterResp;
+            type = EHandler.RegisterResp;
         } else if (object instanceof ReturnInfoResp) {
-            type = MessageHandlerFactory.EHandler.ReturnInfoResp;
+            type = EHandler.ReturnInfoResp;
         } else if (object instanceof UserInfoResp) {
-            type = MessageHandlerFactory.EHandler.UserInfoResp;
+            type = EHandler.UserInfoResp;
         } else if (object instanceof Message) {
-            type = MessageHandlerFactory.EHandler.Message;
+            type = EHandler.Message;
         } else if (object instanceof UserIdsInGroupResp) {
-            type = MessageHandlerFactory.EHandler.UserIdsInGroupResp;
+            type = EHandler.UserIdsInGroupResp;
         } else if (object instanceof GroupReminderResp) {
-            type = MessageHandlerFactory.EHandler.GroupReminderResp;
+            type = EHandler.GroupReminderResp;
+        } else if (object instanceof Announcement) {
+            type = EHandler.Announcement;
         }
 
         return type;
@@ -118,6 +123,7 @@ class MessageHandlerFactory {
         UserInfoResp,
         Message,
         UserIdsInGroupResp,
-        GroupReminderResp
+        GroupReminderResp,
+        Announcement
     }
 }

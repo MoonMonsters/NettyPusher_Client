@@ -4,6 +4,7 @@ import edu.csuft.chentao.dao.ChattingMessageDao;
 import edu.csuft.chentao.dao.GroupChattingItemDao;
 import edu.csuft.chentao.dao.GroupsDao;
 import edu.csuft.chentao.dao.HintDao;
+import edu.csuft.chentao.dao.LocalAnnouncementDao;
 import edu.csuft.chentao.dao.UserHeadDao;
 import edu.csuft.chentao.dao.UserInfoDao;
 
@@ -60,5 +61,12 @@ class DaoSessionUtil {
     static HintDao getHintDao() {
         return GreenDaoUtil.getInstance().getDaoSession()
                 .getHintDao();
+    }
+
+    /**
+     * 获得LocalAnnouncementDao对象
+     */
+    static LocalAnnouncementDao getLocalAnnouncementDao() {
+        return GreenDaoUtil.getInstance().getDaoSession().getLocalAnnouncementDao();
     }
 }

@@ -17,8 +17,7 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".ui.activity.SplashActivity">
+        <activity android:name=".ui.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,10 +30,11 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity
-            android:name=".ui.activity.LoginActivity"/>
+        <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.RegisterActivity" />
-        <activity android:name=".ui.activity.MessageActivity" />
+        <activity
+            android:name=".ui.activity.MessageActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <service
             android:name=".service.LoginReqIntentService"
@@ -52,7 +52,16 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".ui.activity.CreateGroupActivity" />
         <activity android:name=".ui.activity.HintActivity" />
-        <activity android:name=".ui.activity.CutViewActivity"></activity>
+        <activity android:name=".ui.activity.CutViewActivity" />
+        <activity
+            android:name=".ui.activity.GroupSettingActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".ui.activity.AnnouncementActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".ui.activity.PublishAnnouncementActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

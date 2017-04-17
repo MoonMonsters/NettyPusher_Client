@@ -13,6 +13,7 @@ import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.bean.GroupUser;
 import edu.csuft.chentao.pojo.bean.Hint;
+import edu.csuft.chentao.pojo.bean.LocalAnnouncement;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 
@@ -21,6 +22,7 @@ import edu.csuft.chentao.dao.GroupChattingItemDao;
 import edu.csuft.chentao.dao.GroupsDao;
 import edu.csuft.chentao.dao.GroupUserDao;
 import edu.csuft.chentao.dao.HintDao;
+import edu.csuft.chentao.dao.LocalAnnouncementDao;
 import edu.csuft.chentao.dao.UserHeadDao;
 import edu.csuft.chentao.dao.UserInfoDao;
 
@@ -38,6 +40,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig groupsDaoConfig;
     private final DaoConfig groupUserDaoConfig;
     private final DaoConfig hintDaoConfig;
+    private final DaoConfig localAnnouncementDaoConfig;
     private final DaoConfig userHeadDaoConfig;
     private final DaoConfig userInfoDaoConfig;
 
@@ -46,6 +49,7 @@ public class DaoSession extends AbstractDaoSession {
     private final GroupsDao groupsDao;
     private final GroupUserDao groupUserDao;
     private final HintDao hintDao;
+    private final LocalAnnouncementDao localAnnouncementDao;
     private final UserHeadDao userHeadDao;
     private final UserInfoDao userInfoDao;
 
@@ -68,6 +72,9 @@ public class DaoSession extends AbstractDaoSession {
         hintDaoConfig = daoConfigMap.get(HintDao.class).clone();
         hintDaoConfig.initIdentityScope(type);
 
+        localAnnouncementDaoConfig = daoConfigMap.get(LocalAnnouncementDao.class).clone();
+        localAnnouncementDaoConfig.initIdentityScope(type);
+
         userHeadDaoConfig = daoConfigMap.get(UserHeadDao.class).clone();
         userHeadDaoConfig.initIdentityScope(type);
 
@@ -79,6 +86,7 @@ public class DaoSession extends AbstractDaoSession {
         groupsDao = new GroupsDao(groupsDaoConfig, this);
         groupUserDao = new GroupUserDao(groupUserDaoConfig, this);
         hintDao = new HintDao(hintDaoConfig, this);
+        localAnnouncementDao = new LocalAnnouncementDao(localAnnouncementDaoConfig, this);
         userHeadDao = new UserHeadDao(userHeadDaoConfig, this);
         userInfoDao = new UserInfoDao(userInfoDaoConfig, this);
 
@@ -87,6 +95,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(Groups.class, groupsDao);
         registerDao(GroupUser.class, groupUserDao);
         registerDao(Hint.class, hintDao);
+        registerDao(LocalAnnouncement.class, localAnnouncementDao);
         registerDao(UserHead.class, userHeadDao);
         registerDao(UserInfo.class, userInfoDao);
     }
@@ -97,6 +106,7 @@ public class DaoSession extends AbstractDaoSession {
         groupsDaoConfig.clearIdentityScope();
         groupUserDaoConfig.clearIdentityScope();
         hintDaoConfig.clearIdentityScope();
+        localAnnouncementDaoConfig.clearIdentityScope();
         userHeadDaoConfig.clearIdentityScope();
         userInfoDaoConfig.clearIdentityScope();
     }
@@ -119,6 +129,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public HintDao getHintDao() {
         return hintDao;
+    }
+
+    public LocalAnnouncementDao getLocalAnnouncementDao() {
+        return localAnnouncementDao;
     }
 
     public UserHeadDao getUserHeadDao() {

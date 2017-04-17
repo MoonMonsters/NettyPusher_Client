@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="edu.csuft.chentao.ui.activity.AnnouncementActivity">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="adapter"
+            type="edu.csuft.chentao.ui.adapter.AnnouncementAdapter" />
+
+        <variable
+            name="presenter"
+            type="edu.csuft.chentao.controller.presenter.ActivityAnnouncementPresenter" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/activity_announcement"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/include_toolbar"
+            layout="@layout/layout_toolbar"
+            bind:title="@{title}" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/include_toolbar"
+            app:adapter="@{adapter}" />
+
+    </RelativeLayout>
+</layout>

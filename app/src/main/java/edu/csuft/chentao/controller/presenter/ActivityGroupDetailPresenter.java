@@ -1,6 +1,8 @@
 package edu.csuft.chentao.controller.presenter;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.view.View;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -13,6 +15,7 @@ import java.util.Map;
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.ui.activity.GroupDetailActivity;
+import edu.csuft.chentao.ui.activity.GroupSettingActivity;
 import edu.csuft.chentao.ui.adapter.UserInGroupAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityGroupDetailBinding;
@@ -25,6 +28,7 @@ import edu.csuft.chentao.pojo.resp.UserIdsInGroupResp;
 import edu.csuft.chentao.pojo.resp.UserInfoResp;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.SendMessageUtil;
+import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
@@ -40,6 +44,11 @@ public class ActivityGroupDetailPresenter extends BasePresenter {
 
     private ActivityGroupDetailBinding mActivityBinding = null;
     private UserInGroupAdapter mAdapter = null;
+    /**
+     * 登录用户身份
+     */
+    private int mUserCapital = Constant.TYPE_GROUP_CAPITAL_USER;
+
     /**
      * 群id
      */
@@ -57,8 +66,20 @@ public class ActivityGroupDetailPresenter extends BasePresenter {
                 .getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1);
         Groups groups = GroupsDaoUtil.getGroups(mGroupId);
         mActivityBinding.setVariable(BR.groups, groups);
+        //设置toolbar的显示标题
+        mActivityBinding.setVariable(BR.title, groups.getGroupname());
 
         getUserAndGroupInfo();
+    }
+
+    @Override
+    public void initListener() {
+        mActivityBinding.includeToolbar.layoutToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((GroupDetailActivity) mActivityBinding.getRoot().getContext()).finish();
+            }
+        });
     }
 
     /**
@@ -72,6 +93,26 @@ public class ActivityGroupDetailPresenter extends BasePresenter {
         req.setType(Constant.TYPE_USER_GROUP_INFO_GROUP);
         req.setId(mGroupId);
         SendMessageUtil.sendMessage(req);
+    }
+
+    /**
+     * 判断登录用户是否为管理员或者群主
+     */
+    private void judgeCapital(Map<Integer, Integer> idCapital) {
+        //得到登录用户在该群中的身份信息
+        mUserCapital = idCapital.get(SharedPrefUserInfoUtil.getUserId());
+    }
+
+    /**
+     * 点击菜单栏进入群设置界面
+     */
+    public void enterGroupSettingActivity() {
+        Intent intent = new Intent(mActivityBinding.getRoot().getContext(), GroupSettingActivity.class);
+        //得到该群的id，并转发到下一个Activity
+        intent.putExtra(Constant.EXTRA_GROUP_ID, ((GroupDetailActivity) mActivityBinding.getRoot().getContext()).getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1));
+        //把用户身份信息传递到下一个界面去
+        intent.putExtra(Constant.EXTRA_USER_CAPITAL, mUserCapital);
+        mActivityBinding.getRoot().getContext().startActivity(intent);
     }
 
     @Override
@@ -101,6 +142,8 @@ public class ActivityGroupDetailPresenter extends BasePresenter {
             for (UserCapitalResp ucr : resp.getUserIdCapitalList()) {
                 idCapital.put(ucr.getUserId(), ucr.getCapital());
             }
+            //判断用户身份
+            judgeCapital(idCapital);
             mUserInfoList = UserInfoDaoUtil.getAllUserInfosWithGroupIdMap(idCapital);
             mAdapter = new UserInGroupAdapter(mActivityBinding.getRoot().getContext(),
                     mUserInfoList, idCapital, mGroupId);

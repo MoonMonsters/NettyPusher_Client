@@ -69,6 +69,15 @@
     <string name="string_save_image_fail">图片保存失败</string>
     <string name="string_fail">失败</string>
     <string name="string_complete">完成</string>
+    <string name="string_announcement">公告</string>
+    <string name="string_file">文件</string>
+    <string name="string_group_operation">群操作</string>
+    <string name="string_publish_new_annouoncement">发布新公告</string>
+    <string name="string_publish_announcement_content">正文（必填），15~500字</string>
+    <string name="string_publish_announcement_title">标题（必填），4~40字</string>
+    <string name="string_publish">发布</string>
+    <string name="string_publish_announcement_error_title">标题字数不能低于4字</string>
+    <string name="string_publish_announcement_error_content">正文字数不能低于15字</string>
 
     <string-array name="group_tags">
         <item>同学</item>

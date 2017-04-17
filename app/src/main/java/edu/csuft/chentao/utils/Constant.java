@@ -305,6 +305,10 @@ public interface Constant {
      * 传递用户id
      */
     String EXTRA_USER_ID = "extra_user_id";
+    /**
+     * 用户身份
+     */
+    String EXTRA_USER_CAPITAL = "extra.user.capital";
 
     /**
      * 传递Groups数据
@@ -615,6 +619,10 @@ public interface Constant {
      * 用户登录是否成功，把数据从Handler发送到ActivityLoginPresenter中去
      */
     String TAG_USER_LOGIN_PRESENTER = "tag.user.login.presenter";
+    /**
+     * 将在AnnouncemntActivity接收到了公告时，更新界面
+     */
+    String TAG_ANNOUNCEMENT_PRESENTER = "tag.announcement.presenter";
 
     /**
      * 从CreateGroupActivity传递Image数据到Presenter中去

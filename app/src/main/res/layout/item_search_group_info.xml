@@ -17,8 +17,11 @@
     </data>
 
     <LinearLayout
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
         <ImageView
@@ -48,11 +51,11 @@
             android:text="@{OperationUtil.getTagAndNumber(groupInfo)}" />
 
         <android.support.v7.widget.AppCompatButton
-            android:background="@drawable/selector_button_smaller"
             android:id="@+id/acbtn_item_search_group_enter"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_gravity="center"
+            android:background="@drawable/selector_button_smaller"
             android:onClick="@{()->itemPresenter.onClickToEnterGroup()}"
             android:text="@string/string_enter_group" />
     </LinearLayout>

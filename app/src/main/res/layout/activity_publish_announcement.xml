@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="edu.csuft.chentao.ui.activity.PublishAnnouncementActivity">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="presenter"
+            type="edu.csuft.chentao.controller.presenter.ActivityPublishAnnouncementPresenter" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/activity_publish_announcement"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F5F5F5"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/include_toolbar"
+            layout="@layout/layout_toolbar"
+            bind:title="@{title}" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_publish_announcement_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:counterMaxLength="40">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:hint="@string/string_publish_announcement_title"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLength="40"
+                android:minLines="1"
+                android:onTextChanged="@{presenter.onTextChangedForTitle}"
+                android:padding="10dp"
+                android:textSize="15sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_publish_announcement_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:counterMaxLength="500">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:hint="@string/string_publish_announcement_content"
+                android:lineSpacingMultiplier="1.2"
+                android:maxLength="500"
+                android:minLines="5"
+                android:onTextChanged="@{presenter.onTextChangedForContent}"
+                android:padding="10dp"
+                android:textSize="15sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_publish_announcement_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/selector_button_send"
+                android:onClick="@{()->presenter.doClickToPublishNewAnnouncement()}"
+                android:text="@string/string_publish" />
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

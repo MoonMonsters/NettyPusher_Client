@@ -86,14 +86,9 @@
                 android:layout_below="@id/tv_message_right_name"
                 android:layout_toLeftOf="@id/iv_message_right_head"
                 android:layout_toStartOf="@id/iv_message_right_head"
-                android:background="@drawable/ic_image_right"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{()->itemPresenter.onClickForImageDetail()}"
-                android:paddingEnd="0dp"
-                android:paddingLeft="13dp"
-                android:paddingRight="0dp"
-                android:paddingStart="13dp"
-                android:paddingTop="5dp"
+                android:padding="5dp"
                 android:visibility="@{msg.typemsg==1?View.VISIBLE:View.GONE}"
                 app:imageBytes="@{msg.image}" />
         </RelativeLayout>

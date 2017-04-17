@@ -6,6 +6,8 @@ import edu.csuft.chentao.pojo.bean.ChattingMessage;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.bean.Hint;
+import edu.csuft.chentao.pojo.bean.LocalAnnouncement;
+import edu.csuft.chentao.pojo.req.Announcement;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.pojo.resp.GroupReminderResp;
@@ -154,4 +156,23 @@ public class CopyUtil {
 
         return hint;
     }
+
+    /**
+     * 将Announcement对象转换成LocalAnnouncement对象
+     */
+    public static LocalAnnouncement announcementToLocalAnnouncement(Announcement announcement) {
+        LocalAnnouncement la = new LocalAnnouncement();
+
+        la.setUsername(announcement.getUsername());
+        la.setContent(announcement.getContent());
+        la.setGroupid(announcement.getGroupid());
+        la.setIsnew(true);
+        la.setSerialnumber(announcement.getSerialnumber());
+        la.setTime(announcement.getTime());
+        la.setTitle(announcement.getTitle());
+        la.setUserid(announcement.getUserid());
+
+        return la;
+    }
+
 }
