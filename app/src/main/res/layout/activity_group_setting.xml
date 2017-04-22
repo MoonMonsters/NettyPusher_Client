@@ -28,8 +28,8 @@
 
         <android.support.v7.widget.AppCompatTextView
             style="@style/group_setting_textview"
-            android:drawableLeft="@drawable/ic_announcement"
-            android:drawableStart="@drawable/ic_announcement"
+            android:drawableLeft="@drawable/ic_announcement2"
+            android:drawableStart="@drawable/ic_announcement2"
             android:onClick="@{()->presenter.doClickToAnnouncement()}"
             android:text="@string/string_announcement" />
 

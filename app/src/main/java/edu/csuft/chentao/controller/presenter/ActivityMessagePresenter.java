@@ -2,9 +2,12 @@ package edu.csuft.chentao.controller.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -17,6 +20,7 @@ import java.util.List;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
+import edu.csuft.chentao.databinding.ItemPopupAnnouncementsBinding;
 import edu.csuft.chentao.pojo.bean.LocalAnnouncement;
 import edu.csuft.chentao.ui.activity.CutViewActivity;
 import edu.csuft.chentao.ui.activity.GroupDetailActivity;
@@ -49,19 +53,11 @@ public class ActivityMessagePresenter extends BasePresenter {
     private ActivityMessageBinding mActivityBinding = null;
     private MessageAdapter mAdapter = null;
     private List<ChattingMessage> mChattingMessageList = null;
-    private Context mContext = null;
     private int mOffset = 0;
     private int mGroupId;
 
-    /**
-     * 新的公告集合
-     */
-    private List<LocalAnnouncement> mPopupAnnouncementList;
-    private int mAnnouncementIndex = 0;
-
     public ActivityMessagePresenter(ActivityMessageBinding activityBinding, Object object1) {
         mActivityBinding = activityBinding;
-        mContext = mActivityBinding.getRoot().getContext();
         this.mGroupId = (int) object1;
 
         init();
@@ -92,7 +88,7 @@ public class ActivityMessagePresenter extends BasePresenter {
         mAdapter = new MessageAdapter(mActivityBinding.getRoot().getContext(), mChattingMessageList);
 
         //设置布局方式
-        mActivityBinding.rvMessageContent.setLayoutManager(new LinearLayoutManager(mContext));
+        mActivityBinding.rvMessageContent.setLayoutManager(new LinearLayoutManager(mActivityBinding.getRoot().getContext()));
         mActivityBinding.rvMessageContent.getLayoutManager()
                 .smoothScrollToPosition(mActivityBinding.rvMessageContent,
                         null, (mChattingMessageList.size() == 0 ? 0 : mChattingMessageList.size()));
@@ -145,7 +141,7 @@ public class ActivityMessagePresenter extends BasePresenter {
     public void onClickToSendTextMessage() {
         String content = mActivityBinding.etMessageInput.getText().toString();
         if (TextUtils.isEmpty(content)) {   //发送内容为空
-            Toast.makeText(mContext, OperationUtil.getString(mActivityBinding, R.string.string_not_send_empty_message), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivityBinding.getRoot().getContext(), OperationUtil.getString(mActivityBinding, R.string.string_not_send_empty_message), Toast.LENGTH_SHORT).show();
         } else {
             //发送文字消息
             Message message = OperationUtil.sendChattingMessage(mGroupId, Constant.TYPE_MSG_TEXT,
@@ -194,75 +190,19 @@ public class ActivityMessagePresenter extends BasePresenter {
         return list;
     }
 
+    /**
+     * 弹出对话框
+     */
     private void showPopupAnnouncement() {
-        mPopupAnnouncementList = LocalAnnouncementDaoUtil.getAllLocalAnnouncementsWithNew(mGroupId, true);
-        if (mPopupAnnouncementList.size() != 0) {
-            //显示公告框
-            mActivityBinding.includePopupAnnouncement.layoutPopupAnnouncement.setVisibility(View.VISIBLE);
-            mActivityBinding.includePopupAnnouncement.setVariable(BR.presenter, this);
-
-            bindLocalAnnouncement();
-            showNextAndPrevious();
+        List<LocalAnnouncement> localAnnouncementList = LocalAnnouncementDaoUtil.getAllLocalAnnouncementsWithNew(mGroupId, true);
+        if (localAnnouncementList.size() != 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mActivityBinding.getRoot().getContext());
+            ItemPopupAnnouncementsBinding binding = DataBindingUtil.inflate(LayoutInflater.from(mActivityBinding.getRoot().getContext()), R.layout.item_popup_announcements, null, false);
+            AlertDialog dialog = builder.setView(binding.getRoot())
+                    .setCancelable(false).create();
+            dialog.show();
+            binding.setVariable(BR.announcement, localAnnouncementList.get(0));
+            binding.setVariable(BR.itemPresenter, new ItemPopupAnnouncementPresenter(binding, dialog));
         }
     }
-
-    /**
-     * 绑定数据
-     */
-    private void bindLocalAnnouncement() {
-        mActivityBinding.includePopupAnnouncement.setVariable(BR.announcement, mPopupAnnouncementList.get(mAnnouncementIndex));
-    }
-
-    /**
-     * 关闭弹出公告框
-     */
-    public void doClickToCloseOrOpen() {
-        mActivityBinding.includePopupAnnouncement.layoutPopupAnnouncement.setVisibility(View.GONE);
-    }
-
-    /**
-     * 点击显示下一条公告
-     */
-    public void doClickToNext() {
-
-        if (mAnnouncementIndex < mPopupAnnouncementList.size() - 1) {
-            mAnnouncementIndex++;
-        }
-
-        bindLocalAnnouncement();
-        showNextAndPrevious();
-    }
-
-    /**
-     * 点击显示上一条公告
-     */
-    public void doClickToPrevious() {
-
-        if (mAnnouncementIndex > 0) {
-            mAnnouncementIndex--;
-        }
-
-        bindLocalAnnouncement();
-        showNextAndPrevious();
-    }
-
-    /**
-     * 控制下一条和上一条开关的显示
-     */
-    private void showNextAndPrevious() {
-        if (mPopupAnnouncementList.size() == 1) {
-            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementLeft.setVisibility(View.GONE);
-            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementRight.setVisibility(View.GONE);
-        } else if (mAnnouncementIndex == 0) {  //如果当前是第一条公告，则隐藏上翻
-            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementLeft.setVisibility(View.GONE);
-            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementRight.setVisibility(View.VISIBLE);
-        } else if (mAnnouncementIndex == mPopupAnnouncementList.size() - 1) {
-            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementLeft.setVisibility(View.VISIBLE);
-            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementRight.setVisibility(View.GONE);
-        } else {
-            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementLeft.setVisibility(View.VISIBLE);
-            mActivityBinding.includePopupAnnouncement.ivPopupAnnouncementRight.setVisibility(View.VISIBLE);
-        }
-    }
-
 }

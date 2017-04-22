@@ -78,6 +78,8 @@
     <string name="string_publish">发布</string>
     <string name="string_publish_announcement_error_title">标题字数不能低于4字</string>
     <string name="string_publish_announcement_error_content">正文字数不能低于15字</string>
+    <string name="string_group_announcement">群公告</string>
+    <string name="string_i_know">我知道了</string>
 
     <string-array name="group_tags">
         <item>同学</item>

@@ -24,7 +24,7 @@
             type="String" />
     </data>
 
-    <FrameLayout
+    <android.support.percent.PercentFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -96,12 +96,5 @@
             </android.support.v4.widget.SwipeRefreshLayout>
         </RelativeLayout>
 
-        <include
-            android:id="@+id/include_popup_announcement"
-            layout="@layout/item_popup_announcements"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            bind:itemPresenter="@{itemPresenter}" />
-    </FrameLayout>
+    </android.support.percent.PercentFrameLayout>
 </layout>

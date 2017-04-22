@@ -1,30 +1,33 @@
 package edu.csuft.chentao.controller.presenter;
 
-import android.databinding.DataBindingUtil;
-import android.view.LayoutInflater;
+import android.support.v7.app.AlertDialog;
 
-import java.util.List;
-
-import edu.csuft.chentao.BR;
-import edu.csuft.chentao.R;
-import edu.csuft.chentao.databinding.ActivityMessageBinding;
 import edu.csuft.chentao.databinding.ItemPopupAnnouncementsBinding;
-import edu.csuft.chentao.pojo.bean.LocalAnnouncement;
 import edu.csuft.chentao.utils.LoggerUtil;
 
 public class ItemPopupAnnouncementPresenter {
 
-    private ActivityMessageBinding mActivityBinding;
     private ItemPopupAnnouncementsBinding mItemBinding;
-    private List<LocalAnnouncement> mLocalAnnouncementList;
-    private int mAnnouncementIndex;
+    private AlertDialog mDialog;
 
-    public ItemPopupAnnouncementPresenter(ActivityMessageBinding activityBinding, List<LocalAnnouncement> localAnnouncementList) {
-        this.mActivityBinding = activityBinding;
-        mItemBinding = DataBindingUtil.inflate(LayoutInflater.from(mActivityBinding.getRoot().getContext()), R.layout.item_popup_announcements,
-                null, false);
-        this.mLocalAnnouncementList = localAnnouncementList;
-
+    public ItemPopupAnnouncementPresenter(ItemPopupAnnouncementsBinding itemBinding, AlertDialog dialog) {
+        this.mItemBinding = itemBinding;
+        this.mDialog = dialog;
     }
+
+    /**
+     * 进入公告界面
+     */
+    public void doClickToEnterAnnouncementActivity() {
+        LoggerUtil.showToast(mItemBinding.getRoot().getContext(), "进入公告界面");
+    }
+
+    /**
+     * 隐藏对话框
+     */
+    public void doClickToHideDialog() {
+        mDialog.dismiss();
+    }
+
 
 }

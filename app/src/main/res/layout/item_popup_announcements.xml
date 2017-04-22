@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -12,34 +13,74 @@
         <variable
             name="itemPresenter"
             type="edu.csuft.chentao.controller.presenter.ItemPopupAnnouncementPresenter" />
-
-        <variable
-            name="presenter"
-            type="edu.csuft.chentao.controller.presenter.ActivityMessagePresenter" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:id="@+id/layout_popup_announcement"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:background="@android:color/white"
+        android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/iv_popup_announcement_close"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="@drawable/ic_close"
-            android:onClick="@{()->presenter.doClickToCloseOrOpen()}" />
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingEnd="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingStart="5dp"
+            android:paddingTop="10dp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_popup_announcement_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/ic_announcement" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/iv_popup_announcement_icon"
+                android:layout_toRightOf="@id/iv_popup_announcement_icon"
+                android:gravity="center_vertical"
+                android:text="@string/string_group_announcement"
+                android:textColor="@android:color/white"
+                android:textSize="25sp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:drawableEnd="@drawable/ic_more_right"
+                android:drawableRight="@drawable/ic_more_right"
+                android:gravity="center"
+                android:onClick="@{()->itemPresenter.doClickToEnterAnnouncementActivity()}"
+                android:text="@string/string_more"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+        </RelativeLayout>
 
         <android.support.v7.widget.AppCompatTextView
+            android:textScaleX="1.2"
             android:id="@+id/tv_popup_announcement_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:lineSpacingMultiplier="1.2"
+            android:paddingEnd="10dp"
             android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:paddingStart="10dp"
             android:paddingTop="5dp"
             android:text="@{announcement.title}"
@@ -47,13 +88,16 @@
             android:textSize="20sp" />
 
         <android.support.v7.widget.AppCompatTextView
+            android:textScaleX="1.2"
             android:id="@+id/tv_popup_announcement_name_and_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:lineSpacingMultiplier="1.2"
             android:paddingBottom="5dp"
+            android:paddingEnd="10dp"
             android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:paddingStart="10dp"
             android:text="@{OperationUtil.appendString(announcement.username,announcement.time)}"
             android:textColor="@android:color/black"
@@ -64,46 +108,39 @@
             android:layout_height="2dp" />
 
         <android.support.v7.widget.AppCompatTextView
+            android:textScaleX="1.2"
             android:id="@+id/tv_popup_announcement_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:lineSpacingMultiplier="1.2"
-            android:paddingBottom="5dp"
+            android:lineSpacingMultiplier="1.5"
+            android:minLines="5"
+            android:paddingEnd="10dp"
             android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:paddingStart="10dp"
-            android:paddingTop="5dp"
+            android:paddingTop="10dp"
             android:text="@{announcement.content}"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
-        <View
+        <android.support.percent.PercentRelativeLayout
+            android:paddingBottom="8dp"
             android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="@android:color/darker_gray" />
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right|end"
-            android:orientation="horizontal">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_popup_announcement_left"
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:background="@drawable/ic_arrow_left"
-                android:onClick="@{()->presenter.doClickToPrevious()}" />
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_popup_announcement_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/ic_arrow_right"
-                android:onClick="@{()->presenter.doClickToNext()}" />
-        </LinearLayout>
-
+                android:background="@color/bnbActive"
+                android:gravity="center"
+                android:onClick="@{()->itemPresenter.doClickToHideDialog()}"
+                android:text="@string/string_i_know"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                app:layout_widthPercent="80%" />
+        </android.support.percent.PercentRelativeLayout>
     </LinearLayout>
 </layout>
