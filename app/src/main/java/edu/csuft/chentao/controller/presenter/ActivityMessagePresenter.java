@@ -202,7 +202,7 @@ public class ActivityMessagePresenter extends BasePresenter {
                     .setCancelable(false).create();
             dialog.show();
             binding.setVariable(BR.announcement, localAnnouncementList.get(0));
-            binding.setVariable(BR.itemPresenter, new ItemPopupAnnouncementPresenter(binding, dialog));
+            binding.setVariable(BR.itemPresenter, new ItemPopupAnnouncementPresenter(binding, dialog,mGroupId));
         }
     }
 }
