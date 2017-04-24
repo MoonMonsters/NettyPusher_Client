@@ -9,6 +9,7 @@ import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityGroupSettingBinding;
 import edu.csuft.chentao.pojo.req.GroupOperationReq;
 import edu.csuft.chentao.ui.activity.AnnouncementActivity;
+import edu.csuft.chentao.ui.activity.FileActivity;
 import edu.csuft.chentao.ui.activity.GroupSettingActivity;
 import edu.csuft.chentao.ui.activity.MainActivity;
 import edu.csuft.chentao.ui.view.CustomerAlertDialog;
@@ -53,7 +54,9 @@ public class ActivityGroupSettingPresenter extends BasePresenter implements Invi
      * 文件系统
      */
     public void doClickToFile() {
-
+        Intent intent = new Intent(mActivityBinding.getRoot().getContext(), FileActivity.class);
+        intent.putExtra(Constant.EXTRA_GROUP_ID, mGroupId);
+        mActivityBinding.getRoot().getContext().startActivity(intent);
     }
 
     /**
