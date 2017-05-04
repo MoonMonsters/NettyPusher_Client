@@ -10,7 +10,6 @@ import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityImageBinding;
-import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.ui.activity.ImageActivity;
 import edu.csuft.chentao.utils.Constant;
@@ -36,7 +35,7 @@ public class ActivityImagePresenter extends BasePresenter {
     public void onClickToSaveImage() {
         byte[] buf = mActivityBinding.getDetail().getImage();
         try {
-            File file = OperationUtil.createFile(Constant.PATH, OperationUtil.getImageName());
+            File file = OperationUtil.createFile(Constant.PATH_IMAGE, OperationUtil.getImageName());
             if (file != null) {  //文件创建成功
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(buf);

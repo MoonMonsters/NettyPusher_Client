@@ -32,9 +32,15 @@ public interface Constant {
     int CONNECTION_PORT = 10101;
 
     /**
-     * 图片缓存文件夹
+     * 图片缓存目录
      */
-    String PATH = Environment.getExternalStorageDirectory().toString() + File.separator + "NettyPusher_imageCache";
+    String PATH_IMAGE = Environment.getExternalStorageDirectory().toString() + File.separator + "NettyPusher"
+            + File.separator + "image";
+    /**
+     * 文件下载目录
+     */
+    String PATH_FILE = Environment.getExternalStorageDirectory().toString() + File.separator + "NettyPusher"
+            + File.separator + "file";
     /**
      * 图片名称
      */
@@ -161,6 +167,19 @@ public interface Constant {
      */
     int TYPE_RETURN_INFO_INVITE_REPEAT = 20;
     /**
+     * 文件列表数据为0
+     */
+    int TYPE_RETURN_INFO_FILE_LIST_SIZE_0 = 21;
+    /**
+     * 删除文件成功
+     */
+    int TYPE_RETURN_INFO_REMOVE_FILE_SUCCESS = 22;
+    /**
+     * 删除文件失败
+     */
+    int TYPE_RETURN_INFO_REMOVE_FILE_FAIL = 23;
+
+    /**
      * 获取用户信息
      */
     int TYPE_GET_INFO_USERINFO = 0;
@@ -180,6 +199,18 @@ public interface Constant {
      * 根据标签搜索
      */
     int TYPE_GET_INFO_SEARCH_GROUP_TAG = 4;
+    /**
+     * 得到群中所有的文件列表
+     */
+    int TYPE_GET_INFO_GROUP_FILE_LIST = 5;
+    /**
+     * 下载文件
+     */
+    int TYPE_GET_INFO_DOWNLOAD_FILE = 6;
+    /**
+     * 删除文件
+     */
+    int TYPE_GET_INFO_REMOVE_FILE = 7;
 
     /**
      * 更新昵称
@@ -623,6 +654,19 @@ public interface Constant {
      * 将在AnnouncemntActivity接收到了公告时，更新界面
      */
     String TAG_ANNOUNCEMENT_PRESENTER = "tag.announcement.presenter";
+    /**
+     * 将FileZip类对象传递到ActivityFilePresenter类去
+     */
+    String TAG_FILE_PRESENTER = "tag.file.presenter";
+    /**
+     * 刷新界面
+     */
+    String TAG_FILE_PRESENTER_REFRESH = "tag.file.presenter.refresh";
+    /**
+     * 删除文件
+     */
+    String TAG_FILE_PRESENTER_REMOVE_FILE = "tag.file.presenter.remove_file";
+
 
     /**
      * 从CreateGroupActivity传递Image数据到Presenter中去

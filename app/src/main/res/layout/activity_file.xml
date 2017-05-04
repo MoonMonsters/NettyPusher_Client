@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.csuft.chentao.ui.activity.FileActivity">
 
@@ -25,5 +26,19 @@
             layout="@layout/layout_toolbar"
             bind:title="@{title}" />
 
+        <com.fortysevendeg.swipelistview.SwipeListView
+            android:id="@+id/slv_file_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/include_toolbar"
+            swipe:swipeActionLeft="reveal"
+            swipe:swipeBackView="@+id/id_file_back"
+            swipe:swipeCloseAllItemsWhenMoveList="true"
+            swipe:swipeFrontView="@+id/id_file_front"
+            swipe:swipeMode="left"
+            swipe:swipeOffsetLeft="200dp"
+            swipe:swipeOpenOnLongPress="false" />
+
+        <requestFocus />
     </RelativeLayout>
 </layout>

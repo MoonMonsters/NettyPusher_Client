@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.csuft.chentao.pojo.req.Announcement;
+import edu.csuft.chentao.pojo.req.FileZip;
 import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.pojo.resp.CreateGroupResp;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
@@ -69,6 +70,8 @@ class MessageHandlerFactory {
             handler = new GroupReminderHandler();
         } else if (object instanceof Announcement) {
             handler = new AnnouncementHandler();
+        } else if (object instanceof FileZip) {
+            handler = new FileZipHandler();
         }
 
         //将Handler对象放入Map中
@@ -106,6 +109,8 @@ class MessageHandlerFactory {
             type = EHandler.GroupReminderResp;
         } else if (object instanceof Announcement) {
             type = EHandler.Announcement;
+        } else if (object instanceof FileZip) {
+            type = EHandler.FileZip;
         }
 
         return type;
@@ -124,6 +129,7 @@ class MessageHandlerFactory {
         Message,
         UserIdsInGroupResp,
         GroupReminderResp,
-        Announcement
+        Announcement,
+        FileZip
     }
 }

@@ -13,15 +13,14 @@ import java.util.List;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.ui.adapter.SearchGroupContentAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivitySearchGroupBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
+import edu.csuft.chentao.ui.adapter.SearchGroupContentAdapter;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 
@@ -114,7 +113,7 @@ public class ActivitySearchGroupPresenter extends BasePresenter {
         } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER_SIZE_0)) {
             ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
             //弹出提示框
-            Toast.makeText(mActivityBinding.getRoot().getContext(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivityBinding.getRoot().getContext(), (String) resp.getObj(), Toast.LENGTH_SHORT).show();
             //隐藏对话框
             dismissProgressDialog();
         }

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="edu.csuft.chentao.utils.OperationUtil" />
+
+        <import type="edu.csuft.chentao.pojo.req.FileZip" />
+
+        <variable
+            name="fileZip"
+            type="edu.csuft.chentao.pojo.req.FileZip" />
+
+        <variable
+            name="itemPresenter"
+            type="edu.csuft.chentao.ui.adapter.FileAdapter.ItemFilePresenter" />
+
+        <variable
+            name="isVisible"
+            type="int" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <LinearLayout
+            android:id="@+id/id_file_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffffff"
+            android:gravity="center|end">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/id_remove"
+                android:layout_width="65dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@android:color/holo_red_dark"
+                android:gravity="center"
+                android:onClick="@{()->itemPresenter.doClickToRemoveFile()}"
+                android:text="@string/string_remove"
+                android:textColor="#fff" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/id_download"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@android:color/holo_orange_light"
+                android:gravity="center"
+                android:onClick="@{()->itemPresenter.doClickToDownloadFile()}"
+                android:text="@string/string_download"
+                android:textColor="#fff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/id_file_front"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffffff"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_item_file_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_file"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()->itemPresenter.doClickToOpenFile()}" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_item_file_complete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/ic_download_complete"
+                    android:visibility="@{isVisible}" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="@{()->itemPresenter.doClickToOpenFile()}"
+                android:orientation="vertical"
+                android:paddingEnd="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingStart="5dp">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_item_file_filename"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="1"
+                    android:text="@{fileZip.fileName}"
+                    android:textSize="15sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_item_file_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:gravity="start|center_vertical"
+                    android:maxLines="1"
+                    android:text="@{OperationUtil.spliceFileSizeAndNickName(OperationUtil.getFileSize(fileZip.fileSize),fileZip.nickname)}" />
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@{fileZip.time.substring(0,11)}" />
+        </LinearLayout>
+    </FrameLayout>
+</layout>

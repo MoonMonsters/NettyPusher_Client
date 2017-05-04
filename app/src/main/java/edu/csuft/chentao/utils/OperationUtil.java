@@ -19,9 +19,9 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -128,6 +128,20 @@ public class OperationUtil {
         }
 
         return sb.toString() + ".jpg";
+    }
+
+    /**
+     * 得到随机的64位字符串
+     */
+    public static String getSerialnumber() {
+        String str = "abcdefghijklmnopqrstuvwxyz1234567890";
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 32; i++) {
+            sb.append(str.charAt((int) (Math.random() * str.length())));
+        }
+
+        return sb.toString();
     }
 
     /**
@@ -251,7 +265,7 @@ public class OperationUtil {
         File file = new File(path);
         if (!file.exists()) {
             //创建
-            isExist = file.mkdir();
+            isExist = file.mkdirs();
         }
 
         return isExist;
@@ -318,7 +332,7 @@ public class OperationUtil {
      * @return File对象
      */
     public static File byte2File(byte[] buf) {
-        File file = createFile(Constant.PATH, "imageFileCache.jpeg");
+        File file = createFile(Constant.PATH_IMAGE, "imageFileCache.jpeg");
 
         BufferedOutputStream bos = null;
         FileOutputStream fos = null;
@@ -479,4 +493,45 @@ public class OperationUtil {
         return sb.toString();
     }
 
+    /**
+     * 拼接文件大小和用户昵称
+     *
+     * @param fileSize 文件大小
+     * @param nickname 用户昵称
+     * @return 拼接后的字符串
+     */
+    public static String spliceFileSizeAndNickName(String fileSize, String nickname) {
+        return fileSize + " 来自 " + nickname;
+    }
+
+    /**
+     * 得到文件大小
+     */
+    public static String getFileSize(String fileSize) {
+        String result = null;
+
+        long KB = 1024;
+        long MB = 1024 * KB;
+        long GB = 1024 * MB;
+
+        try {
+            long size = Long.valueOf(fileSize);
+
+            if (size > GB) {
+                result = DecimalFormat.getInstance().format(size * 1.0 / GB);
+                result += "G";
+            } else if (size > MB) {
+                result = DecimalFormat.getInstance().format(size * 1.0 / MB);
+                result += "M";
+            } else {
+                result = DecimalFormat.getInstance().format(size * 1.0 / KB);
+                result += "K";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }

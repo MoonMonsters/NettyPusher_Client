@@ -96,7 +96,7 @@ public class ActivityCreateGroupPresenter extends BasePresenter {
         if (ebObj.getTag().equals(Constant.TAG_CREATE_GROUP_PRESENTER)) {
             ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
             //弹出提示框
-            Toast.makeText(mActivityBinding.getRoot().getContext(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivityBinding.getRoot().getContext(), (String) resp.getObj(), Toast.LENGTH_SHORT).show();
             //创建成功，关闭当前界面
             if (resp.getType() == Constant.TYPE_RETURN_INFO_CREATE_GROUP_SUCCESS) {
                 ((CreateGroupActivity) (mActivityBinding.getRoot().getContext())).finish();

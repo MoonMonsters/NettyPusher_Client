@@ -123,13 +123,13 @@ public class ActivityGroupDetailPresenter extends BasePresenter {
         if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER)) {
             ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
             if (resp.getType() == Constant.TYPE_RETURN_INFO_REMOVE_USER_SUCCESS) {
-                Toast.makeText(mActivityBinding.getRoot().getContext(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivityBinding.getRoot().getContext(), (String) resp.getObj(), Toast.LENGTH_SHORT).show();
                 mAdapter.removeUserAndNotifyChanged();
             }
             //刷新用户的身份值，从Handler传递过来的数据
         } else if (ebObj.getTag().equals(Constant.TAG_REFRESH_USER_CAPITAL)) {
             ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
-            Toast.makeText(mActivityBinding.getRoot().getContext(), resp.getDescription(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivityBinding.getRoot().getContext(), (String) resp.getObj(), Toast.LENGTH_SHORT).show();
             //刷新
             if (resp.getType() == Constant.TYPE_RETURN_INFO_UPDATE_USER_CAPITAL_SUCCESS) {
                 mAdapter.notifyChanged();

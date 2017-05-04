@@ -34,4 +34,9 @@ public class ChattingListFragment extends BaseFragment {
         mPresenter.unregisterEventBus();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        mPresenter.closeOpenedItems();
+    }
 }

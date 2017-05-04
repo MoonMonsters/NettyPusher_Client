@@ -5,14 +5,13 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
-import edu.csuft.chentao.ui.adapter.ChattingListAdapter2;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.FragmentChattingListBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.resp.GroupReminderResp;
+import edu.csuft.chentao.ui.adapter.ChattingListAdapter2;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 
 /**
@@ -116,5 +115,12 @@ public class FragmentChattingListPresenter extends BasePresenter {
             //刷新
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    /**
+     * 关闭所有打开状态的item
+     */
+    public void closeOpenedItems() {
+        mFragmentBinding.slvChattingListContent.closeOpenedItems();
     }
 }

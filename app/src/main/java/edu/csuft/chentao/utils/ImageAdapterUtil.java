@@ -23,13 +23,13 @@ public class ImageAdapterUtil {
         /*
         如果该文件夹不存在，则创建
          */
-        File directory = new File(Constant.PATH);
+        File directory = new File(Constant.PATH_IMAGE);
         if (!directory.exists()) {
             directory.mkdir();
         }
 
         //从文件中读取出来
-        File file = new File(Constant.PATH, imageUrl);
+        File file = new File(Constant.PATH_IMAGE, imageUrl);
         if (file.exists()) {
             Glide.with(imageView.getContext())
                     .load(file)

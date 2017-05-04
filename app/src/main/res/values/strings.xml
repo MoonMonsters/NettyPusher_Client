@@ -81,6 +81,8 @@
     <string name="string_group_announcement">群公告</string>
     <string name="string_i_know">我知道了</string>
     <string name="string_upload_file">上传文件</string>
+    <string name="string_remove">删除</string>
+    <string name="string_download">下载</string>
 
     <string-array name="group_tags">
         <item>同学</item>

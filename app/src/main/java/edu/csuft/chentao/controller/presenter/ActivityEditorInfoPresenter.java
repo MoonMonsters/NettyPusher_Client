@@ -86,7 +86,7 @@ public class ActivityEditorInfoPresenter extends BasePresenter implements Update
                     break;
             }
             Toast.makeText(mActivityBinding.getRoot().getContext(),
-                    resp.getDescription(), Toast.LENGTH_SHORT).show();
+                    (String) resp.getObj(), Toast.LENGTH_SHORT).show();
         }
     }
 
