@@ -24,8 +24,7 @@
             type="String" />
     </data>
 
-    <RelativeLayout
-        android:id="@+id/activity_group_detail"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -34,41 +33,39 @@
             layout="@layout/layout_toolbar"
             bind:title="@{title}" />
 
-        <FrameLayout
-            android:id="@+id/layout_group_detail_background"
+        <android.support.v7.widget.AppCompatImageView
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_below="@id/include_toolbar">
+            android:layout_marginTop="30dp"
+            android:background="@drawable/splash" />
 
-            <ImageView
-                android:id="@+id/iv_group_detail_groupImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"
-                android:contentDescription="@string/app_name"
-                app:imageBytes="@{groups.image}" />
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="140dp"
+            app:imageBytes="@{groups.image}" />
 
-            <TextView
-                android:id="@+id/tv_group_detail_groupId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:text="@{String.valueOf(groups.groupid)}" />
-
-            <TextView
-                android:id="@+id/tv_group_detail_groupName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="20dp"
-                android:text="@{groups.groupname}" />
-        </FrameLayout>
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="155dp"
+            android:gravity="center"
+            android:text="@{String.valueOf(groups.groupid)}"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
 
         <ListView
-            android:id="@+id/lv_group_detail_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/layout_group_detail_background"
+            android:layout_marginTop="210dp"
             app:adapter="@{adapter}" />
-    </RelativeLayout>
+
+    </FrameLayout>
+
 </layout>

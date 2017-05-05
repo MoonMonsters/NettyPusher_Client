@@ -67,7 +67,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{userInfo.signature}" />
-
         </LinearLayout>
 
         <View style="@style/view_line_bottom" />

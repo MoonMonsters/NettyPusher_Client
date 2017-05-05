@@ -1,25 +1,15 @@
 package edu.csuft.chentao.ui.activity;
 
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityGroupDetailPresenter;
-import edu.csuft.chentao.controller.presenter.ItemGroupDetailPopupPresenter;
 import edu.csuft.chentao.databinding.ActivityGroupDetailBinding;
-import edu.csuft.chentao.databinding.ItemGroupDetailPopupBinding;
-import edu.csuft.chentao.utils.Constant;
 
 /**
  * 详细群数据

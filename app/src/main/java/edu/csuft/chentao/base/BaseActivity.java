@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import edu.csuft.chentao.ui.activity.GroupDetailActivity;
 import edu.csuft.chentao.ui.activity.ImageActivity;
 import edu.csuft.chentao.ui.activity.MainActivity;
 
