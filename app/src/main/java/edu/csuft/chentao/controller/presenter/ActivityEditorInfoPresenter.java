@@ -1,27 +1,33 @@
 package edu.csuft.chentao.controller.presenter;
 
 import android.content.Intent;
+import android.view.View;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import edu.csuft.chentao.ui.activity.CutViewActivity;
-import edu.csuft.chentao.ui.activity.ImageActivity;
+import edu.csuft.chentao.BR;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityEditorInfoBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
+import edu.csuft.chentao.pojo.req.ChangePasswordReq;
 import edu.csuft.chentao.pojo.req.UpdateUserInfoReq;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
+import edu.csuft.chentao.ui.activity.CutViewActivity;
+import edu.csuft.chentao.ui.activity.EditorInfoActivity;
+import edu.csuft.chentao.ui.activity.ImageActivity;
+import edu.csuft.chentao.ui.view.ChangePasswordDialog;
+import edu.csuft.chentao.ui.view.UpdateInfoDialog;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
-import edu.csuft.chentao.ui.view.UpdateInfoDialog;
 
 /**
  * Created by Chalmers on 2017-01-06 18:00.
@@ -31,7 +37,7 @@ import edu.csuft.chentao.ui.view.UpdateInfoDialog;
 /**
  * 编辑个人信息的Presenter
  */
-public class ActivityEditorInfoPresenter extends BasePresenter implements UpdateInfoDialog.IDialogClickListener {
+public class ActivityEditorInfoPresenter extends BasePresenter implements UpdateInfoDialog.IDialogClickListener, ChangePasswordDialog.IOnClickToChangePassword {
 
     private ActivityEditorInfoBinding mActivityBinding = null;
     /**
@@ -67,6 +73,9 @@ public class ActivityEditorInfoPresenter extends BasePresenter implements Update
         //如果是更新用户数据命令
         if (ebObj.getTag().equals(Constant.TAG_UPDATE_USER_INFO)) {
             ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
+
+            LoggerUtil.logger("TAG", "ActivityEditorInfoPresenter...." + resp.toString());
+
             //更新成功
             switch (resp.getType()) {
                 case Constant.TYPE_RETURN_INFO_UPDATE_SIGNATURE_SUCESS:  //更新签名
@@ -83,6 +92,11 @@ public class ActivityEditorInfoPresenter extends BasePresenter implements Update
                     UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
                     userHead.setImage(mImage);
                     UserHeadDaoUtil.updateUserHead(userHead);
+                    break;
+                case Constant.TYPE_RETURN_INFO_CHANGE_PASSWORD_SUCCESS: //修改密码
+                    String password = (String) resp.getObj();
+                    SharedPrefUserInfoUtil.setUsernameAndPassword(SharedPrefUserInfoUtil.getUsername(), password);
+                    LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), "密码设置成功");
                     break;
             }
             Toast.makeText(mActivityBinding.getRoot().getContext(),
@@ -172,12 +186,48 @@ public class ActivityEditorInfoPresenter extends BasePresenter implements Update
         SendMessageUtil.sendMessage(req);
     }
 
+    /**
+     * 修改密码
+     */
+    public void doClickToChangePassword() {
+        ChangePasswordDialog dialog = new ChangePasswordDialog(mActivityBinding.getRoot().getContext(), this);
+        dialog.show();
+    }
+
     @Override
     protected void initData() {
         UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
         UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
         //设置属性
-        mActivityBinding.setUserHead(userHead);
-        mActivityBinding.setUserInfo(userInfo);
+        mActivityBinding.setVariable(BR.userHead, userHead);
+        mActivityBinding.setVariable(BR.userInfo, userInfo);
+        mActivityBinding.setVariable(BR.title, "用户信息");
+    }
+
+    @Override
+    public void initListener() {
+        super.initListener();
+        mActivityBinding.includeToolbar.layoutToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((EditorInfoActivity) mActivityBinding.getRoot().getContext()).finish();
+            }
+        });
+    }
+
+    /**
+     * 修改密码
+     */
+    @Override
+    public void doClickToChangePassword(String oldPassword, String newPassword, String newPassword2) {
+        LoggerUtil.logger("TAG", "ActivityEditorInfoPresenter-->更改密码---->" + oldPassword);
+
+        ChangePasswordReq req = new ChangePasswordReq();
+        req.setUserId(SharedPrefUserInfoUtil.getUserId());
+        req.setOldPassword(oldPassword);
+        req.setNewPassword(newPassword);
+        req.setNewPassword2(newPassword2);
+
+        SendMessageUtil.sendMessage(req);
     }
 }

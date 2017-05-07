@@ -30,10 +30,11 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
+            android:visibility="gone"
             android:id="@+id/tv_message_right_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_message_right_head"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -54,7 +55,9 @@
                 android:onClick="@{()->itemPresenter.onClickForUserDetailInfo()}"
                 app:imageBytes="@{userHead.image}" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:id="@+id/tv_message_right_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +65,10 @@
                 android:layout_toStartOf="@id/iv_message_right_head"
                 android:text="@{userInfo.nickname}" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:id="@+id/tv_message_right_content_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,16 +76,15 @@
                 android:layout_toLeftOf="@id/iv_message_right_head"
                 android:layout_toStartOf="@id/iv_message_right_head"
                 android:autoLink="all"
-                android:background="@drawable/ic_image_right"
+                android:background="@drawable/bubble_r"
                 android:gravity="end|center_vertical"
                 android:lineSpacingMultiplier="1.2"
                 android:maxWidth="250dp"
-                android:paddingTop="3dp"
                 android:text="@{msg.message}"
                 android:textScaleX="1.2"
                 android:visibility="@{msg.typemsg==0?View.VISIBLE:View.GONE}" />
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_message_right_content_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"

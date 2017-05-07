@@ -3,6 +3,7 @@ package edu.csuft.chentao.controller.presenter;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -12,8 +13,6 @@ import java.util.List;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.ui.activity.ImageActivity;
-import edu.csuft.chentao.ui.adapter.RecentMessageAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityUserInfoBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
@@ -22,6 +21,9 @@ import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.GetInfoReq;
+import edu.csuft.chentao.ui.activity.ImageActivity;
+import edu.csuft.chentao.ui.activity.UserInfoActivity;
+import edu.csuft.chentao.ui.adapter.RecentMessageAdapter;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
@@ -103,6 +105,7 @@ public class ActivityUserInfoPresenter extends BasePresenter {
     protected void initData() {
         setUserInfo();
 
+//        mActivityBinding.tvUserInfoSignature.setMovementMethod(new ScrollingMovementMethod());
         mChattingMessageList =
                 ChattingMessageDaoUtil.getChattingMessageListWithGroupIdAndUserId(mGroupId, mUserId, mOffset);
 
@@ -110,9 +113,16 @@ public class ActivityUserInfoPresenter extends BasePresenter {
                 mChattingMessageList, R.layout.item_recent_msg, BR.chattingMessage);
         //设置刷新模式为上拉刷新
         mActivityBinding.ptrlvUserinfoRecentMsg.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
-//        mActivityBinding.ptrlvUserinfoRecentMsg.setAdapter(mAdapter);
-        mActivityBinding.setAdapter(mAdapter);
+        mActivityBinding.setVariable(BR.adapter, mAdapter);
+        mActivityBinding.setVariable(BR.title, "用户信息");
 
+        updateUserInfo();
+    }
+
+    /**
+     * 更新用户信息
+     */
+    private void updateUserInfo() {
         GetInfoReq req = new GetInfoReq();
         req.setType(Constant.TYPE_GET_INFO_USERINFO);
         req.setArg1(mUserId);
@@ -126,6 +136,9 @@ public class ActivityUserInfoPresenter extends BasePresenter {
         }
     }
 
+    /**
+     * 设置显示的用户信息
+     */
     private void setUserInfo() {
         UserInfo userInfo = UserInfoDaoUtil.getUserInfo(mUserId);
         mUserHead = UserHeadDaoUtil.getUserHead(mUserId);
@@ -157,6 +170,14 @@ public class ActivityUserInfoPresenter extends BasePresenter {
                 }
             }
         });
+
+        //返回键的点击事件
+        mActivityBinding.includeToolbar.layoutToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((UserInfoActivity) mActivityBinding.getRoot().getContext()).finish();
+            }
+        });
     }
 
     /**
@@ -169,5 +190,4 @@ public class ActivityUserInfoPresenter extends BasePresenter {
         mActivityBinding.getRoot().getContext()
                 .startActivity(intent);
     }
-
 }

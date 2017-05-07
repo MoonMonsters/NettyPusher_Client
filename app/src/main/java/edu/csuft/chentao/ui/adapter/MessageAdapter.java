@@ -10,9 +10,8 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.ui.activity.ImageActivity;
-import edu.csuft.chentao.ui.activity.UserInfoActivity;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ItemMessageLeftBinding;
 import edu.csuft.chentao.databinding.ItemMessageRightBinding;
@@ -20,6 +19,8 @@ import edu.csuft.chentao.pojo.bean.ChattingMessage;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
+import edu.csuft.chentao.ui.activity.ImageActivity;
+import edu.csuft.chentao.ui.activity.UserInfoActivity;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
@@ -87,24 +88,31 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             ItemMessagePresenter itemPresenter =
                     new ItemMessagePresenter(msg);
 
+            boolean isShowTime = mChattingMessageList.indexOf(msg) % 20 == 0;
+
             if (msg.getType() == Constant.TYPE_MSG_RECV) {  //如果是接收消息
                 ItemMessageLeftBinding leftBinding =
                         DataBindingUtil.bind(mView);
                 //绑定数据
-                leftBinding.setMsg(msg);
-                leftBinding.setUserHead(userHead);
-                leftBinding.setUserInfo(userInfo);
-                leftBinding.setItemPresenter(itemPresenter);
+                leftBinding.setVariable(BR.msg, msg);
+                leftBinding.setVariable(BR.userHead, userHead);
+                leftBinding.setVariable(BR.userInfo, userInfo);
+                leftBinding.setVariable(BR.itemPresenter, itemPresenter);
+                if (isShowTime) {
+                    leftBinding.tvMessageLeftTime.setVisibility(View.VISIBLE);
+                }
 
             } else if (msg.getType() == Constant.TYPE_MSG_SEND) {   //发送消息
                 ItemMessageRightBinding rightBinding =
                         DataBindingUtil.bind(mView);
                 //绑定数据
-                rightBinding.setMsg(msg);
-                rightBinding.setUserHead(userHead);
-                rightBinding.setUserInfo(userInfo);
-                rightBinding.setItemPresenter(itemPresenter);
-                rightBinding.setItemPresenter(itemPresenter);
+                rightBinding.setVariable(BR.msg, msg);
+                rightBinding.setVariable(BR.userHead, userHead);
+                rightBinding.setVariable(BR.userInfo, userInfo);
+                rightBinding.setVariable(BR.itemPresenter, itemPresenter);
+                if (isShowTime) {
+                    rightBinding.tvMessageRightTime.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -121,7 +129,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
          */
         public void onClickForImageDetail() {
             Intent intent = new Intent(MyApplication.getInstance(), ImageActivity.class);
-            ImageDetail detail = new ImageDetail(null,mChattingMessage.getImage());
+            ImageDetail detail = new ImageDetail(null, mChattingMessage.getImage());
             //传递数据
             intent.putExtra(Constant.EXTRA_IMAGE_DETAIL, detail);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

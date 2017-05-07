@@ -1,6 +1,5 @@
 package edu.csuft.chentao.controller.presenter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -20,21 +18,19 @@ import java.util.List;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.databinding.ItemPopupAnnouncementsBinding;
-import edu.csuft.chentao.pojo.bean.LocalAnnouncement;
-import edu.csuft.chentao.ui.activity.CutViewActivity;
-import edu.csuft.chentao.ui.activity.GroupDetailActivity;
-import edu.csuft.chentao.ui.activity.MessageActivity;
-import edu.csuft.chentao.ui.adapter.MessageAdapter;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
+import edu.csuft.chentao.databinding.ItemPopupAnnouncementsBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
+import edu.csuft.chentao.pojo.bean.LocalAnnouncement;
 import edu.csuft.chentao.pojo.req.Message;
+import edu.csuft.chentao.ui.activity.CutViewActivity;
+import edu.csuft.chentao.ui.activity.MessageActivity;
+import edu.csuft.chentao.ui.adapter.MessageAdapter;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.CopyUtil;
-import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
@@ -194,15 +190,32 @@ public class ActivityMessagePresenter extends BasePresenter {
      * 弹出对话框
      */
     private void showPopupAnnouncement() {
-        List<LocalAnnouncement> localAnnouncementList = LocalAnnouncementDaoUtil.getAllLocalAnnouncementsWithNew(mGroupId, true);
-        if (localAnnouncementList.size() != 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(mActivityBinding.getRoot().getContext());
-            ItemPopupAnnouncementsBinding binding = DataBindingUtil.inflate(LayoutInflater.from(mActivityBinding.getRoot().getContext()), R.layout.item_popup_announcements, null, false);
-            AlertDialog dialog = builder.setView(binding.getRoot())
-                    .setCancelable(false).create();
-            dialog.show();
-            binding.setVariable(BR.announcement, localAnnouncementList.get(0));
-            binding.setVariable(BR.itemPresenter, new ItemPopupAnnouncementPresenter(binding, dialog,mGroupId));
-        }
+        //在进入主界面后，两秒钟后再弹出公告框
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ((MessageActivity) mActivityBinding.getRoot().getContext())
+                        .runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                List<LocalAnnouncement> localAnnouncementList = LocalAnnouncementDaoUtil.getAllLocalAnnouncementsWithNew(mGroupId, true);
+                                if (localAnnouncementList.size() != 0) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(mActivityBinding.getRoot().getContext());
+                                    ItemPopupAnnouncementsBinding binding = DataBindingUtil.inflate(LayoutInflater.from(mActivityBinding.getRoot().getContext()), R.layout.item_popup_announcements, null, false);
+                                    AlertDialog dialog = builder.setView(binding.getRoot())
+                                            .setCancelable(false).create();
+                                    dialog.show();
+                                    binding.setVariable(BR.announcement, localAnnouncementList.get(0));
+                                    binding.setVariable(BR.itemPresenter, new ItemPopupAnnouncementPresenter(binding, dialog, mGroupId));
+                                }
+                            }
+                        });
+            }
+        }).start();
     }
 }

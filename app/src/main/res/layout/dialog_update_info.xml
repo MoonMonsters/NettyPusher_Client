@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -15,14 +16,16 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:counterMaxLength="30">
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_dialog_update_info_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@{hintData}"
-                android:inputType="text" />
+                android:inputType="text"
+                android:maxLength="30" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 </layout>

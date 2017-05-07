@@ -17,36 +17,44 @@
             type="edu.csuft.chentao.ui.adapter.RecentMessageAdapter.ItemRecentMessagePresenter" />
     </data>
 
-    <LinearLayout
+    <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_recent_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:gravity="center"
-            android:text="@{chattingMessage.time}" />
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical|end"
+            android:text="@{chattingMessage.time}"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_recent_msg_text"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_recent_time"
             android:layout_margin="10dp"
+            android:lineSpacingMultiplier="1.2"
             android:text="@{chattingMessage.message}"
-            android:visibility="@{chattingMessage.typemsg==Constant.TYPE_MSG_TEXT?View.VISIBLE:View.GONE}" />
+            android:textScaleX="1.1"
+            android:textSize="15sp"
+            android:visibility="@{chattingMessage.typemsg==Constant.TYPE_MSG_TEXT?View.VISIBLE:View.GONE}"
+            app:layout_widthPercent="80%" />
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_recent_msg_image"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_recent_time"
             android:layout_margin="10dp"
             android:contentDescription="@string/app_name"
             android:onClick="@{()->itemPresenter.onClickToBigImage()}"
             android:visibility="@{chattingMessage.typemsg==Constant.TYPE_MSG_IMAGE?View.VISIBLE:View.GONE}"
             app:imageBytes="@{chattingMessage.image}" />
 
-    </LinearLayout>
+    </android.support.percent.PercentRelativeLayout>
 </layout>

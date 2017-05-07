@@ -27,6 +27,9 @@
     </style>
 
     <style name="view_editor_tv_beizhu">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:paddingLeft">10dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginLeft">10dp</item>
@@ -64,6 +67,18 @@
         <item name="android:drawablePadding">15dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingStart">10dp</item>
+    </style>
+
+    <style name="item_group_operation_text">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_gravity">end|center_vertical</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
 </resources>

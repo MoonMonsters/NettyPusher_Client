@@ -1,26 +1,27 @@
 package edu.csuft.chentao.ui.view;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
+import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
 import android.view.ViewDebug;
-import android.widget.TextView;
 
 /**
  * 能够实现跑马灯效果的TextView
  */
-public class MarqueeText extends TextView {
+public class MarqueeText extends AppCompatTextView {
     public MarqueeText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.setMovementMethod(new ScrollingMovementMethod());
+        this.setMaxLines(1);
     }
 
     public MarqueeText(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        // TODO Auto-generated constructor stub
+        this(context, attrs, 0);
     }
 
     public MarqueeText(Context context) {
-        super(context);
-        // TODO Auto-generated constructor stub
+        this(context, null);
     }
 
     @Override

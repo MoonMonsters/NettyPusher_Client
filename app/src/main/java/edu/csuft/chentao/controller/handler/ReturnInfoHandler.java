@@ -5,6 +5,7 @@ import android.widget.Toast;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 
 /**
@@ -17,6 +18,8 @@ public class ReturnInfoHandler implements Handler {
     public void handle(Object object) {
         ReturnInfoResp resp = (ReturnInfoResp) object;
 
+        LoggerUtil.logger("TAG", "ReturnInfoHandler-->" + resp.toString());
+
         switch (resp.getType()) {
             //如果是创建群相关的返回消息
             case Constant.TYPE_RETURN_INFO_CREATE_GROUP_SUCCESS:
@@ -25,7 +28,13 @@ public class ReturnInfoHandler implements Handler {
                 break;
             //更新用户数据的返回消息
             case Constant.TYPE_RETURN_INFO_UPDATE_HEAD_IMAGE_SUCCESS:
+            case Constant.TYPE_RETURN_INFO_UPDATE_SIGNATURE_SUCESS:
+            case Constant.TYPE_RETURN_INFO_UPDATE_NICKNAME_SUCCESS:
             case Constant.TYPE_RETURN_INFO_UPDATE_NICKNAME_FAIL:
+            case Constant.TYPE_RETURN_INFO_UPDATE_SIGNATURE_FAIL:
+            case Constant.TYPE_RETURN_INFO_UPDATE_HEAD_IMAGE_FAIL:
+            case Constant.TYPE_RETURN_INFO_CHANGE_PASSWORD_SUCCESS:
+            case Constant.TYPE_RETURN_INFO_CHANGE_PASSWORD_FAIL:
                 OperationUtil.sendEBToObjectPresenter(Constant.TAG_UPDATE_USER_INFO, resp);
                 break;
             //更新用户身份

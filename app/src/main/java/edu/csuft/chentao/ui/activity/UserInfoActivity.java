@@ -31,6 +31,8 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     public void initData() {
 
+        setSupportActionBar(mActivityBinding.includeToolbar.layoutToolbar);
+
         int userId = getIntent().getIntExtra(Constant.EXTRA_USER_ID, -1);
         int groupId = getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1);
 

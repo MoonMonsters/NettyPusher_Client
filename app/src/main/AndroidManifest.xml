@@ -44,8 +44,12 @@
             android:name=".ui.activity.ImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen" />
-        <activity android:name=".ui.activity.EditorInfoActivity" />
-        <activity android:name=".ui.activity.UserInfoActivity" />
+        <activity
+            android:name=".ui.activity.EditorInfoActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".ui.activity.UserInfoActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".ui.activity.SearchGroupActivity" />
         <activity
             android:name=".ui.activity.GroupDetailActivity"

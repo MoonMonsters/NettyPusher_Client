@@ -1,16 +1,23 @@
 package edu.csuft.chentao.controller.presenter;
 
+import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.ui.activity.MainActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityMainBinding;
+import edu.csuft.chentao.databinding.ItemGroupOperationBinding;
+import edu.csuft.chentao.ui.activity.MainActivity;
 import edu.csuft.chentao.ui.fragment.FragmentFactory;
-import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.utils.OperationUtil;
 
 /**
@@ -25,6 +32,8 @@ public class ActivityMainPresenter extends BasePresenter {
     private Fragment mChattingListFragment = null;
     private Fragment mGroupListFragment = null;
     private Fragment mMineFragment = null;
+
+    private PopupWindow mPopupWindow;
 
     public ActivityMainPresenter(ActivityMainBinding binding) {
         this.mActivityBinding = binding;
@@ -145,4 +154,32 @@ public class ActivityMainPresenter extends BasePresenter {
                 .hide(mGroupListFragment)
                 .commit();
     }
+
+    /**
+     * 点击菜单栏时，弹出操作选项
+     */
+    public void showOperationPopupWindow() {
+        View view = LayoutInflater.from(mActivityBinding.getRoot().getContext())
+                .inflate(R.layout.item_group_operation, null);
+        //弹出菜单
+        mPopupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.showAsDropDown(mActivityBinding.tlMainBar);
+
+        //绑定ItemPresenter
+        ItemGroupOperationBinding binding =
+                DataBindingUtil.bind(view);
+        binding.setItemPresenter(new ItemGroupOperationPresenter(mActivityBinding));
+    }
+
+    /**
+     * 隐藏PopupWindow
+     */
+    public void dismissPopupWindow() {
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
+    }
+
 }

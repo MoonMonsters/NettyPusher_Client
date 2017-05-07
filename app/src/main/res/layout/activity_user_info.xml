@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activity.UserInfoActivity">
 
@@ -21,68 +22,67 @@
         <variable
             name="adapter"
             type="edu.csuft.chentao.ui.adapter.RecentMessageAdapter" />
+
+        <variable
+            name="title"
+            type="String" />
     </data>
 
-    <LinearLayout
-        android:id="@+id/activity_user_info"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iv_userinfo_head"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center_horizontal"
-            android:contentDescription="@string/app_name"
+        <include
+            android:id="@+id/include_toolbar"
+            layout="@layout/layout_toolbar"
+            bind:title="@{title}" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/splash" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="start"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="140dp"
             android:onClick="@{()->presenter.onClickToBigImage()}"
             app:imageBytes="@{userHead.image}" />
 
-        <TextView
-            android:id="@+id/tv_userinfo_nickname"
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:gravity="center"
-            android:text="@{userInfo.nickname}" />
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="130dp"
+            android:text="@{userInfo.nickname}"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
-        <View style="@style/view_line_bottom" />
-
-        <LinearLayout
+        <edu.csuft.chentao.ui.view.MarqueeText
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:singleLine="true"
+            android:id="@+id/tv_user_info_signature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/string_signature2" />
-
-            <edu.csuft.chentao.ui.view.MarqueeText
-                android:id="@+id/tv_userinfo_signature"
-                style="@style/marquee_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{userInfo.signature}" />
-        </LinearLayout>
-
-        <View style="@style/view_line_bottom" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/string_recent_msg" />
-
-        <View style="@style/view_line_bottom" />
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="155dp"
+            android:text="@{userInfo.signature}"
+            android:textColor="@android:color/white" />
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/ptrlv_userinfo_recent_msg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="200dp"
             app:adapter="@{adapter}" />
-    </LinearLayout>
+
+    </FrameLayout>
 </layout>

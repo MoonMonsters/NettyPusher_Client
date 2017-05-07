@@ -83,6 +83,10 @@
     <string name="string_upload_file">上传文件</string>
     <string name="string_remove">删除</string>
     <string name="string_download">下载</string>
+    <string name="string_change_password">修改密码</string>
+    <string name="string_input_old_password">输入旧密码</string>
+    <string name="string_input_new_password">输入新密码</string>
+    <string name="string_input_new_password_repeat">重复新密码</string>
 
     <string-array name="group_tags">
         <item>同学</item>

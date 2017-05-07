@@ -25,6 +25,8 @@ public class EditorInfoActivity extends BaseActivity {
 
     @Override
     public void initData() {
+
+        setSupportActionBar(mActivityBinding.includeToolbar.layoutToolbar);
         mPresenter = new ActivityEditorInfoPresenter(mActivityBinding);
         mActivityBinding.setVariable(BR.presenter, mPresenter);
     }

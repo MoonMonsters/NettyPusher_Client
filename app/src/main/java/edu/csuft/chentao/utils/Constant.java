@@ -178,6 +178,14 @@ public interface Constant {
      * 删除文件失败
      */
     int TYPE_RETURN_INFO_REMOVE_FILE_FAIL = 23;
+    /**
+     * 修改密码成功
+     */
+    int TYPE_RETURN_INFO_CHANGE_PASSWORD_SUCCESS = 24;
+    /**
+     * 修改密码错误
+     */
+    int TYPE_RETURN_INFO_CHANGE_PASSWORD_FAIL = 25;
 
     /**
      * 获取用户信息
@@ -211,6 +219,7 @@ public interface Constant {
      * 删除文件
      */
     int TYPE_GET_INFO_REMOVE_FILE = 7;
+
 
     /**
      * 更新昵称
