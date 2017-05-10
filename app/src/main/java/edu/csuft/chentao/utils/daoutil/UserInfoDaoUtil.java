@@ -45,6 +45,19 @@ public class UserInfoDaoUtil {
     }
 
     /**
+     * 根据用户名得到用户信息
+     *
+     * @param username 用户名
+     * @return 用户信息
+     */
+    public static UserInfo getUserInfoByUsername(String username) {
+
+        return DaoSessionUtil.getUserInfoDao()
+                .queryBuilder().where(UserInfoDao.Properties.Username.eq(username))
+                .unique();
+    }
+
+    /**
      * 保存用户信息
      *
      * @param userInfo UserInfo对象
@@ -94,7 +107,7 @@ public class UserInfoDaoUtil {
             userInfo.setUserid(resp.getUserid());
             userInfo.setNickname(resp.getNickname());
             userInfo.setSignature(resp.getSignature());
-
+            userInfo.setUsername(resp.getUsername());
             saveUserInfo(userInfo);
         } else {    //如果存在，则更新
             userInfo.setUserid(resp.getUserid());

@@ -6,6 +6,10 @@
 
         <import type="edu.csuft.chentao.utils.OperationUtil" />
 
+        <import type="android.view.View" />
+
+        <import type="edu.csuft.chentao.utils.SharedPrefUserInfoUtil" />
+
         <variable
             name="itemPresenter"
             type="edu.csuft.chentao.ui.adapter.UserInGroupAdapter.ItemManagerUserPresenter" />
@@ -21,6 +25,10 @@
         <variable
             name="userHead"
             type="edu.csuft.chentao.pojo.bean.UserHead" />
+
+        <variable
+            name="userId"
+            type="int" />
     </data>
 
     <LinearLayout
@@ -31,10 +39,10 @@
         android:onLongClick="@{itemPresenter.onLongClick}"
         android:orientation="horizontal">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_user_in_group_head"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_marginStart="15dp"
@@ -43,18 +51,42 @@
 
         <TextView
             android:id="@+id/tv_user_in_group_capital"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="@{capital==0?@android:color/holo_red_light:capital==1?@android:color/holo_blue_light:@android:color/darker_gray}"
+            android:layout_margin="10dp"
+            android:background="@{capital==0?@drawable/shape_capital_owner:capital==1?@drawable/shape_capital_admin:@drawable/shape_capital_user}"
             android:gravity="center"
-            android:text="@{OperationUtil.getCapital(capital)}" />
+            android:paddingBottom="2dp"
+            android:paddingEnd="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingStart="5dp"
+            android:paddingTop="2dp"
+            android:shadowRadius="@android:integer/config_shortAnimTime"
+            android:text="@{OperationUtil.getCapital(capital)}"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_user_in_group_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@{userInfo.nickname}" />
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical"
+            android:text="@{userInfo.nickname}"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:gravity="end|center_vertical"
+            android:text="@string/string_me"
+            android:visibility="@{userId==SharedPrefUserInfoUtil.getUserId()?View.VISIBLE:View.GONE}" />
     </LinearLayout>
 </layout>

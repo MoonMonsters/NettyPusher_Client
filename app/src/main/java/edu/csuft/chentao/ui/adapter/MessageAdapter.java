@@ -1,8 +1,10 @@
 package edu.csuft.chentao.ui.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +21,11 @@ import edu.csuft.chentao.pojo.bean.ChattingMessage;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
+import edu.csuft.chentao.pojo.req.Message;
 import edu.csuft.chentao.ui.activity.ImageActivity;
 import edu.csuft.chentao.ui.activity.UserInfoActivity;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
@@ -144,6 +148,41 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             intent.putExtra(Constant.EXTRA_GROUP_ID, mChattingMessage.getGroupid());
             intent.putExtra(Constant.EXTRA_USER_ID, mChattingMessage.getUserid());
             mContext.startActivity(intent);
+        }
+
+        /**
+         * 点击重新发送消息
+         */
+        public void doClickToSendMessageAgain() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            AlertDialog dialog = builder.setTitle("提示")
+                    .setMessage("重发该消息？")
+                    .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Message message = new Message();
+                            message.setSerial_number(mChattingMessage.getSerial_number());
+                            message.setGroupid(mChattingMessage.getGroupid());
+                            message.setMessage(mChattingMessage.getMessage());
+                            message.setPicFile(mChattingMessage.getImage());
+                            message.setTime(mChattingMessage.getTime());
+                            message.setType(mChattingMessage.getType());
+                            message.setTypeMsg(mChattingMessage.getTypemsg());
+                            message.setUserid(mChattingMessage.getUserid());
+                            SendMessageUtil.sendMessage(message);
+
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create();
+            dialog.show();
         }
     }
 }

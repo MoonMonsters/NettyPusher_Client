@@ -29,9 +29,12 @@ public class ChattingListAdapter2 extends BaseAdapter {
     private List<GroupChattingItem> mGroupChattingItemList;
     private Context mContext;
 
-    public ChattingListAdapter2(Context context, List<GroupChattingItem> groupChattingItemList) {
+    private ChattingListAdapter2.ICloseOpenedItems mListener;
+
+    public ChattingListAdapter2(Context context, ICloseOpenedItems listener, List<GroupChattingItem> groupChattingItemList) {
         this.mContext = context;
         this.mGroupChattingItemList = groupChattingItemList;
+        this.mListener = listener;
     }
 
     @Override
@@ -52,7 +55,7 @@ public class ChattingListAdapter2 extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ItemChattingListBinding binding = null;
+        ItemChattingListBinding binding;
 
         if (convertView == null) {
             binding = DataBindingUtil.inflate(LayoutInflater.from(mContext),
@@ -101,8 +104,15 @@ public class ChattingListAdapter2 extends BaseAdapter {
             //需要删除的位置
             int position = mGroupChattingItemList.indexOf(mChattingItem);
             //发送消息到FragmentChattingListPresenter去移除掉position位置的数据项
-
             OperationUtil.sendEBToObjectPresenter(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_REMOVE_ITEM, position);
+            mListener.closedOpenedItems();
         }
+    }
+
+    /**
+     * 关闭所有打开的对话框
+     */
+    public interface ICloseOpenedItems {
+        void closedOpenedItems();
     }
 }

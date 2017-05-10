@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_publish_announcement"
-        android:icon="@drawable/ic_editor"
+        android:icon="@drawable/ic_publish_annoucement"
         android:title="@string/string_publish_new_annouoncement"
         app:showAsAction="always" />
 

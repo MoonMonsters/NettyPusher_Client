@@ -2,6 +2,7 @@ package edu.csuft.chentao.controller.presenter;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.SystemClock;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,11 +27,13 @@ import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.LocalAnnouncement;
 import edu.csuft.chentao.pojo.req.Message;
+import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.ui.activity.CutViewActivity;
 import edu.csuft.chentao.ui.activity.MessageActivity;
 import edu.csuft.chentao.ui.adapter.MessageAdapter;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.CopyUtil;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
@@ -66,6 +69,9 @@ public class ActivityMessagePresenter extends BasePresenter {
         if (ebObj.getTag().equals(Constant.TAG_ADD_CHATTING_MESSAGE)) {
             //得到要添加的数据
             ChattingMessage chattingMessage = (ChattingMessage) ebObj.getObject();
+
+            LoggerUtil.logger("TAG", "ActivityMessagePresenter.getEBToObjectPresenter---" + chattingMessage.getSerial_number());
+
             //添加进集合
             mChattingMessageList.add(chattingMessage);
             //刷新界面
@@ -73,6 +79,32 @@ public class ActivityMessagePresenter extends BasePresenter {
             //选中最后一行
             mActivityBinding.rvMessageContent.getLayoutManager()
                     .smoothScrollToPosition(mActivityBinding.rvMessageContent, null, mAdapter.getItemCount() - 1);
+        } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_MESSAGE_PRESENTER_SEND_SUCCESS)) {
+
+            //消息发送成功，返回字段，隐藏未发送成功图片
+            final String serial_number = (String) ((ReturnInfoResp) ebObj.getObject()).getObj();
+
+            LoggerUtil.logger("TAG", "ActivityMessagePresenter-->serialNumber = " + serial_number);
+
+            for (final ChattingMessage chattingMessage : mChattingMessageList) {
+                if (chattingMessage.getSerial_number().equals(serial_number)) {
+                    chattingMessage.setSend_success(View.GONE);
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            SystemClock.sleep(2000);
+                            ChattingMessageDaoUtil.updateChattingMessage(chattingMessage);
+                        }
+                    }).start();
+
+                    break;
+                }
+            }
+            mAdapter.notifyDataSetChanged();
+        } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_PRESENTER_UPDATE_USERINFO)) {
+            //用户数据已更新，刷新界面即可
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -103,9 +135,10 @@ public class ActivityMessagePresenter extends BasePresenter {
             //发送图片消息
             Message message = OperationUtil.sendChattingMessage(mGroupId, Constant.TYPE_MSG_IMAGE, null, buf);
             //发送完成后，自动添加到集合中
-            mChattingMessageList.add(CopyUtil.saveMessageReqToChattingMessage(message));
-            //刷新界面
-            mAdapter.notifyDataSetChanged();
+            CopyUtil.saveMessageReqToChattingMessage(message);
+//            mChattingMessageList.add();
+//            //刷新界面
+//            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -143,10 +176,13 @@ public class ActivityMessagePresenter extends BasePresenter {
             Message message = OperationUtil.sendChattingMessage(mGroupId, Constant.TYPE_MSG_TEXT,
                     mActivityBinding.etMessageInput.getText().toString(), null);
 
+            LoggerUtil.logger("TAG", "ActivityMessagePresenter.onClickToSendTextMessage---" + message.getSerial_number());
+
             //发送完成后，自动添加到集合中
-            mChattingMessageList.add(CopyUtil.saveMessageReqToChattingMessage(message));
-            //刷新界面
-            mAdapter.notifyDataSetChanged();
+            CopyUtil.saveMessageReqToChattingMessage(message);
+//            mChattingMessageList.add();
+//            //刷新界面
+//            mAdapter.notifyDataSetChanged();
             //清空输入框
             mActivityBinding.etMessageInput.setText(null);
         }

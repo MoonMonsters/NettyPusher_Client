@@ -26,6 +26,7 @@ public class CreateGroupActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        setSupportActionBar(mActivityBinding.includeToolbar.layoutToolbar);
         mPresenter = new ActivityCreateGroupPresenter(mActivityBinding);
         mActivityBinding.setVariable(BR.presenter, mPresenter);
     }

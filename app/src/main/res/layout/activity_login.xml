@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activity.LoginActivity">
 
@@ -8,32 +9,37 @@
         <variable
             name="presenter"
             type="edu.csuft.chentao.controller.presenter.ActivityLoginPresenter" />
+
+        <variable
+            name="userHead"
+            type="edu.csuft.chentao.pojo.bean.UserHead" />
     </data>
 
     <LinearLayout
-        android:padding="10dp"
-        android:background="@drawable/timg"
         android:id="@+id/activity_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@drawable/timg"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
-            android:background="@mipmap/ic_launcher" />
+            android:background="@mipmap/ic_launcher"
+            app:imageBytes="@{userHead.image}" />
 
         <android.support.design.widget.TextInputLayout
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
             android:id="@+id/et_login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" >
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp">
 
             <EditText
                 android:layout_width="match_parent"
@@ -44,13 +50,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
             android:id="@+id/et_login_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp">
 
             <EditText
                 android:layout_width="match_parent"
@@ -61,25 +67,24 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:layout_margin="10dp"
-            android:background="@drawable/shape_button_login"
             android:id="@+id/btn_login_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_button_login"
             android:onClick="@{()->presenter.onClickToLogin()}"
             android:text="@string/string_login" />
 
         <TextView
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
             android:onClick="@{()->presenter.onClickToRegisterActivity()}"
             android:text="@string/string_new_user_register"
-            android:textColor="@android:color/holo_blue_bright"
-            />
+            android:textColor="@android:color/holo_blue_bright" />
 
     </LinearLayout>
 </layout>

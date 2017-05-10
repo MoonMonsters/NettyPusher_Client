@@ -32,6 +32,8 @@ public class ChattingMessageDao extends AbstractDao<ChattingMessage, Long> {
         public final static Property Time = new Property(5, String.class, "time", false, "TIME");
         public final static Property Message = new Property(6, String.class, "message", false, "MESSAGE");
         public final static Property Image = new Property(7, byte[].class, "image", false, "IMAGE");
+        public final static Property Send_success = new Property(8, int.class, "send_success", false, "SEND_SUCCESS");
+        public final static Property Serial_number = new Property(9, String.class, "serial_number", false, "SERIAL_NUMBER");
     }
 
 
@@ -54,7 +56,9 @@ public class ChattingMessageDao extends AbstractDao<ChattingMessage, Long> {
                 "\"TYPE\" INTEGER NOT NULL ," + // 4: type
                 "\"TIME\" TEXT," + // 5: time
                 "\"MESSAGE\" TEXT," + // 6: message
-                "\"IMAGE\" BLOB);"); // 7: image
+                "\"IMAGE\" BLOB," + // 7: image
+                "\"SEND_SUCCESS\" INTEGER NOT NULL ," + // 8: send_success
+                "\"SERIAL_NUMBER\" TEXT);"); // 9: serial_number
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_CHATTING_MESSAGE_USERID ON CHATTING_MESSAGE" +
                 " (\"USERID\" ASC);");
@@ -95,6 +99,12 @@ public class ChattingMessageDao extends AbstractDao<ChattingMessage, Long> {
         if (image != null) {
             stmt.bindBlob(8, image);
         }
+        stmt.bindLong(9, entity.getSend_success());
+ 
+        String serial_number = entity.getSerial_number();
+        if (serial_number != null) {
+            stmt.bindString(10, serial_number);
+        }
     }
 
     @Override
@@ -124,6 +134,12 @@ public class ChattingMessageDao extends AbstractDao<ChattingMessage, Long> {
         if (image != null) {
             stmt.bindBlob(8, image);
         }
+        stmt.bindLong(9, entity.getSend_success());
+ 
+        String serial_number = entity.getSerial_number();
+        if (serial_number != null) {
+            stmt.bindString(10, serial_number);
+        }
     }
 
     @Override
@@ -141,7 +157,9 @@ public class ChattingMessageDao extends AbstractDao<ChattingMessage, Long> {
             cursor.getInt(offset + 4), // type
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // time
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // message
-            cursor.isNull(offset + 7) ? null : cursor.getBlob(offset + 7) // image
+            cursor.isNull(offset + 7) ? null : cursor.getBlob(offset + 7), // image
+            cursor.getInt(offset + 8), // send_success
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // serial_number
         );
         return entity;
     }
@@ -156,6 +174,8 @@ public class ChattingMessageDao extends AbstractDao<ChattingMessage, Long> {
         entity.setTime(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setMessage(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setImage(cursor.isNull(offset + 7) ? null : cursor.getBlob(offset + 7));
+        entity.setSend_success(cursor.getInt(offset + 8));
+        entity.setSerial_number(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
      }
     
     @Override

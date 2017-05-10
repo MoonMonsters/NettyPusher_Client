@@ -7,8 +7,10 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
-import edu.csuft.chentao.BR;
+
 import java.io.Serializable;
+
+import edu.csuft.chentao.BR;
 
 /**
  * 聊天信息
@@ -51,6 +53,24 @@ public class ChattingMessage extends BaseObservable implements Serializable {
      * 发送的图片
      */
     private byte[] image;
+    /**
+     * 是否发送成功，是的值为View.GONE,否的值为View.VISIBLE
+     */
+    private int send_success;
+    /**
+     * 序列号，用来处理是否发送消息成功的信息
+     */
+    String serial_number;
+
+    @Bindable
+    public int getSend_success() {
+        return this.send_success;
+    }
+
+    public void setSend_success(int send_success) {
+        this.send_success = send_success;
+        notifyPropertyChanged(BR.send_success);
+    }
 
     @Bindable
     public byte[] getImage() {
@@ -132,9 +152,19 @@ public class ChattingMessage extends BaseObservable implements Serializable {
         notifyPropertyChanged(BR._id);
     }
 
-    @Generated(hash = 2002286337)
-    public ChattingMessage(Long _id, int userid, int groupid, int typemsg,
-                           int type, String time, String message, byte[] image) {
+    @Bindable
+    public String getSerial_number() {
+        return this.serial_number;
+    }
+
+    public void setSerial_number(String serial_number) {
+        this.serial_number = serial_number;
+        notifyPropertyChanged(BR.serial_number);
+    }
+
+    @Generated(hash = 662744827)
+    public ChattingMessage(Long _id, int userid, int groupid, int typemsg, int type, String time,
+                           String message, byte[] image, int send_success, String serial_number) {
         this._id = _id;
         this.userid = userid;
         this.groupid = groupid;
@@ -143,10 +173,11 @@ public class ChattingMessage extends BaseObservable implements Serializable {
         this.time = time;
         this.message = message;
         this.image = image;
+        this.send_success = send_success;
+        this.serial_number = serial_number;
     }
 
     @Generated(hash = 898012662)
     public ChattingMessage() {
     }
-
 }

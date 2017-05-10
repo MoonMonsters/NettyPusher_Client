@@ -36,6 +36,10 @@ public class UserInfo extends BaseObservable {
      * 个性签名
      */
     private String signature;
+    /**
+     * 用户名
+     */
+    private String username;
 
     @Bindable
     public String getSignature() {
@@ -77,12 +81,24 @@ public class UserInfo extends BaseObservable {
         notifyPropertyChanged(BR._id);
     }
 
-    @Generated(hash = 950903872)
-    public UserInfo(Long _id, int userid, String nickname, String signature) {
+    @Bindable
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+        notifyPropertyChanged(BR.username);
+    }
+
+    @Generated(hash = 1562545721)
+    public UserInfo(Long _id, int userid, String nickname, String signature,
+            String username) {
         this._id = _id;
         this.userid = userid;
         this.nickname = nickname;
         this.signature = signature;
+        this.username = username;
     }
 
     @Generated(hash = 1279772520)

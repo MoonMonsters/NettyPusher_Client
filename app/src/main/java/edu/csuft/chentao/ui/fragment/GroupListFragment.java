@@ -33,6 +33,15 @@ public class GroupListFragment extends BaseFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        /*
+        是否显示未读消息图标，根据存储数据来判断
+         */
+        mPresenter.showHintNew();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         mPresenter.unregisterEventBus();

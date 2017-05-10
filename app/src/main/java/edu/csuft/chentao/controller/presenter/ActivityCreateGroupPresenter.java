@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -50,6 +51,18 @@ public class ActivityCreateGroupPresenter extends BasePresenter {
         ArrayAdapter adapter = new ArrayAdapter(mActivityBinding.getRoot().getContext(),
                 android.R.layout.simple_list_item_1, mActivityBinding.getRoot().getContext().getResources().getTextArray(R.array.group_tags));
         mActivityBinding.acsCreateGroupTag.setAdapter(adapter);
+        mActivityBinding.setVariable(BR.title, "创建群");
+    }
+
+    @Override
+    public void initListener() {
+        mActivityBinding.includeToolbar.layoutToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CreateGroupActivity) mActivityBinding.getRoot().getContext())
+                        .finish();
+            }
+        });
     }
 
     /**
@@ -58,7 +71,7 @@ public class ActivityCreateGroupPresenter extends BasePresenter {
     public void onClickToSubmit() {
         String groupName = mActivityBinding.etCreateGroupGroupName.getText().toString();
         if (TextUtils.isEmpty(groupName)) {
-            Toast.makeText(MyApplication.getInstance(), OperationUtil.getString(mActivityBinding,R.string.string_not_groupname_null), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MyApplication.getInstance(), OperationUtil.getString(mActivityBinding, R.string.string_not_groupname_null), Toast.LENGTH_SHORT).show();
             return;
         }
 

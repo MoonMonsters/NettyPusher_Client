@@ -12,6 +12,7 @@ import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.resp.GroupReminderResp;
 import edu.csuft.chentao.ui.adapter.ChattingListAdapter2;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 
 /**
@@ -19,7 +20,7 @@ import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
  * email:qxinhai@yeah.net
  */
 
-public class FragmentChattingListPresenter extends BasePresenter {
+public class FragmentChattingListPresenter extends BasePresenter implements ChattingListAdapter2.ICloseOpenedItems {
 
     private FragmentChattingListBinding mFragmentBinding = null;
 
@@ -36,7 +37,7 @@ public class FragmentChattingListPresenter extends BasePresenter {
         //读取所有的记录
         mGroupChattingItemList = (ArrayList<GroupChattingItem>) GroupChattingItemDaoUtil.loadAll();
         //设置adapter
-        mAdapter = new ChattingListAdapter2(mFragmentBinding.getRoot().getContext(), mGroupChattingItemList);
+        mAdapter = new ChattingListAdapter2(mFragmentBinding.getRoot().getContext(), this, mGroupChattingItemList);
         //设置RecyclerView的属性
         mFragmentBinding.slvChattingListContent.setAdapter(mAdapter);
     }
@@ -44,6 +45,7 @@ public class FragmentChattingListPresenter extends BasePresenter {
     @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEBToObjectPresenter(EBToPreObject ebObj) {
+        LoggerUtil.logger("TAG", "FragmentChattingListPresenter---" + ebObj.getTag());
         /*
             接收到了移除数据命令
             此命令是退出了群，然后把ChattingItem移除掉
@@ -72,6 +74,7 @@ public class FragmentChattingListPresenter extends BasePresenter {
                  向聊天列表添加数据项
              */
         } else if (ebObj.getTag().equals(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM)) {
+            LoggerUtil.logger("TAG", "FragmentChattingListPresenter--->增加数据");
             GroupChattingItem chattingItem = (GroupChattingItem) ebObj.getObject();
 
             if (mGroupChattingItemList.contains(chattingItem)) {
@@ -122,5 +125,10 @@ public class FragmentChattingListPresenter extends BasePresenter {
      */
     public void closeOpenedItems() {
         mFragmentBinding.slvChattingListContent.closeOpenedItems();
+    }
+
+    @Override
+    public void closedOpenedItems() {
+        closeOpenedItems();
     }
 }

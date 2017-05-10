@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activity.CreateGroupActivity">
 
@@ -13,21 +14,27 @@
         <variable
             name="detail"
             type="edu.csuft.chentao.pojo.bean.ImageDetail" />
+
+        <variable
+            name="title"
+            type="String" />
     </data>
 
     <RelativeLayout
         android:id="@+id/activity_create_group"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/include_toolbar"
+            layout="@layout/layout_toolbar"
+            bind:title="@{title}" />
 
         <ImageView
             android:id="@+id/iv_create_group_head"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_below="@id/include_toolbar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:background="@drawable/ic_add_img_circle"
@@ -36,6 +43,10 @@
             app:imageBytes="@{detail.image}" />
 
         <android.support.design.widget.TextInputLayout
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
             android:id="@+id/layout_create_group_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,7 +75,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/acs_create_group_tag"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/selector_button_send"
             android:onClick="@{()->presenter.onClickToSubmit()}"
             android:text="@string/string_submit" />
     </RelativeLayout>

@@ -152,7 +152,7 @@ public class ActivityGroupDetailPresenter extends BasePresenter {
         当查看群中数据时，而此时没有该用户，则向服务端请求用户数据，此时通过
         Handler传递过来
          */
-        } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER_ADD_USER)) {
+        } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_PRESENTER_UPDATE_USERINFO)) {
             UserInfoResp resp = (UserInfoResp) ebObj.getObject();
             UserInfo userInfo = UserInfoDaoUtil
                     .getUserInfo(resp.getUserid());

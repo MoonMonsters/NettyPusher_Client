@@ -61,6 +61,9 @@ public class ReturnInfoHandler implements Handler {
                  */
                 OperationUtil.sendEBToObjectPresenter(Constant.TAG_FILE_PRESENTER_REMOVE_FILE, resp);
                 break;
+            case Constant.TYPE_RETURN_INFO_SEND_MESSAGE_SUCCESS:    //消息发送成功，返回标志
+                OperationUtil.sendEBToObjectPresenter(Constant.TAG_ACTIVITY_MESSAGE_PRESENTER_SEND_SUCCESS, resp);
+                break;
             //退出群失败，弹出提示框
             case Constant.TYPE_RETURN_INFO_EXIT_GROUP_FAIL:
                 //管理员把用户踢出去失败，提示管理员

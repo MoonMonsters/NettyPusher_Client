@@ -109,7 +109,7 @@ public class OperationUtil {
         message.setUserid(SharedPrefUserInfoUtil.getUserId());
         //设置时间
         message.setTime(OperationUtil.getCurrentTime());
-
+        message.setSerial_number(OperationUtil.getSerialnumber());
         //发送数据
         SendMessageUtil.sendMessage(message);
 

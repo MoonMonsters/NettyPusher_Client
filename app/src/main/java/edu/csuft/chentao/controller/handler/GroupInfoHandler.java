@@ -12,6 +12,9 @@ import edu.csuft.chentao.utils.OperationUtil;
  * email:qxinhai@yeah.net
  */
 
+/**
+ * 群相关信息
+ */
 class GroupInfoHandler implements Handler {
     @Override
     public void handle(Object object) {

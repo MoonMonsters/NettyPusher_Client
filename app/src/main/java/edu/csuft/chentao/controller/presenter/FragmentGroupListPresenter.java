@@ -3,6 +3,7 @@ package edu.csuft.chentao.controller.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -17,6 +18,7 @@ import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.Groups;
 import edu.csuft.chentao.pojo.resp.GroupReminderResp;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 
 /**
@@ -27,7 +29,7 @@ import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 /**
  * 群列表--GroupListFragment的Presenter
  */
-public class FragmentGroupListPresenter extends BasePresenter{
+public class FragmentGroupListPresenter extends BasePresenter {
 
     private FragmentGroupListBinding mFragmentBinding = null;
     private Context mContext;
@@ -79,6 +81,10 @@ public class FragmentGroupListPresenter extends BasePresenter{
                 //移除掉
                 GroupsDaoUtil.deleteByGroupId(groupId);
             }
+        } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_HINT_PRESENTER)) {
+            //如果接收到了新的提示消息，则将值置为true
+            SharedPrefUserInfoUtil.setHintNew(true);
+            showHintNew();
         }
     }
 
@@ -86,7 +92,27 @@ public class FragmentGroupListPresenter extends BasePresenter{
      * 点击进入HintActivity
      */
     public void onClickToEnterHintActivity() {
+        hideHintNew();
         Intent intent = new Intent(mFragmentBinding.getRoot().getContext(), HintActivity.class);
         mFragmentBinding.getRoot().getContext().startActivity(intent);
     }
+
+    /**
+     * 显示未读消息图标
+     */
+    public void showHintNew() {
+        if (SharedPrefUserInfoUtil.getHintNew()) {
+            mFragmentBinding.ivGroupListNewHint.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 隐藏未读消息图标
+     */
+    private void hideHintNew() {
+        mFragmentBinding.ivGroupListNewHint.setVisibility(View.GONE);
+        //在点击进入HintActivity之后，则将值置为false
+        SharedPrefUserInfoUtil.setHintNew(false);
+    }
+
 }

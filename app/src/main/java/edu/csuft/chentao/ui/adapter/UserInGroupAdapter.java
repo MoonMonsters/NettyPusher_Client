@@ -101,7 +101,7 @@ public class UserInGroupAdapter extends BaseAdapter {
 
         final UserInfo userInfo = mUserInfoList.get(position);
         UserHead userHead = UserHeadDaoUtil.getUserHead(userInfo.getUserid());
-        ItemManagerUserPresenter itemPresenter = new ItemManagerUserPresenter(userInfo);
+        final ItemManagerUserPresenter itemPresenter = new ItemManagerUserPresenter(userInfo);
 
         /*
         设置属性值
@@ -110,6 +110,17 @@ public class UserInGroupAdapter extends BaseAdapter {
         itemBinding.setVariable(BR.userInfo, userInfo);
         itemBinding.setVariable(BR.userHead, userHead);
         itemBinding.setVariable(BR.itemPresenter, itemPresenter);
+        itemBinding.setVariable(BR.userId, userInfo.getUserid());
+
+        itemBinding.layoutUserInGroup.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                //长按事件
+                itemPresenter.onLongClick(v);
+
+                return true;
+            }
+        });
 
         return itemBinding.getRoot();
     }

@@ -186,6 +186,10 @@ public interface Constant {
      * 修改密码错误
      */
     int TYPE_RETURN_INFO_CHANGE_PASSWORD_FAIL = 25;
+    /**
+     * 消息发送成功，返回消息
+     */
+    int TYPE_RETURN_INFO_SEND_MESSAGE_SUCCESS = 26;
 
     /**
      * 获取用户信息
@@ -597,7 +601,7 @@ public interface Constant {
     /**
      * 向GroupDetailActivity界面添加UserInfo数据
      */
-    String TAG_ACTIVITY_GROUP_DETAIL_PRESENTER_ADD_USER = "tag.activity.group.detail.presenter.add.user";
+    String TAG_ACTIVITY_PRESENTER_UPDATE_USERINFO = "tag.activity.presenter.update.userinfo";
 
     /**
      * Handler向FragmentGroupListPresenter中传递Groups数据
@@ -614,7 +618,7 @@ public interface Constant {
     /**
      * Handler向ActivityHintPresenter中传递Hint数据
      */
-    String TAG_ACTIVITY_HINT_PRESENTER = "TAGActivityHintPresenter";
+    String TAG_ACTIVITY_HINT_PRESENTER = "tag.activity.hint.presenter";
 
 //    String HANDLER_ACTIVITY_EDITOR_INFO_Presenter = "HandlerActivityEditor";
 
@@ -675,6 +679,10 @@ public interface Constant {
      * 删除文件
      */
     String TAG_FILE_PRESENTER_REMOVE_FILE = "tag.file.presenter.remove_file";
+    /**
+     * 消息发送成功
+     */
+    String TAG_ACTIVITY_MESSAGE_PRESENTER_SEND_SUCCESS = "tag.activity.message.presenter.send.success";
 
 
     /**

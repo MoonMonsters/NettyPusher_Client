@@ -29,8 +29,12 @@ public class SharedPrefUserInfoUtil {
      * 密码
      */
     private static final String PASSWORD = "password";
+    /**
+     * 是否有新的提示信息暂未阅读
+     */
+    private static final String HINT_NEW = "hint_new";
 
-    private static SharedPreferences mSharedPreferences = MyApplication.getInstance().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+    private static SharedPreferences mSharedPreferences = MyApplication.getInstance().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_MULTI_PROCESS);
     private static SharedPreferences.Editor mEditor = mSharedPreferences.edit();
 
     /**
@@ -57,6 +61,9 @@ public class SharedPrefUserInfoUtil {
      * @param userId 用户id
      */
     public static void setUserId(int userId) {
+
+        LoggerUtil.logger("CHENTAO","SharedPreUserInfoUtil-->userId = " + userId);
+
         mEditor.putInt(USER_ID, userId);
         mEditor.apply();
     }
@@ -91,6 +98,22 @@ public class SharedPrefUserInfoUtil {
     public static String getUsername() {
 
         return mSharedPreferences.getString(USERNAME, null);
+    }
+
+    /**
+     * 保存消息，是否有新的提示信息
+     */
+    public static void setHintNew(boolean isNew) {
+        mEditor.putBoolean(HINT_NEW, isNew);
+        mEditor.apply();
+    }
+
+    /**
+     * 获得是否有新的提示消息没有阅读
+     */
+    public static boolean getHintNew() {
+
+        return mSharedPreferences.getBoolean(HINT_NEW, false);
     }
 
     /**

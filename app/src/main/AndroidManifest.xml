@@ -50,11 +50,15 @@
         <activity
             android:name=".ui.activity.UserInfoActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".ui.activity.SearchGroupActivity" />
+        <activity
+            android:name=".ui.activity.SearchGroupActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.activity.GroupDetailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".ui.activity.CreateGroupActivity" />
+        <activity
+            android:name=".ui.activity.CreateGroupActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".ui.activity.HintActivity" />
         <activity android:name=".ui.activity.CutViewActivity" />
         <activity

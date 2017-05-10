@@ -93,11 +93,13 @@ public class SendMessageUtil {
     /**
      * 退出登录时，发送消息告知服务器
      */
-    public static void sendUnLoginReq() {
+    public static void sendUnLoginReq(int userId) {
+        LoggerUtil.logger("ct.chentao", "SendMessageUtil当前线程是-->" + Thread.currentThread());
         LoggerUtil.logger(Constant.TAG, "SendMessageUtil->发送退出登录消息");
         GetInfoReq req = new GetInfoReq();
         req.setType(Constant.TYPE_GET_INFO_UNLOGIN);
-        req.setArg1(SharedPrefUserInfoUtil.getUserId());
+        req.setArg1(userId);
+        LoggerUtil.logger("ct.chentao", "SendMessageUtil.sendUnLoginReq-->userId = " + userId);
         sendMessage(req);
     }
 }

@@ -19,6 +19,7 @@ import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
+import edu.csuft.chentao.ui.activity.SearchGroupActivity;
 import edu.csuft.chentao.ui.adapter.SearchGroupContentAdapter;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.OperationUtil;
@@ -47,6 +48,7 @@ public class ActivitySearchGroupPresenter extends BasePresenter {
         mAdapter = new SearchGroupContentAdapter(mActivityBinding.getRoot().getContext(), mGroupInfoList);
         mActivityBinding.setVariable(BR.gridViewAdapter, mAdapter);
         mActivityBinding.setVariable(BR.type, 0);
+        mActivityBinding.setVariable(BR.title, "搜索群");
     }
 
     /**
@@ -117,5 +119,15 @@ public class ActivitySearchGroupPresenter extends BasePresenter {
             //隐藏对话框
             dismissProgressDialog();
         }
+    }
+
+    @Override
+    public void initListener() {
+        mActivityBinding.includeToolbar.layoutToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((SearchGroupActivity) mActivityBinding.getRoot().getContext()).finish();
+            }
+        });
     }
 }

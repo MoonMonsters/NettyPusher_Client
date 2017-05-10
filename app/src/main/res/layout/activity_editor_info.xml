@@ -124,8 +124,11 @@
                 android:text="@{userInfo.signature}" />
         </RelativeLayout>
 
+        <View style="@style/view_line_bottom" />
+
         <RelativeLayout
             style="@style/layout_editor_hw"
+            android:layout_width="match_parent"
             android:onClick="@{()->presenter.doClickToChangePassword()}">
 
             <android.support.v7.widget.AppCompatTextView

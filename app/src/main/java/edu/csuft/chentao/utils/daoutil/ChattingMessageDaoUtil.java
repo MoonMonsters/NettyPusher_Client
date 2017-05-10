@@ -40,9 +40,11 @@ public class ChattingMessageDaoUtil {
     /**
      * 保存数据
      */
-    public static void saveChattingMessage(ChattingMessage chattingMessage) {
+    public static boolean saveChattingMessage(ChattingMessage chattingMessage) {
         LoggerUtil.logger(Constant.TAG, "保存ChattingMessage到本地");
         DaoSessionUtil.getChattingMessageDao().insert(chattingMessage);
+
+        return true;
     }
 
     /**
@@ -76,5 +78,18 @@ public class ChattingMessageDaoUtil {
                 .where(ChattingMessageDao.Properties.Groupid.eq(groupId))
                 .orderDesc(ChattingMessageDao.Properties.Time)
                 .offset(offset * 20).limit(20).list();
+    }
+
+    /**
+     * 更新字段
+     */
+    public static void updateChattingMessage(ChattingMessage chattingMessage) {
+        ChattingMessage cm = DaoSessionUtil.getChattingMessageDao()
+                .queryBuilder()
+                .where(ChattingMessageDao.Properties.Groupid.eq(chattingMessage.getGroupid()),
+                        ChattingMessageDao.Properties.Serial_number.eq(chattingMessage.getSerial_number()))
+                .build().list().get(0);
+        DaoSessionUtil.getChattingMessageDao().delete(cm);
+        saveChattingMessage(chattingMessage);
     }
 }

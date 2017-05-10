@@ -13,29 +13,40 @@
             type="edu.csuft.chentao.ui.adapter.GroupListAdapter.ItemGroupListPresenter" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="@{()->itemPresenter.onClickToEnterMessageActivity()}"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/iv_group_list_head"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:contentDescription="@string/app_name"
-            app:imageBytes="@{item.image}" />
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tv_group_list_groupname"
+        <LinearLayout
+            android:id="@+id/layout_groups"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:gravity="start|center_vertical"
-            android:text="@{item.groupname}"
-            android:textSize="18sp" />
+            android:layout_height="wrap_content"
+            android:onClick="@{()->itemPresenter.onClickToEnterMessageActivity()}"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-    </LinearLayout>
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_group_list_head"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:contentDescription="@string/app_name"
+                app:imageBytes="@{item.image}" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_group_list_groupname"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:gravity="start|top"
+                android:text="@{item.groupname}"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <View
+            style="@style/view_line_bottom"
+            android:layout_below="@id/layout_groups" />
+
+    </RelativeLayout>
 </layout>

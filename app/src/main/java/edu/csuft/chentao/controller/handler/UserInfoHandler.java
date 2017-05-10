@@ -31,6 +31,8 @@ class UserInfoHandler implements Handler {
             } else if (resp.getType() == Constant.TYPE_LOGIN_NEW
                     || resp.getType() == Constant.TYPE_LOGIN_USER_INFO) { //如果是重新登录类型
 
+                LoggerUtil.logger("CHENTAO", "接收到用户数据.username----" + resp.getUsername());
+                LoggerUtil.logger("CHENTAO", "接收到用户数据.userid----" + resp.getUserid());
                 /*
                 如果是新登录或者获得其他用户信息类型，则要从服务端把该用户的所有数据都获取过来，保存
                  */
@@ -46,8 +48,8 @@ class UserInfoHandler implements Handler {
                 }
                 if (resp.getType() == Constant.TYPE_LOGIN_USER_INFO) {
                     LoggerUtil.logger(Constant.TAG, "UserInfoHandler->LOGIN_USER_INFO....接收到用户数据");
-                    //向GroupDetailActivity界面添加新的数据
-                    EBToPreObject ebObj = new EBToPreObject(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER_ADD_USER, resp);
+                    //向需要更新用户数据的Presenter中发送数据
+                    EBToPreObject ebObj = new EBToPreObject(Constant.TAG_ACTIVITY_PRESENTER_UPDATE_USERINFO, resp);
                     EventBus.getDefault().post(ebObj);
                 }
             }

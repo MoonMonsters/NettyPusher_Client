@@ -28,6 +28,7 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
         public final static Property Userid = new Property(1, int.class, "userid", false, "USERID");
         public final static Property Nickname = new Property(2, String.class, "nickname", false, "NICKNAME");
         public final static Property Signature = new Property(3, String.class, "signature", false, "SIGNATURE");
+        public final static Property Username = new Property(4, String.class, "username", false, "USERNAME");
     }
 
 
@@ -46,7 +47,8 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: _id
                 "\"USERID\" INTEGER NOT NULL UNIQUE ," + // 1: userid
                 "\"NICKNAME\" TEXT," + // 2: nickname
-                "\"SIGNATURE\" TEXT);"); // 3: signature
+                "\"SIGNATURE\" TEXT," + // 3: signature
+                "\"USERNAME\" TEXT);"); // 4: username
     }
 
     /** Drops the underlying database table. */
@@ -74,6 +76,11 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
         if (signature != null) {
             stmt.bindString(4, signature);
         }
+ 
+        String username = entity.getUsername();
+        if (username != null) {
+            stmt.bindString(5, username);
+        }
     }
 
     @Override
@@ -95,6 +102,11 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
         if (signature != null) {
             stmt.bindString(4, signature);
         }
+ 
+        String username = entity.getUsername();
+        if (username != null) {
+            stmt.bindString(5, username);
+        }
     }
 
     @Override
@@ -108,7 +120,8 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // _id
             cursor.getInt(offset + 1), // userid
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // nickname
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // signature
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // signature
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // username
         );
         return entity;
     }
@@ -119,6 +132,7 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
         entity.setUserid(cursor.getInt(offset + 1));
         entity.setNickname(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setSignature(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setUsername(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
      }
     
     @Override

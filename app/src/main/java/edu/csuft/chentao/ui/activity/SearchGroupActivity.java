@@ -25,13 +25,14 @@ public class SearchGroupActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        setSupportActionBar(mActivityBinding.includeToolbar.layoutToolbar);
         mPresenter = new ActivitySearchGroupPresenter(mActivityBinding);
         mActivityBinding.setVariable(BR.presenter, mPresenter);
     }
 
     @Override
     protected void onDestroy() {
-        super.onStop();
+        super.onDestroy();
         mPresenter.unregisterEventBus();
     }
 }

@@ -3,15 +3,15 @@ package edu.csuft.chentao.controller.presenter;
 import android.content.Intent;
 
 import edu.csuft.chentao.R;
+import edu.csuft.chentao.base.BasePresenter;
+import edu.csuft.chentao.databinding.FragmentMineBinding;
+import edu.csuft.chentao.pojo.bean.UserHead;
+import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.ui.activity.EditorInfoActivity;
 import edu.csuft.chentao.ui.activity.LoginActivity;
 import edu.csuft.chentao.ui.activity.MainActivity;
-import edu.csuft.chentao.base.BasePresenter;
-import edu.csuft.chentao.databinding.FragmentMineBinding;
-import edu.csuft.chentao.pojo.bean.EBToPreObject;
-import edu.csuft.chentao.pojo.bean.UserHead;
-import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.ui.view.CustomerAlertDialog;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
@@ -40,6 +40,7 @@ public class FragmentMinePresenter extends BasePresenter implements CustomerAler
      * 退出登录，注销
      */
     public void onClickToExitLogining() {
+        LoggerUtil.logger("ct.chentao", "FragmentMinePresenter.onClickToExitLogining-->userId = " + SharedPrefUserInfoUtil.getUserId());
         CustomerAlertDialog dialog = new CustomerAlertDialog(mFragmentBinding.getRoot().getContext(),
                 this,
                 OperationUtil.getString(mFragmentBinding, R.string.string_exit_login),
@@ -60,6 +61,8 @@ public class FragmentMinePresenter extends BasePresenter implements CustomerAler
 
     @Override
     protected void initData() {
+        LoggerUtil.logger("ct.chentao", "FragmentMinePresenter.initData-->userId = " + SharedPrefUserInfoUtil.getUserId());
+
         //绑定数据
         UserInfo userInfo = UserInfoDaoUtil.getUserInfo(SharedPrefUserInfoUtil.getUserId());
         UserHead userHead = UserHeadDaoUtil.getUserHead(SharedPrefUserInfoUtil.getUserId());
@@ -67,6 +70,8 @@ public class FragmentMinePresenter extends BasePresenter implements CustomerAler
         mFragmentBinding.setUserInfo(userInfo);
         mFragmentBinding.setUserHead(userHead);
     }
+
+    private int mUserId = SharedPrefUserInfoUtil.getUserId();
 
     @Override
     public void doClickAlertDialogToOk() {
@@ -80,8 +85,9 @@ public class FragmentMinePresenter extends BasePresenter implements CustomerAler
         GroupsDaoUtil.deleteAll();
         //删除所有消息数据
         HintDaoUtil.deleteAll();
+        LoggerUtil.logger("ct.chentao", "FragmentMinePresenter.doClickAlertDialogToOk-->userId = " + mUserId);
         //退出登录
-        SendMessageUtil.sendUnLoginReq();
+        SendMessageUtil.sendUnLoginReq(mUserId);
 
         (mFragmentBinding.getRoot().getContext()).startActivity(new Intent(
                 (mFragmentBinding.getRoot().getContext()),

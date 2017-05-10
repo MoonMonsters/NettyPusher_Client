@@ -24,17 +24,33 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/actv_group_list_hint"
+        <android.support.percent.PercentRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_hint"
-            android:drawablePadding="20dp"
-            android:gravity="center_vertical"
-            android:onClick="@{()->presenter.onClickToEnterHintActivity()}"
-            android:padding="10dp"
-            android:text="@string/string_hint_list"
-            android:textSize="20sp" />
+            android:layout_height="60dp">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/actv_group_list_hint"
+                android:layout_height="60dp"
+                android:drawableLeft="@drawable/ic_hint5"
+                android:drawablePadding="20dp"
+                android:drawableStart="@drawable/ic_hint5"
+                android:gravity="center_vertical"
+                android:onClick="@{()->presenter.onClickToEnterHintActivity()}"
+                android:padding="10dp"
+                android:text="@string/string_hint_list"
+                android:textSize="18sp"
+                app:layout_widthPercent="90%" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:visibility="gone"
+                android:id="@+id/iv_group_list_new_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toEndOf="@id/actv_group_list_hint"
+                android:layout_toRightOf="@id/actv_group_list_hint"
+                android:background="@drawable/ic_hint_new3" />
+        </android.support.percent.PercentRelativeLayout>
 
         <View style="@style/view_line_bottom" />
 

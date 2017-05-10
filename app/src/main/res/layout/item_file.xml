@@ -32,6 +32,7 @@
             android:background="#ffffffff"
             android:gravity="center|end">
 
+
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/id_remove"
                 android:layout_width="65dp"
@@ -68,11 +69,12 @@
                 android:layout_gravity="center">
 
                 <android.support.v7.widget.AppCompatImageView
+                    android:layout_margin="10dp"
                     android:id="@+id/iv_item_file_icon"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/ic_file"
+                    android:background="@drawable/ic_file_64dp"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()->itemPresenter.doClickToOpenFile()}" />
 
@@ -82,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|bottom"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/ic_download_complete"
+                    android:background="@drawable/ic_download_complete_20dp"
                     android:visibility="@{isVisible}" />
             </FrameLayout>
 

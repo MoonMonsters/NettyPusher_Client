@@ -38,12 +38,12 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatTextView
-            android:visibility="gone"
             android:id="@+id/tv_message_left_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@{msg.time}" />
+            android:text="@{msg.time}"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -58,46 +58,49 @@
                 app:imageBytes="@{userHead.image}" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
                 android:id="@+id/tv_message_left_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/iv_message_left_head"
                 android:layout_toRightOf="@id/iv_message_left_head"
                 android:text="@{userInfo.nickname}" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:id="@+id/tv_message_left_content_text"
+            <FrameLayout
+                android:id="@+id/layout_item_message_left_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_message_left_name"
                 android:layout_toEndOf="@id/iv_message_left_head"
-                android:layout_toRightOf="@id/iv_message_left_head"
-                android:autoLink="all"
-                android:background="@drawable/bubble_l"
-                android:gravity="start|center_vertical"
-                android:lineSpacingMultiplier="1.2"
-                android:maxWidth="250dp"
-                android:text="@{msg.message}"
-                android:textScaleX="1.2"
-                android:visibility="@{msg.typemsg==0?View.VISIBLE:View.GONE}" />
+                android:layout_toRightOf="@id/iv_message_left_head">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_message_left_content_image"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_below="@id/tv_message_left_name"
-                android:layout_toEndOf="@id/iv_message_left_head"
-                android:layout_toRightOf="@id/iv_message_left_head"
-                android:contentDescription="@string/app_name"
-                android:onClick="@{()->itemPresenter.onClickForImageDetail()}"
-                android:padding="5dp"
-                android:visibility="@{msg.typemsg==1?View.VISIBLE:View.GONE}"
-                app:imageBytes="@{msg.image}" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_message_left_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:autoLink="all"
+                    android:background="@drawable/bubble_l"
+                    android:gravity="start|center_vertical"
+                    android:lineSpacingMultiplier="1.2"
+                    android:maxWidth="250dp"
+                    android:text="@{msg.message}"
+                    android:textScaleX="1.2"
+                    android:visibility="@{msg.typemsg==0?View.VISIBLE:View.GONE}" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_message_left_content_image"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()->itemPresenter.onClickForImageDetail()}"
+                    android:padding="5dp"
+                    android:visibility="@{msg.typemsg==1?View.VISIBLE:View.GONE}"
+                    app:imageBytes="@{msg.image}" />
+            </FrameLayout>
 
         </RelativeLayout>
 

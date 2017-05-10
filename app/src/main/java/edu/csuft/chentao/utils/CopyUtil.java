@@ -1,5 +1,7 @@
 package edu.csuft.chentao.utils;
 
+import android.view.View;
+
 import java.util.List;
 
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
@@ -27,7 +29,7 @@ public class CopyUtil {
     /**
      * 将发送的内容转换成ChattingMessage对象并且保存
      */
-    public static ChattingMessage saveMessageReqToChattingMessage(Message message) {
+    public static void saveMessageReqToChattingMessage(Message message) {
         LoggerUtil.logger(Constant.TAG, "Message转换成ChattingMessage");
         ChattingMessage chattingMessage = new ChattingMessage();
 
@@ -38,19 +40,26 @@ public class CopyUtil {
         chattingMessage.setMessage(message.getMessage());
         chattingMessage.setType(message.getType());
         chattingMessage.setTypemsg(message.getTypeMsg());
+        chattingMessage.setSend_success(View.VISIBLE);
+        chattingMessage.setSerial_number(message.getSerial_number());
 
         String nickname = UserInfoDaoUtil.getUserInfo(message.getUserid()) == null ?
                 null : UserInfoDaoUtil.getUserInfo(message.getUserid()).getNickname();
 
-        //保存到本地
-        ChattingMessageDaoUtil.saveChattingMessage(chattingMessage);
-
         int groupId = chattingMessage.getGroupid();
         String lastMessage = chattingMessage.getTypemsg() == Constant.TYPE_MSG_TEXT ? chattingMessage.getMessage()
                 : "[图片]";
-        saveChattingListItemData(groupId, nickname + ": " + lastMessage);
+        LoggerUtil.logger("TAG", "CopyUtil---saveMessageReqToChattingMessage");
 
-        return chattingMessage;
+        //将消息发送到presenter中的List中去显示
+        OperationUtil.sendEBToObjectPresenter(Constant.TAG_ADD_CHATTING_MESSAGE, chattingMessage);
+        //显示到对话框中
+        saveChattingListItemData(groupId, nickname + ": " + lastMessage);
+        ChattingMessageDaoUtil.saveChattingMessage(chattingMessage);
+        //如果是发送消息，则先保存到本地,在保存完之后再发送消息到服务端
+//        if ( && chattingMessage.getType() == Constant.TYPE_MSG_SEND) {
+//            SendMessageUtil.sendMessage(message);
+//        }
     }
 
     /**
@@ -89,6 +98,7 @@ public class CopyUtil {
      * 保存ChattingGroupItem数据
      */
     private static synchronized void saveChattingListItemData(int groupId, String lastMessage) {
+        LoggerUtil.logger("TAG", "CopyUtil---saveChattingListItemData");
         List<GroupChattingItem> chattingItemList = GroupChattingItemDaoUtil.loadAllWithGroupId(groupId);
         if (chattingItemList.size() == 0) {
             Groups groups = GroupsDaoUtil.getGroups(groupId);

@@ -131,7 +131,7 @@ public class ActivityUserInfoPresenter extends BasePresenter {
 
     @Override
     public void getEBToObjectPresenter(EBToPreObject ebObj) {
-        if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER_ADD_USER)) {
+        if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_PRESENTER_UPDATE_USERINFO)) {
             setUserInfo();
         }
     }
