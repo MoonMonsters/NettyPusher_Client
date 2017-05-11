@@ -5,11 +5,8 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 /**
- * Created by csuft.chentao on 2017/3/25.
- */
-
-/**
  * 自定义对话框
+ * Created by csuft.chentao on 2017/3/25.
  */
 public class CustomerAlertDialog {
     private AlertDialog mDialog;
@@ -92,23 +89,25 @@ public class CustomerAlertDialog {
      */
     public void show() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        mDialog = builder.setTitle(mTitle)
-                .setMessage(mContent)
-                .setPositiveButton(mPositiveButtonText, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mDialogClickListener.doClickAlertDialogToOk();
-                        dismiss();
-                    }
-                })
-                .setNegativeButton(mNegativeButtonText, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dismiss();
-                    }
-                })
-                .create();
-        mDialog.show();
+        if (mDialog == null) {
+            mDialog = builder.setTitle(mTitle)
+                    .setMessage(mContent)
+                    .setPositiveButton(mPositiveButtonText, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mDialogClickListener.doClickAlertDialogToOk();
+                            dismiss();
+                        }
+                    })
+                    .setNegativeButton(mNegativeButtonText, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dismiss();
+                        }
+                    })
+                    .create();
+            mDialog.show();
+        }
     }
 
     /**

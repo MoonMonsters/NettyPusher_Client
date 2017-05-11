@@ -13,7 +13,7 @@ import edu.csuft.chentao.utils.OperationUtil;
  * email:qxinhai@yeah.net
  */
 
-public class ReturnInfoHandler implements Handler {
+class ReturnInfoHandler implements Handler {
     @Override
     public void handle(Object object) {
         ReturnInfoResp resp = (ReturnInfoResp) object;
@@ -82,6 +82,11 @@ public class ReturnInfoHandler implements Handler {
             case Constant.TYPE_RETURN_INFO_REMOVE_FILE_FAIL:
                 Toast.makeText(MyApplication.getInstance(), (String) resp.getObj(), Toast.LENGTH_SHORT).show();
                 break;
+            case Constant.TYPE_RETURN_INFO_CLIENT_EXIT:
+                LoggerUtil.logger("ct.chentao2", "ReturnInfoHandler.退出登录");
+                OperationUtil.sendEBToObjectPresenter(Constant.TAG_ACTIVITY_MAIN_PRESENTER_EXIT_LOGIN, resp);
+                break;
         }
     }
+
 }

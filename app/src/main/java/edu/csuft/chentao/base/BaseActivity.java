@@ -26,8 +26,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         initData();
 
         if (!(this instanceof MainActivity) && !(this instanceof ImageActivity)) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            try {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+        ActivityManager.add(this);
     }
 
     /**
@@ -54,4 +60,31 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 初始化数据
      */
     public abstract void initData();
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        ActivityManager.removeActivity(this);
+        executeOnDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        executeOnStop();
+    }
+
+    /**
+     * 当Activity处于Stop状态时执行的操作
+     */
+    public void executeOnStop() {
+    }
+
+    /**
+     * 当Activity处于Destroy状态时执行的操作
+     */
+    public void executeOnDestroy() {
+    }
 }

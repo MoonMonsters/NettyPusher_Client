@@ -2,11 +2,7 @@ package edu.csuft.chentao.ui.activity;
 
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Handler;
-import android.support.v7.app.ActionBar;
-import android.view.View;
 
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;

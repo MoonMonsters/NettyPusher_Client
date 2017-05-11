@@ -41,8 +41,7 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    public void executeOnStop() {
         mPresenter.unregisterEventBus();
     }
 }

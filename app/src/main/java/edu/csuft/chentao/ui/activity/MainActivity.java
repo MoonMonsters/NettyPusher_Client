@@ -27,11 +27,6 @@ public class MainActivity extends BaseActivity {
         this.mActivityBinding = (ActivityMainBinding) viewDataBinding;
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mPresenter.dismissPopupWindow();
-    }
 
     @Override
     public void initData() {
@@ -48,12 +43,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mPresenter.unregisterEventBus();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         //菜单
@@ -62,5 +51,15 @@ public class MainActivity extends BaseActivity {
         }
 
         return true;
+    }
+
+    @Override
+    public void executeOnStop() {
+        mPresenter.dismissPopupWindow();
+    }
+
+    @Override
+    public void executeOnDestroy() {
+        mPresenter.unregisterEventBus();
     }
 }

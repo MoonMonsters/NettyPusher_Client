@@ -1,5 +1,6 @@
 package edu.csuft.chentao.controller.presenter;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,19 +14,30 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 import edu.csuft.chentao.R;
+import edu.csuft.chentao.base.ActivityManager;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityMainBinding;
 import edu.csuft.chentao.databinding.ItemGroupOperationBinding;
+import edu.csuft.chentao.pojo.bean.EBToPreObject;
+import edu.csuft.chentao.ui.activity.LoginActivity;
 import edu.csuft.chentao.ui.activity.MainActivity;
 import edu.csuft.chentao.ui.fragment.FragmentFactory;
+import edu.csuft.chentao.ui.view.CustomerAlertDialog;
+import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
+import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
+import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
+import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
+import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
+import edu.csuft.chentao.utils.daoutil.HintDaoUtil;
 
 /**
  * Created by Chalmers on 2016-12-28 17:26.
  * email:qxinhai@yeah.net
  */
 
-public class ActivityMainPresenter extends BasePresenter {
+public class ActivityMainPresenter extends BasePresenter implements CustomerAlertDialog.IAlertDialogClickListener {
 
     private ActivityMainBinding mActivityBinding = null;
     private static MainActivity mActivity = null;
@@ -182,4 +194,46 @@ public class ActivityMainPresenter extends BasePresenter {
         }
     }
 
+    @Override
+    public void getEBToObjectPresenter(EBToPreObject ebObj) {
+        if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_MAIN_PRESENTER_EXIT_LOGIN)) {
+            LoggerUtil.logger("ct.chentao2", "ActivityMainPresenter.退出登录");
+            exitLogin();
+        }
+    }
+
+    /**
+     * 重复登录，被下线
+     */
+    private void exitLogin() {
+        LoggerUtil.logger("ct.chentao2", "重复登录，被迫下线");
+
+        CustomerAlertDialog dialog = new CustomerAlertDialog(mActivityBinding.getRoot().getContext(),
+                this, "退出", "重复登录，您被迫下线！！", "确定", null);
+        dialog.show();
+
+        LoggerUtil.logger("ct.chentao2", "清空Activity栈，跳到LoginActivity界面");
+    }
+
+    @Override
+    public void doClickAlertDialogToOk() {
+
+        //清空保存的用户信息
+        SharedPrefUserInfoUtil.clearUserInfo();
+        //删除所有的ChattingMessage数据
+        ChattingMessageDaoUtil.deleteAll();
+        //删除所有的GroupChattingItem数据
+        GroupChattingItemDaoUtil.deleteAll();
+        //删除所有的Groups数据
+        GroupsDaoUtil.deleteAll();
+        //删除所有消息数据
+        HintDaoUtil.deleteAll();
+
+        //清空所有的Activity
+        ActivityManager.clearActivities();
+
+        Intent intent = new Intent(mActivityBinding.getRoot().getContext(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        mActivityBinding.getRoot().getContext().startActivity(intent);
+    }
 }

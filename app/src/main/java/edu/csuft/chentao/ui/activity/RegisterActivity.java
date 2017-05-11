@@ -38,8 +38,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void executeOnDestroy() {
         mActivityPresenter.unregisterEventBus();
     }
 

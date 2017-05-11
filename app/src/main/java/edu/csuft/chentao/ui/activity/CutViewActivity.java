@@ -17,7 +17,6 @@ import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityCutViewPresenter;
 import edu.csuft.chentao.databinding.ActivityCutViewBinding;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 
 public class CutViewActivity extends BaseActivity {
@@ -42,8 +41,7 @@ public class CutViewActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void executeOnDestroy() {
         mActivityPresenter.unregisterEventBus();
     }
 

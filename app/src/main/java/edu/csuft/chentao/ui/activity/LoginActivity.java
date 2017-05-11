@@ -1,10 +1,6 @@
 package edu.csuft.chentao.ui.activity;
 
 import android.databinding.ViewDataBinding;
-import android.graphics.Color;
-import android.os.Build;
-import android.support.v7.app.ActionBar;
-import android.view.View;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
@@ -38,8 +34,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    public void executeOnStop() {
         //注销EventBus
         mPresenter.unregisterEventBus();
     }

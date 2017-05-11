@@ -39,17 +39,14 @@ public class GroupDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-
+    public void executeOnStop() {
         if (mPopupWindow != null) {
             mPopupWindow.dismiss();
         }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void executeOnDestroy() {
         mPresenter.unregisterEventBus();
     }
 
@@ -68,23 +65,6 @@ public class GroupDetailActivity extends BaseActivity {
             //点击菜单栏进入下一个界面去
             mPresenter.enterGroupSettingActivity();
         }
-
-//        if (item.getItemId() == R.id.action_group_detail_more) {
-//            View view = LayoutInflater.from(this)
-//                    .inflate(R.layout.item_group_detail_popup, null);
-//            //弹出菜单
-//            mPopupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-//            mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//            mPopupWindow.setOutsideTouchable(true);
-//            mPopupWindow.showAsDropDown(mActivityBinding.tlGroupDetailBar);
-//
-//            ItemGroupDetailPopupBinding binding =
-//                    DataBindingUtil.bind(view);
-//            ItemGroupDetailPopupPresenter itemPresenter =
-//                    new ItemGroupDetailPopupPresenter(mActivityBinding, mPopupWindow);
-//            itemPresenter.setGroupId(getIntent().getIntExtra(Constant.EXTRA_GROUP_ID, -1));
-//            binding.setVariable(BR.itemPresenter, itemPresenter);
-//        }
 
         return true;
     }

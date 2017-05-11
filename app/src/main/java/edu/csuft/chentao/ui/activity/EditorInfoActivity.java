@@ -32,8 +32,7 @@ public class EditorInfoActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void executeOnDestroy() {
         //注销EventBus
         mPresenter.unregisterEventBus();
     }

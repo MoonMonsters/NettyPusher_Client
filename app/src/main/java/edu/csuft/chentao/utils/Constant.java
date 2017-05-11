@@ -1,6 +1,3 @@
-/**
- * 常量类
- */
 package edu.csuft.chentao.utils;
 
 import android.os.Environment;
@@ -8,17 +5,19 @@ import android.os.Environment;
 import java.io.File;
 
 /**
+ * 常量类
+ *
  * @author csuft.chentao
  *         <p>
  *         2016年12月10日 上午10:22:54
  */
 public interface Constant {
 
-    /**
+    /*
      * 虚拟机连接
      */
 //    String CONNECTION_URL = "169.254.187.72";
-    /**
+    /*
      * Wifi连接
      */
 //    String CONNECTION_URL = "192.168.191.3";
@@ -190,6 +189,11 @@ public interface Constant {
      * 消息发送成功，返回消息
      */
     int TYPE_RETURN_INFO_SEND_MESSAGE_SUCCESS = 26;
+
+    /**
+     * 让客户端掉线
+     */
+    int TYPE_RETURN_INFO_CLIENT_EXIT = 27;
 
     /**
      * 获取用户信息
@@ -578,7 +582,7 @@ public interface Constant {
      */
     int TYPE_HINT_SHOW_AGREE_REFUSE_BUTTON = 3;
 
-    /**
+    /*
      * 在对话框的标题显示类型
      */
     /**
@@ -683,7 +687,10 @@ public interface Constant {
      * 消息发送成功
      */
     String TAG_ACTIVITY_MESSAGE_PRESENTER_SEND_SUCCESS = "tag.activity.message.presenter.send.success";
-
+    /**
+     * 从ReturnInfoHandler中传递消息到ActivityMainPresenter中去，然后退出登录
+     */
+    String TAG_ACTIVITY_MAIN_PRESENTER_EXIT_LOGIN = "tag.activity.main.presenter.exit.login";
 
     /**
      * 从CreateGroupActivity传递Image数据到Presenter中去
