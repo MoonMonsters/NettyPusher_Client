@@ -37,7 +37,5 @@
             android:layout_height="match_parent"
             android:layout_above="@id/bnb_main_tab"
             android:layout_below="@id/abl_main_layout" />
-
-
     </RelativeLayout>
 </layout>

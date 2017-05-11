@@ -6,8 +6,6 @@
 
         <import type="android.view.View" />
 
-        <import type="edu.csuft.chentao.utils.OperationUtil" />
-
         <import type="edu.csuft.chentao.utils.Constant" />
 
         <variable

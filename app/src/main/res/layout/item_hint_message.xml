@@ -8,7 +8,7 @@
 
         <import type="edu.csuft.chentao.utils.Constant" />
 
-        <import type="edu.csuft.chentao.utils.OperationUtil" />
+        <import type="edu.csuft.chentao.utils.XMLUtil" />
 
         <variable
             name="hintData"
@@ -63,7 +63,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@{OperationUtil.getTextWithHintType(hintData.show)}"
+            android:text="@{XMLUtil.getTextWithHintType(hintData.show)}"
             android:visibility="@{hintData.show==Constant.TYPE_HINT_SHOW_AGREE||hintData.show==Constant.TYPE_HINT_SHOW_REFUSE?View.VISIBLE:View.GONE}" />
 
         <LinearLayout

@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="edu.csuft.chentao.utils.OperationUtil" />
+        <import type="edu.csuft.chentao.utils.XMLUtil" />
 
         <variable
             name="announcement"
@@ -99,7 +99,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingStart="10dp"
-            android:text="@{OperationUtil.appendString(announcement.username,announcement.time)}"
+            android:text="@{XMLUtil.appendString(announcement.username,announcement.time)}"
             android:textColor="@android:color/black"
             android:textSize="12sp" />
 

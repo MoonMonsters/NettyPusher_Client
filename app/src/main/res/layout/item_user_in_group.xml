@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="edu.csuft.chentao.utils.OperationUtil" />
+        <import type="edu.csuft.chentao.utils.XMLUtil" />
 
         <import type="android.view.View" />
 
@@ -64,7 +64,7 @@
             android:paddingStart="5dp"
             android:paddingTop="2dp"
             android:shadowRadius="@android:integer/config_shortAnimTime"
-            android:text="@{OperationUtil.getCapital(capital)}"
+            android:text="@{XMLUtil.getCapital(capital)}"
             android:textColor="@android:color/white"
             android:textSize="13sp" />
 

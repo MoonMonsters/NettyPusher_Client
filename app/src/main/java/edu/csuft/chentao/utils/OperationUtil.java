@@ -1,7 +1,5 @@
 package edu.csuft.chentao.utils;
 
-import android.content.Context;
-import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.View;
-import android.view.WindowManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,14 +22,10 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
-import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.req.GetInfoReq;
 import edu.csuft.chentao.pojo.req.Message;
-import edu.csuft.chentao.pojo.resp.GroupInfoResp;
-import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 
 /**
  * Created by Chalmers on 2016-12-29 17:43.
@@ -53,35 +46,6 @@ public class OperationUtil {
         cal.add(java.util.Calendar.MILLISECOND, -(zoneOffset + dstOffset));
 
         return DateFormat.format("yyyy'-'MM'-'dd' 'kk':'mm':'ss' '", cal).toString();
-    }
-
-    /**
-     * 发送广播去更新聊天框数据
-     *
-     * @param chattingItem GroupChattingItem对象
-     */
-    public static void sendBroadcastToUpdateGroupChattingItem(GroupChattingItem chattingItem) {
-        //向FragmentChattingListPresenter发送数据，更新数据项
-
-    }
-
-    /**
-     * 发送广播去添加GroupChattingItem独享
-     */
-    public static void sendBroadcastToAddGroupChattingItem(GroupChattingItem chattingItem) {
-        LoggerUtil.logger("FragmentChattingListPresenter", Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_ADD_ITEM + "sendBroadcastToAddGroupChattingItem");
-        //传递对象到FragmentChattingListPresenter中去，添加数据项
-
-    }
-
-    /**
-     * 更新用户信息
-     */
-    public static void sendBroadcastToUpdateUserInfo(ReturnInfoResp resp) {
-        Intent intent = new Intent();
-        intent.setAction(Constant.ACTION_RETURN_INFO);
-        intent.putExtra(Constant.EXTRA_RETURN_INFO, resp);
-        MyApplication.getInstance().sendBroadcast(intent);
     }
 
     /**
@@ -145,29 +109,6 @@ public class OperationUtil {
     }
 
     /**
-     * 获得身份信息
-     *
-     * @param capital 身份值
-     */
-    public static String getCapital(int capital) {
-        String result = null;
-
-        switch (capital) {
-            case Constant.TYPE_GROUP_CAPITAL_ADMIN:
-                result = Constant.ADMIN;
-                break;
-            case Constant.TYPE_GROUP_CAPITAL_OWNER:
-                result = Constant.OWNER;
-                break;
-            case Constant.TYPE_GROUP_CAPITAL_USER:
-                result = Constant.USER;
-                break;
-        }
-
-        return result;
-    }
-
-    /**
      * 发送消息请求用户数据
      *
      * @param userId 用户id
@@ -177,47 +118,6 @@ public class OperationUtil {
         req.setType(Constant.TYPE_GET_INFO_USERINFO);
         req.setArg1(userId);
         SendMessageUtil.sendMessage(req);
-    }
-
-    /**
-     * 获取屏幕宽度
-     */
-    public static int getScreenWidth() {
-        WindowManager wm = (WindowManager) MyApplication.getInstance().getSystemService(Context.WINDOW_SERVICE);
-        return wm.getDefaultDisplay().getWidth();
-    }
-
-    /**
-     * 获取屏幕高度
-     */
-    public static int getScreenHeight() {
-        WindowManager wm = (WindowManager) MyApplication.getInstance().getSystemService(Context.WINDOW_SERVICE);
-        return wm.getDefaultDisplay().getHeight();
-    }
-
-    /**
-     * 拼凑数量和标签
-     *
-     * @param resp GroupInfoResp对象
-     * @return 拼凑的字符串
-     */
-    public static String getTagAndNumber(GroupInfoResp resp) {
-
-        return resp.getNumber() + "人/" + resp.getTag();
-    }
-
-    /**
-     * 根据类型的值，返回对应的String值
-     */
-    public static String getTextWithHintType(int type) {
-        String result = null;
-        if (type == Constant.TYPE_HINT_SHOW_AGREE) {
-            result = "已同意";
-        } else if (type == Constant.TYPE_HINT_SHOW_REFUSE) {
-            result = "已拒绝";
-        }
-
-        return result;
     }
 
     /**
@@ -474,34 +374,6 @@ public class OperationUtil {
         Bitmap bitmap = BitmapFactory.decodeByteArray(buf, 0, buf.length, options);
 
         return options.outHeight;
-    }
-
-    /**
-     * 字符串的拼接,用空格隔开
-     *
-     * @param values 字符串的所有值
-     * @return 拼接后的字符串
-     */
-    public static String appendString(String... values) {
-        StringBuilder sb = new StringBuilder();
-        for (String str : values) {
-            sb.append(str);
-            sb.append(" ");
-        }
-        sb.replace(sb.length() - 1, sb.length(), "");
-
-        return sb.toString();
-    }
-
-    /**
-     * 拼接文件大小和用户昵称
-     *
-     * @param fileSize 文件大小
-     * @param nickname 用户昵称
-     * @return 拼接后的字符串
-     */
-    public static String spliceFileSizeAndNickName(String fileSize, String nickname) {
-        return fileSize + " 来自 " + nickname;
     }
 
     /**
