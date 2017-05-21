@@ -69,12 +69,13 @@
                         android:text="@string/string_send"
                         android:visibility="gone" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
+                        android:foregroundGravity="center"
                         android:id="@+id/iv_message_select_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_filter_drama_black_24dp"
+                        android:background="@drawable/ic_send_image_36dp"
                         android:onClick="@{()->presenter.onClickToSendImageMessage()}" />
                 </FrameLayout>
 

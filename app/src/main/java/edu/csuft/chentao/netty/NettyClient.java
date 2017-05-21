@@ -46,21 +46,12 @@ public class NettyClient {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) throws Exception {
-//                        ch.pipeline().addLast(new IdleStateHandler(5, 5, 5));
                         ch.pipeline().addLast(new ObjectDecoder(Integer.MAX_VALUE,
                                 ClassResolvers.weakCachingConcurrentResolver(null)));
-
                         ch.pipeline().addLast(new ObjectEncoder());
                         ch.pipeline().addLast(new StringDecoder());
                         ch.pipeline().addLast(new StringEncoder());
-//                        ch.pipeline().addLast(new MyIdleHandler());
                         ch.pipeline().addLast(new NettyClientHandler());
-//                        ch.pipeline().addLast(new NettyMessageDecoder(1024*1024,  4, 4, -8, 0));
-//                        ch.pipeline().addLast("MessageEncoder", new NettyMessageEncoder());
-//                        ch.pipeline().addLast("readTimeoutHandler", new ReadTimeoutHandler(50));
-//                        ch.pipeline().addLast("LoginAuthHandler", new LoginAuthReqHandler());
-//                        ch.pipeline().addLast("HeartBeatHandler", new HeartBeatReqHandler());
-//                        ch.pipeline().addLast(new NettyClientHandler());
                     }
                 });
     }

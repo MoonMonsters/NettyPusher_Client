@@ -119,7 +119,7 @@ public class CopyUtil {
 
             //TODO
             //发送更新广播
-            OperationUtil.sendBroadcastToUpdateGroupChattingItem(chattingItem);
+//            OperationUtil.sendBroadcastToUpdateGroupChattingItem(chattingItem);
         }
     }
 

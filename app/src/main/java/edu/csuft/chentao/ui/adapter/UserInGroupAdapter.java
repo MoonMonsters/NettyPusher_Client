@@ -3,6 +3,7 @@ package edu.csuft.chentao.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -179,14 +180,13 @@ public class UserInGroupAdapter extends BaseAdapter {
             View view = LayoutInflater.from(mContext)
                     .inflate(R.layout.item_manager_user, null);
             mPopupWindow.setContentView(view);
-//            popupWindow.showAsDropDown(v,0,0,Gravity.CENTER);
             //此处必须设置，否则触摸无效
-            mPopupWindow.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.ic_back_gray));
+            Drawable drawable = mContext.getResources().getDrawable(R.color.colorPrimaryDark);
+            mPopupWindow.setBackgroundDrawable(drawable);
             mPopupWindow.setOutsideTouchable(true);
             mPopupWindow.setTouchable(true);
             //显示位置
             mPopupWindow.showAtLocation(v, Gravity.CENTER_HORIZONTAL, 0, (int) (v.getY() + v.getHeight() / 2));
-//            mPopupWindow.showAsDropDown(v);
             //DataBinding
             ItemManagerUserBinding binding = DataBindingUtil.bind(view);
             binding.setVariable(BR.itemPresenter, this);

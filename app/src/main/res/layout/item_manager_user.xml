@@ -19,6 +19,7 @@
         android:paddingStart="30dp">
 
         <android.support.v7.widget.AppCompatTextView
+            android:textColor="@android:color/white"
             android:id="@+id/actv_manager_group_admin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,6 +32,7 @@
         <View style="@style/view_line_bottom" />
 
         <android.support.v7.widget.AppCompatTextView
+            android:textColor="@android:color/white"
             android:id="@+id/actv_manager_group_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,6 +45,7 @@
         <View style="@style/view_line_bottom" />
 
         <android.support.v7.widget.AppCompatTextView
+            android:textColor="@android:color/white"
             android:id="@+id/actv_manager_group_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

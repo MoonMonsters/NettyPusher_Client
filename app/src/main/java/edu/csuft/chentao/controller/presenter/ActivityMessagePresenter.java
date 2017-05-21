@@ -175,14 +175,8 @@ public class ActivityMessagePresenter extends BasePresenter {
             //发送文字消息
             Message message = OperationUtil.sendChattingMessage(mGroupId, Constant.TYPE_MSG_TEXT,
                     mActivityBinding.etMessageInput.getText().toString(), null);
-
-            LoggerUtil.logger("TAG", "ActivityMessagePresenter.onClickToSendTextMessage---" + message.getSerial_number());
-
             //发送完成后，自动添加到集合中
             CopyUtil.saveMessageReqToChattingMessage(message);
-//            mChattingMessageList.add();
-//            //刷新界面
-//            mAdapter.notifyDataSetChanged();
             //清空输入框
             mActivityBinding.etMessageInput.setText(null);
         }
@@ -226,12 +220,12 @@ public class ActivityMessagePresenter extends BasePresenter {
      * 弹出对话框
      */
     private void showPopupAnnouncement() {
-        //在进入主界面后，两秒钟后再弹出公告框
+        //在进入主界面后，一秒钟后再弹出公告框
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

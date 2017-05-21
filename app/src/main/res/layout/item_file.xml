@@ -116,7 +116,7 @@
                     android:layout_weight="2"
                     android:gravity="start|center_vertical"
                     android:maxLines="1"
-                    android:text="@{XMLUtil.spliceFileSizeAndNickName(OperationUtil.getFileSize(fileZip.fileSize),fileZip.nickname)}" />
+                    android:text="@{XMLUtil.spliceFileSizeAndNickName(XMLUtil.getFileSize(fileZip.fileSize),fileZip.nickname)}" />
             </LinearLayout>
 
             <android.support.v7.widget.AppCompatTextView

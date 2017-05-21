@@ -1,5 +1,7 @@
 package edu.csuft.chentao.utils;
 
+import java.text.DecimalFormat;
+
 import edu.csuft.chentao.pojo.resp.GroupInfoResp;
 
 /**
@@ -80,6 +82,37 @@ public class XMLUtil {
             case Constant.TYPE_GROUP_CAPITAL_USER:
                 result = Constant.USER;
                 break;
+        }
+
+        return result;
+    }
+
+    /**
+     * 得到文件大小
+     */
+    public static String getFileSize(String fileSize) {
+        String result = null;
+
+        long KB = 1024;
+        long MB = 1024 * KB;
+        long GB = 1024 * MB;
+
+        try {
+            long size = Long.valueOf(fileSize);
+
+            if (size > GB) {
+                result = DecimalFormat.getInstance().format(size * 1.0 / GB);
+                result += "G";
+            } else if (size > MB) {
+                result = DecimalFormat.getInstance().format(size * 1.0 / MB);
+                result += "M";
+            } else {
+                result = DecimalFormat.getInstance().format(size * 1.0 / KB);
+                result += "K";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return result;
