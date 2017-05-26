@@ -145,7 +145,6 @@ public class FileAdapter extends BaseAdapter {
             }
         }
 
-
         return result;
     }
 

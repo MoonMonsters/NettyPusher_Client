@@ -10,10 +10,7 @@ import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityMessagePresenter;
 import edu.csuft.chentao.databinding.ActivityMessageBinding;
-import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.OperationUtil;
-import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 
 /**
  * @author csuft.chentao
@@ -39,7 +36,6 @@ public class MessageActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
         //设置toolbar
         setSupportActionBar(mActivityBinding.includeToolbar.layoutToolbar);
         //获得传递进来的群id
@@ -59,16 +55,10 @@ public class MessageActivity extends BaseActivity {
         /*
         从该界面退出后，需要把聊天栏的该项的数量置为0，表示该项已经被阅读完成
          */
-        //根据群id得到GroupChattingItem对象
-        GroupChattingItem chattingItem = GroupChattingItemDaoUtil.getGroupChattingItem(groupId);
-        if (chattingItem != null) {
-            //将数据清0
-            chattingItem.setNumber(0);
-            //更新
-            GroupChattingItemDaoUtil.updateGroupChattingItem(chattingItem);
+        mPresenter.updateGroupChattingItems();
 
-            OperationUtil.sendEBToObjectPresenter(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_UPDATE_ITEM, chattingItem);
-        }
+        //关闭对话框
+        mPresenter.closeAnnouncementDialog();
     }
 
     @Override

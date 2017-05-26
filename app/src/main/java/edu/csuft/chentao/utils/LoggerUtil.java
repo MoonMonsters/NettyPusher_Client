@@ -16,14 +16,36 @@ public class LoggerUtil {
 
     private static boolean isPrint = true;
 
+//    /**
+//     * 打印日志
+//     *
+//     * @param key   输出key值
+//     * @param value 输出value值
+//     */
+//    public static void logger(String key, String value) {
+//        if (isPrint) {
+//            Log.i(key, value);
+//        }
+//    }
+
     /**
      * 打印日志
-     * @param key 输出key值
-     * @param value 输出value值
+     *
+     * @param object key值
+     * @param value  value值
      */
-    public static void logger(String key, String value) {
+    public static void logger(Object object, String value) {
+        String name;
         if (isPrint) {
-            Log.i(key, value);
+            if (object instanceof String) {
+                name = (String) object;
+            } else if (object instanceof Class) {
+                name = ((Class) object).getSimpleName();
+            } else {
+                name = object.getClass().getSimpleName();
+            }
+
+            Log.i(name, value);
         }
     }
 

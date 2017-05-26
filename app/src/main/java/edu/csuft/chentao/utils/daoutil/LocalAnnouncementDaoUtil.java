@@ -87,4 +87,18 @@ public class LocalAnnouncementDaoUtil {
         //可以直接使用update进行更新操作
         DaoSessionUtil.getLocalAnnouncementDao().update(la);
     }
+
+    /**
+     * 更新一组数据
+     *
+     * @param localAnnouncementList 需要更新的数据集合
+     */
+    public static void update(List<LocalAnnouncement> localAnnouncementList) {
+        for (LocalAnnouncement la : localAnnouncementList) {
+            LoggerUtil.logger(LocalAnnouncement.class, "True or False : " + la.getIsnew());
+            LoggerUtil.logger(LocalAnnouncement.class, "Title : " + la.getTitle());
+        }
+        DaoSessionUtil.getLocalAnnouncementDao().updateInTx(localAnnouncementList);
+    }
+
 }

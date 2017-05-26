@@ -24,6 +24,7 @@ import edu.csuft.chentao.databinding.ActivityMessageBinding;
 import edu.csuft.chentao.databinding.ItemPopupAnnouncementsBinding;
 import edu.csuft.chentao.pojo.bean.ChattingMessage;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
+import edu.csuft.chentao.pojo.bean.GroupChattingItem;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.bean.LocalAnnouncement;
 import edu.csuft.chentao.pojo.req.Message;
@@ -36,6 +37,7 @@ import edu.csuft.chentao.utils.CopyUtil;
 import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
+import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 import edu.csuft.chentao.utils.daoutil.LocalAnnouncementDaoUtil;
 
@@ -136,9 +138,6 @@ public class ActivityMessagePresenter extends BasePresenter {
             Message message = OperationUtil.sendChattingMessage(mGroupId, Constant.TYPE_MSG_IMAGE, null, buf);
             //发送完成后，自动添加到集合中
             CopyUtil.saveMessageReqToChattingMessage(message);
-//            mChattingMessageList.add();
-//            //刷新界面
-//            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -216,36 +215,69 @@ public class ActivityMessagePresenter extends BasePresenter {
         return list;
     }
 
+    private AlertDialog mDialog;
+
     /**
      * 弹出对话框
      */
     private void showPopupAnnouncement() {
-        //在进入主界面后，一秒钟后再弹出公告框
+        //在子线程中操作，避免数据延迟，带来界面长期空白
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 ((MessageActivity) mActivityBinding.getRoot().getContext())
                         .runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 List<LocalAnnouncement> localAnnouncementList = LocalAnnouncementDaoUtil.getAllLocalAnnouncementsWithNew(mGroupId, true);
+
+                                //用户已读，更新消息，将所有公告状态置为已读状态
+                                for (LocalAnnouncement la : localAnnouncementList) {
+                                    la.setIsnew(false);
+                                }
+                                LocalAnnouncementDaoUtil.update(localAnnouncementList);
+
                                 if (localAnnouncementList.size() != 0) {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(mActivityBinding.getRoot().getContext());
-                                    ItemPopupAnnouncementsBinding binding = DataBindingUtil.inflate(LayoutInflater.from(mActivityBinding.getRoot().getContext()), R.layout.item_popup_announcements, null, false);
-                                    AlertDialog dialog = builder.setView(binding.getRoot())
-                                            .setCancelable(false).create();
-                                    dialog.show();
-                                    binding.setVariable(BR.announcement, localAnnouncementList.get(0));
-                                    binding.setVariable(BR.itemPresenter, new ItemPopupAnnouncementPresenter(binding, dialog, mGroupId));
+                                    if (mDialog == null) {    //如果Dialog对象为空才创建
+                                        ItemPopupAnnouncementsBinding binding = DataBindingUtil.inflate(LayoutInflater.from(mActivityBinding.getRoot().getContext()), R.layout.item_popup_announcements, null, false);
+                                        mDialog = builder.setView(binding.getRoot())
+                                                .setCancelable(false).create();
+                                        //显示对话框
+                                        mDialog.show();
+                                        binding.setVariable(BR.announcement, localAnnouncementList.get(0));
+                                        binding.setVariable(BR.itemPresenter, new ItemPopupAnnouncementPresenter(binding, mDialog, mGroupId));
+                                    }
                                 }
                             }
                         });
             }
         }).start();
+    }
+
+    /**
+     * 关闭公告对话框
+     */
+    public void closeAnnouncementDialog() {
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+    }
+
+    /**
+     * 更新界面
+     */
+    public void updateGroupChattingItems() {
+        //根据群id得到GroupChattingItem对象
+        GroupChattingItem chattingItem = GroupChattingItemDaoUtil.getGroupChattingItem(mGroupId);
+        //如果在对话框界面，存在该群的入口，同时未读消息不为0，则发送消息，刷新界面
+        if (chattingItem != null && chattingItem.getNumber() != 0) {
+            //将数据清0
+            chattingItem.setNumber(0);
+            //更新
+            GroupChattingItemDaoUtil.updateGroupChattingItem(chattingItem);
+
+            OperationUtil.sendEBToObjectPresenter(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_UPDATE_ITEM, chattingItem);
+        }
     }
 }

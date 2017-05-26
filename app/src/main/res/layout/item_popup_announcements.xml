@@ -72,12 +72,10 @@
         </RelativeLayout>
 
         <android.support.v7.widget.AppCompatTextView
-            android:textScaleX="1.2"
             android:id="@+id/tv_popup_announcement_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:lineSpacingMultiplier="1.2"
             android:paddingEnd="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -85,15 +83,14 @@
             android:paddingTop="5dp"
             android:text="@{announcement.title}"
             android:textColor="@android:color/black"
+            android:textScaleX="1.2"
             android:textSize="20sp" />
 
         <android.support.v7.widget.AppCompatTextView
-            android:textScaleX="1.2"
             android:id="@+id/tv_popup_announcement_name_and_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:lineSpacingMultiplier="1.2"
             android:paddingBottom="5dp"
             android:paddingEnd="10dp"
             android:paddingLeft="10dp"
@@ -101,6 +98,7 @@
             android:paddingStart="10dp"
             android:text="@{XMLUtil.appendString(announcement.username,announcement.time)}"
             android:textColor="@android:color/black"
+            android:textScaleX="1.2"
             android:textSize="12sp" />
 
         <View
@@ -108,7 +106,6 @@
             android:layout_height="2dp" />
 
         <android.support.v7.widget.AppCompatTextView
-            android:textScaleX="1.2"
             android:id="@+id/tv_popup_announcement_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -121,14 +118,16 @@
             android:paddingTop="10dp"
             android:text="@{announcement.content}"
             android:textColor="@android:color/black"
+            android:textScaleX="1.2"
             android:textSize="18sp" />
 
         <android.support.percent.PercentRelativeLayout
-            android:paddingBottom="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp">
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_i_know"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
