@@ -1,6 +1,7 @@
 package edu.csuft.chentao.controller.presenter;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -13,6 +14,7 @@ import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.ActivityHintBinding;
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.Hint;
+import edu.csuft.chentao.ui.activity.HintActivity;
 import edu.csuft.chentao.ui.adapter.HintAdapter;
 import edu.csuft.chentao.ui.view.DividerItemDecoration;
 import edu.csuft.chentao.utils.Constant;
@@ -38,6 +40,7 @@ public class ActivityHintPresenter extends BasePresenter {
 
     @Override
     protected void initData() {
+
         if (mHintList == null) {
             mHintList = new ArrayList<>();
         }
@@ -48,6 +51,7 @@ public class ActivityHintPresenter extends BasePresenter {
         mActivityBinding.rvHintContent.addItemDecoration(new DividerItemDecoration(mActivityBinding.getRoot().getContext(),
                 DividerItemDecoration.HORIZONTAL));
         mActivityBinding.setVariable(BR.adapter, mAdapter);
+        mActivityBinding.setVariable(BR.title, "提示信息");
     }
 
     @Override
@@ -64,5 +68,15 @@ public class ActivityHintPresenter extends BasePresenter {
             mHintList.add(hint);
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void initListener() {
+        mActivityBinding.includeToolbar.layoutToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((HintActivity) mActivityBinding.getRoot().getContext()).finish();
+            }
+        });
     }
 }

@@ -59,7 +59,9 @@
         <activity
             android:name=".ui.activity.CreateGroupActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".ui.activity.HintActivity" />
+        <activity
+            android:name=".ui.activity.HintActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".ui.activity.CutViewActivity" />
         <activity
             android:name=".ui.activity.GroupSettingActivity"

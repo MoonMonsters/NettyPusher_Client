@@ -20,7 +20,6 @@ import edu.csuft.chentao.ui.activity.LoginActivity;
 import edu.csuft.chentao.ui.activity.MainActivity;
 import edu.csuft.chentao.ui.activity.RegisterActivity;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
@@ -66,9 +65,6 @@ public class ActivityLoginPresenter extends BasePresenter {
                 //保存用户id
                 SharedPrefUserInfoUtil.setUserId(userId);
 
-                LoggerUtil.logger("ct.chentao","ActivityLoginPresenter当前线程是-->"+Thread.currentThread());
-                LoggerUtil.logger("ct.chentao","ActivityLoginPresenter-->存储的用户id为:userId = " + SharedPrefUserInfoUtil.getUserId());
-
                 //将登录类型设置成自动登录类型
                 SharedPrefUserInfoUtil.setLoginType();
 
@@ -96,9 +92,8 @@ public class ActivityLoginPresenter extends BasePresenter {
 
         //根据输入的用户名获得用户信息
         UserInfo userInfo = UserInfoDaoUtil.getUserInfoByUsername(s.toString());
+        //如果根据用户名，读取到了用户信息，则设置用户头像
         if (userInfo != null) {
-
-            LoggerUtil.logger("TAG", "用户信息不为空-->" + userInfo.getUsername());
 
             //得到用户头像
             UserHead userHead = UserHeadDaoUtil.getUserHead(userInfo.getUserid());
@@ -106,6 +101,8 @@ public class ActivityLoginPresenter extends BasePresenter {
                 //设置图片
                 mActivityBinding.setVariable(BR.userHead, userHead);
             }
+        } else {    //没有用户信息，则使用默认头像
+            mActivityBinding.ivLoginHead.setImageResource(R.mipmap.ic_launcher);
         }
     }
 

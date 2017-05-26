@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activity.HintActivity">
 
@@ -13,22 +14,27 @@
         <variable
             name="presenter"
             type="edu.csuft.chentao.controller.presenter.ActivityHintPresenter" />
+
+        <variable
+            name="title"
+            type="String" />
     </data>
 
     <RelativeLayout
         android:id="@+id/activity_hint"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/include_toolbar"
+            layout="@layout/layout_toolbar"
+            bind:title="@{title}" />
 
         <android.support.v7.widget.RecyclerView
-
             android:id="@+id/rv_hint_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/include_toolbar"
             app:adapter="@{adapter}" />
     </RelativeLayout>
 </layout>

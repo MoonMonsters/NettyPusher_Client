@@ -24,6 +24,7 @@
         android:padding="10dp">
 
         <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_login_head"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"

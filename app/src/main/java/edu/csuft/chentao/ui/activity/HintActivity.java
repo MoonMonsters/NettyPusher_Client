@@ -25,6 +25,7 @@ public class HintActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        setSupportActionBar(mActivityBinding.includeToolbar.layoutToolbar);
         mPresenter = new ActivityHintPresenter(mActivityBinding);
         mActivityBinding.setVariable(BR.presenter, mPresenter);
     }
