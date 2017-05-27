@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.csuft.chentao.dao.GroupChattingItemDao;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
+import edu.csuft.chentao.utils.LoggerUtil;
 
 /**
  * Created by Chalmers on 2017-01-07 13:59.
@@ -34,6 +35,7 @@ public class GroupChattingItemDaoUtil {
      * @param chattingItem GroupChattingItem对象
      */
     public static void saveGroupChattingItem(GroupChattingItem chattingItem) {
+        chattingItem.setFlag(getMaxFlagValue() + 1);
         DaoSessionUtil.getGroupChattingItemDao().save(chattingItem);
     }
 
@@ -43,6 +45,7 @@ public class GroupChattingItemDaoUtil {
      * @param chattingItem GroupChattingItem对象
      */
     public static void updateGroupChattingItem(GroupChattingItem chattingItem) {
+        chattingItem.setFlag(getMaxFlagValue() + 1);
         DaoSessionUtil.getGroupChattingItemDao().update(chattingItem);
     }
 
@@ -92,5 +95,15 @@ public class GroupChattingItemDaoUtil {
         DaoSessionUtil.getGroupChattingItemDao().delete(item);
     }
 
-
+    /**
+     * 获得当前flag的最大值
+     */
+    private static int getMaxFlagValue() {
+        List<GroupChattingItem> itemList = DaoSessionUtil.getGroupChattingItemDao()
+                .queryBuilder().orderDesc(GroupChattingItemDao.Properties.Flag)
+                .list();
+        int result = (itemList == null || itemList.size() == 0) ? 0 : itemList.get(0).getFlag();
+        LoggerUtil.logger(GroupChattingItemDaoUtil.class, "result = " + result);
+        return result;
+    }
 }

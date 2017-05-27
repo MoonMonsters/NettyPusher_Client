@@ -4,6 +4,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.databinding.FragmentChattingListBinding;
@@ -36,6 +38,7 @@ public class FragmentChattingListPresenter extends BasePresenter implements Chat
     protected void initData() {
         //读取所有的记录
         mGroupChattingItemList = (ArrayList<GroupChattingItem>) GroupChattingItemDaoUtil.loadAll();
+        sortByFlagValue();
         //设置adapter
         mAdapter = new ChattingListAdapter2(mFragmentBinding.getRoot().getContext(), this, mGroupChattingItemList);
         //设置RecyclerView的属性
@@ -81,7 +84,7 @@ public class FragmentChattingListPresenter extends BasePresenter implements Chat
                 return;
             }
             mGroupChattingItemList.add(chattingItem);
-            mAdapter.notifyDataSetChanged();
+            adapterNotifyDataChanged();
             /*
                 更新聊天列表的数据项
              */
@@ -98,7 +101,7 @@ public class FragmentChattingListPresenter extends BasePresenter implements Chat
                 mGroupChattingItemList.remove(index);
                 mGroupChattingItemList.add(chattingItem);
             }
-            mAdapter.notifyDataSetChanged();
+            adapterNotifyDataChanged();
             /*
                 移除聊天列表的数据项，跟上面的移除不同，
                 该移除时自己滑动item时删除的项
@@ -115,8 +118,9 @@ public class FragmentChattingListPresenter extends BasePresenter implements Chat
             mGroupChattingItemList.remove(position);
             //从数据库中删除
             GroupChattingItemDaoUtil.removeGroupChattingItem(groupChattingItem);
+
             //刷新
-            mAdapter.notifyDataSetChanged();
+            adapterNotifyDataChanged();
         }
     }
 
@@ -129,6 +133,27 @@ public class FragmentChattingListPresenter extends BasePresenter implements Chat
 
     @Override
     public void closedOpenedItems() {
+        //关闭所有打开的项
         closeOpenedItems();
+    }
+
+    /**
+     * 根据flag值排序，按降序排序
+     */
+    private void sortByFlagValue() {
+        Collections.sort(mGroupChattingItemList, new Comparator<GroupChattingItem>() {
+            @Override
+            public int compare(GroupChattingItem lhs, GroupChattingItem rhs) {
+                return -(lhs.getFlag() - rhs.getFlag());
+            }
+        });
+    }
+
+    /**
+     * 刷新，并按大小顺序排序
+     */
+    private void adapterNotifyDataChanged() {
+        sortByFlagValue();
+        mAdapter.notifyDataSetChanged();
     }
 }

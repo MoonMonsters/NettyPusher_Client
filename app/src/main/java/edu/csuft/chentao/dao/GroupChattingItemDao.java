@@ -30,6 +30,7 @@ public class GroupChattingItemDao extends AbstractDao<GroupChattingItem, Long> {
         public final static Property Lastmessage = new Property(3, String.class, "lastmessage", false, "LASTMESSAGE");
         public final static Property Image = new Property(4, byte[].class, "image", false, "IMAGE");
         public final static Property Number = new Property(5, int.class, "number", false, "NUMBER");
+        public final static Property Flag = new Property(6, int.class, "flag", false, "FLAG");
     }
 
 
@@ -50,7 +51,8 @@ public class GroupChattingItemDao extends AbstractDao<GroupChattingItem, Long> {
                 "\"GROUPID\" INTEGER NOT NULL UNIQUE ," + // 2: groupid
                 "\"LASTMESSAGE\" TEXT," + // 3: lastmessage
                 "\"IMAGE\" BLOB," + // 4: image
-                "\"NUMBER\" INTEGER NOT NULL );"); // 5: number
+                "\"NUMBER\" INTEGER NOT NULL ," + // 5: number
+                "\"FLAG\" INTEGER NOT NULL );"); // 6: flag
     }
 
     /** Drops the underlying database table. */
@@ -84,6 +86,7 @@ public class GroupChattingItemDao extends AbstractDao<GroupChattingItem, Long> {
             stmt.bindBlob(5, image);
         }
         stmt.bindLong(6, entity.getNumber());
+        stmt.bindLong(7, entity.getFlag());
     }
 
     @Override
@@ -111,6 +114,7 @@ public class GroupChattingItemDao extends AbstractDao<GroupChattingItem, Long> {
             stmt.bindBlob(5, image);
         }
         stmt.bindLong(6, entity.getNumber());
+        stmt.bindLong(7, entity.getFlag());
     }
 
     @Override
@@ -126,7 +130,8 @@ public class GroupChattingItemDao extends AbstractDao<GroupChattingItem, Long> {
             cursor.getInt(offset + 2), // groupid
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // lastmessage
             cursor.isNull(offset + 4) ? null : cursor.getBlob(offset + 4), // image
-            cursor.getInt(offset + 5) // number
+            cursor.getInt(offset + 5), // number
+            cursor.getInt(offset + 6) // flag
         );
         return entity;
     }
@@ -139,6 +144,7 @@ public class GroupChattingItemDao extends AbstractDao<GroupChattingItem, Long> {
         entity.setLastmessage(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setImage(cursor.isNull(offset + 4) ? null : cursor.getBlob(offset + 4));
         entity.setNumber(cursor.getInt(offset + 5));
+        entity.setFlag(cursor.getInt(offset + 6));
      }
     
     @Override

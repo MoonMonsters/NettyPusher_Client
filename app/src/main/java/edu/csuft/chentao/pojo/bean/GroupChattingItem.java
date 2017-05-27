@@ -48,6 +48,10 @@ public class GroupChattingItem extends BaseObservable implements Serializable {
      * 未读消息数量
      */
     private int number;
+    /**
+     * 标志值，值越大，越靠近顶端
+     */
+    private int flag;
 
     @Bindable
     public int getNumber() {
@@ -109,15 +113,16 @@ public class GroupChattingItem extends BaseObservable implements Serializable {
         notifyPropertyChanged(BR._id);
     }
 
-    @Generated(hash = 897090240)
+    @Generated(hash = 25423894)
     public GroupChattingItem(Long _id, String groupname, int groupid,
-                             String lastmessage, byte[] image, int number) {
+                             String lastmessage, byte[] image, int number, int flag) {
         this._id = _id;
         this.groupname = groupname;
         this.groupid = groupid;
         this.lastmessage = lastmessage;
         this.image = image;
         this.number = number;
+        this.flag = flag;
     }
 
     @Generated(hash = 1037461491)
@@ -134,5 +139,15 @@ public class GroupChattingItem extends BaseObservable implements Serializable {
                 ", image=" + Arrays.toString(image) +
                 ", number=" + number +
                 '}';
+    }
+
+    @Bindable
+    public int getFlag() {
+        return this.flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+        notifyPropertyChanged(BR.flag);
     }
 }
