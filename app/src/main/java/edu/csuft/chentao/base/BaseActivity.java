@@ -76,6 +76,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         executeOnStop();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        executeOnStart();
+    }
+
     /**
      * 当Activity处于Stop状态时执行的操作
      */
@@ -86,5 +93,11 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 当Activity处于Destroy状态时执行的操作
      */
     public void executeOnDestroy() {
+    }
+
+    /**
+     * 当Activity处于Start状态时，调用此方法
+     */
+    public void executeOnStart() {
     }
 }

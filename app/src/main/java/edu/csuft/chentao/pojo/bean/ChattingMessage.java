@@ -60,7 +60,27 @@ public class ChattingMessage extends BaseObservable implements Serializable {
     /**
      * 序列号，用来处理是否发送消息成功的信息
      */
-    String serial_number;
+    private int serial_number;
+
+    @Generated(hash = 437156232)
+    public ChattingMessage(Long _id, int userid, int groupid, int typemsg,
+            int type, String time, String message, byte[] image, int send_success,
+            int serial_number) {
+        this._id = _id;
+        this.userid = userid;
+        this.groupid = groupid;
+        this.typemsg = typemsg;
+        this.type = type;
+        this.time = time;
+        this.message = message;
+        this.image = image;
+        this.send_success = send_success;
+        this.serial_number = serial_number;
+    }
+
+    @Generated(hash = 898012662)
+    public ChattingMessage() {
+    }
 
     @Bindable
     public int getSend_success() {
@@ -153,31 +173,12 @@ public class ChattingMessage extends BaseObservable implements Serializable {
     }
 
     @Bindable
-    public String getSerial_number() {
+    public int getSerial_number() {
         return this.serial_number;
     }
 
-    public void setSerial_number(String serial_number) {
+    public void setSerial_number(int serial_number) {
         this.serial_number = serial_number;
         notifyPropertyChanged(BR.serial_number);
-    }
-
-    @Generated(hash = 662744827)
-    public ChattingMessage(Long _id, int userid, int groupid, int typemsg, int type, String time,
-                           String message, byte[] image, int send_success, String serial_number) {
-        this._id = _id;
-        this.userid = userid;
-        this.groupid = groupid;
-        this.typemsg = typemsg;
-        this.type = type;
-        this.time = time;
-        this.message = message;
-        this.image = image;
-        this.send_success = send_success;
-        this.serial_number = serial_number;
-    }
-
-    @Generated(hash = 898012662)
-    public ChattingMessage() {
     }
 }

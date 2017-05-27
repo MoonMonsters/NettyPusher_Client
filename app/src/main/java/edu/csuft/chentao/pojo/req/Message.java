@@ -42,13 +42,13 @@ public class Message implements Serializable {
     /**
      * 标志位，判断是否发送成功
      */
-    private String serial_number;
+    private int serial_number;
 
     public Message() {
     }
 
     public Message(int userid, int groupid, int typeMsg, int type, String time,
-                   String message, byte[] picFile, String serial_number) {
+                   String message, byte[] picFile, int serial_number) {
         this.userid = userid;
         this.groupid = groupid;
         this.typeMsg = typeMsg;
@@ -119,11 +119,11 @@ public class Message implements Serializable {
         this.picFile = picFile;
     }
 
-    public String getSerial_number() {
+    public int getSerial_number() {
         return serial_number;
     }
 
-    public void setSerial_number(String serial_number) {
+    public void setSerial_number(int serial_number) {
         this.serial_number = serial_number;
     }
 }

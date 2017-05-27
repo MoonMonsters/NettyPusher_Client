@@ -44,7 +44,11 @@ public class MessageNotification {
             groupId = msg.getGroupid();
             Groups groups = GroupsDaoUtil.getGroups(groupId);
             title = groups.getGroupname();
-            content = msg.getMessage();
+            if (msg.getType() == Constant.TYPE_MSG_IMAGE) { //如果发送都是图片
+                content = "[图片]";
+            } else if (msg.getType() == Constant.TYPE_MSG_TEXT) {   //如果发送的是文字
+                content = msg.getMessage();
+            }
             c = MessageActivity.class;
         } else if (object instanceof Hint) {
             Hint hint = (Hint) object;

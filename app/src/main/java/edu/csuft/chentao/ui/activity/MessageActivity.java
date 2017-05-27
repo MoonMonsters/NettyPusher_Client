@@ -53,10 +53,9 @@ public class MessageActivity extends BaseActivity {
     @Override
     public void executeOnStop() {
         /*
-        从该界面退出后，需要把聊天栏的该项的数量置为0，表示该项已经被阅读完成
+        退出聊天界面后，需要把聊天栏的该项的数量置为0，表示该项已经被阅读完成
          */
         mPresenter.updateGroupChattingItems();
-
         //关闭对话框
         mPresenter.closeAnnouncementDialog();
     }

@@ -84,18 +84,19 @@ public class ActivityMessagePresenter extends BasePresenter {
         } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_MESSAGE_PRESENTER_SEND_SUCCESS)) {
 
             //消息发送成功，返回字段，隐藏未发送成功图片
-            final String serial_number = (String) ((ReturnInfoResp) ebObj.getObject()).getObj();
+            final int serial_number = ((ReturnInfoResp) ebObj.getObject()).getArg1();
+            String sendTime = (String) ((ReturnInfoResp) ebObj.getObject()).getObj();
 
             LoggerUtil.logger("TAG", "ActivityMessagePresenter-->serialNumber = " + serial_number);
 
             for (final ChattingMessage chattingMessage : mChattingMessageList) {
-                if (chattingMessage.getSerial_number().equals(serial_number)) {
+                if (chattingMessage.getSerial_number() == serial_number) {
                     chattingMessage.setSend_success(View.GONE);
-
+                    chattingMessage.setTime(sendTime);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            SystemClock.sleep(2000);
+                            SystemClock.sleep(1000);
                             ChattingMessageDaoUtil.updateChattingMessage(chattingMessage);
                         }
                     }).start();

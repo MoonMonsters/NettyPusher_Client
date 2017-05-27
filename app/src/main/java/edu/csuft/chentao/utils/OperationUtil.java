@@ -72,7 +72,7 @@ public class OperationUtil {
         message.setUserid(SharedPrefUserInfoUtil.getUserId());
         //设置时间
         message.setTime(OperationUtil.getCurrentTime());
-        message.setSerial_number(OperationUtil.getSerialnumber());
+        message.setSerial_number(OperationUtil.getSerialNumberIntegerValue());
         //发送数据
         SendMessageUtil.sendMessage(message);
 
@@ -94,17 +94,25 @@ public class OperationUtil {
     }
 
     /**
-     * 得到随机的64位字符串
+     * 得到随机的16位字符串
      */
     public static String getSerialnumber() {
         String str = "abcdefghijklmnopqrstuvwxyz1234567890";
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < 32; i++) {
+        for (int i = 0; i < 16; i++) {
             sb.append(str.charAt((int) (Math.random() * str.length())));
         }
 
         return sb.toString();
+    }
+
+    /**
+     * 获取随机的int类型的序列号
+     */
+    public static int getSerialNumberIntegerValue() {
+
+        return (int) (Math.random() * Integer.MAX_VALUE);
     }
 
     /**
@@ -364,7 +372,7 @@ public class OperationUtil {
     public static int getImageHeight(byte[] buf) {
         BitmapFactory.Options options = new BitmapFactory.Options();
 
-        /**
+        /*
          * 最关键在此，把options.inJustDecodeBounds = true;
          * 这里再decodeFile()，返回的bitmap为空，但此时调用options.outHeight时，已经包含了图片的高了
          */
@@ -374,6 +382,4 @@ public class OperationUtil {
 
         return options.outHeight;
     }
-
-
 }
