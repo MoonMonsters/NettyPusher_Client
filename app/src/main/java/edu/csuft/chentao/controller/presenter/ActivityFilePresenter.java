@@ -1,5 +1,7 @@
 package edu.csuft.chentao.controller.presenter;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,6 +10,8 @@ import android.view.View;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.csuft.chentao.BR;
@@ -20,6 +24,7 @@ import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.ui.activity.FileActivity;
 import edu.csuft.chentao.ui.adapter.FileAdapter;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
@@ -33,12 +38,15 @@ import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 /**
  * FileActivity的处理类
  */
-public class ActivityFilePresenter extends BasePresenter implements FileAdapter.ICloseOpenedItems {
+public class ActivityFilePresenter extends BasePresenter
+        implements FileAdapter.ICloseOpenedItems, FileAdapter.IShowProgressDialog {
     private ActivityFileBinding mActivityBinding;
     private int mGroupId;
 
     private List<FileZip> mFileZipList;
     private FileAdapter mAdapter;
+
+    private ProgressDialog mProgressDialog;
 
     public ActivityFilePresenter(ActivityFileBinding activityBinding, int groupId) {
         this.mActivityBinding = activityBinding;
@@ -59,14 +67,19 @@ public class ActivityFilePresenter extends BasePresenter implements FileAdapter.
 
     @Override
     public void getEBToObjectPresenter(EBToPreObject ebObj) {
+        //在界面上显示数据
         if (ebObj.getTag().equals(Constant.TAG_FILE_PRESENTER)) {
+
+            LoggerUtil.logger("FilePresenter", "增加数据");
 
             FileZip fileZip = (FileZip) ebObj.getObject();
             mFileZipList.add(fileZip);
-            //更新adapter中的Map状态
-            mAdapter.notifyDataSetChanged();
+            adapterToNotifyDataChanged();
             //删除列表中的数据
         } else if (ebObj.getTag().equals(Constant.TAG_FILE_PRESENTER_REMOVE_FILE)) {
+
+            LoggerUtil.logger("FilePresenter", "删除数据");
+
             ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
             String serialNumber = (String) resp.getObj();
 
@@ -79,7 +92,15 @@ public class ActivityFilePresenter extends BasePresenter implements FileAdapter.
                 }
             }
             mFileZipList.remove(fz);
-            mAdapter.notifyDataSetChanged();
+            adapterToNotifyDataChanged();
+        } else if (ebObj.getTag().equals(Constant.TAG_FILE_PRESENTER_REFRESH)) {
+
+            LoggerUtil.logger("FilePresenter", "刷新数据");
+            LoggerUtil.logger("FilePresenter", "下载完成-->" + Constant.TAG_FILE_PRESENTER_REFRESH);
+
+            FileZip fileZip = (FileZip) ebObj.getObject();
+            mAdapter.setFileDownloadSuccess(fileZip.getSerialNumber());
+            adapterToNotifyDataChanged();
         }
     }
 
@@ -114,6 +135,28 @@ public class ActivityFilePresenter extends BasePresenter implements FileAdapter.
         SendMessageUtil.sendMessage(req);
     }
 
+    private void showProgressDialog(String content) {
+        mProgressDialog = new ProgressDialog(mActivityBinding.getRoot().getContext());
+        mProgressDialog.setMessage(content);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.setButton(ProgressDialog.BUTTON_POSITIVE, "隐藏", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                hideProgress();
+            }
+        });
+        mProgressDialog.show();
+    }
+
+    private void hideProgress() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
+
     /**
      * 将uri转换成String类型路径
      */
@@ -136,7 +179,7 @@ public class ActivityFilePresenter extends BasePresenter implements FileAdapter.
     }
 
     /**
-     * 处理Activity传递的文件路径
+     * 处理Activity传递的文件路径，上传文件
      */
     public void setPathUri(Uri uri) {
         String path = getPath(uri);
@@ -158,6 +201,8 @@ public class ActivityFilePresenter extends BasePresenter implements FileAdapter.
             fz.setTime(OperationUtil.getCurrentTime());
             fz.setUserId(SharedPrefUserInfoUtil.getUserId());
             fz.setZip(buf);
+
+            showUploadDialog();
             //传输文件
             SendMessageUtil.sendMessage(fz);
         } catch (Exception e) {
@@ -165,9 +210,35 @@ public class ActivityFilePresenter extends BasePresenter implements FileAdapter.
         }
     }
 
+    private void sortFileListByTime() {
+        Collections.sort(mFileZipList, new Comparator<FileZip>() {
+            @Override
+            public int compare(FileZip lhs, FileZip rhs) {
+                return rhs.getTime().compareTo(lhs.getTime());
+            }
+        });
+    }
+
+    /**
+     * 将文件按照时间排序，并且刷新数据
+     */
+    private void adapterToNotifyDataChanged() {
+        hideProgress();
+        sortFileListByTime();
+        mAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void closeOpenedItems() {
         mActivityBinding.slvFileContent.closeOpenedItems();
+    }
+
+    @Override
+    public void showDownloadDialog() {
+        showProgressDialog("正在下载...");
+    }
+
+    private void showUploadDialog() {
+        showProgressDialog("正在上传...");
     }
 }

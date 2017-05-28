@@ -39,7 +39,6 @@ public class FileAdapter extends BaseAdapter {
     private List<FileZip> mFileZipList;
     private Context mContext;
     private int mGroupId;
-    private ActivityFilePresenter mPresenter;
     /**
      * 判断文件是否下载成功集合
      */
@@ -47,11 +46,17 @@ public class FileAdapter extends BaseAdapter {
     private File[] mLocalFileList;
     private File mDirectory;
 
+    private ICloseOpenedItems mCloseItems;
+    private IShowProgressDialog mShowDialog;
+
+
     public FileAdapter(Context context, ActivityFilePresenter presenter, List<FileZip> fileZipList, int groupId) {
         this.mFileZipList = fileZipList;
         this.mContext = context;
         this.mGroupId = groupId;
-        this.mPresenter = presenter;
+
+        mCloseItems = presenter;
+        mShowDialog = presenter;
     }
 
     @Override
@@ -85,9 +90,9 @@ public class FileAdapter extends BaseAdapter {
         绑定数据
          */
         FileZip fileZip = getItem(position);
-        binding.setVariable(BR.itemPresenter, new ItemFilePresenter(binding, fileZip));
+
+        binding.setVariable(BR.itemPresenter, new ItemFilePresenter(fileZip));
         binding.setVariable(BR.fileZip, fileZip);
-//        isFileDownloadComplete(fileZip);
         //如果已经下载了，则显示已经下载的图片
         binding.setVariable(BR.isVisible, isFileDownloadComplete(fileZip)
                 ? View.VISIBLE
@@ -100,12 +105,24 @@ public class FileAdapter extends BaseAdapter {
      * 判断文件是否已经下载，对每一个添加到list中的数据都进行判断一次
      */
     private boolean isFileDownloadComplete(FileZip fz) {
+
+        String serialNumber = fz.getSerialNumber();
+        String fileName = fz.getFileName();
+        String fileSize = fz.getFileSize();
+
         //默认为false
         boolean result = false;
 
         //创建Map集合
         if (mIsDownloadMap == null) {
             mIsDownloadMap = new HashMap<>();
+        }
+
+        /*
+         * 如果数据不为空，则直接返回结果
+         */
+        if (mIsDownloadMap.get(serialNumber) != null) {
+            return mIsDownloadMap.get(serialNumber);
         }
 
         //创建目录对象
@@ -125,19 +142,37 @@ public class FileAdapter extends BaseAdapter {
             mLocalFileList = mDirectory.listFiles();
         }
 
-        String serialNumber = fz.getSerialNumber();
-        String fileName = fz.getFileName();
-        String fileSize = fz.getFileSize();
-
         for (File file : mLocalFileList) {
             String fName = file.getName();
-            fName = fName.substring(0, fName.length() > fileName.length()
-                    ? (fileName.length())
-                    : (fName.length()));
+
+            //如果该文件夹中包含了同名的文件
+            if (fName.contains("_repeat_")) {
+                /*
+                此步骤，主要为了移除掉index。
+                该if段判断出该文件包含_repeat_字符串，却无法判断index的值，
+                所以接下来的部分，主要为了得到index的值，然后移除掉整个部分_repeat_index
+                 */
+                while (true) {
+                    int index = 1;
+                    //构建同名文件后缀
+                    String indexString = "_repeat_" + index;
+                    //判断是否存在
+                    if (fName.contains(indexString)) {
+                        fName = fName.replace(indexString, "");
+                        break;
+                    }
+                    //最大存储50个同名文件
+                    if ((++index) >= 50) {
+                        break;
+                    }
+                }
+            }
+
             String fSize = String.valueOf(file.length());
 
-            LoggerUtil.logger("TAG", "FileAdapter-->fileName=" + fileName + "---fName=" + fName);
-
+            /*
+            把文件夹中的文件移除掉后缀，如果文件名和文件大小都与服务端文件一样，那么表示已下载
+             */
             if (fileName.equals(fName) && fileSize.equals(fSize)) {
                 mIsDownloadMap.put(serialNumber, true);
                 result = true;
@@ -153,11 +188,9 @@ public class FileAdapter extends BaseAdapter {
      */
     public class ItemFilePresenter implements CustomerAlertDialog.IAlertDialogClickListener {
 
-        private ItemFileBinding mBinding;
         private FileZip mFileZip;
 
-        ItemFilePresenter(ItemFileBinding binding, FileZip fileZip) {
-            this.mBinding = binding;
+        ItemFilePresenter(FileZip fileZip) {
             this.mFileZip = fileZip;
         }
 
@@ -165,8 +198,6 @@ public class FileAdapter extends BaseAdapter {
          * 点击下载文件
          */
         public void doClickToDownloadFile() {
-
-            LoggerUtil.showToast(mContext, "下载");
 
             if (mIsDownloadMap.get(mFileZip.getSerialNumber()) != null
                     && mIsDownloadMap.get(mFileZip.getSerialNumber())) {
@@ -180,6 +211,8 @@ public class FileAdapter extends BaseAdapter {
             req.setType(Constant.TYPE_GET_INFO_DOWNLOAD_FILE);
             req.setObj(mFileZip.getSerialNumber());
 
+            showDownloadDialog();
+            closeOpenedItems();
             SendMessageUtil.sendMessage(req);
         }
 
@@ -189,7 +222,6 @@ public class FileAdapter extends BaseAdapter {
         public void doClickToRemoveFile() {
             closeOpenedItems();
 
-            LoggerUtil.showToast(mContext, "删除");
             CustomerAlertDialog dialog = new CustomerAlertDialog(
                     mContext, this, "提醒", "是否确认删除该文件", "确认", "取消");
             dialog.show();
@@ -202,33 +234,40 @@ public class FileAdapter extends BaseAdapter {
 
             closeOpenedItems();
 
-            LoggerUtil.showToast(mContext, "打开");
             String path = Constant.PATH_FILE + File.separator + mGroupId;
 
+            //要打开软件的文件名
             String fileName = mFileZip.getFileName();
+            //要打开软件的大小
             String fileSize = mFileZip.getFileSize();
 
+            //根据文件名构造文件对象
             File file = new File(path, mFileZip.getFileName());
             int index = 1;
             while (file.exists()) {
+                //文件夹中文件大小
                 String fSize = String.valueOf(file.length());
-                String fName = file.getName();
-                fName = fName.substring(0, fName.length() > fileName.length()
-                        ? fileName.length()
-                        : fName.length());
 
-                LoggerUtil.logger("TAG", "FileAdapter--->fileName2=" + fileName + "---fName2=" + fName);
-
-                if (fileName.equals(fName) && fileSize.equals(fSize)) {
+                //如果能匹配上
+                if (fileSize.equals(fSize)) {
                     openFile(file);
                     break;
                 }
 
-                file = new File(path, file.getName() + "_repeat_" + index);
+                //往文件名后面加上后缀 _repeat_
+                String indexString = fileName.substring(0, fileName.lastIndexOf("."));
+                String fName = indexString + "_repeat_" + index + fileName.substring(fileName.lastIndexOf("."));
+
+                LoggerUtil.logger(FileAdapter.class, "fName = " + fName);
+
+                file = new File(path, fName);
                 index++;
             }
         }
 
+        /**
+         * 打开文件
+         */
         private void openFile(File f) {
             Intent intent = new Intent();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -288,8 +327,23 @@ public class FileAdapter extends BaseAdapter {
         }
     }
 
+    public void setFileDownloadSuccess(String serialNumber) {
+        mIsDownloadMap.put(serialNumber, true);
+    }
+
+
+    /**
+     * 关闭所有打开的选项
+     */
     private void closeOpenedItems() {
-        mPresenter.closeOpenedItems();
+        mCloseItems.closeOpenedItems();
+    }
+
+    /**
+     * 显示下载对话框
+     */
+    private void showDownloadDialog() {
+        mShowDialog.showDownloadDialog();
     }
 
     /**
@@ -297,5 +351,15 @@ public class FileAdapter extends BaseAdapter {
      */
     public interface ICloseOpenedItems {
         void closeOpenedItems();
+    }
+
+    /**
+     * 显示进度条对话框
+     */
+    public interface IShowProgressDialog {
+        /**
+         * 显示下载对话框
+         */
+        void showDownloadDialog();
     }
 }

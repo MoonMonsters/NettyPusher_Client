@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.req.FileZip;
 import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 
 /**
@@ -35,7 +33,7 @@ public class FileZipHandler implements Handler {
             File file = new File(path, fileName);
             int index = 1;
             while (file.exists()) { //如果文件名重复，则添加后缀
-                file = new File(path, fileName + "_repeat_" + index);
+                file = new File(path, fileName.substring(0, fileName.indexOf(".")) + "_repeat_" + index + fileName.substring(fileName.indexOf(".")));
                 index++;
             }
             OperationUtil.createFile(path, file.getName());
@@ -44,9 +42,10 @@ public class FileZipHandler implements Handler {
                 fos = new FileOutputStream(file);
                 //写入
                 fos.write(buf);
-                LoggerUtil.showToast(MyApplication.getInstance(), "文件下载成功");
+
+                fileZip.setZip(null);
                 //下载完成，刷新界面
-                OperationUtil.sendEBToObjectPresenter(Constant.TAG_FILE_PRESENTER_REFRESH, null);
+                OperationUtil.sendEBToObjectPresenter(Constant.TAG_FILE_PRESENTER_REFRESH, fileZip);
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
