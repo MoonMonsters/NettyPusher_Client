@@ -208,6 +208,7 @@ public class FileAdapter extends BaseAdapter {
             }
 
             GetInfoReq req = new GetInfoReq();
+            req.setArg1(mGroupId);
             req.setType(Constant.TYPE_GET_INFO_DOWNLOAD_FILE);
             req.setObj(mFileZip.getSerialNumber());
 

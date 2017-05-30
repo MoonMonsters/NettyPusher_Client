@@ -87,6 +87,7 @@
     <string name="string_input_old_password">输入旧密码</string>
     <string name="string_input_new_password">输入新密码</string>
     <string name="string_input_new_password_repeat">重复新密码</string>
+    <string name="string_sync_group_message">同步聊天消息</string>
 
     <string-array name="group_tags">
         <item>同学</item>

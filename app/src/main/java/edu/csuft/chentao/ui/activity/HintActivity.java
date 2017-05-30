@@ -34,4 +34,5 @@ public class HintActivity extends BaseActivity {
     public void executeOnDestroy() {
         mPresenter.unregisterEventBus();
     }
+
 }

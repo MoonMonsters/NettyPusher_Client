@@ -4,8 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 
 import edu.csuft.chentao.service.NettyClientService;
-import edu.csuft.chentao.utils.Constant;
-import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.service.SyncMessageService;
 
 /**
  * Created by Chalmers on 2016-12-16 15:39.

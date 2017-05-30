@@ -194,6 +194,10 @@ public interface Constant {
      * 让客户端掉线
      */
     int TYPE_RETURN_INFO_CLIENT_EXIT = 27;
+    /**
+     * 同步完成
+     */
+    int TYPE_RETURN_INFO_SYNC_COMPLETE = 28;
 
     /**
      * 获取用户信息
@@ -227,8 +231,18 @@ public interface Constant {
      * 删除文件
      */
     int TYPE_GET_INFO_REMOVE_FILE = 7;
-
-
+    /**
+     * 同步服务端中群聊天数据
+     */
+    int TYPE_GET_INFO_START_SYNC_GROUP_MESSAGE = 8;
+    /**
+     * 停止同步聊天数据
+     */
+    int TYPE_GET_INFO_STOP_SYNC_GROUP_MESSAGE = 9;
+    /**
+     * 与8和9不同的是，上面是同步所有数据，这个只是加载未接收到的数据
+     */
+    int TYPE_GET_INFO_LOAD_MESSAGE = 10;
     /**
      * 更新昵称
      */
@@ -263,6 +277,10 @@ public interface Constant {
      * 接收消息
      */
     int TYPE_MSG_RECV = 1;
+    /**
+     * 同步消息
+     */
+    int TYPE_MSG_SYNC = 2;
 
     /**
      * 登录广播
@@ -691,6 +709,18 @@ public interface Constant {
      * 从ReturnInfoHandler中传递消息到ActivityMainPresenter中去，然后退出登录
      */
     String TAG_ACTIVITY_MAIN_PRESENTER_EXIT_LOGIN = "tag.activity.main.presenter.exit.login";
+    /**
+     * 同步完成，从ReturnInfoHandler传递到ActivityGroupSettingPresenter中去，关闭对话框
+     */
+    String TAG_ACTIVITY_GROUP_SETTING_PRESENTER_SYNC_COMPLETE = "tag.activity.group.setting.presenter.sync.complete";
+    /**
+     * 连接上了网络
+     */
+    String TAG_ACTIVITY_MAIN_PRESENTER_CONNECTION = "tag.activity.main.presenter.connection";
+    /**
+     * 未连接网络
+     */
+    String TAG_ACTIVITY_MAIN_PRESENTER_NO_CONNECTION = "tag.activity.main.presenter.no.connection";
 
     /**
      * 从CreateGroupActivity传递Image数据到Presenter中去

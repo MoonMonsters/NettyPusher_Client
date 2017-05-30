@@ -73,7 +73,7 @@ public class NettyClient {
                 @Override
                 public void run() {
                     try {
-                        TimeUnit.SECONDS.sleep(1);
+                        TimeUnit.SECONDS.sleep(5);
                         try {
                             connection(host, port);
                         } catch (Exception e) {

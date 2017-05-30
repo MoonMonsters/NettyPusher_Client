@@ -33,14 +33,38 @@ public class CopyUtil {
         LoggerUtil.logger(Constant.TAG, "Message转换成ChattingMessage");
         ChattingMessage chattingMessage = new ChattingMessage();
 
+        /*
+        这两段if需要解释一下
+        1.第一段if语句，如果是同步消息类型，在服务端会将type值设置为2，而不再只是0或者1类型
+        所以当type值类型为2时，表示是同步的消息，都需要显示为发送成功
+        2.之所以接收消息类型不需要发送成功这个值，是因为接收到消息即可，不在需要这个值，所以在
+        设计界面时，没有弄红色感叹号图标
+        3.第二段if语句，如果该消息的发送者就是登录用户，那么就表明这条消息时由该用户发送出去，
+        所以设置为发送者了
+        4.因为type值的挪用，所以才有了第2段if语句的出现
+         */
+
+        //如果是同步过来的消息，则直接设置为发送成功
+        if (message.getType() == Constant.TYPE_MSG_SYNC) {
+            chattingMessage.setSend_success(View.GONE);
+        } else {
+            chattingMessage.setSend_success(View.VISIBLE);
+        }
+
+        //如果消息发送者和登录用户id一致，那么标识为发送
+        if (message.getUserid() == SharedPrefUserInfoUtil.getUserId()) {
+            chattingMessage.setType(Constant.TYPE_MSG_SEND);
+        } else {
+            chattingMessage.setType(Constant.TYPE_MSG_RECV);
+        }
+
         chattingMessage.setImage(message.getPicFile());
         chattingMessage.setTime(message.getTime());
         chattingMessage.setUserid(message.getUserid());
         chattingMessage.setGroupid(message.getGroupid());
         chattingMessage.setMessage(message.getMessage());
-        chattingMessage.setType(message.getType());
         chattingMessage.setTypemsg(message.getTypeMsg());
-        chattingMessage.setSend_success(View.VISIBLE);
+
         chattingMessage.setSerial_number(message.getSerial_number());
 
         String nickname = UserInfoDaoUtil.getUserInfo(message.getUserid()) == null ?
@@ -56,10 +80,6 @@ public class CopyUtil {
         //显示到对话框中
         saveChattingListItemData(groupId, nickname + ": " + lastMessage);
         ChattingMessageDaoUtil.saveChattingMessage(chattingMessage);
-        //如果是发送消息，则先保存到本地,在保存完之后再发送消息到服务端
-//        if ( && chattingMessage.getType() == Constant.TYPE_MSG_SEND) {
-//            SendMessageUtil.sendMessage(message);
-//        }
     }
 
     /**

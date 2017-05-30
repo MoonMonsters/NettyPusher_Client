@@ -44,4 +44,5 @@ public class UserInfoActivity extends BaseActivity {
     public void executeOnStop() {
         mPresenter.unregisterEventBus();
     }
+
 }

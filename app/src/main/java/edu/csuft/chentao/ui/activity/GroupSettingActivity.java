@@ -5,12 +5,14 @@ import android.databinding.ViewDataBinding;
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
+import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.controller.presenter.ActivityGroupSettingPresenter;
 import edu.csuft.chentao.databinding.ActivityGroupSettingBinding;
 
 public class GroupSettingActivity extends BaseActivity {
 
     private ActivityGroupSettingBinding mActivityBinding;
+    private BasePresenter mPresenter;
 
     @Override
     public int getLayoutResourceId() {
@@ -25,6 +27,8 @@ public class GroupSettingActivity extends BaseActivity {
     @Override
     public void initData() {
         setSupportActionBar(mActivityBinding.includeToolbar.layoutToolbar);
-        mActivityBinding.setVariable(BR.presenter, new ActivityGroupSettingPresenter(mActivityBinding));
+        mPresenter = new ActivityGroupSettingPresenter(mActivityBinding);
+        mActivityBinding.setVariable(BR.presenter, mPresenter);
     }
+
 }

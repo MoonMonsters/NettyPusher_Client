@@ -83,10 +83,11 @@ class ReturnInfoHandler implements Handler {
                 Toast.makeText(MyApplication.getInstance(), (String) resp.getObj(), Toast.LENGTH_SHORT).show();
                 break;
             case Constant.TYPE_RETURN_INFO_CLIENT_EXIT:
-                LoggerUtil.logger("ct.chentao2", "ReturnInfoHandler.退出登录");
                 OperationUtil.sendEBToObjectPresenter(Constant.TAG_ACTIVITY_MAIN_PRESENTER_EXIT_LOGIN, resp);
+                break;
+            case Constant.TYPE_RETURN_INFO_SYNC_COMPLETE:
+                OperationUtil.sendEBToObjectPresenter(Constant.TAG_ACTIVITY_GROUP_SETTING_PRESENTER_SYNC_COMPLETE, resp);
                 break;
         }
     }
-
 }

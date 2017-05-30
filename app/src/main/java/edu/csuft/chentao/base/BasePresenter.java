@@ -81,4 +81,5 @@ public abstract class BasePresenter {
     public void unregisterEventBus() {
         EventBus.getDefault().unregister(this);
     }
+
 }

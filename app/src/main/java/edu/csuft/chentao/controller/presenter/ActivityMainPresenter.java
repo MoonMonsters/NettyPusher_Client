@@ -196,9 +196,15 @@ public class ActivityMainPresenter extends BasePresenter implements CustomerAler
 
     @Override
     public void getEBToObjectPresenter(EBToPreObject ebObj) {
+        LoggerUtil.logger(ActivityMainPresenter.class, "tag = " + ebObj.getTag());
         if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_MAIN_PRESENTER_EXIT_LOGIN)) {
-            LoggerUtil.logger("ct.chentao2", "ActivityMainPresenter.退出登录");
             exitLogin();
+            //已连接网络
+        } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_MAIN_PRESENTER_CONNECTION)) {
+            mActivityBinding.fabMainConnection.setVisibility(View.GONE);
+            //断开网络
+        } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_MAIN_PRESENTER_NO_CONNECTION)) {
+            mActivityBinding.fabMainConnection.setVisibility(View.VISIBLE);
         }
     }
 
@@ -206,18 +212,10 @@ public class ActivityMainPresenter extends BasePresenter implements CustomerAler
      * 重复登录，被下线
      */
     private void exitLogin() {
-        LoggerUtil.logger("ct.chentao2", "重复登录，被迫下线");
 
-        CustomerAlertDialog dialog = new CustomerAlertDialog(mActivityBinding.getRoot().getContext(),
-                this, "退出", "重复登录，您被迫下线！！", "确定", null);
-        dialog.show();
-
-        LoggerUtil.logger("ct.chentao2", "清空Activity栈，跳到LoginActivity界面");
-    }
-
-    @Override
-    public void doClickAlertDialogToOk() {
-
+        /*
+        收到消息就清空记录，避免重复登录的两台手机相互牵制，最后都登录失败
+         */
         //清空保存的用户信息
         SharedPrefUserInfoUtil.clearUserInfo();
         //删除所有的ChattingMessage数据
@@ -229,6 +227,14 @@ public class ActivityMainPresenter extends BasePresenter implements CustomerAler
         //删除所有消息数据
         HintDaoUtil.deleteAll();
 
+        CustomerAlertDialog dialog = new CustomerAlertDialog(mActivityBinding.getRoot().getContext(),
+                this, "退出", "重复登录，您被迫下线！！", "确定", null);
+        dialog.show();
+    }
+
+    @Override
+    public void doClickAlertDialogToOk() {
+
         //清空所有的Activity
         ActivityManager.clearActivities();
 
@@ -236,4 +242,5 @@ public class ActivityMainPresenter extends BasePresenter implements CustomerAler
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         mActivityBinding.getRoot().getContext().startActivity(intent);
     }
+
 }

@@ -75,6 +75,11 @@
         <activity
             android:name=".ui.activity.FileActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <service
+            android:name=".service.SyncMessageService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>

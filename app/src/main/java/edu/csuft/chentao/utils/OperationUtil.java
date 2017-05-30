@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateFormat;
 import android.view.View;
 
 import org.greenrobot.eventbus.EventBus;
@@ -18,7 +17,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import edu.csuft.chentao.pojo.bean.EBToPreObject;
@@ -39,12 +39,10 @@ public class OperationUtil {
      * @return 时间
      */
     public static String getCurrentTime() {
-        Calendar cal = Calendar.getInstance(Locale.CHINA);
-        int zoneOffset = cal.get(java.util.Calendar.ZONE_OFFSET);
-        int dstOffset = cal.get(java.util.Calendar.DST_OFFSET);
-        cal.add(java.util.Calendar.MILLISECOND, -(zoneOffset + dstOffset));
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
 
-        return DateFormat.format("yyyy'-'MM'-'dd' 'kk':'mm':'ss' '", cal).toString();
+        return sdf.format(date);
     }
 
     /**

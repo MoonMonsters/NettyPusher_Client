@@ -1,8 +1,6 @@
 package edu.csuft.chentao.ui.activity;
 
 import android.databinding.ViewDataBinding;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 

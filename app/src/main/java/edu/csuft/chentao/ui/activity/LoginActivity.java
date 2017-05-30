@@ -38,4 +38,5 @@ public class LoginActivity extends BaseActivity {
         //注销EventBus
         mPresenter.unregisterEventBus();
     }
+
 }

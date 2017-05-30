@@ -61,6 +61,14 @@ public class MessageActivity extends BaseActivity {
     }
 
     @Override
+    public void executeOnStart() {
+        /*
+        进入聊天界面后，需要把聊天栏的该项的数量置为0，表示该项已经被阅读完成
+         */
+        mPresenter.updateGroupChattingItems();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_message, menu);
         return true;
@@ -75,4 +83,5 @@ public class MessageActivity extends BaseActivity {
         }
         return true;
     }
+
 }

@@ -34,6 +34,15 @@ public class SharedPrefUserInfoUtil {
      */
     private static final String HINT_NEW = "hint_new";
 
+    /**
+     * 连接网络时的时间
+     */
+    private static final String START_ACTIVE_TIME = "start_active_time";
+    /**
+     * 断开网络时的时间
+     */
+    private static final String END_INACTIVE_TIME = "end_inactive_time";
+
     private static SharedPreferences mSharedPreferences = MyApplication.getInstance().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_MULTI_PROCESS);
     private static SharedPreferences.Editor mEditor = mSharedPreferences.edit();
 
@@ -62,7 +71,7 @@ public class SharedPrefUserInfoUtil {
      */
     public static void setUserId(int userId) {
 
-        LoggerUtil.logger("CHENTAO","SharedPreUserInfoUtil-->userId = " + userId);
+        LoggerUtil.logger("CHENTAO", "SharedPreUserInfoUtil-->userId = " + userId);
 
         mEditor.putInt(USER_ID, userId);
         mEditor.apply();
@@ -132,5 +141,35 @@ public class SharedPrefUserInfoUtil {
     public static void clearUserInfo() {
         mEditor.clear();
         mEditor.apply();
+    }
+
+    /**
+     * 保存登录时的时间
+     */
+    public static void saveStartActiveTime() {
+        String time = OperationUtil.getCurrentTime();
+        mEditor.putString(START_ACTIVE_TIME, time);
+    }
+
+    /**
+     * 获得登录时的时间
+     */
+    public static String getStartActiveTime() {
+        return mSharedPreferences.getString(START_ACTIVE_TIME, null);
+    }
+
+    /**
+     * 保存断开时的时间
+     */
+    public static void saveEndInactiveTime() {
+        String time = OperationUtil.getCurrentTime();
+        mEditor.putString(END_INACTIVE_TIME, time);
+    }
+
+    /**
+     * 得到断开时的时间
+     */
+    public static String getEndInactiveTime() {
+        return mSharedPreferences.getString(END_INACTIVE_TIME, null);
     }
 }

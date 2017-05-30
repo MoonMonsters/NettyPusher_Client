@@ -42,7 +42,14 @@ public class ChattingMessageDaoUtil {
      */
     public static boolean saveChattingMessage(ChattingMessage chattingMessage) {
         LoggerUtil.logger(Constant.TAG, "保存ChattingMessage到本地");
-        DaoSessionUtil.getChattingMessageDao().insert(chattingMessage);
+
+        /*
+        如果该条消息在数据表中不存在，那么则插入
+        增加if数据，是为了同步服务端消息数据功能
+         */
+        if (!isMessageExistBySerialNumber(chattingMessage.getSerial_number())) {
+            DaoSessionUtil.getChattingMessageDao().insert(chattingMessage);
+        }
 
         return true;
     }
@@ -88,8 +95,43 @@ public class ChattingMessageDaoUtil {
                 .queryBuilder()
                 .where(ChattingMessageDao.Properties.Groupid.eq(chattingMessage.getGroupid()),
                         ChattingMessageDao.Properties.Serial_number.eq(chattingMessage.getSerial_number()))
-                .build().list().get(0);
+                .unique();
         DaoSessionUtil.getChattingMessageDao().delete(cm);
         saveChattingMessage(chattingMessage);
     }
+
+    /**
+     * 判断该条消息是否已经在数据表中存在
+     *
+     * @param serialNumber 消息的序列号
+     * @return 是否存在
+     */
+    private static boolean isMessageExistBySerialNumber(int serialNumber) {
+        ChattingMessage chattingMessage =
+                DaoSessionUtil.getChattingMessageDao().queryBuilder()
+                        .where(ChattingMessageDao.Properties.Serial_number.eq(serialNumber))
+                        .unique();
+        return !(chattingMessage == null);
+    }
+
+    /**
+     * 根据群id，得到该群中最大的时间
+     *
+     * @param groupId 群id
+     * @return 时间
+     */
+    public static String getMaxTimeByGroupId(int groupId) {
+        List<ChattingMessage> chattingMessageList = DaoSessionUtil.getChattingMessageDao().queryBuilder()
+                .where(ChattingMessageDao.Properties.Groupid.eq(groupId))
+                .orderDesc(ChattingMessageDao.Properties.Time)
+                .offset(0).limit(1)
+                .list();
+        ChattingMessage cm = null;
+        if (chattingMessageList != null && chattingMessageList.size() != 0) {
+            cm = chattingMessageList.get(0);
+        }
+        return cm == null ? null : cm.getTime();
+    }
+
+
 }

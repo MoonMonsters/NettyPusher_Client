@@ -46,4 +46,5 @@ public class RegisterActivity extends BaseActivity {
     public void onBackPressed() {
         mActivityPresenter.onClickForCancel();
     }
+
 }

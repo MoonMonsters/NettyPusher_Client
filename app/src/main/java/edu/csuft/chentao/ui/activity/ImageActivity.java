@@ -33,4 +33,5 @@ public class ImageActivity extends BaseActivity {
     public void executeOnStop() {
         mPresenter.unregisterEventBus();
     }
+
 }

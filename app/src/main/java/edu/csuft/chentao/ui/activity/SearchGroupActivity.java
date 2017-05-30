@@ -34,4 +34,5 @@ public class SearchGroupActivity extends BaseActivity {
     public void executeOnDestroy() {
         mPresenter.unregisterEventBus();
     }
+
 }

@@ -55,6 +55,15 @@
 
         <android.support.v7.widget.AppCompatTextView
             style="@style/group_setting_textview"
+            android:drawableLeft="@drawable/ic_sync"
+            android:drawableStart="@drawable/ic_sync"
+            android:onClick="@{()->presenter.doClickToSyncGroupMessage()}"
+            android:text="@string/string_sync_group_message" />
+
+        <View style="@style/view_line_bottom" />
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/group_setting_textview"
             android:drawableLeft="@drawable/ic_exit_group"
             android:drawableStart="@drawable/ic_exit_group"
             android:onClick="@{()->presenter.doClickToExitGroup()}"

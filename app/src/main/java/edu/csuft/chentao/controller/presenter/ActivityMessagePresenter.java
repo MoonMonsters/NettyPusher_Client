@@ -15,6 +15,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.csuft.chentao.BR;
@@ -72,8 +73,6 @@ public class ActivityMessagePresenter extends BasePresenter {
             //得到要添加的数据
             ChattingMessage chattingMessage = (ChattingMessage) ebObj.getObject();
 
-            LoggerUtil.logger("TAG", "ActivityMessagePresenter.getEBToObjectPresenter---" + chattingMessage.getSerial_number());
-
             //添加进集合
             mChattingMessageList.add(chattingMessage);
             //刷新界面
@@ -114,7 +113,8 @@ public class ActivityMessagePresenter extends BasePresenter {
     @Override
     protected void initData() {
         //获得该群的聊天记录
-        mChattingMessageList = reverse(ChattingMessageDaoUtil.getChattingMessageListWithOffset(mGroupId, mOffset));
+        mChattingMessageList = ChattingMessageDaoUtil.getChattingMessageListWithOffset(mGroupId, mOffset);
+        sortByTime();
         //适配器
         mAdapter = new MessageAdapter(mActivityBinding.getRoot().getContext(), mChattingMessageList);
 
@@ -190,7 +190,8 @@ public class ActivityMessagePresenter extends BasePresenter {
             public void onRefresh() {
                 mOffset++;
                 List<ChattingMessage> list = ChattingMessageDaoUtil.getChattingMessageListWithOffset(mGroupId, mOffset);
-                mChattingMessageList.addAll(0, reverse(list));
+                mChattingMessageList.addAll(0, list);
+                sortByTime();
                 mAdapter.notifyDataSetChanged();
                 mActivityBinding.rvMessageContent.getLayoutManager()
                         .smoothScrollToPosition(mActivityBinding.rvMessageContent,
@@ -210,11 +211,11 @@ public class ActivityMessagePresenter extends BasePresenter {
     /**
      * 翻转
      */
-    private List<ChattingMessage> reverse(List<ChattingMessage> list) {
-
-        Collections.reverse(list);
-        return list;
-    }
+//    private List<ChattingMessage> reverse(List<ChattingMessage> list) {
+//
+//        Collections.reverse(list);
+//        return list;
+//    }
 
     private AlertDialog mDialog;
 
@@ -279,6 +280,22 @@ public class ActivityMessagePresenter extends BasePresenter {
             GroupChattingItemDaoUtil.updateGroupChattingItem(chattingItem);
 
             OperationUtil.sendEBToObjectPresenter(Constant.TAG_FRAGMENT_CHATTING_LIST_PRESENTER_UPDATE_ITEM, chattingItem);
+        }
+    }
+
+    /**
+     * 按时间顺序排序
+     */
+    private void sortByTime() {
+        Collections.sort(mChattingMessageList, new Comparator<ChattingMessage>() {
+            @Override
+            public int compare(ChattingMessage lhs, ChattingMessage rhs) {
+                return lhs.getTime().compareTo(rhs.getTime());
+            }
+        });
+
+        for (ChattingMessage cm : mChattingMessageList) {
+            LoggerUtil.logger(ActivityMessagePresenter.class, "time = " + cm.getTime());
         }
     }
 }

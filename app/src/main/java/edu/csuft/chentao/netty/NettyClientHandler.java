@@ -1,10 +1,11 @@
 package edu.csuft.chentao.netty;
 
 import edu.csuft.chentao.controller.handler.AllMessageHandler;
-import edu.csuft.chentao.controller.handler.Handler;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
+import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -30,13 +31,29 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
         //发送用户信息
         SendMessageUtil.sendLoginReq();
         LoggerUtil.logger(Constant.TAG, VALUE + "channelActive");
+
+        //保存连接网络时的时间
+        SharedPrefUserInfoUtil.saveStartActiveTime();
+        isSaveEndTime = true;
+
+        OperationUtil.sendEBToObjectPresenter(Constant.TAG_ACTIVITY_MAIN_PRESENTER_CONNECTION, null);
     }
+
+    //只需要保存第一次断开网络事件即可
+    private boolean isSaveEndTime = true;
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        //保存断开连接时的时间
+        if (isSaveEndTime) {
+            SharedPrefUserInfoUtil.saveEndInactiveTime();
+            isSaveEndTime = false;
+        }
+
         //重新连接
         NettyClient.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
         LoggerUtil.logger(Constant.TAG, VALUE + "channelInactive");
+        OperationUtil.sendEBToObjectPresenter(Constant.TAG_ACTIVITY_MAIN_PRESENTER_NO_CONNECTION, null);
     }
 
     @Override

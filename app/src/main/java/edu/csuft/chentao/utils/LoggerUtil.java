@@ -1,6 +1,7 @@
 package edu.csuft.chentao.utils;
 
 import android.content.Context;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -55,8 +56,17 @@ public class LoggerUtil {
      * @param context 上下文对象
      * @param content 显示内容
      */
-    public static void showToast(Context context, String content) {
-        Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
+    public static void showToast(final Context context, final String content) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Looper.prepare();
+
+                Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
+
+                Looper.loop();
+            }
+        }).start();
     }
 
 }

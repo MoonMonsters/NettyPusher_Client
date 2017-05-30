@@ -4,6 +4,7 @@ import android.databinding.ViewDataBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.base.BaseActivity;
 import edu.csuft.chentao.controller.presenter.ActivityMainPresenter;
@@ -27,12 +28,12 @@ public class MainActivity extends BaseActivity {
         this.mActivityBinding = (ActivityMainBinding) viewDataBinding;
     }
 
-
     @Override
     public void initData() {
         setSupportActionBar(mActivityBinding.tlMainBar);
 
         mPresenter = new ActivityMainPresenter(mActivityBinding);
+        mActivityBinding.setVariable(BR.presenter, mPresenter);
     }
 
     @Override
@@ -62,4 +63,5 @@ public class MainActivity extends BaseActivity {
     public void executeOnDestroy() {
         mPresenter.unregisterEventBus();
     }
+
 }
