@@ -721,6 +721,14 @@ public interface Constant {
      * 未连接网络
      */
     String TAG_ACTIVITY_MAIN_PRESENTER_NO_CONNECTION = "tag.activity.main.presenter.no.connection";
+    /**
+     * 登录失败，发送到ActivityLoginPresenter类中，关闭对话框
+     */
+    String TAG_ACTIVITY_LOGIN_PRESENTER_LOGIN_FAIL = "tag.activity.login.presenter.login.fail";
+    /**
+     * 注册失败
+     */
+    String TAG_ACTIVITY_REGISTER_PRESENTER_REGISTER_FAIL = "tag.activity.register.presenter.register.fail";
 
     /**
      * 从CreateGroupActivity传递Image数据到Presenter中去

@@ -1,5 +1,6 @@
 package edu.csuft.chentao.controller.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ import edu.csuft.chentao.ui.activity.LoginActivity;
 import edu.csuft.chentao.ui.activity.MainActivity;
 import edu.csuft.chentao.ui.activity.RegisterActivity;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
@@ -68,11 +70,14 @@ public class ActivityLoginPresenter extends BasePresenter {
                 //将登录类型设置成自动登录类型
                 SharedPrefUserInfoUtil.setLoginType();
 
+                dismissLoginProgressDialog();
                 mActivityBinding.getRoot().getContext().startActivity(
                         new Intent(mActivityBinding.getRoot().getContext(),
                                 MainActivity.class));
                 finishLoginActivity();
             }
+        } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_MAIN_PRESENTER_EXIT_LOGIN)) {
+            dismissLoginProgressDialog();
         }
     }
 
@@ -141,6 +146,12 @@ public class ActivityLoginPresenter extends BasePresenter {
      * 点击登录
      */
     public void onClickToLogin() {
+
+        if (!SharedPrefUserInfoUtil.getNetStatus()) {
+            LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), "网络异常，无法登录");
+            return;
+        }
+
         String username = mActivityBinding.etLoginUsername.getEditText().getText().toString();
         String password = mActivityBinding.etLoginPassword.getEditText().getText().toString();
 
@@ -172,6 +183,8 @@ public class ActivityLoginPresenter extends BasePresenter {
 
         //发送数据
         SendMessageUtil.sendMessage(req);
+
+        showLoginProgressDialog();
     }
 
     /**
@@ -188,5 +201,31 @@ public class ActivityLoginPresenter extends BasePresenter {
      */
     private void finishLoginActivity() {
         ((LoginActivity) mActivityBinding.getRoot().getContext()).finish();
+        dismissLoginProgressDialog();
+    }
+
+    private ProgressDialog mLoginDialog;
+
+    /**
+     * 显示登录时的对话框
+     */
+    private void showLoginProgressDialog() {
+        if (mLoginDialog == null) {
+            mLoginDialog = new ProgressDialog(mActivityBinding.getRoot().getContext());
+            mLoginDialog.setMessage("正在登录...");
+            mLoginDialog.setCanceledOnTouchOutside(false);
+            mLoginDialog.setCancelable(false);
+            mLoginDialog.show();
+        }
+    }
+
+    /**
+     * 隐藏登录时的对话框
+     */
+    private void dismissLoginProgressDialog() {
+        if (mLoginDialog != null && mLoginDialog.isShowing()) {
+            mLoginDialog.dismiss();
+            mLoginDialog = null;
+        }
     }
 }

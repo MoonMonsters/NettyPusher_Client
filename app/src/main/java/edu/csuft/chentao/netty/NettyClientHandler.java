@@ -14,8 +14,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * email:qxinhai@yeah.net
  */
 
-public class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
-
+class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
 
     private String VALUE = "NettyClientHandler-->";
 
@@ -36,6 +35,7 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
         SharedPrefUserInfoUtil.saveStartActiveTime();
         isSaveEndTime = true;
 
+        SharedPrefUserInfoUtil.saveNetStatus(true);
         OperationUtil.sendEBToObjectPresenter(Constant.TAG_ACTIVITY_MAIN_PRESENTER_CONNECTION, null);
     }
 
@@ -54,6 +54,7 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
         NettyClient.connection(Constant.CONNECTION_URL, Constant.CONNECTION_PORT);
         LoggerUtil.logger(Constant.TAG, VALUE + "channelInactive");
         OperationUtil.sendEBToObjectPresenter(Constant.TAG_ACTIVITY_MAIN_PRESENTER_NO_CONNECTION, null);
+        SharedPrefUserInfoUtil.saveNetStatus(false);
     }
 
     @Override

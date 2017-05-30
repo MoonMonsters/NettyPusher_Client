@@ -1,7 +1,6 @@
 package edu.csuft.chentao.controller.presenter;
 
 import android.view.View;
-import android.widget.Toast;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
@@ -10,6 +9,7 @@ import edu.csuft.chentao.databinding.ActivityPublishAnnouncementBinding;
 import edu.csuft.chentao.pojo.req.Announcement;
 import edu.csuft.chentao.ui.activity.PublishAnnouncementActivity;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
@@ -70,7 +70,7 @@ public class ActivityPublishAnnouncementPresenter extends BasePresenter {
         String title = mActivityBinding.etPublishAnnouncementTitle.getEditText().getText().toString();
         String content = mActivityBinding.etPublishAnnouncementContent.getEditText().getText().toString();
         if (title.length() < 4 || content.length() < 15) {
-            Toast.makeText(mActivityBinding.getRoot().getContext(), "输入不符合要求", Toast.LENGTH_SHORT).show();
+            LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), "输入不符合要求");
 
             return;
         }

@@ -1,7 +1,6 @@
 package edu.csuft.chentao.controller.handler;
 
 import android.content.Intent;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -11,6 +10,7 @@ import edu.csuft.chentao.pojo.resp.UserInfoResp;
 import edu.csuft.chentao.service.SyncMessageService;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
@@ -54,7 +54,8 @@ class UserInfoHandler implements Handler {
                 }
             }
         } else { //登录失败
-            Toast.makeText(MyApplication.getInstance(), "登录失败", Toast.LENGTH_SHORT).show();
+            LoggerUtil.showToast(MyApplication.getInstance(), "登录失败");
+            OperationUtil.sendEBToObjectPresenter(Constant.TAG_ACTIVITY_LOGIN_PRESENTER_LOGIN_FAIL, null);
         }
     }
 }

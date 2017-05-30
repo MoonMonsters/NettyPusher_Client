@@ -1,5 +1,6 @@
 package edu.csuft.chentao.controller.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,16 +8,11 @@ import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.ui.activity.CutViewActivity;
-import edu.csuft.chentao.ui.activity.LoginActivity;
-import edu.csuft.chentao.ui.activity.MainActivity;
-import edu.csuft.chentao.ui.activity.RegisterActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityRegisterBinding;
@@ -26,7 +22,12 @@ import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.RegisterReq;
 import edu.csuft.chentao.pojo.resp.RegisterResp;
+import edu.csuft.chentao.ui.activity.CutViewActivity;
+import edu.csuft.chentao.ui.activity.LoginActivity;
+import edu.csuft.chentao.ui.activity.MainActivity;
+import edu.csuft.chentao.ui.activity.RegisterActivity;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
@@ -83,10 +84,13 @@ public class ActivityRegisterPresenter extends BasePresenter {
             userHead.setImage(req.getHeadImage());
             UserHeadDaoUtil.saveUserHead(userHead);
 
+            dismissRegisterDialog();
             mActivityBinding.getRoot().getContext()
                     .startActivity(new Intent(mActivityBinding.getRoot().getContext(), MainActivity.class));
             ((RegisterActivity) (mActivityBinding.getRoot().getContext()))
                     .finish();
+        } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_REGISTER_PRESENTER_REGISTER_FAIL)) {
+            dismissRegisterDialog();
         }
     }
 
@@ -222,13 +226,20 @@ public class ActivityRegisterPresenter extends BasePresenter {
      * 点击注册
      */
     public void onClickForRegister() {
+
+        if (!SharedPrefUserInfoUtil.getNetStatus()) {
+            LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), "网络异常，无法注册");
+
+            return;
+        }
+
         //用户名
         String username = mActivityBinding.etRegisterUsername.getEditText().getText().toString();
         //密码
         String password = mActivityBinding.etRegisterPassword.getEditText().getText().toString();
         String password2 = mActivityBinding.etRegisterPassword2.getEditText().getText().toString();
 
-        /**
+        /*
          * 加入下面的判断，是为了避免用户不输入任何数据直接进行注册操作
          */
         //用户名不能为空
@@ -285,8 +296,10 @@ public class ActivityRegisterPresenter extends BasePresenter {
             req.setSignature(signature);
 
             SendMessageUtil.sendMessage(req);
+
+            showRegisterDialog();
         } else {
-            Toast.makeText(MyApplication.getInstance(), "密码不匹配或者为空，请重新输入", Toast.LENGTH_SHORT).show();
+            LoggerUtil.showToast(MyApplication.getInstance(), "密码不匹配或者为空，请重新输入");
         }
     }
 
@@ -336,4 +349,30 @@ public class ActivityRegisterPresenter extends BasePresenter {
     protected void initData() {
 
     }
+
+    private ProgressDialog mRegisterDialog;
+
+    /**
+     * 显示注册对话框
+     */
+    private void showRegisterDialog() {
+        if (mRegisterDialog == null) {
+            mRegisterDialog = new ProgressDialog(mActivityBinding.getRoot().getContext());
+            mRegisterDialog.setMessage("正在注册中...");
+            mRegisterDialog.setCancelable(false);
+            mRegisterDialog.setCanceledOnTouchOutside(false);
+            mRegisterDialog.show();
+        }
+    }
+
+    /**
+     * 隐藏注册对话框
+     */
+    private void dismissRegisterDialog() {
+        if (mRegisterDialog != null && mRegisterDialog.isShowing()) {
+            mRegisterDialog.dismiss();
+            mRegisterDialog = null;
+        }
+    }
+
 }

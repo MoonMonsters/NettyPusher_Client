@@ -1,7 +1,5 @@
 package edu.csuft.chentao.controller.handler;
 
-import android.widget.Toast;
-
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.utils.Constant;
@@ -80,7 +78,7 @@ class ReturnInfoHandler implements Handler {
             case Constant.TYPE_RETURN_INFO_INVITE_REPEAT:
                 //删除文件失败
             case Constant.TYPE_RETURN_INFO_REMOVE_FILE_FAIL:
-                Toast.makeText(MyApplication.getInstance(), (String) resp.getObj(), Toast.LENGTH_SHORT).show();
+                LoggerUtil.showToast(MyApplication.getInstance(), (String) resp.getObj());
                 break;
             case Constant.TYPE_RETURN_INFO_CLIENT_EXIT:
                 OperationUtil.sendEBToObjectPresenter(Constant.TAG_ACTIVITY_MAIN_PRESENTER_EXIT_LOGIN, resp);

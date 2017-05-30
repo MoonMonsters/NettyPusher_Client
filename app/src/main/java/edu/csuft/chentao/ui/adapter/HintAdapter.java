@@ -90,7 +90,6 @@ public class HintAdapter extends RecyclerView.Adapter<HintAdapter.HintViewHolder
 
             //有人申请加入群
             if (mHint.getType() == Constant.TYPE_GROUP_REMINDER_WANT_TO_ADD_GROUP) {
-                Toast.makeText(mContext, "有人申请加入群-->同意", Toast.LENGTH_SHORT).show();
                 GroupOperationReq req = new GroupOperationReq();
                 req.setUserId1(mHint.getUserid());
                 req.setType(Constant.TYPE_GROUP_OPERATION_AGREE_ADD_GROUP);
@@ -100,7 +99,6 @@ public class HintAdapter extends RecyclerView.Adapter<HintAdapter.HintViewHolder
 
                 //有人邀请加入群
             } else if (mHint.getType() == Constant.TYPE_GROUP_REMINDER_INVITE_GROUP) {
-                Toast.makeText(mContext, "有人邀请加入群-->同意", Toast.LENGTH_SHORT).show();
                 GroupOperationReq req = new GroupOperationReq();
                 req.setGroupid(mHint.getGroupid());
                 req.setType(Constant.TYPE_GROUP_OPERATION_ADD_BY_MYSELF);
@@ -128,7 +126,6 @@ public class HintAdapter extends RecyclerView.Adapter<HintAdapter.HintViewHolder
 
             //有人申请加入群
             if (mHint.getType() == Constant.TYPE_GROUP_REMINDER_WANT_TO_ADD_GROUP) {
-                Toast.makeText(mContext, "有人申请加入群-->拒绝", Toast.LENGTH_SHORT).show();
                 GroupOperationReq req = new GroupOperationReq();
                 req.setType(Constant.TYPE_GROUP_OPERATION_REFUSE_ADD_GROUP);
                 req.setUserId1(mHint.getUserid());
@@ -138,7 +135,6 @@ public class HintAdapter extends RecyclerView.Adapter<HintAdapter.HintViewHolder
 
                 //有人邀请加入群
             } else if (mHint.getType() == Constant.TYPE_GROUP_REMINDER_INVITE_GROUP) {
-                Toast.makeText(mContext, "有人邀请加入群-->拒绝", Toast.LENGTH_SHORT).show();
                 Toast.makeText(mContext, "已拒绝", Toast.LENGTH_SHORT).show();
             }
 

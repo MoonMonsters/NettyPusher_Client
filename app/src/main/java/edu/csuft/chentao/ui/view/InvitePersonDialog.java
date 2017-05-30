@@ -7,20 +7,17 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
 import edu.csuft.chentao.databinding.DialogInvitePersonBinding;
 import edu.csuft.chentao.utils.Constant;
-
-/**
- * Created by Chalmers on 2017-02-12 23:22.
- * email:qxinhai@yeah.net
- */
+import edu.csuft.chentao.utils.LoggerUtil;
 
 /**
  * 填写id的对话框
+ * Created by Chalmers on 2017-02-12 23:22.
+ * email:qxinhai@yeah.net
  */
 public class InvitePersonDialog {
     private AlertDialog mDialog;
@@ -57,7 +54,7 @@ public class InvitePersonDialog {
 
                             dismiss();
                         } else {
-                            Toast.makeText(context, "输入错误", Toast.LENGTH_SHORT).show();
+                            LoggerUtil.showToast(context, "输入错误");
                         }
 
                     }

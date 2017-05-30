@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 
@@ -25,6 +24,7 @@ import edu.csuft.chentao.ui.activity.ImageActivity;
 import edu.csuft.chentao.ui.activity.UserInfoActivity;
 import edu.csuft.chentao.ui.adapter.RecentMessageAdapter;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
@@ -32,13 +32,11 @@ import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 /**
+ * UserInfoActivity的Presenter类
  * Created by csuft.chentao on 2017-01-08 11:20.
  * email:qxinhai@yeah.net
  */
 
-/**
- * UserInfoActivity的Presenter类
- */
 public class ActivityUserInfoPresenter extends BasePresenter {
 
     private ActivityUserInfoBinding mActivityBinding = null;
@@ -85,7 +83,7 @@ public class ActivityUserInfoPresenter extends BasePresenter {
                     mAdapter.notifyDataSetChanged();
                     break;
                 case HANDLER_ONREFRESH_NO_DATA:
-                    Toast.makeText(mActivityBinding.getRoot().getContext(), OperationUtil.getString(mActivityBinding, R.string.string_not_have_more_data), Toast.LENGTH_SHORT).show();
+                    LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), OperationUtil.getString(mActivityBinding, R.string.string_not_have_more_data));
                     break;
             }
             mActivityBinding.ptrlvUserinfoRecentMsg.onRefreshComplete();

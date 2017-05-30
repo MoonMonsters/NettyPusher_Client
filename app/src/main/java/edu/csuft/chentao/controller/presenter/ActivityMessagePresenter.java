@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -170,7 +169,7 @@ public class ActivityMessagePresenter extends BasePresenter {
     public void onClickToSendTextMessage() {
         String content = mActivityBinding.etMessageInput.getText().toString();
         if (TextUtils.isEmpty(content)) {   //发送内容为空
-            Toast.makeText(mActivityBinding.getRoot().getContext(), OperationUtil.getString(mActivityBinding, R.string.string_not_send_empty_message), Toast.LENGTH_SHORT).show();
+            LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), OperationUtil.getString(mActivityBinding, R.string.string_not_send_empty_message));
         } else {
             //发送文字消息
             Message message = OperationUtil.sendChattingMessage(mGroupId, Constant.TYPE_MSG_TEXT,

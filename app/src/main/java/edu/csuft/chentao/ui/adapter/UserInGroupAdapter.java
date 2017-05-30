@@ -10,32 +10,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import java.util.List;
 import java.util.Map;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.ui.activity.UserInfoActivity;
 import edu.csuft.chentao.databinding.ItemManagerUserBinding;
 import edu.csuft.chentao.databinding.ItemUserInGroupBinding;
 import edu.csuft.chentao.pojo.bean.UserHead;
 import edu.csuft.chentao.pojo.bean.UserInfo;
 import edu.csuft.chentao.pojo.req.GroupOperationReq;
 import edu.csuft.chentao.pojo.req.ManagerUserReq;
+import edu.csuft.chentao.ui.activity.UserInfoActivity;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
 
 /**
+ * 显示群成员列表的Adapter
  * Created by Chalmers on 2017-01-19 15:44.
  * email:qxinhai@yeah.net
- */
-
-/**
- * 显示群成员列表的Adapter
  */
 public class UserInGroupAdapter extends BaseAdapter {
 
@@ -203,7 +200,7 @@ public class UserInGroupAdapter extends BaseAdapter {
 
             //群主不能修改自己身份
             if (mUserIdChanged == SharedPrefUserInfoUtil.getUserId()) {
-                Toast.makeText(mContext, "不能修改自己身份", Toast.LENGTH_SHORT).show();
+                LoggerUtil.showToast(mContext, "不能修改自己身份");
                 return;
             }
 
@@ -218,7 +215,7 @@ public class UserInGroupAdapter extends BaseAdapter {
                 req.setGroupId(mGroupId);
                 SendMessageUtil.sendMessage(req);
             } else {
-                Toast.makeText(mContext, "你没有该权限", Toast.LENGTH_SHORT).show();
+                LoggerUtil.showToast(mContext, "你没有该权限");
             }
         }
 
@@ -231,7 +228,7 @@ public class UserInGroupAdapter extends BaseAdapter {
 
             //群主不能修改自己身份
             if (mUserIdChanged == SharedPrefUserInfoUtil.getUserId()) {
-                Toast.makeText(mContext, "不能修改自己身份", Toast.LENGTH_SHORT).show();
+                LoggerUtil.showToast(mContext, "不能修改自己身份");
                 return;
             }
 
@@ -245,7 +242,7 @@ public class UserInGroupAdapter extends BaseAdapter {
                 req.setGroupId(mGroupId);
                 SendMessageUtil.sendMessage(req);
             } else {
-                Toast.makeText(mContext, "你没有该权限", Toast.LENGTH_SHORT).show();
+                LoggerUtil.showToast(mContext, "你没有该权限");
             }
         }
 
@@ -267,7 +264,7 @@ public class UserInGroupAdapter extends BaseAdapter {
                 req.setGroupid(mGroupId);
                 SendMessageUtil.sendMessage(req);
             } else {
-                Toast.makeText(mContext, "你没有该权限", Toast.LENGTH_SHORT).show();
+                LoggerUtil.showToast(mContext, "你没有该权限");
             }
 
             dismissPopupWindow();

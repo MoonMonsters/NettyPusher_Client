@@ -2,7 +2,6 @@ package edu.csuft.chentao.controller.presenter;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -30,12 +29,9 @@ import edu.csuft.chentao.utils.daoutil.UserHeadDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 /**
+ * 编辑个人信息的Presenter
  * Created by Chalmers on 2017-01-06 18:00.
  * email:qxinhai@yeah.net
- */
-
-/**
- * 编辑个人信息的Presenter
  */
 public class ActivityEditorInfoPresenter extends BasePresenter implements UpdateInfoDialog.IDialogClickListener, ChangePasswordDialog.IOnClickToChangePassword {
 
@@ -99,8 +95,8 @@ public class ActivityEditorInfoPresenter extends BasePresenter implements Update
                     LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), "密码设置成功");
                     break;
             }
-            Toast.makeText(mActivityBinding.getRoot().getContext(),
-                    (String) resp.getObj(), Toast.LENGTH_SHORT).show();
+            LoggerUtil.showToast(mActivityBinding.getRoot().getContext(),
+                    (String) resp.getObj());
         }
     }
 

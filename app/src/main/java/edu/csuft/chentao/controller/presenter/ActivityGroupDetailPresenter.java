@@ -3,7 +3,6 @@ package edu.csuft.chentao.controller.presenter;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -27,19 +26,18 @@ import edu.csuft.chentao.ui.activity.GroupDetailActivity;
 import edu.csuft.chentao.ui.activity.GroupSettingActivity;
 import edu.csuft.chentao.ui.adapter.UserInGroupAdapter;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 import edu.csuft.chentao.utils.daoutil.UserInfoDaoUtil;
 
 /**
+ * 详细的群数据的Presenter
  * Created by Chalmers on 2017-01-19 13:57.
  * email:qxinhai@yeah.net
  */
 
-/**
- * 详细的群数据的Presenter
- */
 public class ActivityGroupDetailPresenter extends BasePresenter {
 
     private ActivityGroupDetailBinding mActivityBinding = null;
@@ -123,13 +121,13 @@ public class ActivityGroupDetailPresenter extends BasePresenter {
         if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_GROUP_DETAIL_PRESENTER)) {
             ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
             if (resp.getType() == Constant.TYPE_RETURN_INFO_REMOVE_USER_SUCCESS) {
-                Toast.makeText(mActivityBinding.getRoot().getContext(), (String) resp.getObj(), Toast.LENGTH_SHORT).show();
+                LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), (String) resp.getObj());
                 mAdapter.removeUserAndNotifyChanged();
             }
             //刷新用户的身份值，从Handler传递过来的数据
         } else if (ebObj.getTag().equals(Constant.TAG_REFRESH_USER_CAPITAL)) {
             ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
-            Toast.makeText(mActivityBinding.getRoot().getContext(), (String) resp.getObj(), Toast.LENGTH_SHORT).show();
+            LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), (String) resp.getObj());
             //刷新
             if (resp.getType() == Constant.TYPE_RETURN_INFO_UPDATE_USER_CAPITAL_SUCCESS) {
                 mAdapter.notifyChanged();

@@ -64,4 +64,8 @@ public class MainActivity extends BaseActivity {
         mPresenter.unregisterEventBus();
     }
 
+    @Override
+    public void executeOnStart() {
+        mPresenter.setNetStatusFlag();
+    }
 }

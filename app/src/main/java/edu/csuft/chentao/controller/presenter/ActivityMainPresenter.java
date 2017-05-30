@@ -243,4 +243,15 @@ public class ActivityMainPresenter extends BasePresenter implements CustomerAler
         mActivityBinding.getRoot().getContext().startActivity(intent);
     }
 
+    /**
+     * 设置网络状态
+     */
+    public void setNetStatusFlag() {
+        if (SharedPrefUserInfoUtil.getNetStatus()) {
+            mActivityBinding.fabMainConnection.setVisibility(View.GONE);
+        } else {
+            mActivityBinding.fabMainConnection.setVisibility(View.VISIBLE);
+        }
+    }
+
 }

@@ -8,15 +8,12 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import edu.csuft.chentao.BR;
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.ui.activity.CreateGroupActivity;
-import edu.csuft.chentao.ui.activity.CutViewActivity;
 import edu.csuft.chentao.base.BasePresenter;
 import edu.csuft.chentao.base.MyApplication;
 import edu.csuft.chentao.databinding.ActivityCreateGroupBinding;
@@ -24,18 +21,18 @@ import edu.csuft.chentao.pojo.bean.EBToPreObject;
 import edu.csuft.chentao.pojo.bean.ImageDetail;
 import edu.csuft.chentao.pojo.req.CreateGroupReq;
 import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
+import edu.csuft.chentao.ui.activity.CreateGroupActivity;
+import edu.csuft.chentao.ui.activity.CutViewActivity;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 
 /**
+ * CreateGroupActivity的处理类
  * Created by Chalmers on 2017-01-21 17:56.
  * email:qxinhai@yeah.net
- */
-
-/**
- * CreateGroupActivity的处理类
  */
 public class ActivityCreateGroupPresenter extends BasePresenter {
 
@@ -71,7 +68,7 @@ public class ActivityCreateGroupPresenter extends BasePresenter {
     public void onClickToSubmit() {
         String groupName = mActivityBinding.etCreateGroupGroupName.getText().toString();
         if (TextUtils.isEmpty(groupName)) {
-            Toast.makeText(MyApplication.getInstance(), OperationUtil.getString(mActivityBinding, R.string.string_not_groupname_null), Toast.LENGTH_SHORT).show();
+            LoggerUtil.showToast(MyApplication.getInstance(), OperationUtil.getString(mActivityBinding, R.string.string_not_groupname_null));
             return;
         }
 
@@ -109,7 +106,7 @@ public class ActivityCreateGroupPresenter extends BasePresenter {
         if (ebObj.getTag().equals(Constant.TAG_CREATE_GROUP_PRESENTER)) {
             ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
             //弹出提示框
-            Toast.makeText(mActivityBinding.getRoot().getContext(), (String) resp.getObj(), Toast.LENGTH_SHORT).show();
+            LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), (String) resp.getObj());
             //创建成功，关闭当前界面
             if (resp.getType() == Constant.TYPE_RETURN_INFO_CREATE_GROUP_SUCCESS) {
                 ((CreateGroupActivity) (mActivityBinding.getRoot().getContext())).finish();

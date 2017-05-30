@@ -7,14 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Toast;
 
 import java.util.List;
 
 import edu.csuft.chentao.R;
-import edu.csuft.chentao.ui.activity.MessageActivity;
 import edu.csuft.chentao.databinding.ItemChattingListBinding;
 import edu.csuft.chentao.pojo.bean.GroupChattingItem;
+import edu.csuft.chentao.ui.activity.MessageActivity;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
@@ -92,7 +91,6 @@ public class ChattingListAdapter2 extends BaseAdapter {
          * 点击移除红点，表名该群消息不需要读取
          */
         public void onClickToRemoveRedDot() {
-            Toast.makeText(mContext, "移除", Toast.LENGTH_SHORT).show();
             mChattingItem.setNumber(0);
             GroupChattingItemDaoUtil.updateGroupChattingItem(mChattingItem);
         }

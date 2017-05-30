@@ -3,7 +3,6 @@ package edu.csuft.chentao.controller.presenter;
 import android.app.ProgressDialog;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -22,6 +21,7 @@ import edu.csuft.chentao.pojo.resp.ReturnInfoResp;
 import edu.csuft.chentao.ui.activity.SearchGroupActivity;
 import edu.csuft.chentao.ui.adapter.SearchGroupContentAdapter;
 import edu.csuft.chentao.utils.Constant;
+import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
 import edu.csuft.chentao.utils.SendMessageUtil;
 
@@ -115,7 +115,7 @@ public class ActivitySearchGroupPresenter extends BasePresenter {
         } else if (ebObj.getTag().equals(Constant.TAG_ACTIVITY_SEARCH_GROUP_PRESENTER_SIZE_0)) {
             ReturnInfoResp resp = (ReturnInfoResp) ebObj.getObject();
             //弹出提示框
-            Toast.makeText(mActivityBinding.getRoot().getContext(), (String) resp.getObj(), Toast.LENGTH_SHORT).show();
+            LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), (String) resp.getObj());
             //隐藏对话框
             dismissProgressDialog();
         }
