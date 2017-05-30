@@ -60,6 +60,7 @@
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
             android:src="@drawable/ic_no_connetion"
+            app:backgroundTint="@android:color/holo_blue_dark"
             app:fabSize="normal" />
     </FrameLayout>
 </layout>

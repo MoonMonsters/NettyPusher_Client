@@ -147,8 +147,9 @@ public class ActivityLoginPresenter extends BasePresenter {
      */
     public void onClickToLogin() {
 
-        if (!SharedPrefUserInfoUtil.getNetStatus()) {
+        if (!SendMessageUtil.sChannel.isActive()) {
             LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), "网络异常，无法登录");
+
             return;
         }
 

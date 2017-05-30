@@ -26,6 +26,7 @@ import edu.csuft.chentao.ui.view.CustomerAlertDialog;
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
 import edu.csuft.chentao.utils.OperationUtil;
+import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import edu.csuft.chentao.utils.daoutil.ChattingMessageDaoUtil;
 import edu.csuft.chentao.utils.daoutil.GroupChattingItemDaoUtil;
@@ -247,7 +248,7 @@ public class ActivityMainPresenter extends BasePresenter implements CustomerAler
      * 设置网络状态
      */
     public void setNetStatusFlag() {
-        if (SharedPrefUserInfoUtil.getNetStatus()) {
+        if (SendMessageUtil.sChannel.isActive()) {
             mActivityBinding.fabMainConnection.setVisibility(View.GONE);
         } else {
             mActivityBinding.fabMainConnection.setVisibility(View.VISIBLE);

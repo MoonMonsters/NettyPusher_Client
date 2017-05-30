@@ -42,10 +42,6 @@ public class SharedPrefUserInfoUtil {
      * 断开网络时的时间
      */
     private static final String END_INACTIVE_TIME = "end_inactive_time";
-    /**
-     * 网络是否连接状态
-     */
-    private static final String IS_CONNECT = "is_connect";
 
     private static SharedPreferences mSharedPreferences = MyApplication.getInstance().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_MULTI_PROCESS);
     private static SharedPreferences.Editor mEditor = mSharedPreferences.edit();
@@ -176,20 +172,4 @@ public class SharedPrefUserInfoUtil {
     public static String getEndInactiveTime() {
         return mSharedPreferences.getString(END_INACTIVE_TIME, null);
     }
-
-    /**
-     * 保存网络状态
-     */
-    public synchronized static void saveNetStatus(boolean isConnect) {
-        mEditor.putBoolean(IS_CONNECT, isConnect);
-        mEditor.apply();
-    }
-
-    /**
-     * 得到网络连接状态
-     */
-    public static boolean getNetStatus() {
-        return mSharedPreferences.getBoolean(IS_CONNECT, false);
-    }
-
 }

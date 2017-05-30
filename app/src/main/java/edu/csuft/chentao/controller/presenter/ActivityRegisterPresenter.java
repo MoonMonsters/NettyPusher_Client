@@ -227,12 +227,6 @@ public class ActivityRegisterPresenter extends BasePresenter {
      */
     public void onClickForRegister() {
 
-        if (!SharedPrefUserInfoUtil.getNetStatus()) {
-            LoggerUtil.showToast(mActivityBinding.getRoot().getContext(), "网络异常，无法注册");
-
-            return;
-        }
-
         //用户名
         String username = mActivityBinding.etRegisterUsername.getEditText().getText().toString();
         //密码
