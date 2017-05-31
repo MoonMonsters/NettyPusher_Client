@@ -248,7 +248,7 @@ public class ActivityMainPresenter extends BasePresenter implements CustomerAler
      * 设置网络状态
      */
     public void setNetStatusFlag() {
-        if (SendMessageUtil.sChannel.isActive()) {
+        if (SendMessageUtil.sChannel != null && SendMessageUtil.sChannel.isActive()) {
             mActivityBinding.fabMainConnection.setVisibility(View.GONE);
         } else {
             mActivityBinding.fabMainConnection.setVisibility(View.VISIBLE);

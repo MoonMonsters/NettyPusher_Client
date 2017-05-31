@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import edu.csuft.chentao.utils.Constant;
 import edu.csuft.chentao.utils.LoggerUtil;
+import edu.csuft.chentao.utils.SendMessageUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -63,6 +64,13 @@ public class NettyClient {
      * @param port 端口
      */
     public static void connection(final String host, final int port) {
+
+        //因为采用了递归的方式持续调用该方法，所以在连接成功后，需要进行判断，避免重复调用
+        if (SendMessageUtil.sChannel != null && SendMessageUtil.sChannel.isActive()) {
+
+            return;
+        }
+
         try {
             LoggerUtil.logger(Constant.TAG, "NettyClient->connection");
             ChannelFuture future = sBootstrap.connect(host, port).sync();
@@ -73,6 +81,7 @@ public class NettyClient {
                 @Override
                 public void run() {
                     try {
+                        //5秒重连一次
                         TimeUnit.SECONDS.sleep(5);
                         try {
                             connection(host, port);
