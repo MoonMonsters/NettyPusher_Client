@@ -63,7 +63,7 @@ public class NettyClient {
      * @param host url
      * @param port 端口
      */
-    public static void connection(final String host, final int port) {
+    public static synchronized void connection(final String host, final int port) {
 
         //因为采用了递归的方式持续调用该方法，所以在连接成功后，需要进行判断，避免重复调用
         if (SendMessageUtil.sChannel != null && SendMessageUtil.sChannel.isActive()) {

@@ -1,8 +1,9 @@
 package edu.csuft.chentao.service;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -22,8 +23,14 @@ import edu.csuft.chentao.utils.daoutil.GroupsDaoUtil;
 /**
  * 启动服务，在此服务中，对群中的聊天数据进行同步操作
  */
-public class SyncMessageService extends Service {
+public class SyncMessageService extends IntentService {
+
+    public SyncMessageService(String name) {
+        super(name);
+    }
+
     public SyncMessageService() {
+        this("SyncMessageService");
     }
 
     @Override
@@ -32,13 +39,7 @@ public class SyncMessageService extends Service {
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        LoggerUtil.logger("CHENTAO22", "SyncMessageService.create");
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    protected void onHandleIntent(@Nullable Intent intent) {
         List<Groups> groupsList = GroupsDaoUtil.loadAll();
         String startTime = SharedPrefUserInfoUtil.getStartActiveTime();
         String endTime = SharedPrefUserInfoUtil.getEndInactiveTime();
@@ -60,8 +61,12 @@ public class SyncMessageService extends Service {
 
             SendMessageUtil.sendMessage(req);
         }
+    }
 
-        return super.onStartCommand(intent, flags, startId);
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        LoggerUtil.logger("CHENTAO22", "SyncMessageService.create");
     }
 
     /**
