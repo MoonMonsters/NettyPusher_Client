@@ -52,20 +52,19 @@ public class SplashActivity extends BaseActivity {
      */
     private void enterAnotherActivity() {
 
-        int type = SharedPrefUserInfoUtil.getLoginType();
-        if (type == Constant.TYPE_LOGIN_AUTO) {   //如果是自动登录类型
+        final int type = SharedPrefUserInfoUtil.getLoginType();
 
-            startAnotherActivity(MainActivity.class);
-            finishThisActivity();
-        } else {  //否则在2秒后进入登录界面
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (type == Constant.TYPE_LOGIN_AUTO) {   //如果是自动登录类型
+                    startAnotherActivity(MainActivity.class);
+                } else {  //否则在2秒后进入登录界面
                     startAnotherActivity(LoginActivity.class);
-                    finishThisActivity();
                 }
-            }, 2000);
-        }
+                finishThisActivity();
+            }
+        }, 2000);
     }
 
 }
