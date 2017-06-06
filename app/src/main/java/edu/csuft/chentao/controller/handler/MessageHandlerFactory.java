@@ -112,8 +112,6 @@ class MessageHandlerFactory {
             type = EHandler.Announcement;
         } else if (object instanceof FileZip) {
             type = EHandler.FileZip;
-        } else {
-            type = null;
         }
 
         return type;

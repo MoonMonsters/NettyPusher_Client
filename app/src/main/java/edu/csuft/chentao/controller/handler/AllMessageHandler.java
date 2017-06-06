@@ -5,6 +5,8 @@ package edu.csuft.chentao.controller.handler;
  * email:qxinhai@yeah.net
  */
 
+import edu.csuft.chentao.utils.LoggerUtil;
+
 /**
  * 使用了简单工厂模式
  */
@@ -16,6 +18,8 @@ public class AllMessageHandler {
      * @param object 消息对象
      */
     public static void handleMessage(Object object) {
+
+        LoggerUtil.logger(AllMessageHandler.class, "object = " + object.toString());
 
         Handler handler = MessageHandlerFactory.getMessageHandler(object);
 

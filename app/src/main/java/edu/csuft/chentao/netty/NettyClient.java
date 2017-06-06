@@ -20,7 +20,6 @@ import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
-import io.netty.handler.timeout.IdleStateHandler;
 
 /**
  * Created by Chalmers on 2016-12-16 15:20.
@@ -53,7 +52,7 @@ public class NettyClient {
                         ch.pipeline().addLast(new ObjectEncoder());
                         ch.pipeline().addLast(new StringDecoder());
                         ch.pipeline().addLast(new StringEncoder());
-                        ch.pipeline().addLast("idleStateHandler", new IdleStateHandler(10, 5, 15));
+//                        ch.pipeline().addLast("idleStateHandler", new IdleStateHandler(10, 5, 15));
                         ch.pipeline().addLast(new NettyClientHandler());
                     }
                 });

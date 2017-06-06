@@ -12,7 +12,7 @@ import android.widget.Toast;
  */
 public class LoggerUtil {
 
-    private static boolean isPrint = true;
+    private static boolean isPrint = false;
 
     /**
      * 打印日志

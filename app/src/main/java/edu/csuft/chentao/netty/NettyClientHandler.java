@@ -8,8 +8,6 @@ import edu.csuft.chentao.utils.SendMessageUtil;
 import edu.csuft.chentao.utils.SharedPrefUserInfoUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.timeout.IdleState;
-import io.netty.handler.timeout.IdleStateEvent;
 
 /**
  * Created by Chalmers on 2016-12-16 15:20.
@@ -64,31 +62,31 @@ class NettyClientHandler extends SimpleChannelInboundHandler<Object> {
         AllMessageHandler.handleMessage(msg);
     }
 
-    @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object evt)
-            throws Exception {
-//        super.userEventTriggered(ctx, evt);
-        if (evt instanceof IdleStateEvent) {
-            IdleStateEvent e = (IdleStateEvent) evt;
-
-            if (e.state() == IdleState.READER_IDLE) {
-                LoggerUtil.logger("NettyClientHandler", "--- Reader Idle ---");
+//    @Override
+//    public void userEventTriggered(ChannelHandlerContext ctx, Object evt)
+//            throws Exception {
+////        super.userEventTriggered(ctx, evt);
+//        if (evt instanceof IdleStateEvent) {
+//            IdleStateEvent e = (IdleStateEvent) evt;
 //
-                ctx.writeAndFlush(String.valueOf("Client Reader Idle"));
-
-                // ctx.close();
-            } else if (e.state() == IdleState.WRITER_IDLE) {
-                LoggerUtil.logger("NettyClientHandler", "--- Write Idle ---");
-//                LoggerUtil.logger(Constant.TAG, "--- Write Idle ---");
-
-                ctx.writeAndFlush(String.valueOf("Client Write Idle"));
-                // ctx.close();
-            } else if (e.state() == IdleState.ALL_IDLE) {
-                LoggerUtil.logger("NettyClientHandler", "--- All_IDLE ---");
-//                System.out.println("--- All_IDLE ---");
+//            if (e.state() == IdleState.READER_IDLE) {
+//                LoggerUtil.logger("NettyClientHandler", "--- Reader Idle ---");
+////
+//                ctx.writeAndFlush(String.valueOf("Client Reader Idle"));
 //
-                ctx.writeAndFlush(String.valueOf("Client All Idle"));
-            }
-        }
-    }
+//                // ctx.close();
+//            } else if (e.state() == IdleState.WRITER_IDLE) {
+//                LoggerUtil.logger("NettyClientHandler", "--- Write Idle ---");
+////                LoggerUtil.logger(Constant.TAG, "--- Write Idle ---");
+//
+//                ctx.writeAndFlush(String.valueOf("Client Write Idle"));
+//                // ctx.close();
+//            } else if (e.state() == IdleState.ALL_IDLE) {
+//                LoggerUtil.logger("NettyClientHandler", "--- All_IDLE ---");
+////                System.out.println("--- All_IDLE ---");
+////
+//                ctx.writeAndFlush(String.valueOf("Client All Idle"));
+//            }
+//        }
+//    }
 }
