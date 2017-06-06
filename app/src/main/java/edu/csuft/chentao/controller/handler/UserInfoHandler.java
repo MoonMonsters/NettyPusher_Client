@@ -26,7 +26,7 @@ class UserInfoHandler implements Handler {
         //判断uid是否为-1，如果为-1，表示登录失败，否则成功
         if (resp.getUserid() > 0) { //登录成功
             if (resp.getType() == Constant.TYPE_LOGIN_AUTO) {   //如果是自动登录类型
-                LoggerUtil.showToast(MyApplication.getInstance(), "登录成功");
+//                LoggerUtil.showToast(MyApplication.getInstance(), "登录成功");
 
                 MyApplication.getInstance().startService(new Intent(MyApplication.getInstance(), SyncMessageService.class));
 

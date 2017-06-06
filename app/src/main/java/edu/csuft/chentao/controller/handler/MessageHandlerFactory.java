@@ -19,7 +19,6 @@ import edu.csuft.chentao.utils.LoggerUtil;
 /**
  * Created by csuft.chentao on 2017/3/14.
  */
-
 class MessageHandlerFactory {
     private static final String VALUE = "AllMessageHandler.handlerMessage->";
 
@@ -36,7 +35,7 @@ class MessageHandlerFactory {
      */
     static Handler getMessageHandler(Object object) {
 
-        Handler handler = null;
+        Handler handler;
 
         //得到object对应的type值
         EHandler type = getHandlerType(object);
@@ -72,6 +71,8 @@ class MessageHandlerFactory {
             handler = new AnnouncementHandler();
         } else if (object instanceof FileZip) {
             handler = new FileZipHandler();
+        } else {
+            handler = null;
         }
 
         //将Handler对象放入Map中
@@ -111,6 +112,8 @@ class MessageHandlerFactory {
             type = EHandler.Announcement;
         } else if (object instanceof FileZip) {
             type = EHandler.FileZip;
+        } else {
+            type = null;
         }
 
         return type;

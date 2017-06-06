@@ -19,6 +19,8 @@ public class AllMessageHandler {
 
         Handler handler = MessageHandlerFactory.getMessageHandler(object);
 
-        handler.handle(object);
+        if (handler != null) {
+            handler.handle(object);
+        }
     }
 }
