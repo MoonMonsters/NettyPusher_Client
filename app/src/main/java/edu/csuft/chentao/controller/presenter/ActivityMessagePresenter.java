@@ -6,6 +6,8 @@ import android.os.SystemClock;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Selection;
+import android.text.Spannable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -151,6 +153,17 @@ public class ActivityMessagePresenter extends BasePresenter {
         } else {
             mActivityBinding.btnMessageSend.setVisibility(View.VISIBLE);
             mActivityBinding.ivMessageSelectImage.setVisibility(View.GONE);
+        }
+
+        //如果字符超过140，则只显示前140个字符
+        if (s.length() > 140) {
+            mActivityBinding.etMessageInput.setText(s.subSequence(0, 140));
+        }
+
+        //将光标移动到最后一个位置
+        if (s.length() >= 140) {
+            Spannable span = (Spannable) s;
+            Selection.setSelection(span, s.length());
         }
     }
 
